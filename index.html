@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>GreenLoop - Biochar & Carbon Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -415,6 +415,17 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--f);color:#fff;padding:11px 20px;border-radius:var(--r-md);font-size:13px;font-weight:600;box-shadow:var(--sh-lg);opacity:0;transition:all .3s;z-index:9999;pointer-events:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* Thanh tab dưới cho mobile */
+.bottnav{display:none;position:fixed;left:0;right:0;bottom:0;height:calc(62px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bgc);border-top:1px solid var(--borderl);box-shadow:0 -8px 24px rgba(26,58,42,.1);z-index:120}
+.bn-in{height:62px;display:grid;grid-template-columns:repeat(4,1fr)}
+.bn-t{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;background:transparent;color:var(--tm);font-family:inherit;cursor:pointer;transition:color .18s}
+.bn-t::before{content:'';position:absolute;top:0;left:50%;width:28px;height:3px;border-radius:0 0 3px 3px;background:transparent;transform:translateX(-50%)}
+.bn-t.active{color:var(--leaf)}
+.bn-t.active::before{background:var(--lb)}
+.bn-t svg{width:20px;height:20px;stroke:currentColor}
+.bn-t span{font-size:10px;font-weight:700;line-height:1;white-space:nowrap}
+body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--borderl);box-shadow:0 -10px 28px rgba(0,0,0,.32)}
+
 /* Hiệu ứng chung */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .ani{animation:fadeInUp .38s ease both}
@@ -443,9 +454,29 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
   .tb-right{flex-wrap:wrap;justify-content:flex-end}
 }
 @media(max-width:768px){
-  .sb{transform:translateX(-100%)}
+  .sb{display:none}
   .sb.open{transform:translateX(0);box-shadow:10px 0 40px rgba(0,0,0,.28)}
   .app-main{margin-left:0}
+  .top-bar{padding:12px 16px}
+  .tb-right{gap:8px;flex-wrap:nowrap}
+  .top-bar .mode-group,
+  .top-bar .season-tog{display:none}
+  .pc{padding:16px 14px calc(92px + env(safe-area-inset-bottom,0px))}
+  .g4{grid-template-columns:1fr}
+  .bottnav{display:block}
+  .toast{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-aspect-ratio:3/4) and (max-width:900px){
+  .sb{display:none}
+  .app-main{margin-left:0}
+  .top-bar{padding:12px 16px}
+  .tb-right{gap:8px;flex-wrap:nowrap}
+  .top-bar .mode-group,
+  .top-bar .season-tog{display:none}
+  .pc{padding:16px 14px calc(92px + env(safe-area-inset-bottom,0px))}
+  .g4{grid-template-columns:1fr}
+  .bottnav{display:block}
+  .toast{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
 }
 </style>
 </head>
@@ -1144,6 +1175,27 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 
     </div><!-- hết phần nội dung trang -->
   </main>
+
+  <nav class="bottnav" aria-label="Mobile navigation">
+    <div class="bn-in">
+      <button class="bn-t active" type="button" data-page="dashboard" onclick="nav('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span>Overview</span>
+      </button>
+      <button class="bn-t" type="button" data-page="collection" onclick="nav('collection')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="21" r="1.5"/><circle cx="20" cy="21" r="1.5"/></svg>
+        <span>Collection</span>
+      </button>
+      <button class="bn-t" type="button" data-page="salinity" onclick="nav('salinity')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
+        <span>Water</span>
+      </button>
+      <button class="bn-t" type="button" data-page="passport" onclick="nav('passport')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg>
+        <span>Passport</span>
+      </button>
+    </div>
+  </nav>
 </div><!-- hết dashboard -->
 
 <div class="toast" id="toast"></div>
@@ -1210,6 +1262,8 @@ const STATIC_TEXT = {
   "Main": "Chính",
   "Overview": "Tổng quan",
   "Collection": "Thu gom",
+  "Water": "Nước",
+  "Passport": "Hồ sơ",
   "Water Intelligence": "Theo dõi nước",
   "Carbon Passport": "Hồ sơ carbon",
   "Settings": "Cài đặt",
@@ -1453,12 +1507,15 @@ function returnLanding() {
 function nav(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('.bn-t').forEach(i => i.classList.remove('active'));
 
   const el = document.getElementById('p-' + page);
   if (el) el.classList.add('on');
 
   const item = document.querySelector(`.sb-item[onclick="nav('${page}')"]`);
   if (item) item.classList.add('active');
+  const mobileItem = document.querySelector(`.bn-t[data-page="${page}"]`);
+  if (mobileItem) mobileItem.classList.add('active');
 
   currentPage = page;
   const titles = {
