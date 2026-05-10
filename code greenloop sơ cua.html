@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenLoop - Biochar & Carbon Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fd: #0b1c12; --f: #1a3a2a; --fm: #2d5a3d; --fl: #3d6e50;
+  --leaf: #4CAF50; --ll: #81C784; --lb: #a3d96a;
+  --earth: #8B6F47; --el: #C4A86B;
+  --aqua: #26A69A; --al: #80CBC4; --ad: #00796B;
+  --bg: #f0f5e8; --bgc: #ffffff; --bgs: #e6eedc;
+  --tp: #111d12; --ts: #445844; --tm: #7a8e7a;
+  --border: #cddcc0; --borderl: #e0ecd4;
+  --danger: #c62828; --warn: #e65100; --ok: #2e7d32;
+  --sh-sm: 0 1px 4px rgba(26,58,42,.07);
+  --sh-md: 0 4px 16px rgba(26,58,42,.09);
+  --sh-lg: 0 8px 32px rgba(26,58,42,.13);
+  --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 22px;
+}
+body[data-theme="dark"] {
+  --fd: #07110c; --f: #102419; --fm: #183624; --fl: #244833;
+  --leaf: #5fc867; --ll: #8be096; --lb: #b4eb78;
+  --earth: #d0b06f; --el: #e0c989;
+  --aqua: #36c1b4; --al: #8ee5dc; --ad: #35b9a8;
+  --bg: #0d1510; --bgc: #121f17; --bgs: #1b2a20;
+  --tp: #edf7ec; --ts: #b7c9b7; --tm: #829783;
+  --border: #304235; --borderl: #253528;
+  --danger: #ff756d; --warn: #ffb15f; --ok: #80db86;
+  --sh-sm: 0 1px 4px rgba(0,0,0,.24);
+  --sh-md: 0 8px 24px rgba(0,0,0,.28);
+  --sh-lg: 0 16px 48px rgba(0,0,0,.36);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--tp);overflow-x:hidden;transition:background .2s,color .2s}
+
+/* Màn hình mở đầu */
+#landing{min-height:100vh;background:var(--fd);position:relative;overflow:hidden}
+#landing::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 20% 50%, rgba(45,90,61,.45) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 50% at 80% 25%, rgba(0,121,107,.14) 0%,transparent 55%),
+             radial-gradient(ellipse 40% 40% at 55% 80%, rgba(163,217,106,.04) 0%,transparent 45%)}
+
+/* Lớp lưới mờ phía sau */
+#landing::after{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:60px 60px}
+
+.l-nav{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:22px 56px}
+.l-logo{display:flex;align-items:center;gap:10px}
+.l-logo-icon{width:34px;height:34px;background:var(--lb);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--fd);flex-shrink:0}
+.l-logo-icon svg{width:18px;height:18px}
+.l-logo-text{font-size:19px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.l-logo-text span{color:var(--lb)}
+.l-nav-links{display:flex;gap:28px;list-style:none}
+.l-nav-links a{color:rgba(255,255,255,.45);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.l-nav-links a:hover{color:rgba(255,255,255,.88)}
+.l-nav-cta{background:rgba(163,217,106,.1);border:1px solid rgba(163,217,106,.22);color:var(--lb);padding:9px 22px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.l-nav-cta:hover{background:rgba(163,217,106,.18);border-color:rgba(163,217,106,.38)}
+.l-actions{display:flex;align-items:center;gap:10px}
+.mode-group{display:flex;align-items:center;gap:3px;border-radius:10px;padding:3px;border:1px solid var(--borderl);background:var(--bg)}
+.mode-btn{min-width:34px;padding:6px 9px;border:0;border-radius:7px;background:transparent;color:var(--tm);font-family:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:all .18s}
+.mode-btn:hover{color:var(--tp);background:var(--bgs)}
+.mode-btn.active{background:var(--f);color:#fff;box-shadow:var(--sh-sm)}
+.l-nav .mode-group{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
+.l-nav .mode-btn{color:rgba(255,255,255,.52)}
+.l-nav .mode-btn:hover{color:#fff;background:rgba(255,255,255,.08)}
+.l-nav .mode-btn.active{background:var(--lb);color:var(--fd)}
+
+.l-hero{position:relative;z-index:10;display:flex;align-items:center;min-height:calc(100vh - 86px);padding:0 56px;gap:32px}
+.l-left{flex:1;max-width:520px}
+.l-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(163,217,106,.08);border:1px solid rgba(163,217,106,.18);padding:5px 14px;border-radius:20px;color:var(--lb);font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:26px}
+.l-tag-dot{width:5px;height:5px;background:var(--lb);border-radius:50%;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.l-h1{font-family:'DM Serif Display',serif;font-size:clamp(36px,4vw,60px);font-weight:400;color:#fff;line-height:1.1;letter-spacing:-1px;margin-bottom:18px}
+.l-h1 em{font-style:italic;color:var(--lb)}
+.l-desc{font-size:15px;font-weight:400;color:rgba(255,255,255,.48);line-height:1.8;max-width:420px;margin-bottom:36px}
+.l-btns{display:flex;gap:12px;margin-bottom:52px}
+.l-btn-p{background:var(--lb);color:var(--fd);padding:13px 30px;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:8px}
+.l-btn-p svg{width:14px;height:14px}
+.l-btn-p:hover{background:#b4e87a;transform:translateY(-2px);box-shadow:0 8px 24px rgba(163,217,106,.25)}
+.l-btn-s{background:transparent;color:rgba(255,255,255,.6);padding:13px 24px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.11);font-family:inherit;transition:all .2s}
+.l-btn-s:hover{color:#fff;border-color:rgba(255,255,255,.24);transform:translateY(-2px)}
+.l-stats{display:flex;border-top:1px solid rgba(255,255,255,.06);padding-top:28px}
+.l-stat{flex:1;padding-right:24px;border-right:1px solid rgba(255,255,255,.06)}
+.l-stat:last-child{border-right:none;padding-right:0;padding-left:24px}
+.l-stat:not(:first-child){padding-left:24px}
+.l-stat-n{font-family:'DM Serif Display',serif;font-size:30px;color:#fff;letter-spacing:-.5px}
+.l-stat-l{font-size:11px;color:rgba(255,255,255,.32);margin-top:4px;font-weight:500}
+
+.l-right{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+.l-illustration{width:100%;max-width:520px;position:relative}
+.l-illustration svg{width:100%;height:auto;display:block}
+
+/* Mấy nhãn nhỏ quanh hình minh họa */
+.l-chip{position:absolute;background:rgba(11,28,18,.82);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:8px 13px;z-index:10}
+.l-chip-1{top:14%;left:-4%;animation:fc1 4s ease-in-out infinite}
+.l-chip-2{top:52%;right:-2%;animation:fc2 4.5s ease-in-out .5s infinite}
+.l-chip-3{bottom:16%;left:10%;animation:fc1 5s ease-in-out 1s infinite}
+@keyframes fc1{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes fc2{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.l-chip-val{font-size:14px;font-weight:800;color:#fff;line-height:1}
+.l-chip-lab{font-size:10px;color:rgba(255,255,255,.38);margin-top:2px;font-weight:500}
+.l-chip-dot{width:6px;height:6px;border-radius:50%;margin-bottom:4px}
+.l-chip-dot.green{background:var(--lb);box-shadow:0 0 6px rgba(163,217,106,.5)}
+.l-chip-dot.aqua{background:var(--aqua);box-shadow:0 0 6px rgba(38,166,154,.5)}
+.l-chip-dot.gold{background:#f0c040;box-shadow:0 0 6px rgba(240,192,64,.5)}
+
+.l-footer{position:absolute;bottom:0;left:0;right:0;padding:16px 56px;display:flex;align-items:center;gap:10px;border-top:1px solid rgba(255,255,255,.04);z-index:20}
+.l-footer-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-right:4px}
+.l-ptag{display:flex;align-items:center;padding:4px 10px;background:rgba(255,255,255,.04);border-radius:6px;font-size:10px;font-weight:600;color:rgba(255,255,255,.28)}
+
+body[data-theme="light"] #landing{background:#f3f8ec}
+body[data-theme="light"] #landing::before{
+  background:radial-gradient(ellipse 70% 60% at 20% 50%, rgba(76,175,80,.18) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 50% at 80% 25%, rgba(38,166,154,.12) 0%,transparent 55%),
+             radial-gradient(ellipse 44% 44% at 55% 80%, rgba(139,111,71,.08) 0%,transparent 45%)}
+body[data-theme="light"] #landing::after{background-image:linear-gradient(rgba(26,58,42,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,42,.04) 1px,transparent 1px)}
+body[data-theme="light"] .l-logo-text,
+body[data-theme="light"] .l-h1,
+body[data-theme="light"] .l-stat-n{color:var(--tp)}
+body[data-theme="light"] .l-nav-links a,
+body[data-theme="light"] .l-desc,
+body[data-theme="light"] .l-btn-s{color:var(--ts)}
+body[data-theme="light"] .l-nav-links a:hover,
+body[data-theme="light"] .l-btn-s:hover{color:var(--tp)}
+body[data-theme="light"] .l-btn-s{border-color:var(--borderl)}
+body[data-theme="light"] .l-footer,
+body[data-theme="light"] .l-stat{border-color:var(--borderl)}
+body[data-theme="light"] .l-footer-label,
+body[data-theme="light"] .l-stat-l,
+body[data-theme="light"] .l-chip-lab{color:var(--tm)}
+body[data-theme="light"] .l-ptag{background:rgba(26,58,42,.05);color:var(--ts)}
+body[data-theme="light"] .l-chip{background:rgba(255,255,255,.86);border-color:var(--borderl);box-shadow:var(--sh-sm)}
+body[data-theme="light"] .l-chip-val{color:var(--tp)}
+body[data-theme="light"] .l-nav .mode-group{background:rgba(255,255,255,.72);border-color:var(--borderl)}
+body[data-theme="light"] .l-nav .mode-btn{color:var(--tm)}
+body[data-theme="light"] .l-nav .mode-btn:hover{background:var(--bgs);color:var(--tp)}
+body[data-theme="light"] .l-nav .mode-btn.active{background:var(--f);color:#fff}
+
+/* Chuyển động cho SVG */
+@keyframes carbonFloat{0%{opacity:0;transform:translateY(0) scale(.9)}40%{opacity:.85}100%{opacity:0;transform:translateY(-55px) scale(1.2)}}
+@keyframes leafSway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes pulseRing{0%{r:0;opacity:.6}100%{r:22;opacity:0}}
+
+/* Nhịp xuất hiện ban đầu */
+.a1{animation:fadeUp .85s cubic-bezier(.16,1,.3,1) .1s both}
+.a2{animation:fadeUp .85s cubic-bezier(.16,1,.3,1) .25s both}
+.a3{animation:fadeUp .85s cubic-bezier(.16,1,.3,1) .4s both}
+.a4{animation:fadeUp .85s cubic-bezier(.16,1,.3,1) .55s both}
+.a5{animation:fadeUp .85s cubic-bezier(.16,1,.3,1) .7s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* Bố cục ứng dụng */
+#app{display:none;min-height:100vh}
+#app.on{display:flex}
+
+/* Thanh điều hướng bên trái */
+.sb{width:252px;background:var(--f);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform .3s}
+.sb-hdr{padding:18px 18px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sb-logo{display:flex;align-items:center;gap:10px}
+.sb-logo-icon{width:30px;height:30px;background:var(--lb);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--fd);flex-shrink:0}
+.sb-logo-icon svg{width:16px;height:16px}
+.sb-logo-text{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.sb-logo-text span{color:var(--lb)}
+.sb-nav{flex:1;padding:10px;display:flex;flex-direction:column;gap:1px;overflow-y:auto}
+.sb-sec{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:12px 12px 5px}
+.sb-item{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:9px;cursor:pointer;transition:all .18s;font-size:13.5px;font-weight:500;color:rgba(255,255,255,.52);position:relative;user-select:none}
+.sb-item:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.82)}
+.sb-item.active{background:rgba(163,217,106,.1);color:var(--lb)}
+.sb-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--lb);border-radius:0 3px 3px 0}
+.sb-ico{width:18px;height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.sb-ico svg{width:16px;height:16px;stroke:currentColor}
+.sb-ftr{padding:14px;border-top:1px solid rgba(255,255,255,.06)}
+.sb-farmer{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;background:rgba(255,255,255,.04)}
+.sb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--leaf),var(--ad));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.sb-fn{font-size:12px;font-weight:600;color:#fff}
+.sb-fr{font-size:10px;color:rgba(255,255,255,.32)}
+
+/* Khu nội dung chính */
+.app-main{flex:1;margin-left:252px;display:flex;flex-direction:column;min-height:100vh}
+.top-bar{background:#fff;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--borderl);position:sticky;top:0;z-index:50}
+.tb-title{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.tb-sub{font-size:11px;color:var(--tm);margin-top:1px}
+.tb-right{display:flex;align-items:center;gap:10px}
+.back-landing{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:9px;border:1px solid var(--borderl);background:var(--bg);color:var(--ts);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+.back-landing svg{width:13px;height:13px}
+.back-landing:hover{background:var(--bgs);color:var(--tp);transform:translateY(-1px)}
+.season-tog{display:flex;background:var(--bg);border-radius:9px;padding:3px;border:1px solid var(--borderl)}
+.s-btn{display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--tm);transition:all .2s;font-family:inherit}
+.s-btn svg{width:12px;height:12px}
+.s-btn.ar{background:var(--leaf);color:#fff;box-shadow:0 2px 8px rgba(76,175,80,.3)}
+.s-btn.as{background:var(--ad);color:#fff;box-shadow:0 2px 8px rgba(0,121,107,.3)}
+.notif-b{width:36px;height:36px;background:var(--bg);border:1px solid var(--borderl);border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:all .2s;color:var(--ts)}
+.notif-b:hover{background:var(--bgs)}
+.notif-b svg{width:15px;height:15px}
+.notif-dot{width:6px;height:6px;background:var(--danger);border-radius:50%;position:absolute;top:7px;right:7px;border:2px solid #fff}
+
+body[data-theme="dark"] .top-bar,
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .sc{background:var(--bgc)}
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .sc,
+body[data-theme="dark"] .top-bar{border-color:var(--borderl)}
+body[data-theme="dark"] .fi,
+body[data-theme="dark"] .fs,
+body[data-theme="dark"] .ci{background:var(--bg);border-color:var(--border);color:var(--tp)}
+body[data-theme="dark"] .fs{background-color:var(--bg)}
+body[data-theme="dark"] .notif-b{background:var(--bg);border-color:var(--border);color:var(--ts)}
+body[data-theme="dark"] .notif-dot{border-color:var(--bgc)}
+body[data-theme="dark"] .tld{border-color:var(--bgc)}
+body[data-theme="dark"] .mph{background:linear-gradient(135deg,#17322f,#10231f);border-color:rgba(54,193,180,.45)}
+body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
+
+/* Chuyển trang trong bảng điều khiển */
+.pc{padding:22px 26px 40px}
+.page{display:none}
+.page.on{display:block}
+
+/* Khung nội dung */
+.card{background:#fff;border-radius:var(--r-lg);border:1px solid var(--borderl);box-shadow:var(--sh-sm);overflow:hidden;transition:box-shadow .2s}
+.card:hover{box-shadow:var(--sh-md)}
+.ch{padding:16px 18px 0;display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:7px}
+.ct-ico{width:14px;height:14px;color:var(--tm)}
+.ct-ico svg{width:100%;height:100%}
+.cb{padding:14px 18px 18px}
+
+/* Ô số liệu nhanh */
+.sc{background:#fff;border-radius:var(--r-md);border:1px solid var(--borderl);padding:16px 18px;box-shadow:var(--sh-sm);transition:all .2s}
+.sc:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sc-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.sc-ico svg{width:17px;height:17px}
+.sc-ico.g{background:rgba(76,175,80,.1);color:var(--leaf)}
+.sc-ico.a{background:rgba(38,166,154,.1);color:var(--ad)}
+.sc-ico.e{background:rgba(139,111,71,.1);color:var(--earth)}
+.sc-ico.b{background:rgba(163,217,106,.12);color:#4a7a20}
+.trend{font-size:11px;font-weight:700;display:flex;align-items:center;gap:2px;padding:2px 6px;border-radius:5px}
+.trend svg{width:10px;height:10px}
+.trend.up{color:var(--ok);background:rgba(46,125,50,.08)}
+.trend.dn{color:var(--danger);background:rgba(198,40,40,.08)}
+.sc-val{font-size:24px;font-weight:800;letter-spacing:-.5px;line-height:1.1}
+.sc-lab{font-size:11px;color:var(--tm);margin-top:3px;font-weight:500}
+
+/* Lưới bố cục */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mb14{margin-bottom:14px}
+.mb18{margin-bottom:18px}
+.mb22{margin-bottom:22px}
+
+/* Thanh tiến độ */
+.pt{height:6px;background:var(--bgs);border-radius:10px;overflow:hidden;margin-top:8px}
+.pf{height:100%;border-radius:10px;transition:width 1s ease}
+.pf.g{background:linear-gradient(90deg,var(--leaf),var(--lb))}
+.pf.a{background:linear-gradient(90deg,var(--ad),var(--al))}
+.pf.e{background:linear-gradient(90deg,var(--earth),var(--el))}
+.pl{display:flex;justify-content:space-between;font-size:11px;margin-top:5px}
+.pl span:first-child{color:var(--ts);font-weight:500}
+.pl span:last-child{color:var(--tp);font-weight:700}
+
+/* Nhãn trạng thái */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:10.5px;font-weight:700}
+.badge svg{width:9px;height:9px}
+.bg{background:rgba(76,175,80,.1);color:var(--ok)}
+.ba{background:rgba(38,166,154,.1);color:var(--ad)}
+.bw{background:rgba(230,81,0,.1);color:var(--warn)}
+.bd{background:rgba(198,40,40,.1);color:var(--danger)}
+.be{background:rgba(139,111,71,.1);color:var(--earth)}
+
+/* Theo dõi mùa vụ */
+.cyc{display:flex;padding:8px 0}
+.cp{flex:1;text-align:center;position:relative;padding:6px 2px}
+.conn{position:absolute;top:15px;left:50%;width:100%;height:2px;background:var(--border);z-index:0}
+.conn.done{background:var(--leaf)}
+.cd{width:28px;height:28px;border-radius:50%;margin:0 auto 7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;position:relative;z-index:1}
+.cd svg{width:12px;height:12px}
+.cd.done{background:var(--leaf);color:#fff}
+.cd.cur{background:var(--lb);color:var(--fd);box-shadow:0 0 0 4px rgba(163,217,106,.2)}
+.cd.curs{background:var(--aqua);color:#fff;box-shadow:0 0 0 4px rgba(38,166,154,.2)}
+.cd.up{background:var(--bgs);color:var(--tm);border:2px solid var(--border)}
+.cl{font-size:10.5px;font-weight:600;color:var(--tp)}
+.cs{font-size:9.5px;color:var(--tm)}
+
+/* Biểu đồ nhỏ */
+.mc{display:flex;align-items:flex-end;gap:3px;height:42px}
+.mb-bar{flex:1;border-radius:3px 3px 0 0;min-width:5px}
+
+/* Bộ tính nhanh */
+.ci{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:13.5px;font-family:inherit;font-weight:600;color:var(--tp);background:var(--bg);transition:all .2s}
+.ci:focus{outline:none;border-color:var(--leaf);box-shadow:0 0 0 3px rgba(76,175,80,.1)}
+.cr{background:linear-gradient(135deg,rgba(76,175,80,.06),rgba(163,217,106,.06));border:1px solid rgba(76,175,80,.14);border-radius:var(--r-md);padding:14px;text-align:center}
+.crv{font-size:28px;font-weight:800;color:var(--f);letter-spacing:-.5px}
+.crl{font-size:11px;color:var(--ts);font-weight:500}
+
+/* Mẫu nhập liệu */
+.fg{margin-bottom:14px}
+.fl{display:block;font-size:12.5px;font-weight:600;color:var(--tp);margin-bottom:5px}
+.fi,.fs{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:13.5px;font-family:inherit;color:var(--tp);background:#fff;transition:all .2s}
+.fi:focus,.fs:focus{outline:none;border-color:var(--leaf);box-shadow:0 0 0 3px rgba(76,175,80,.1)}
+.fs{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237a8e7a' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-color:#fff;padding-right:34px}
+
+/* Nút bấm */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--r-sm);font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .2s}
+.btn svg{width:14px;height:14px}
+.btn-p{background:var(--f);color:#fff}
+.btn-p:hover{background:var(--fm);transform:translateY(-1px);box-shadow:var(--sh-md)}
+.btn-a{background:var(--ad);color:#fff}
+.btn-a:hover{background:var(--aqua);transform:translateY(-1px)}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--ts)}
+.btn-o:hover{background:var(--bgs)}
+.btn-bl{width:100%;justify-content:center}
+
+/* Cảnh báo */
+.ab{display:flex;align-items:flex-start;gap:11px;padding:11px 13px;border-radius:var(--r-md);margin-bottom:9px}
+.ai{width:17px;height:17px;flex-shrink:0;margin-top:1px}
+.ai svg{width:100%;height:100%}
+.ab.warn{background:rgba(230,81,0,.06);border:1px solid rgba(230,81,0,.14)}
+.ab.ok{background:rgba(46,125,50,.06);border:1px solid rgba(46,125,50,.14)}
+.ab.danger{background:rgba(198,40,40,.06);border:1px solid rgba(198,40,40,.14)}
+.at{font-size:12.5px;font-weight:700;margin-bottom:2px}
+.ax{font-size:11.5px;color:var(--ts);line-height:1.5}
+.ab.warn .at{color:var(--warn)}
+.ab.ok .at{color:var(--ok)}
+.ab.danger .at{color:var(--danger)}
+
+/* Đồng hồ đo độ mặn */
+.gw{width:155px;height:155px;margin:0 auto;position:relative}
+.gc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.gv{font-size:26px;font-weight:800;line-height:1}
+.gu{font-size:10px;color:var(--tm);font-weight:500}
+
+/* Gợi ý vận hành */
+.rec{background:linear-gradient(135deg,var(--f),var(--fm));border-radius:var(--r-lg);padding:20px 22px;color:#fff;position:relative;overflow:hidden}
+.rec::before{content:'';position:absolute;top:-40%;right:-20%;width:200px;height:200px;background:rgba(163,217,106,.07);border-radius:50%}
+.rl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.38);font-weight:700;margin-bottom:5px}
+.rt{font-size:15px;font-weight:700;margin-bottom:2px}
+.rd{font-size:24px;font-weight:800;color:var(--lb);letter-spacing:-.5px;margin-bottom:7px}
+.rx{font-size:12px;color:rgba(255,255,255,.58);line-height:1.65;position:relative;z-index:1}
+
+/* Hồ sơ carbon */
+.pp{background:linear-gradient(145deg,#1a3a2a 0%,#0d261a 60%,#0a1f15 100%);border-radius:var(--r-xl);padding:26px 22px;color:#fff;position:relative;overflow:hidden;max-width:480px;box-shadow:0 20px 60px rgba(26,58,42,.35)}
+.pp::before{content:'';position:absolute;top:0;right:0;width:240px;height:240px;background:radial-gradient(circle,rgba(163,217,106,.08) 0%,transparent 70%)}
+.pp-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;position:relative;z-index:1}
+.pp-logo{display:flex;align-items:center;gap:7px}
+.pp-logo-ico{width:24px;height:24px;background:var(--lb);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--fd)}
+.pp-logo-ico svg{width:12px;height:12px}
+.pp-logo-txt{font-size:13px;font-weight:700}
+.pp-badge{background:rgba(163,217,106,.15);color:var(--lb);padding:4px 10px;border-radius:20px;font-size:9.5px;font-weight:700;letter-spacing:.25px;white-space:nowrap;flex-shrink:0;position:relative;z-index:2}
+.pp-chip{position:absolute;top:62px;right:22px;width:36px;height:28px;background:linear-gradient(135deg,#c9a84c,#f0d98a,#c9a84c);border-radius:4px;opacity:.52}
+.pp-main{position:relative;z-index:1;margin-bottom:18px}
+.pp-name{font-size:19px;font-weight:700}
+.pp-id{font-size:10.5px;color:rgba(255,255,255,.32);font-family:monospace;letter-spacing:1px}
+.pp-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;position:relative;z-index:1}
+.pp-sv{font-size:18px;font-weight:800;color:var(--lb);letter-spacing:-.3px}
+.pp-sl{font-size:9.5px;color:rgba(255,255,255,.32);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* Dòng thời gian */
+.tl{position:relative;padding-left:24px}
+.tl::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:var(--border)}
+.tli{position:relative;padding-bottom:16px}
+.tli:last-child{padding-bottom:0}
+.tld{position:absolute;left:-20px;top:4px;width:12px;height:12px;border-radius:50%;border:3px solid #fff}
+.tld.g{background:var(--leaf);box-shadow:0 0 0 2px var(--leaf)}
+.tld.a{background:var(--aqua);box-shadow:0 0 0 2px var(--aqua)}
+.tld.e{background:var(--earth);box-shadow:0 0 0 2px var(--earth)}
+.tl-date{font-size:10.5px;color:var(--tm);font-weight:500}
+.tl-title{font-size:12.5px;font-weight:600}
+.tl-detail{font-size:11.5px;color:var(--ts)}
+
+/* Khung bản đồ demo */
+.mph{background:linear-gradient(135deg,#e6f4f8,#d0ede8);border-radius:var(--r-md);height:195px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed var(--al);color:var(--ad);position:relative;overflow:hidden}
+.mph::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 32% 42%,rgba(38,166,154,.16) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(0,121,107,.1) 0%,transparent 50%)}
+.mi{width:30px;height:30px;position:relative;z-index:1;margin-bottom:7px;color:var(--ad)}
+.mi svg{width:100%;height:100%}
+.mt{font-size:12.5px;font-weight:700;position:relative;z-index:1}
+.ms{font-size:10.5px;color:var(--tm);position:relative;z-index:1}
+
+/* Lưới cảm biến */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.si{background:var(--bg);border-radius:var(--r-sm);padding:9px 11px;display:flex;align-items:center;gap:7px}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sdot.on{background:var(--ok);box-shadow:0 0 5px rgba(46,125,50,.4)}
+.sdot.wa{background:var(--warn);box-shadow:0 0 5px rgba(230,81,0,.4)}
+.sn{font-size:11.5px;font-weight:600}
+.sv{font-size:10.5px;color:var(--tm)}
+
+/* Trạng thái đặt lịch xong */
+.bsuc{display:none;text-align:center;padding:26px}
+.bsuc.on{display:block}
+.bsuc-ico{width:56px;height:56px;background:rgba(46,125,50,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--ok)}
+.bsuc-ico svg{width:26px;height:26px}
+.bsuc h3{font-size:16px;font-weight:700;margin-bottom:5px}
+.bsuc p{font-size:12.5px;color:var(--tm);margin-bottom:16px}
+
+/* Vòng chỉ số đất */
+.sr{width:108px;height:108px;margin:0 auto;position:relative}
+.sr svg{width:100%;height:100%}
+.src{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.srv{font-size:22px;font-weight:800;line-height:1}
+.srm{font-size:9px;color:var(--tm)}
+
+/* Đường ngăn */
+.divider{height:1px;background:var(--borderl);margin:14px 0}
+
+/* Tiêu đề cụm nội dung */
+.sec-h{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--tp);margin-bottom:11px}
+.sec-h svg{width:13px;height:13px;color:var(--tm)}
+
+/* Thông báo nổi */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--f);color:#fff;padding:11px 20px;border-radius:var(--r-md);font-size:13px;font-weight:600;box-shadow:var(--sh-lg);opacity:0;transition:all .3s;z-index:9999;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Hiệu ứng chung */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.ani{animation:fadeInUp .38s ease both}
+.ani:nth-child(1){animation-delay:0s}
+.ani:nth-child(2){animation-delay:.05s}
+.ani:nth-child(3){animation-delay:.1s}
+.ani:nth-child(4){animation-delay:.15s}
+
+/* Chuyển động vòng carbon */
+.c1{animation:carbonFloat 3.2s ease-out 0s infinite}
+.c2{animation:carbonFloat 3.2s ease-out 1.1s infinite}
+.c3{animation:carbonFloat 3.2s ease-out 2.2s infinite}
+.ls{animation:leafSway 3s ease-in-out infinite}
+.ls2{animation:leafSway 3.6s ease-in-out .6s infinite}
+.ls3{animation:leafSway 2.8s ease-in-out 1.2s infinite}
+
+/* Co giãn theo màn hình */
+@media(max-width:1100px){.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){
+  .l-right{display:none}.l-left{max-width:100%}
+  .l-hero,.l-nav{padding-left:22px;padding-right:22px}
+  .l-nav-links{display:none}
+  .l-actions{gap:6px}
+  .l-footer{padding:14px 22px}
+  .g2,.g3{grid-template-columns:1fr}
+  .tb-right{flex-wrap:wrap;justify-content:flex-end}
+}
+@media(max-width:768px){
+  .sb{transform:translateX(-100%)}
+  .sb.open{transform:translateX(0);box-shadow:10px 0 40px rgba(0,0,0,.28)}
+  .app-main{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<!-- Màn hình mở đầu -->
+<div id="landing">
+  <nav class="l-nav">
+    <div class="l-logo">
+      <div class="l-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+      </div>
+      <div class="l-logo-text">Green<span>Loop</span></div>
+    </div>
+    <ul class="l-nav-links">
+      <li><a href="#">Solution</a></li>
+      <li><a href="#">Farmers</a></li>
+      <li><a href="#">Impact</a></li>
+      <li><a href="#">Partners</a></li>
+    </ul>
+    <div class="l-actions">
+      <div class="mode-group" aria-label="Language">
+        <button class="mode-btn active" type="button" data-lang-choice="en" onclick="setLang('en')">EN</button>
+        <button class="mode-btn" type="button" data-lang-choice="vi" onclick="setLang('vi')">VI</button>
+      </div>
+      <div class="mode-group" aria-label="Theme">
+        <button class="mode-btn active" type="button" data-theme-choice="light" onclick="setTheme('light')">Light</button>
+        <button class="mode-btn" type="button" data-theme-choice="dark" onclick="setTheme('dark')">Dark</button>
+      </div>
+      <button class="l-nav-cta" onclick="enterApp()">Open Dashboard</button>
+    </div>
+  </nav>
+
+  <div class="l-hero">
+    <div class="l-left">
+      <div class="l-tag a1"><span class="l-tag-dot"></span>Mekong Delta &nbsp;·&nbsp; Climate Tech</div>
+      <h1 class="l-h1 a2">Turn Residue<br>Into <em>Carbon</em><br>Into Income</h1>
+      <p class="l-desc a3">GreenLoop converts rice straw and shrimp-pond sludge into biochar - automating Verra VM0044 carbon credits for smallholder Lua-Tom farmers across Vietnam's Mekong Delta.</p>
+      <div class="l-btns a4">
+        <button class="l-btn-p" onclick="enterApp()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 19 12"/><polyline points="12 5 19 12 12 19"/></svg>
+          Open Dashboard
+        </button>
+        <button class="l-btn-s">Learn More</button>
+      </div>
+      <div class="l-stats a5">
+        <div class="l-stat"><div class="l-stat-n">8,000</div><div class="l-stat-l">tCO₂e locked by Year 3</div></div>
+        <div class="l-stat"><div class="l-stat-n">2,000</div><div class="l-stat-l">Households targeted</div></div>
+        <div class="l-stat"><div class="l-stat-n">+18%</div><div class="l-stat-l">Farmer income increase</div></div>
+      </div>
+    </div>
+
+    <div class="l-right">
+      <!-- Các nhãn nổi bên cạnh mô hình -->
+      <div class="l-chip l-chip-1">
+        <div class="l-chip-dot green"></div>
+        <div class="l-chip-val">4.2 tCO₂e</div>
+        <div class="l-chip-lab">Sequestered today</div>
+      </div>
+      <div class="l-chip l-chip-2">
+        <div class="l-chip-dot aqua"></div>
+        <div class="l-chip-val">2.3 g/L</div>
+        <div class="l-chip-lab">Salinity - safe zone</div>
+      </div>
+      <div class="l-chip l-chip-3">
+        <div class="l-chip-dot gold"></div>
+        <div class="l-chip-val">$12.40</div>
+        <div class="l-chip-lab">SCU price / tCO₂e</div>
+      </div>
+
+      <!-- Hình mô phỏng chuỗi xử lý -->
+      <div class="l-illustration">
+        <svg viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#2d5a3d" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="#0b1c12" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="nRice" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#3a6045" stop-opacity=".6"/>
+              <stop offset="100%" stop-color="#162e1c" stop-opacity=".9"/>
+            </radialGradient>
+            <radialGradient id="nShrimp" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#1a4842" stop-opacity=".6"/>
+              <stop offset="100%" stop-color="#0b2826" stop-opacity=".9"/>
+            </radialGradient>
+            <radialGradient id="nCarbon" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#283a1a" stop-opacity=".7"/>
+              <stop offset="100%" stop-color="#151e0f" stop-opacity=".9"/>
+            </radialGradient>
+            <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Vầng nền phía ngoài -->
+          <circle cx="260" cy="240" r="215" fill="url(#bgGlow)"/>
+          <circle cx="260" cy="240" r="215" fill="none" stroke="rgba(163,217,106,.05)" stroke-width="1"/>
+          <circle cx="260" cy="240" r="168" fill="none" stroke="rgba(163,217,106,.04)" stroke-width="1" stroke-dasharray="5 9"/>
+          <circle cx="260" cy="240" r="118" fill="none" stroke="rgba(163,217,106,.03)" stroke-width="1" stroke-dasharray="3 6"/>
+
+          <!-- Đường nối giữa các nguồn nguyên liệu -->
+          <path d="M 177 140 Q 210 195 243 228" stroke="rgba(76,175,80,.35)" stroke-width="1.5" fill="none" stroke-dasharray="5 5"/>
+          <path d="M 343 140 Q 310 195 277 228" stroke="rgba(38,166,154,.35)" stroke-width="1.5" fill="none" stroke-dasharray="5 5"/>
+          <path d="M 260 302 L 260 360" stroke="rgba(163,217,106,.4)" stroke-width="1.5" fill="none" stroke-dasharray="5 5"/>
+          <path d="M 225 393 Q 100 360 118 195 Q 128 155 150 143" stroke="rgba(163,217,106,.1)" stroke-width="1" fill="none" stroke-dasharray="3 7"/>
+          <path d="M 295 393 Q 420 360 402 195 Q 392 155 370 143" stroke="rgba(163,217,106,.1)" stroke-width="1" fill="none" stroke-dasharray="3 7"/>
+
+          <!-- Mũi tên cho các đường nối -->
+          <polygon points="243,228 237,218 251,218" fill="rgba(76,175,80,.5)"/>
+          <polygon points="277,228 269,218 283,218" fill="rgba(38,166,154,.5)"/>
+          <polygon points="260,362 255,352 265,352" fill="rgba(163,217,106,.5)"/>
+
+          <!-- Cụm rơm lúa -->
+          <circle cx="148" cy="122" r="58" fill="url(#nRice)" stroke="rgba(76,175,80,.2)" stroke-width="1.5"/>
+          <!-- Thân lúa có chuyển động nhẹ -->
+          <g transform-origin="132 148">
+            <line x1="132" y1="148" x2="132" y2="108" stroke="rgba(163,217,106,.6)" stroke-width="1.5" stroke-linecap="round" class="ls"/>
+            <ellipse cx="132" cy="104" rx="5" ry="9" fill="rgba(76,175,80,.55)" transform="rotate(-10 132 104)" class="ls"/>
+            <line x1="128" y1="130" x2="122" y2="118" stroke="rgba(163,217,106,.4)" stroke-width="1" stroke-linecap="round"/>
+            <ellipse cx="120" cy="115" rx="3.5" ry="6" fill="rgba(76,175,80,.4)" transform="rotate(-25 120 115)"/>
+            <line x1="136" y1="128" x2="142" y2="116" stroke="rgba(163,217,106,.4)" stroke-width="1" stroke-linecap="round"/>
+            <ellipse cx="144" cy="113" rx="3.5" ry="6" fill="rgba(76,175,80,.4)" transform="rotate(20 144 113)"/>
+          </g>
+          <g transform-origin="160 148">
+            <line x1="160" y1="148" x2="160" y2="105" stroke="rgba(163,217,106,.6)" stroke-width="1.5" stroke-linecap="round" class="ls2"/>
+            <ellipse cx="160" cy="101" rx="5.5" ry="10" fill="rgba(76,175,80,.6)" class="ls2"/>
+          </g>
+          <!-- Nhãn và số liệu của cụm lúa -->
+          <text x="148" y="96" text-anchor="middle" fill="rgba(163,217,106,.7)" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".8">RICE STRAW</text>
+          <text x="148" y="157" text-anchor="middle" fill="rgba(255,255,255,.9)" font-family="DM Sans,sans-serif" font-size="17" font-weight="800">850 t</text>
+          <text x="148" y="172" text-anchor="middle" fill="rgba(255,255,255,.35)" font-family="DM Sans,sans-serif" font-size="9">per season</text>
+
+          <!-- Cụm ao tôm -->
+          <circle cx="372" cy="122" r="58" fill="url(#nShrimp)" stroke="rgba(38,166,154,.22)" stroke-width="1.5"/>
+          <!-- Gợn nước trong ao -->
+          <path d="M 336 118 Q 351 111 366 118 Q 381 125 396 118" stroke="rgba(38,166,154,.6)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M 336 130 Q 351 123 366 130 Q 381 137 396 130" stroke="rgba(38,166,154,.45)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M 340 142 Q 355 135 370 142 Q 385 149 400 142" stroke="rgba(38,166,154,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <text x="372" y="96" text-anchor="middle" fill="rgba(128,203,196,.75)" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".8">SHRIMP POND</text>
+          <text x="372" y="157" text-anchor="middle" fill="rgba(255,255,255,.9)" font-family="DM Sans,sans-serif" font-size="17" font-weight="800">480 kg</text>
+          <text x="372" y="172" text-anchor="middle" fill="rgba(255,255,255,.35)" font-family="DM Sans,sans-serif" font-size="9">sludge / pond</text>
+
+          <!-- Lõi biochar ở giữa -->
+          <circle cx="260" cy="262" r="54" fill="#0e2017" stroke="rgba(163,217,106,.18)" stroke-width="2"/>
+          <circle cx="260" cy="262" r="44" fill="none" stroke="rgba(163,217,106,.07)" stroke-width="1"/>
+          <!-- Biểu tượng nhiệt phân -->
+          <path d="M260 232 C246 244 240 258 254 268 C248 256 258 248 260 264 C262 248 272 256 266 268 C280 258 274 244 260 232Z" fill="rgba(163,217,106,.72)" filter="url(#glow)"/>
+          <text x="260" y="285" text-anchor="middle" fill="rgba(255,255,255,.85)" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".8">BIOCHAR</text>
+          <text x="260" y="300" text-anchor="middle" fill="rgba(255,255,255,.35)" font-family="DM Sans,sans-serif" font-size="9">35% yield · VM0044</text>
+
+          <!-- Cụm tín chỉ carbon -->
+          <circle cx="260" cy="402" r="52" fill="url(#nCarbon)" stroke="rgba(163,217,106,.28)" stroke-width="1.5"/>
+          <!-- Huy hiệu xác nhận -->
+          <path d="M260 378 l3.8 7.7 8.5 1.2 -6.1 6 1.4 8.4 -7.6-4 -7.6 4 1.4-8.4 -6.1-6 8.5-1.2Z" fill="rgba(163,217,106,.65)" filter="url(#glow)"/>
+          <text x="260" y="418" text-anchor="middle" fill="rgba(163,217,106,.75)" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".8">CARBON CREDITS</text>
+          <text x="260" y="435" text-anchor="middle" fill="rgba(255,255,255,.88)" font-family="DM Sans,sans-serif" font-size="16" font-weight="800">$10–15/tCO₂e</text>
+          <text x="260" y="449" text-anchor="middle" fill="rgba(255,255,255,.32)" font-family="DM Sans,sans-serif" font-size="8.5">traded on AICE</text>
+
+          <!-- Hạt CO₂ được giữ lại -->
+          <circle cx="242" cy="330" r="5" fill="rgba(163,217,106,.7)" class="c1"/>
+          <circle cx="272" cy="315" r="3.5" fill="rgba(76,175,80,.55)" class="c2"/>
+          <circle cx="258" cy="308" r="4.5" fill="rgba(163,217,106,.5)" class="c3"/>
+
+          <!-- Chú thích cho các bước xử lý -->
+          <text x="194" y="178" fill="rgba(76,175,80,.6)" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Pyrolysis</text>
+          <text x="302" y="178" fill="rgba(38,166,154,.6)" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Co-process</text>
+          <text x="268" y="340" fill="rgba(163,217,106,.6)" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">VM0044 MRV</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="l-footer">
+    <span class="l-footer-label">Verified by</span>
+    <span class="l-ptag">Verra VM0044</span>
+    <span class="l-ptag">AICE Exchange</span>
+    <span class="l-ptag">MRC Salinity API</span>
+    <span class="l-ptag">HUSK Vietnam</span>
+    <span class="l-ptag">Biocare Projects</span>
+  </div>
+</div>
+
+<!-- Bảng điều khiển -->
+<div id="app">
+  <!-- Thanh điều hướng -->
+  <aside class="sb" id="sidebar">
+    <div class="sb-hdr">
+      <div class="sb-logo">
+        <div class="sb-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        </div>
+        <div class="sb-logo-text">Green<span>Loop</span></div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-sec">Main</div>
+      <div class="sb-item active" onclick="nav('dashboard')">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+        <span>Overview</span>
+      </div>
+      <div class="sb-item" onclick="nav('collection')">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="21" r="1.5"/><circle cx="20" cy="21" r="1.5"/></svg></span>
+        <span>Collection</span>
+      </div>
+      <div class="sb-item" onclick="nav('salinity')">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg></span>
+        <span>Water Intelligence</span>
+      </div>
+      <div class="sb-item" onclick="nav('passport')">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg></span>
+        <span>Carbon Passport</span>
+      </div>
+      <div class="sb-sec">Settings</div>
+      <div class="sb-item">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+        <span>Settings</span>
+      </div>
+      <div class="sb-item">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2.5"/></svg></span>
+        <span>Help</span>
+      </div>
+    </nav>
+    <div class="sb-ftr">
+      <div class="sb-farmer">
+        <div class="sb-av">NT</div>
+        <div>
+          <div class="sb-fn">Nguyen Van Thanh</div>
+          <div class="sb-fr">Ca Mau Province</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Nội dung chính -->
+  <main class="app-main">
+    <div class="top-bar">
+      <div>
+        <div class="tb-title" id="pageTitle">Overview</div>
+        <div class="tb-sub" id="pageSub">Mekong Delta · Vụ Hè Thu 2026</div>
+      </div>
+      <div class="tb-right">
+        <button class="back-landing" type="button" onclick="returnLanding()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          <span>Landing</span>
+        </button>
+        <div class="mode-group" aria-label="Language">
+          <button class="mode-btn active" type="button" data-lang-choice="en" onclick="setLang('en')">EN</button>
+          <button class="mode-btn" type="button" data-lang-choice="vi" onclick="setLang('vi')">VI</button>
+        </div>
+        <div class="mode-group" aria-label="Theme">
+          <button class="mode-btn active" type="button" data-theme-choice="light" onclick="setTheme('light')">Light</button>
+          <button class="mode-btn" type="button" data-theme-choice="dark" onclick="setTheme('dark')">Dark</button>
+        </div>
+        <div class="season-tog">
+          <button class="s-btn ar" id="riceBtn" onclick="setSeason('rice')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12c0-3.26 1.57-6.16 4-8"/><path d="M12 6v6l4 2"/></svg>
+            Rice Season
+          </button>
+          <button class="s-btn" id="shrimpBtn" onclick="setSeason('shrimp')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2"/></svg>
+            Shrimp Season
+          </button>
+        </div>
+        <button class="notif-b">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="pc">
+
+      <!-- Trang tổng quan -->
+      <div class="page on" id="p-dashboard">
+        <!-- Các số liệu chính -->
+        <div class="g4 mb18">
+          <div class="sc ani">
+            <div class="sc-top">
+              <div class="sc-ico g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div>
+              <div class="trend up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>12%</div>
+            </div>
+            <div class="sc-val">4.28 t</div>
+            <div class="sc-lab">CO₂e Sequestered</div>
+          </div>
+          <div class="sc ani">
+            <div class="sc-top">
+              <div class="sc-ico b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
+              <div class="trend up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>8%</div>
+            </div>
+            <div class="sc-val">1,420 kg</div>
+            <div class="sc-lab">Biochar Produced</div>
+          </div>
+          <div class="sc ani">
+            <div class="sc-top">
+              <div class="sc-ico a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <div class="trend up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>24%</div>
+            </div>
+            <div class="sc-val">38</div>
+            <div class="sc-lab">Enrolled Households</div>
+          </div>
+          <div class="sc ani">
+            <div class="sc-top">
+              <div class="sc-ico e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+              <div class="trend up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>31%</div>
+            </div>
+            <div class="sc-val">$4,820</div>
+            <div class="sc-lab">Revenue (YTD)</div>
+          </div>
+        </div>
+
+        <div class="g2 mb18">
+          <!-- Thẻ chu kỳ lúa-tôm -->
+          <div class="card">
+            <div class="ch">
+              <div class="ct">
+                <div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+                Lua-Tom Cycle Tracker
+              </div>
+              <span class="badge ba" id="cycleBadge">Rice Phase</span>
+            </div>
+            <div class="cb">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:12px;background:var(--bg);border-radius:10px">
+                <div style="width:36px;height:36px;border-radius:9px;background:var(--bgs);display:flex;align-items:center;justify-content:center;color:var(--leaf)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:13px;font-weight:700" id="phaseTitle">Rice Cultivation - Active</div>
+                  <div style="font-size:11px;color:var(--tm)" id="phaseDesc">Early grow-out. Residue collection in ~45 days.</div>
+                </div>
+              </div>
+              <div class="cyc" id="cycleTracker"></div>
+            </div>
+          </div>
+
+          <!-- Tính nhanh lượng phụ phẩm -->
+          <div class="card">
+            <div class="ch">
+              <div class="ct">
+                <div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg></div>
+                Biochar Calculator
+              </div>
+            </div>
+            <div class="cb">
+              <div class="fg">
+                <label class="fl">Biomass type</label>
+                <select class="fs" id="calcType" onchange="calc()">
+                  <option value="rice_straw">Rice Straw</option>
+                  <option value="rice_husk">Rice Husk</option>
+                  <option value="shrimp_sludge">Shrimp Pond Sludge</option>
+                  <option value="coconut">Coconut Shell</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="fl">Input weight (kg)</label>
+                <input class="ci" type="number" id="calcWeight" value="500" oninput="calc()">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:4px">
+                <div class="cr">
+                  <div class="crv" id="calcYield">150</div>
+                  <div class="crl">kg Biochar</div>
+                </div>
+                <div style="color:var(--lb)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 19 12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </div>
+                <div class="cr" style="background:linear-gradient(135deg,rgba(38,166,154,.06),rgba(0,121,107,.06));border-color:rgba(38,166,154,.14)">
+                  <div class="crv" style="color:var(--ad)" id="calcCO2">0.38 t</div>
+                  <div class="crl">CO₂e locked</div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--tm)">
+                <span>Conversion: <strong id="calcConvRate" style="color:var(--tp)">30%</strong></span>
+                <span id="calcQuality" style="font-weight:600;color:var(--ok)">Quality: A-Grade</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tiến độ carbon và biểu đồ nhỏ -->
+        <div class="g2 mb18">
+          <div class="card">
+            <div class="ch">
+              <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>Year 3 Progress</div>
+              <span style="font-size:11px;color:var(--tm);font-weight:600">Goal: 8,000 tCO₂e</span>
+            </div>
+            <div class="cb">
+              <div style="margin-bottom:14px">
+                <div class="pl" style="margin-bottom:4px"><span>CO₂e Sequestered</span><span>4.28 / 8,000 t</span></div>
+                <div class="pt"><div class="pf g" style="width:0.05%"></div></div>
+              </div>
+              <div style="margin-bottom:14px">
+                <div class="pl" style="margin-bottom:4px"><span>Households enrolled</span><span>38 / 2,000</span></div>
+                <div class="pt"><div class="pf a" style="width:1.9%"></div></div>
+              </div>
+              <div>
+                <div class="pl" style="margin-bottom:4px"><span>Biochar applied (ha)</span><span>62 / 4,000 ha</span></div>
+                <div class="pt"><div class="pf e" style="width:1.55%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="ch">
+              <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg></div>Monthly Biomass Intake</div>
+              <span class="badge bg" id="seasonBadge">Rice Season</span>
+            </div>
+            <div class="cb">
+              <div class="mc" id="miniChart"></div>
+              <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--tm)">
+                <span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tình trạng đất -->
+        <div class="card">
+          <div class="ch">
+            <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22V12M12 12C12 12 8 9 4 12M12 12C12 12 16 9 20 12"/><circle cx="12" cy="6" r="4"/></svg></div>Soil Health - Field A (Paddy)</div>
+            <span class="badge bg">Score improving</span>
+          </div>
+          <div class="cb">
+            <div class="g3">
+              <div style="text-align:center">
+                <div class="sr">
+                  <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--bgs)" stroke-width="10"/><circle cx="50" cy="50" r="40" fill="none" stroke="var(--leaf)" stroke-width="10" stroke-dasharray="188 251" stroke-dashoffset="47" stroke-linecap="round" transform="rotate(-90 50 50)"/></svg>
+                  <div class="src"><div class="srv">87</div><div class="srm">/100</div></div>
+                </div>
+                <div style="font-size:11.5px;font-weight:600;margin-top:6px">Overall Score</div>
+              </div>
+              <div>
+                <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>Organic carbon</span><span>2.8%</span></div><div class="pt"><div class="pf g" style="width:56%"></div></div></div>
+                <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>Soil moisture</span><span>72%</span></div><div class="pt"><div class="pf a" style="width:72%"></div></div></div>
+                <div><div class="pl" style="margin-bottom:3px"><span>pH balance</span><span>6.4</span></div><div class="pt"><div class="pf e" style="width:64%"></div></div></div>
+              </div>
+              <div>
+                <div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">Biochar Effect</div>
+                <div style="font-size:12px;color:var(--ts);line-height:1.65">After 2 seasons of biochar application, organic carbon increased <strong>+0.4%</strong> and water retention improved by <strong>18%</strong>.</div>
+                <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">
+                  Next soil test: <strong style="color:var(--tp)">May 28, 2026</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trang thu gom -->
+      <div class="page" id="p-collection">
+        <div class="g2 mb18">
+          <!-- Form đặt lịch thu gom -->
+          <div class="card">
+            <div class="ch">
+              <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>Book a Collection</div>
+            </div>
+            <div class="cb">
+              <div id="bookingForm">
+                <div class="fg">
+                  <label class="fl">Biomass type</label>
+                  <select class="fs" id="bookBiomassType">
+                    <option value="">Select type...</option>
+                    <option value="rice_straw">Rice Straw</option>
+                    <option value="rice_husk">Rice Husk</option>
+                    <option value="shrimp_sludge">Shrimp Pond Sludge</option>
+                    <option value="coconut">Coconut Shell</option>
+                  </select>
+                </div>
+                <div class="g2">
+                  <div class="fg">
+                    <label class="fl">Estimated weight (kg)</label>
+                    <input class="fi" type="number" id="bookWeight" placeholder="Min 500 kg">
+                  </div>
+                  <div class="fg">
+                    <label class="fl">Pickup date</label>
+                    <input class="fi" type="date" id="bookDate">
+                  </div>
+                </div>
+                <div class="fg">
+                  <label class="fl">Collection hub</label>
+                  <select class="fs" id="bookHub">
+                    <option value="">Select hub...</option>
+                    <option value="camau_central">Ca Mau Central HTX</option>
+                    <option value="baclieu_north">Bac Lieu North Hub</option>
+                    <option value="soctrang_hub">Soc Trang Hub</option>
+                    <option value="kiengiang">Kien Giang Hub</option>
+                  </select>
+                </div>
+                <div class="fg">
+                  <label class="fl">Notes</label>
+                  <input class="fi" type="text" id="bookNotes" placeholder="Storage location, access notes…">
+                </div>
+                <button class="btn btn-p btn-bl" onclick="bookCollection()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Confirm Booking
+                </button>
+              </div>
+              <div class="bsuc" id="bookingSuccess">
+                <div class="bsuc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <h3>Collection Booked</h3>
+                <p>Reference: <strong id="bookingRef">GL-2026-XXXX</strong></p>
+                <button class="btn btn-o" onclick="resetBooking()">Book another</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Các lần thu gom gần đây -->
+          <div class="card">
+            <div class="ch">
+              <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6" stroke-width="2"/><line x1="3" y1="12" x2="3.01" y2="12" stroke-width="2"/><line x1="3" y1="18" x2="3.01" y2="18" stroke-width="2"/></svg></div>Recent Collections</div>
+            </div>
+            <div class="cb" id="recentCollections"></div>
+          </div>
+        </div>
+
+        <!-- Bản đồ điểm tập kết và thống kê -->
+        <div class="g2">
+          <div class="card">
+            <div class="ch">
+              <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>Hub Network</div>
+            </div>
+            <div class="cb">
+              <div class="mph">
+                <div class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div class="mt">Mekong Delta Hub Map</div>
+                <div class="ms">4 hubs · Google Maps overlay</div>
+              </div>
+              <div class="sg">
+                <div class="si"><span class="sdot on"></span><div><div class="sn">Ca Mau Central</div><div class="sv">Capacity: 78%</div></div></div>
+                <div class="si"><span class="sdot on"></span><div><div class="sn">Bac Lieu North</div><div class="sv">Capacity: 45%</div></div></div>
+                <div class="si"><span class="sdot wa"></span><div><div class="sn">Soc Trang Hub</div><div class="sv">Capacity: 91%</div></div></div>
+                <div class="si"><span class="sdot on"></span><div><div class="sn">Kien Giang</div><div class="sv">Capacity: 33%</div></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>Collection Stats</div></div>
+            <div class="cb">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div style="background:var(--bg);border-radius:10px;padding:14px">
+                  <div style="font-size:22px;font-weight:800;color:var(--f)">3,840</div>
+                  <div style="font-size:11px;color:var(--tm);font-weight:500;margin-top:2px">kg this month</div>
+                </div>
+                <div style="background:var(--bg);border-radius:10px;padding:14px">
+                  <div style="font-size:22px;font-weight:800;color:var(--ad)">12</div>
+                  <div style="font-size:11px;color:var(--tm);font-weight:500;margin-top:2px">Pickups completed</div>
+                </div>
+                <div style="background:var(--bg);border-radius:10px;padding:14px">
+                  <div style="font-size:22px;font-weight:800;color:var(--earth)">$11.20</div>
+                  <div style="font-size:11px;color:var(--tm);font-weight:500;margin-top:2px">Avg. transport / t</div>
+                </div>
+                <div style="background:var(--bg);border-radius:10px;padding:14px">
+                  <div style="font-size:22px;font-weight:800;color:var(--ok)">98%</div>
+                  <div style="font-size:11px;color:var(--tm);font-weight:500;margin-top:2px">On-time rate</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trang theo dõi nước -->
+      <div class="page" id="p-salinity">
+        <!-- Gợi ý cho mùa vụ -->
+        <div class="rec mb18">
+          <div class="rl">Gợi ý từ dữ liệu</div>
+          <div class="rt">Optimal Season Switch Date</div>
+          <div class="rd">15 June 2026</div>
+          <div class="rx">Salinity forecast from MRC shows intrusion crossing 5 g/L threshold around June 10. Switch rice fields to shrimp-pond preparation 5 days prior for optimal transition.</div>
+        </div>
+
+        <div class="g2 mb18">
+          <!-- Đồng hồ độ mặn -->
+          <div class="card">
+            <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div>Live Salinity Reading</div><span class="badge bw">Canal Intake N-03</span></div>
+            <div class="cb" style="text-align:center">
+              <div class="gw">
+                <svg viewBox="0 0 160 160">
+                  <circle cx="80" cy="80" r="64" fill="none" stroke="var(--bgs)" stroke-width="12"/>
+                  <circle cx="80" cy="80" r="64" fill="none" stroke="var(--warn)" stroke-width="12" stroke-dasharray="188 251" stroke-dashoffset="47" stroke-linecap="round" transform="rotate(-90 80 80)" id="salinityArc"/>
+                </svg>
+                <div class="gc"><div class="gv">2.3</div><div class="gu">g/L salinity</div></div>
+              </div>
+              <div style="display:flex;justify-content:center;gap:18px;margin-top:14px;font-size:11px">
+                <div style="text-align:center"><div style="color:var(--ok);font-weight:700">&lt;1 g/L</div><div style="color:var(--tm)">Rice safe</div></div>
+                <div style="text-align:center"><div style="color:var(--warn);font-weight:700">1–5 g/L</div><div style="color:var(--tm)">Transition</div></div>
+                <div style="text-align:center"><div style="color:var(--danger);font-weight:700">&gt;5 g/L</div><div style="color:var(--tm)">Shrimp optimal</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cảnh báo nước -->
+          <div class="card">
+            <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2.5"/></svg></div>Active Alerts</div></div>
+            <div class="cb" id="alertsContainer"></div>
+          </div>
+        </div>
+
+        <div class="g2">
+          <!-- Biểu đồ độ mặn -->
+          <div class="card">
+            <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>7-Day Salinity Trend</div><span style="font-size:11px;color:var(--tm)">MRC Open API</span></div>
+            <div class="cb">
+              <div style="position:relative;height:120px;background:var(--bg);border-radius:10px;overflow:hidden;padding:12px 16px">
+                <!-- Đường xu hướng đơn giản -->
+                <svg width="100%" height="100%" viewBox="0 0 300 96" preserveAspectRatio="none">
+                  <defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(38,166,154,.25)"/><stop offset="100%" stop-color="rgba(38,166,154,0)"/></linearGradient></defs>
+                  <path d="M0,72 L40,60 L80,65 L120,55 L160,48 L200,52 L240,42 L300,38" stroke="var(--aqua)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <path d="M0,72 L40,60 L80,65 L120,55 L160,48 L200,52 L240,42 L300,38 L300,96 L0,96Z" fill="url(#tg)"/>
+                  <!-- Ngưỡng cảnh báo -->
+                  <line x1="0" y1="30" x2="300" y2="30" stroke="rgba(230,81,0,.4)" stroke-width="1.5" stroke-dasharray="5 5"/>
+                </svg>
+                <div style="position:absolute;top:8px;right:12px;font-size:10px;color:var(--warn);font-weight:600">5 g/L threshold</div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--tm)">
+                <span>May 4</span><span>May 6</span><span>May 8</span><span>May 10</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mạng cảm biến -->
+          <div class="card">
+            <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 7.76a6 6 0 0 0 0 8.49"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>Water Sensors (Phase 2)</div><span class="badge ba">IoT Ready</span></div>
+            <div class="cb">
+              <div class="sg">
+                <div class="si"><span class="sdot on"></span><div><div class="sn">Pond W-01</div><div class="sv">DO: 5.2 mg/L · pH 7.8</div></div></div>
+                <div class="si"><span class="sdot wa"></span><div><div class="sn">Canal N-03</div><div class="sv">Sal: 3.8 g/L - rising</div></div></div>
+                <div class="si"><span class="sdot on"></span><div><div class="sn">Pond W-02</div><div class="sv">Temp: 28.4°C · OK</div></div></div>
+                <div class="si"><span class="sdot on"></span><div><div class="sn">Field Gate</div><div class="sv">Sal: 0.6 g/L - safe</div></div></div>
+              </div>
+              <div style="margin-top:14px;padding:12px;background:linear-gradient(135deg,rgba(38,166,154,.06),rgba(0,121,107,.04));border:1px solid rgba(38,166,154,.14);border-radius:10px">
+                <div style="font-size:11.5px;font-weight:700;color:var(--ad);margin-bottom:4px">Early Warning Active</div>
+                <div style="font-size:11px;color:var(--ts)">ML anomaly model monitoring shrimp pond DO and temperature. Alert triggers at &lt;4 mg/L DO.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trang hồ sơ carbon -->
+      <div class="page" id="p-passport">
+        <div class="g2">
+          <div>
+            <!-- Thẻ hồ sơ -->
+            <div class="pp mb18">
+              <div class="pp-chip"></div>
+              <div class="pp-hdr">
+                <div class="pp-logo">
+                  <div class="pp-logo-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg></div>
+                  <div class="pp-logo-txt">GreenLoop</div>
+                </div>
+                <div class="pp-badge">VERIFIED</div>
+              </div>
+              <div class="pp-main">
+                <div class="pp-name">Nguyen Van Thanh</div>
+                <div class="pp-id">GL-PASSPORT-0038-CAMAU</div>
+              </div>
+              <div class="pp-stats">
+                <div><div class="pp-sv">4.28 t</div><div class="pp-sl">Total CO₂e</div></div>
+                <div><div class="pp-sv">1,420</div><div class="pp-sl">kg Biochar</div></div>
+                <div><div class="pp-sv">87</div><div class="pp-sl">Soil Score</div></div>
+              </div>
+            </div>
+
+            <!-- Thông tin đi kèm hồ sơ -->
+            <div class="card">
+              <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>Passport Benefits</div></div>
+              <div class="cb">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:9px">
+                    <div style="width:32px;height:32px;border-radius:8px;background:rgba(76,175,80,.1);display:flex;align-items:center;justify-content:center;color:var(--leaf);flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div><div style="font-size:12.5px;font-weight:600">Green Loan Pre-approval</div><div style="font-size:11px;color:var(--tm)">BIDV / Agribank - unlocked at 2 tCO₂e</div></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:9px">
+                    <div style="width:32px;height:32px;border-radius:8px;background:rgba(38,166,154,.1);display:flex;align-items:center;justify-content:center;color:var(--ad);flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                    <div><div style="font-size:12.5px;font-weight:600">Preferential Insurance Rate</div><div style="font-size:11px;color:var(--tm)">Bao Viet agricultural - 12% discount</div></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:9px">
+                    <div style="width:32px;height:32px;border-radius:8px;background:rgba(163,217,106,.12);display:flex;align-items:center;justify-content:center;color:#4a7a20;flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+                    <div><div style="font-size:12.5px;font-weight:600">AICE Exchange Listing</div><div style="font-size:11px;color:var(--tm)">Trade SCUs on ASEAN Interoperable Exchange</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dòng thời gian -->
+          <div class="card">
+            <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>Sequestration History</div></div>
+            <div class="cb">
+              <div class="tl" id="passportTimeline"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- hết phần nội dung trang -->
+  </main>
+</div><!-- hết dashboard -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* Bộ biểu tượng SVG dùng trực tiếp */
+const ICO = {
+  check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`,
+  warn: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2.5"/></svg>`,
+  danger: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+  circle_check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>`,
+  bullet: `<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>`,
+  num: (n) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">${n}</text></svg>`
+};
+
+/* Trạng thái hiện tại */
+let season = 'rice';
+let currentPage = 'dashboard';
+let lang = readPref('greenloop-lang', 'en');
+let theme = readPref('greenloop-theme', 'light');
+
+function readPref(key, fallback) {
+  try { return localStorage.getItem(key) || fallback; }
+  catch { return fallback; }
+}
+
+function savePref(key, value) {
+  try { localStorage.setItem(key, value); }
+  catch {}
+}
+
+const STATIC_TEXT = {
+  "GreenLoop - Biochar & Carbon Platform": "GreenLoop - Nền tảng biochar và carbon",
+  "Solution": "Giải pháp",
+  "Farmers": "Nông hộ",
+  "Impact": "Tác động",
+  "Partners": "Đối tác",
+  "Open Dashboard": "Mở bảng điều khiển",
+  "Landing": "Trang đầu",
+  "Learn More": "Tìm hiểu thêm",
+  "Light": "Sáng",
+  "Dark": "Tối",
+  "Mekong Delta · Climate Tech": "ĐBSCL · Công nghệ khí hậu",
+  "Turn Residue": "Biến phụ phẩm",
+  "Into": "thành",
+  "Carbon": "carbon",
+  "Into Income": "thành thu nhập",
+  "GreenLoop converts rice straw and shrimp-pond sludge into biochar - automating Verra VM0044 carbon credits for smallholder Lua-Tom farmers across Vietnam's Mekong Delta.": "GreenLoop biến rơm lúa và bùn ao tôm thành biochar, đồng thời tự động hóa tín chỉ carbon Verra VM0044 cho nông hộ lúa-tôm nhỏ ở Đồng bằng sông Cửu Long.",
+  "tCO₂e locked by Year 3": "tCO₂e lưu giữ đến năm 3",
+  "Households targeted": "hộ mục tiêu",
+  "Farmer income increase": "tăng thu nhập nông hộ",
+  "Sequestered today": "lưu giữ hôm nay",
+  "Salinity - safe zone": "độ mặn - vùng an toàn",
+  "SCU price / tCO₂e": "giá SCU / tCO₂e",
+  "RICE STRAW": "RƠM LÚA",
+  "SHRIMP POND": "AO TÔM",
+  "CARBON CREDITS": "TÍN CHỈ CARBON",
+  "per season": "mỗi vụ",
+  "sludge / pond": "bùn / ao",
+  "traded on AICE": "giao dịch trên AICE",
+  "Pyrolysis": "Nhiệt phân",
+  "Co-process": "Đồng xử lý",
+  "Verified by": "Xác thực bởi",
+  "Main": "Chính",
+  "Overview": "Tổng quan",
+  "Collection": "Thu gom",
+  "Water Intelligence": "Theo dõi nước",
+  "Carbon Passport": "Hồ sơ carbon",
+  "Settings": "Cài đặt",
+  "Help": "Trợ giúp",
+  "Ca Mau Province": "Tỉnh Cà Mau",
+  "Mekong Delta · Summer-Autumn 2026": "ĐBSCL · Vụ Hè Thu 2026",
+  "Collection Scheduler": "Lịch thu gom",
+  "Book & track biomass pickups": "Đặt lịch và theo dõi thu gom phụ phẩm",
+  "Salinity alerts & season scheduler": "Cảnh báo độ mặn và lịch chuyển mùa",
+  "Carbon Farmer Passport": "Hồ sơ carbon nông hộ",
+  "Your verifiable carbon credential": "Chứng nhận carbon có thể xác minh",
+  "Rice Season": "Mùa lúa",
+  "Shrimp Season": "Mùa tôm",
+  "CO₂e Sequestered": "CO₂e lưu giữ",
+  "Biochar Produced": "Biochar đã sản xuất",
+  "Enrolled Households": "Hộ đã tham gia",
+  "Revenue (YTD)": "Doanh thu từ đầu năm",
+  "Lua-Tom Cycle Tracker": "Theo dõi chu kỳ lúa-tôm",
+  "Rice Phase": "Giai đoạn lúa",
+  "Shrimp Phase": "Giai đoạn tôm",
+  "Rice Cultivation - Active": "Canh tác lúa - đang diễn ra",
+  "Shrimp Cultivation - Active": "Nuôi tôm - đang diễn ra",
+  "Early grow-out. Residue collection in ~45 days.": "Đang ở đầu vụ sinh trưởng. Thu gom phụ phẩm sau khoảng 45 ngày.",
+  "Grow-out phase. Sludge collection available in ~30 days.": "Đang ở giai đoạn nuôi lớn. Có thể thu gom bùn sau khoảng 30 ngày.",
+  "Biochar Calculator": "Bộ tính biochar",
+  "Biomass type": "Loại phụ phẩm",
+  "Rice Straw": "Rơm lúa",
+  "Rice Husk": "Trấu",
+  "Shrimp Pond Sludge": "Bùn ao tôm",
+  "Coconut Shell": "Vỏ dừa",
+  "Input weight (kg)": "Khối lượng đầu vào (kg)",
+  "kg Biochar": "kg biochar",
+  "CO₂e locked": "CO₂e lưu giữ",
+  "Conversion:": "Tỷ lệ chuyển đổi:",
+  "Quality": "Chất lượng",
+  "Quality: A-Grade": "Chất lượng: hạng A",
+  "Year 3 Progress": "Tiến độ năm 3",
+  "Goal: 8,000 tCO₂e": "Mục tiêu: 8.000 tCO₂e",
+  "Households enrolled": "Hộ đã tham gia",
+  "Biochar applied (ha)": "Diện tích bón biochar (ha)",
+  "Monthly Biomass Intake": "Phụ phẩm thu vào theo tháng",
+  "Soil Health - Field A (Paddy)": "Sức khỏe đất - ruộng A",
+  "Score improving": "Điểm đang tăng",
+  "Overall Score": "Điểm tổng thể",
+  "Organic carbon": "Carbon hữu cơ",
+  "Soil moisture": "Độ ẩm đất",
+  "pH balance": "Cân bằng pH",
+  "Biochar Effect": "Tác động của biochar",
+  "After 2 seasons of biochar application, organic carbon increased": "Sau 2 vụ bón biochar, carbon hữu cơ tăng",
+  "and water retention improved by": "và khả năng giữ nước cải thiện",
+  "Next soil test:": "Lần kiểm tra đất tiếp theo:",
+  "Book a Collection": "Đặt lịch thu gom",
+  "Select type...": "Chọn loại...",
+  "Estimated weight (kg)": "Khối lượng dự kiến (kg)",
+  "Pickup date": "Ngày thu gom",
+  "Collection hub": "Điểm tập kết",
+  "Select hub...": "Chọn điểm tập kết...",
+  "Notes": "Ghi chú",
+  "Confirm Booking": "Xác nhận đặt lịch",
+  "Collection Booked": "Đã đặt lịch thu gom",
+  "Reference:": "Mã tham chiếu:",
+  "Book another": "Đặt lịch khác",
+  "Recent Collections": "Các lần thu gom gần đây",
+  "Hub Network": "Mạng lưới điểm tập kết",
+  "Mekong Delta Hub Map": "Bản đồ điểm tập kết ĐBSCL",
+  "4 hubs · Google Maps overlay": "4 điểm · lớp Google Maps",
+  "Capacity: 78%": "Công suất: 78%",
+  "Capacity: 45%": "Công suất: 45%",
+  "Capacity: 91%": "Công suất: 91%",
+  "Capacity: 33%": "Công suất: 33%",
+  "Collection Stats": "Thống kê thu gom",
+  "kg this month": "kg trong tháng này",
+  "Pickups completed": "lượt thu gom hoàn tất",
+  "Avg. transport / t": "chi phí vận chuyển TB / t",
+  "On-time rate": "tỷ lệ đúng hẹn",
+  "Gợi ý từ dữ liệu": "Gợi ý từ dữ liệu",
+  "Data Recommendation": "Gợi ý từ dữ liệu",
+  "Optimal Season Switch Date": "Ngày chuyển mùa phù hợp",
+  "Salinity forecast from MRC shows intrusion crossing 5 g/L threshold around June 10. Switch rice fields to shrimp-pond preparation 5 days prior for optimal transition.": "Dự báo độ mặn từ MRC cho thấy xâm nhập mặn vượt ngưỡng 5 g/L khoảng ngày 10/6. Nên chuyển ruộng lúa sang chuẩn bị ao tôm sớm 5 ngày để tối ưu.",
+  "Live Salinity Reading": "Độ mặn hiện tại",
+  "Canal Intake N-03": "Cửa lấy nước N-03",
+  "g/L salinity": "g/L độ mặn",
+  "Rice safe": "An toàn cho lúa",
+  "Transition": "Chuyển đổi",
+  "Shrimp optimal": "Tối ưu cho tôm",
+  "Active Alerts": "Cảnh báo đang bật",
+  "7-Day Salinity Trend": "Xu hướng độ mặn 7 ngày",
+  "5 g/L threshold": "ngưỡng 5 g/L",
+  "Water Sensors (Phase 2)": "Cảm biến nước (giai đoạn 2)",
+  "IoT Ready": "Sẵn sàng IoT",
+  "Early Warning Active": "Cảnh báo sớm đang bật",
+  "ML anomaly model monitoring shrimp pond DO and temperature. Alert triggers at <4 mg/L DO.": "Mô hình phát hiện bất thường đang theo dõi DO và nhiệt độ ao tôm. Cảnh báo bật khi DO dưới 4 mg/L.",
+  "VERIFIED": "ĐÃ XÁC MINH",
+  "Total CO₂e": "Tổng CO₂e",
+  "Soil Score": "Điểm đất",
+  "Passport Benefits": "Lợi ích hồ sơ",
+  "Green Loan Pre-approval": "Duyệt trước khoản vay xanh",
+  "BIDV / Agribank - unlocked at 2 tCO₂e": "BIDV / Agribank - mở khi đạt 2 tCO₂e",
+  "Preferential Insurance Rate": "Mức phí bảo hiểm ưu đãi",
+  "Bao Viet agricultural - 12% discount": "Bảo Việt nông nghiệp - giảm 12%",
+  "AICE Exchange Listing": "Niêm yết trên sàn AICE",
+  "Trade SCUs on ASEAN Interoperable Exchange": "Giao dịch SCU trên ASEAN Interoperable Exchange",
+  "Sequestration History": "Lịch sử lưu giữ carbon",
+  "Completed": "Hoàn tất",
+  "Processing": "Đang xử lý",
+  "Please fill in all required fields": "Vui lòng điền đầy đủ các trường bắt buộc",
+  "Collection booked successfully!": "Đặt lịch thu gom thành công!",
+  "Land Prep": "Làm đất",
+  "Sowing": "Gieo sạ",
+  "Growing": "Sinh trưởng",
+  "Harvest": "Thu hoạch",
+  "Residue": "Phụ phẩm",
+  "Pond Prep": "Chuẩn bị ao",
+  "Stocking": "Thả giống",
+  "Grow-out": "Nuôi lớn",
+  "Sludge": "Bùn ao",
+  "Salinity Rising - Canal N-03": "Độ mặn tăng - kênh N-03",
+  "Reading 3.8 g/L. Approaching transition threshold. Monitor closely over next 72h.": "Chỉ số 3,8 g/L, đang gần ngưỡng chuyển đổi. Cần theo dõi sát trong 72 giờ tới.",
+  "Paddy Field A - Safe Range": "Ruộng lúa A - trong ngưỡng an toàn",
+  "Current salinity 0.6 g/L - well within rice cultivation limits.": "Độ mặn hiện tại 0,6 g/L - vẫn phù hợp cho canh tác lúa.",
+  "Upstream Intrusion Forecast": "Dự báo xâm nhập mặn thượng nguồn",
+  "Tidal model predicts 5+ g/L spike in 72 hours. Prepare water gates now.": "Mô hình thủy triều dự báo độ mặn vượt 5 g/L trong 72 giờ. Cần chuẩn bị cống nước ngay.",
+  "Biochar Application - Paddy Field A": "Bón biochar - ruộng lúa A",
+  "Biochar Application - Shrimp Pond B": "Bón biochar - ao tôm B",
+  "Soil Test - Annual Review": "Kiểm tra đất - đánh giá hằng năm",
+  "Carbon Credit Issuance": "Phát hành tín chỉ carbon",
+  "Biochar Application - Paddy Field B": "Bón biochar - ruộng lúa B",
+  "GreenLoop Enrollment": "Tham gia GreenLoop",
+  "180 kg applied, +0.42 tCO₂e": "Đã bón 180 kg, +0,42 tCO₂e",
+  "95 kg sludge-biochar, +0.18 tCO₂e": "95 kg biochar từ bùn ao, +0,18 tCO₂e",
+  "Organic carbon up 0.4%, score improved to 87": "Carbon hữu cơ tăng 0,4%, điểm cải thiện lên 87",
+  "200 kg applied, +0.48 tCO₂e": "Đã bón 200 kg, +0,48 tCO₂e",
+  "Batch #GL-003 - 1.2 tCO₂e verified & registered on AICE": "Lô #GL-003 - 1,2 tCO₂e đã xác minh và đăng ký trên AICE",
+  "150 kg applied, +0.36 tCO₂e": "Đã bón 150 kg, +0,36 tCO₂e",
+  "Passport created. Initial soil baseline recorded.": "Đã tạo hồ sơ. Đã ghi nhận đường cơ sở đất ban đầu."
+};
+
+const ATTRIBUTE_TEXT = {
+  "Min 500 kg": "Tối thiểu 500 kg",
+  "Storage location, access notes…": "Vị trí lưu trữ, ghi chú đường vào..."
+};
+
+const COPY_INDEX = {};
+[STATIC_TEXT, ATTRIBUTE_TEXT].forEach(group => {
+  Object.entries(group).forEach(([en, vi]) => {
+    COPY_INDEX[normalizeCopy(en)] = { en, vi };
+    COPY_INDEX[normalizeCopy(vi)] = { en, vi };
+  });
+});
+
+function normalizeCopy(text) {
+  return String(text).replace(/\s+/g, ' ').trim();
+}
+
+function t(text) {
+  const item = COPY_INDEX[normalizeCopy(text)];
+  if (!item) return text;
+  return lang === 'vi' ? item.vi : item.en;
+}
+
+function keepEdgeSpace(original, nextText) {
+  const lead = original.match(/^\s*/)[0];
+  const trail = original.match(/\s*$/)[0];
+  return lead + nextText + trail;
+}
+
+function applyLanguage() {
+  document.documentElement.lang = lang;
+  document.title = t('GreenLoop - Biochar & Carbon Platform');
+
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      const parent = node.parentElement;
+      if (!parent || parent.closest('script,style')) return NodeFilter.FILTER_REJECT;
+      return normalizeCopy(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    const nextText = t(node.nodeValue);
+    if (normalizeCopy(nextText) !== normalizeCopy(node.nodeValue)) {
+      node.nodeValue = keepEdgeSpace(node.nodeValue, nextText);
+    }
+  });
+
+  document.querySelectorAll('[placeholder]').forEach(el => {
+    el.setAttribute('placeholder', t(el.getAttribute('placeholder')));
+  });
+
+  updateModeButtons();
+}
+
+function updateModeButtons() {
+  document.querySelectorAll('[data-lang-choice]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.langChoice === lang);
+  });
+  document.querySelectorAll('[data-theme-choice]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.themeChoice === theme);
+  });
+}
+
+function setTheme(nextTheme) {
+  theme = nextTheme;
+  document.body.dataset.theme = theme;
+  savePref('greenloop-theme', theme);
+  updateModeButtons();
+}
+
+function setLang(nextLang) {
+  lang = nextLang;
+  savePref('greenloop-lang', lang);
+  refreshCopy();
+}
+
+function refreshCopy() {
+  nav(currentPage);
+  setSeason(season);
+  renderCollections();
+  renderAlerts();
+  renderTimeline();
+  calc();
+  applyLanguage();
+}
+
+/* Điều hướng */
+function enterApp() {
+  document.getElementById('landing').style.display = 'none';
+  const app = document.getElementById('app');
+  app.classList.add('on');
+  initApp();
+}
+
+function returnLanding() {
+  document.getElementById('app').classList.remove('on');
+  document.getElementById('landing').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  applyLanguage();
+}
+
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+
+  const el = document.getElementById('p-' + page);
+  if (el) el.classList.add('on');
+
+  const item = document.querySelector(`.sb-item[onclick="nav('${page}')"]`);
+  if (item) item.classList.add('active');
+
+  currentPage = page;
+  const titles = {
+    dashboard: [t('Overview'), t('Mekong Delta · Summer-Autumn 2026')],
+    collection: [t('Collection Scheduler'), t('Book & track biomass pickups')],
+    salinity: [t('Water Intelligence'), t('Salinity alerts & season scheduler')],
+    passport: [t('Carbon Farmer Passport'), t('Your verifiable carbon credential')]
+  };
+  if (titles[page]) {
+    document.getElementById('pageTitle').textContent = titles[page][0];
+    document.getElementById('pageSub').textContent = titles[page][1];
+  }
+}
+
+/* Đổi mùa vụ */
+function setSeason(s) {
+  season = s;
+  const rb = document.getElementById('riceBtn');
+  const sb = document.getElementById('shrimpBtn');
+  const cb = document.getElementById('cycleBadge');
+  const sb2 = document.getElementById('seasonBadge');
+  const pt = document.getElementById('phaseTitle');
+  const pd = document.getElementById('phaseDesc');
+
+  if (s === 'rice') {
+    rb.className = 's-btn ar'; sb.className = 's-btn';
+    cb.className = 'badge bg'; cb.textContent = t('Rice Phase');
+    sb2.className = 'badge bg'; sb2.textContent = t('Rice Season');
+    pt.textContent = t('Rice Cultivation - Active');
+    pd.textContent = t('Early grow-out. Residue collection in ~45 days.');
+  } else {
+    rb.className = 's-btn'; sb.className = 's-btn as';
+    cb.className = 'badge ba'; cb.textContent = t('Shrimp Phase');
+    sb2.className = 'badge ba'; sb2.textContent = t('Shrimp Season');
+    pt.textContent = t('Shrimp Cultivation - Active');
+    pd.textContent = t('Grow-out phase. Sludge collection available in ~30 days.');
+  }
+  renderCycle();
+  renderMiniChart();
+}
+
+/* Theo dõi chu kỳ */
+function renderCycle() {
+  const rice = [
+    { l:'Land Prep', s:'Jan', st:'done' },
+    { l:'Sowing', s:'Feb', st:'done' },
+    { l:'Growing', s:'Mar–Apr', st:'cur' },
+    { l:'Harvest', s:'May', st:'up' },
+    { l:'Residue', s:'May–Jun', st:'up' },
+    { l:'Transition', s:'Jun', st:'up' }
+  ];
+  const shrimp = [
+    { l:'Pond Prep', s:'Jul', st:'done' },
+    { l:'Stocking', s:'Aug', st:'done' },
+    { l:'Grow-out', s:'Sep–Nov', st:'curs' },
+    { l:'Harvest', s:'Dec', st:'up' },
+    { l:'Sludge', s:'Dec–Jan', st:'up' },
+    { l:'Transition', s:'Jan', st:'up' }
+  ];
+  const phases = season === 'rice' ? rice : shrimp;
+  document.getElementById('cycleTracker').innerHTML = phases.map((p, i) => {
+    const icon = p.st === 'done' ? ICO.check :
+                 p.st === 'cur' || p.st === 'curs' ? ICO.bullet : ICO.num(i+1);
+    return `<div class="cp">
+      ${i < phases.length - 1 ? `<div class="conn ${p.st === 'done' ? 'done' : ''}"></div>` : ''}
+      <div class="cd ${p.st}">${icon}</div>
+      <div class="cl">${t(p.l)}</div>
+      <div class="cs">${p.s}</div>
+    </div>`;
+  }).join('');
+}
+
+/* Biểu đồ nhỏ */
+function renderMiniChart() {
+  const rice = [190,240,370,500,620,430,290,160,130,210,330,400];
+  const shrimp = [90,70,55,75,100,130,300,440,400,360,210,110];
+  const data = season === 'rice' ? rice : shrimp;
+  const max = Math.max(...data);
+  const color = season === 'rice' ? 'var(--leaf)' : 'var(--aqua)';
+  document.getElementById('miniChart').innerHTML = data.map(v => {
+    const h = (v / max * 38) + 4;
+    return `<div class="mb-bar" style="height:${h}px;background:${color};opacity:${v/max*.6+.4}"></div>`;
+  }).join('');
+}
+
+/* Bộ tính nhanh */
+function calc() {
+  const type = document.getElementById('calcType').value;
+  const weight = parseFloat(document.getElementById('calcWeight').value) || 0;
+  const rates = {
+    rice_straw: { y:.30, co2:2.5, q:'A-Grade' },
+    rice_husk: { y:.35, co2:2.8, q:'A-Grade' },
+    shrimp_sludge: { y:.18, co2:1.5, q:'B-Grade' },
+    coconut: { y:.32, co2:2.7, q:'A+ Grade' }
+  };
+  const r = rates[type];
+  const biochar = Math.round(weight * r.y);
+  const co2 = (biochar * r.co2 / 1000).toFixed(2);
+  document.getElementById('calcYield').textContent = biochar;
+  document.getElementById('calcCO2').textContent = co2 + ' t';
+  document.getElementById('calcConvRate').textContent = Math.round(r.y * 100) + '%';
+  const qEl = document.getElementById('calcQuality');
+  qEl.textContent = t('Quality') + ': ' + r.q;
+  qEl.style.color = r.q.includes('A+') ? 'var(--leaf)' : r.q.includes('A') ? 'var(--ok)' : 'var(--warn)';
+}
+
+/* Đặt lịch thu gom */
+function bookCollection() {
+  const type = document.getElementById('bookBiomassType').value;
+  const weight = document.getElementById('bookWeight').value;
+  const date = document.getElementById('bookDate').value;
+  if (!type || !weight || !date) { toast(t('Please fill in all required fields')); return; }
+  const ref = 'GL-2026-' + (Math.floor(Math.random() * 9000) + 1000);
+  document.getElementById('bookingRef').textContent = ref;
+  document.getElementById('bookingForm').style.display = 'none';
+  document.getElementById('bookingSuccess').classList.add('on');
+  toast(t('Collection booked successfully!'));
+}
+
+function resetBooking() {
+  document.getElementById('bookingForm').style.display = 'block';
+  document.getElementById('bookingSuccess').classList.remove('on');
+  ['bookBiomassType','bookWeight','bookDate','bookHub','bookNotes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+/* Lịch sử thu gom gần đây */
+function renderCollections() {
+  const cols = [
+    { type:'Rice Straw', weight:'620 kg', date:'Feb 12, 2026', st:'Completed', bc:'bg' },
+    { type:'Coconut Shell', weight:'340 kg', date:'Jan 28, 2026', st:'Completed', bc:'bg' },
+    { type:'Shrimp Sludge', weight:'480 kg', date:'Jan 15, 2026', st:'Processing', bc:'bw' },
+    { type:'Rice Husk', weight:'750 kg', date:'Dec 20, 2025', st:'Completed', bc:'bg' }
+  ];
+  document.getElementById('recentCollections').innerHTML = cols.map(c => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--borderl)">
+      <div>
+        <div style="font-size:13px;font-weight:600">${t(c.type)}</div>
+        <div style="font-size:11px;color:var(--tm)">${c.weight} · ${c.date}</div>
+      </div>
+      <span class="badge ${c.bc}">${t(c.st)}</span>
+    </div>
+  `).join('');
+}
+
+/* Cảnh báo */
+function renderAlerts() {
+  const alerts = [
+    { t:'warn', icon:ICO.warn, title:'Salinity Rising - Canal N-03', text:'Reading 3.8 g/L. Approaching transition threshold. Monitor closely over next 72h.' },
+    { t:'ok', icon:ICO.check, title:'Paddy Field A - Safe Range', text:'Current salinity 0.6 g/L - well within rice cultivation limits.' },
+    { t:'danger', icon:ICO.danger, title:'Upstream Intrusion Forecast', text:'Tidal model predicts 5+ g/L spike in 72 hours. Prepare water gates now.' }
+  ];
+  document.getElementById('alertsContainer').innerHTML = alerts.map(a => `
+    <div class="ab ${a.t}">
+      <div class="ai">${a.icon}</div>
+      <div><div class="at">${t(a.title)}</div><div class="ax">${t(a.text)}</div></div>
+    </div>
+  `).join('');
+}
+
+/* Dòng thời gian hồ sơ */
+function renderTimeline() {
+  const events = [
+    { d:'Feb 2026', t:'Biochar Application - Paddy Field A', x:'180 kg applied, +0.42 tCO₂e', dot:'g' },
+    { d:'Dec 2025', t:'Biochar Application - Shrimp Pond B', x:'95 kg sludge-biochar, +0.18 tCO₂e', dot:'a' },
+    { d:'Oct 2025', t:'Soil Test - Annual Review', x:'Organic carbon up 0.4%, score improved to 87', dot:'e' },
+    { d:'Aug 2025', t:'Biochar Application - Paddy Field A', x:'200 kg applied, +0.48 tCO₂e', dot:'g' },
+    { d:'Jun 2025', t:'Carbon Credit Issuance', x:'Batch #GL-003 - 1.2 tCO₂e verified & registered on AICE', dot:'g' },
+    { d:'Mar 2025', t:'Biochar Application - Paddy Field B', x:'150 kg applied, +0.36 tCO₂e', dot:'g' },
+    { d:'Jan 2025', t:'GreenLoop Enrollment', x:'Passport created. Initial soil baseline recorded.', dot:'e' }
+  ];
+  document.getElementById('passportTimeline').innerHTML = events.map(e => `
+    <div class="tli">
+      <div class="tld ${e.dot}"></div>
+      <div class="tl-date">${e.d}</div>
+      <div class="tl-title">${t(e.t)}</div>
+      <div class="tl-detail">${t(e.x)}</div>
+    </div>
+  `).join('');
+}
+
+/* Thông báo nổi */
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 3000);
+}
+
+/* Khởi tạo */
+function initApp() {
+  nav(currentPage);
+  renderCycle();
+  renderMiniChart();
+  renderCollections();
+  renderAlerts();
+  renderTimeline();
+  calc();
+  applyLanguage();
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  document.getElementById('bookDate').value = tomorrow.toISOString().split('T')[0];
+}
+
+setTheme(theme);
+refreshCopy();
+</script>
+</body>
+</html>
