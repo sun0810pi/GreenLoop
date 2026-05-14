@@ -2692,4 +2692,408 @@ function clearLocalStorage() {
 })();
 </script>
 </body>
+</html><!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenLoop — Ứng dụng Nông dân</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f7f0;
+  --surface: #ffffff;
+  --green-dark: #1e4030;
+  --green: #2d7a4f;
+  --green-light: #4caf72;
+  --lime: #9ed45a;
+  --lime-bg: #f0f8e4;
+  --aqua: #2aada0;
+  --aqua-bg: #e4f6f4;
+  --earth: #8b6914;
+  --earth-bg: #fdf6e3;
+  --red: #d94f3d;
+  --red-bg: #fdf0ee;
+  --yellow: #e09320;
+  --text: #1a2e22;
+  --text2: #4a6655;
+  --text3: #8aaa94;
+  --border: #deebd5;
+  --shadow: 0 2px 12px rgba(30,64,48,.1);
+  --shadow-lg: 0 6px 24px rgba(30,64,48,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#e8ecdf;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 0 60px}
+
+/* Phone shell */
+.phone{width:390px;background:var(--bg);border-radius:44px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.22),0 0 0 10px #1a2820;position:relative}
+.status-bar{background:var(--green-dark);height:50px;display:flex;align-items:flex-end;padding:0 22px 10px;justify-content:space-between}
+.status-time{font-size:15px;font-weight:800;color:#fff}
+.status-icons{display:flex;align-items:center;gap:5px;color:#fff;opacity:.85}
+.status-icons svg{width:14px;height:14px;fill:currentColor}
+
+/* Header */
+.app-header{background:var(--green-dark);padding:16px 22px 22px;position:relative;overflow:hidden}
+.app-header::before{content:'';position:absolute;right:-30px;top:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(158,212,90,.15),transparent 70%);pointer-events:none}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.user-hello{color:rgba(255,255,255,.6);font-size:12px;font-weight:700}
+.user-name{color:#fff;font-size:18px;font-weight:900;letter-spacing:-.3px;margin-top:1px}
+.header-icons{display:flex;gap:8px}
+.h-icon{width:38px;height:38px;background:rgba(255,255,255,.1);border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative}
+.h-icon svg{width:18px;height:18px;stroke:#fff;stroke-width:1.8;fill:none}
+.h-icon .badge{position:absolute;top:7px;right:7px;width:7px;height:7px;background:var(--red);border-radius:50%;border:2px solid var(--green-dark)}
+
+/* Earnings card */
+.earn-card{background:linear-gradient(135deg,#2d7a4f,#1e5438);border-radius:20px;padding:16px 18px;position:relative;overflow:hidden}
+.earn-card::after{content:'';position:absolute;right:-10px;bottom:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(158,212,90,.12),transparent 70%)}
+.earn-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:4px}
+.earn-val{font-size:34px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1}
+.earn-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px;font-weight:700}
+.earn-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(158,212,90,.18);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:800;color:var(--lime);margin-top:9px}
+.earn-tag svg{width:11px;height:11px;fill:currentColor}
+
+/* Content */
+.app-body{padding:18px 16px 100px;display:flex;flex-direction:column;gap:16px}
+
+/* Section title */
+.sec-title{font-size:12px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:-8px}
+
+/* Alert banner */
+.alert-banner{background:var(--red-bg);border:1.5px solid rgba(217,79,61,.25);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:11px}
+.alert-ico{width:38px;height:38px;background:rgba(217,79,61,.12);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.alert-ico svg{width:18px;height:18px;stroke:var(--red);stroke-width:2;fill:none}
+.alert-body{flex:1}
+.alert-title{font-size:13.5px;font-weight:900;color:var(--red)}
+.alert-desc{font-size:11.5px;color:#8a4038;margin-top:2px;line-height:1.4;font-weight:600}
+.alert-cta{background:var(--red);color:#fff;border:none;border-radius:8px;padding:7px 12px;font-size:11.5px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:7px}
+
+/* Task list */
+.task-card{background:var(--surface);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+.task-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);position:relative}
+.task-item:last-child{border-bottom:none;padding-bottom:0}
+.task-item:first-child{padding-top:0}
+.task-check{width:24px;height:24px;border-radius:8px;border:2.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;cursor:pointer}
+.task-check.done{background:var(--green-light);border-color:var(--green-light)}
+.task-check.done svg{display:block}
+.task-check svg{display:none;width:13px;height:13px;stroke:#fff;stroke-width:3;fill:none}
+.task-body{flex:1}
+.task-name{font-size:13.5px;font-weight:800;color:var(--text)}
+.task-name.done{text-decoration:line-through;color:var(--text3)}
+.task-detail{font-size:11px;color:var(--text3);margin-top:2px;font-weight:600}
+.task-tag{font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.tt-green{background:var(--lime-bg);color:#3a6a1a}
+.tt-aqua{background:var(--aqua-bg);color:#1a6a64}
+.tt-warn{background:var(--earth-bg);color:var(--earth)}
+
+/* Stat cards */
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat-card{background:var(--surface);border-radius:16px;padding:14px 15px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.stat-ico{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.stat-ico svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none}
+.stat-val{font-size:24px;font-weight:900;letter-spacing:-.5px;line-height:1}
+.stat-label{font-size:11px;font-weight:700;color:var(--text3);margin-top:4px}
+.stat-delta{font-size:10px;font-weight:800;margin-top:6px;display:flex;align-items:center;gap:3px}
+.delta-up{color:var(--green-light)}
+.delta-dn{color:var(--red)}
+
+/* Season toggle */
+.season-card{background:var(--surface);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+.season-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.season-title{font-size:13.5px;font-weight:900}
+.season-tog{display:flex;background:var(--bg);border-radius:10px;padding:3px;gap:3px}
+.s-btn{padding:6px 14px;border-radius:8px;font-size:11.5px;font-weight:800;border:none;background:transparent;color:var(--text3);font-family:'Nunito',sans-serif;cursor:pointer;transition:all .2s}
+.s-btn.on{background:var(--green-dark);color:#fff}
+.cycle-progress{display:flex;flex-direction:column;gap:8px}
+.cycle-step{display:flex;align-items:center;gap:10px}
+.step-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.step-dot.done{background:var(--green-light)}
+.step-dot.cur{background:var(--lime);box-shadow:0 0 0 3px rgba(158,212,90,.3)}
+.step-dot.up{background:var(--border)}
+.step-name{font-size:12.5px;font-weight:800;flex:1}
+.step-date{font-size:11px;color:var(--text3);font-weight:700}
+.step-name.done{color:var(--text3)}
+
+/* Soil card */
+.soil-card{background:var(--surface);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+.soil-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.soil-item{background:var(--bg);border-radius:11px;padding:10px 10px 8px;text-align:center}
+.soil-val{font-size:18px;font-weight:900;line-height:1}
+.soil-unit{font-size:9px;font-weight:700;color:var(--text3)}
+.soil-label{font-size:10px;font-weight:700;color:var(--text3);margin-top:4px}
+.soil-status{font-size:9.5px;font-weight:800;margin-top:3px;padding:2px 6px;border-radius:4px;display:inline-block}
+.ss-ok{color:var(--green);background:rgba(45,122,79,.1)}
+.ss-warn{color:var(--yellow);background:rgba(224,147,32,.1)}
+.ss-bad{color:var(--red);background:rgba(217,79,61,.1)}
+
+/* Bottom nav */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:390px;background:var(--surface);border-top:1px solid var(--border);padding:10px 20px 22px;display:flex;justify-content:space-around;box-shadow:0 -4px 20px rgba(0,0,0,.08)}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:var(--text3);transition:color .15s}
+.nav-item.on{color:var(--green)}
+.nav-item svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none}
+.nav-label{font-size:10px;font-weight:800}
+
+/* Pulse animation */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.pulse{animation:pulse 2s ease infinite}
+
+/* Entry animation */
+@keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.slide-1{animation:slideUp .4s ease .05s both}
+.slide-2{animation:slideUp .4s ease .15s both}
+.slide-3{animation:slideUp .4s ease .25s both}
+.slide-4{animation:slideUp .4s ease .35s both}
+.slide-5{animation:slideUp .4s ease .45s both}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <!-- Status bar -->
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg viewBox="0 0 24 24"><path d="M1 6s4-6 11-6 11 6 11 6M5 10s2.5-3.5 7-3.5 7 3.5 7 3.5M9 14s1.5-2 3-2 3 2 3 2M11 18h2"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01" stroke="#fff" stroke-width="2" fill="none"/></svg>
+      <svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
+    </div>
+  </div>
+
+  <!-- App header -->
+  <div class="app-header">
+    <div class="header-top">
+      <div>
+        <div class="user-hello">Chào buổi sáng 👋</div>
+        <div class="user-name">Anh Nguyễn Văn Thành</div>
+      </div>
+      <div class="header-icons">
+        <div class="h-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Earnings card -->
+    <div class="earn-card">
+      <div class="earn-label">Thu nhập Carbon tháng này</div>
+      <div class="earn-val">842.000 ₫</div>
+      <div class="earn-sub">Đã nhận: 600.000 ₫ · Chờ duyệt: 242.000 ₫</div>
+      <div class="earn-tag">
+        <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+        +18% so tháng trước
+      </div>
+    </div>
+  </div>
+
+  <!-- App body -->
+  <div class="app-body">
+
+    <!-- Alert -->
+    <div class="alert-banner slide-1">
+      <div class="alert-ico">
+        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="3"/></svg>
+      </div>
+      <div class="alert-body">
+        <div class="alert-title">⚠ Độ mặn ao tôm cao!</div>
+        <div class="alert-desc">Đo được 18.4 ppt — cần xử lý trước chiều nay</div>
+        <button class="alert-cta">Xem hướng dẫn xử lý</button>
+      </div>
+    </div>
+
+    <!-- Today tasks -->
+    <div class="sec-title slide-2">Việc hôm nay</div>
+    <div class="task-card slide-2">
+      <div class="task-item" onclick="toggleTask(this)">
+        <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="task-body">
+          <div class="task-name done">Đo độ mặn ao A</div>
+          <div class="task-detail">Đã đo lúc 6:30 sáng</div>
+        </div>
+        <span class="task-tag tt-aqua">Tôm</span>
+      </div>
+      <div class="task-item" onclick="toggleTask(this)">
+        <div class="task-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="task-body">
+          <div class="task-name">Cân rơm rạ thu được</div>
+          <div class="task-detail">Khoảng 200 kg từ khu B</div>
+        </div>
+        <span class="task-tag tt-green">Biochar</span>
+      </div>
+      <div class="task-item" onclick="toggleTask(this)">
+        <div class="task-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="task-body">
+          <div class="task-name">Chụp ảnh lò đốt + ghi nhiệt độ</div>
+          <div class="task-detail">Nộp cho cán bộ Lợi trước 5h chiều</div>
+        </div>
+        <span class="task-tag tt-warn">Cần nộp</span>
+      </div>
+      <div class="task-item" onclick="toggleTask(this)">
+        <div class="task-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="task-body">
+          <div class="task-name">Tưới biochar vào lô lúa 2</div>
+          <div class="task-detail">5 kg/sào theo hướng dẫn</div>
+        </div>
+        <span class="task-tag tt-green">Đồng ruộng</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="sec-title slide-3">Tháng này của tôi</div>
+    <div class="stat-row slide-3">
+      <div class="stat-card">
+        <div class="stat-ico" style="background:rgba(158,212,90,.15);color:var(--green)">
+          <svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0"/></svg>
+        </div>
+        <div class="stat-val" style="color:var(--green-dark)">312 kg</div>
+        <div class="stat-label">Biochar sản xuất</div>
+        <div class="stat-delta delta-up">↑ 8% so kỳ trước</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-ico" style="background:rgba(42,173,160,.12);color:var(--aqua)">
+          <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg>
+        </div>
+        <div class="stat-val" style="color:var(--aqua)">0.78 t</div>
+        <div class="stat-label">CO₂ đã lưu trữ</div>
+        <div class="stat-delta delta-up">↑ 12% tăng trưởng</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-ico" style="background:rgba(139,105,20,.1);color:var(--earth)">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="stat-val" style="color:var(--earth)">45 ngày</div>
+        <div class="stat-label">Đến thu hoạch lúa</div>
+        <div class="stat-delta" style="color:var(--text3)">Vụ Hè Thu 2026</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-ico" style="background:rgba(45,122,79,.1);color:var(--green)">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <div class="stat-val" style="color:var(--green-dark)">38</div>
+        <div class="stat-label">Hộ trong dự án</div>
+        <div class="stat-delta delta-up">+6 hộ mới</div>
+      </div>
+    </div>
+
+    <!-- Cycle tracker -->
+    <div class="sec-title slide-4">Lịch mùa vụ</div>
+    <div class="season-card slide-4">
+      <div class="season-hdr">
+        <div class="season-title">Chu kỳ Lúa–Tôm</div>
+        <div class="season-tog">
+          <button class="s-btn on">🌾 Lúa</button>
+          <button class="s-btn">🦐 Tôm</button>
+        </div>
+      </div>
+      <div class="cycle-progress">
+        <div class="cycle-step">
+          <div class="step-dot done"></div>
+          <div class="step-name done">Xuống giống</div>
+          <div class="step-date">01/03/2026 ✓</div>
+        </div>
+        <div class="cycle-step">
+          <div class="step-dot done"></div>
+          <div class="step-name done">Bón phân + biochar lần 1</div>
+          <div class="step-date">20/03/2026 ✓</div>
+        </div>
+        <div class="cycle-step">
+          <div class="step-dot cur pulse"></div>
+          <div class="step-name" style="color:var(--green-dark)">Bón phân lần 2 · đang tới</div>
+          <div class="step-date" style="color:var(--green);font-weight:800">28/05/2026</div>
+        </div>
+        <div class="cycle-step">
+          <div class="step-dot up"></div>
+          <div class="step-name" style="color:var(--text3)">Thu hoạch lúa</div>
+          <div class="step-date">28/06/2026</div>
+        </div>
+        <div class="cycle-step">
+          <div class="step-dot up"></div>
+          <div class="step-name" style="color:var(--text3)">Thu gom rơm rạ → biochar</div>
+          <div class="step-date">01–10/07/2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soil status -->
+    <div class="sec-title slide-5">Tình trạng đất & nước</div>
+    <div class="soil-card slide-5">
+      <div style="font-size:13px;font-weight:900;color:var(--text);margin-bottom:2px">Ao A · Tôm thẻ</div>
+      <div style="font-size:11px;color:var(--text3);font-weight:700">Đo lần cuối: 6:30 sáng nay</div>
+      <div class="soil-row">
+        <div class="soil-item">
+          <div class="soil-val" style="color:var(--red)">18.4</div>
+          <div class="soil-unit">ppt</div>
+          <div class="soil-label">Độ mặn</div>
+          <div class="soil-status ss-bad">Cao</div>
+        </div>
+        <div class="soil-item">
+          <div class="soil-val" style="color:var(--yellow)">7.8</div>
+          <div class="soil-unit">pH</div>
+          <div class="soil-label">Độ chua</div>
+          <div class="soil-status ss-warn">Hơi thấp</div>
+        </div>
+        <div class="soil-item">
+          <div class="soil-val" style="color:var(--green)">28°</div>
+          <div class="soil-unit">°C</div>
+          <div class="soil-label">Nhiệt độ</div>
+          <div class="soil-status ss-ok">Tốt</div>
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <div style="font-size:13px;font-weight:900;color:var(--text);margin-bottom:2px">Lô B · Lúa</div>
+        <div class="soil-row">
+          <div class="soil-item">
+            <div class="soil-val" style="color:var(--green)">6.4</div>
+            <div class="soil-unit">pH</div>
+            <div class="soil-label">Độ chua</div>
+            <div class="soil-status ss-ok">Tốt</div>
+          </div>
+          <div class="soil-item">
+            <div class="soil-val" style="color:var(--green)">68%</div>
+            <div class="soil-unit"></div>
+            <div class="soil-label">Độ ẩm</div>
+            <div class="soil-status ss-ok">Tốt</div>
+          </div>
+          <div class="soil-item">
+            <div class="soil-val" style="color:var(--green-dark)">A+</div>
+            <div class="soil-unit"></div>
+            <div class="soil-label">Chất lượng</div>
+            <div class="soil-status ss-ok">Tốt</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <div class="nav-item on">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span class="nav-label">Tổng quan</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0"/></svg>
+      <span class="nav-label">Biochar</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <span class="nav-label">Đồng ruộng</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <span class="nav-label">Thu nhập</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleTask(item){
+  const check = item.querySelector('.task-check');
+  const name = item.querySelector('.task-name');
+  const isDone = check.classList.contains('done');
+  check.classList.toggle('done', !isDone);
+  name.classList.toggle('done', !isDone);
+}
+</script>
+</body>
 </html>

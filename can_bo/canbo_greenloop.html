@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>GreenLoop - Cán Bộ HTX</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --fd:#0b1c12;--f:#1a3a2a;--fm:#2d5a3d;--fl:#3d6e50;--fa:#4a7a5a;
+  --leaf:#4CAF50;--ll:#81C784;--lb:#a3d96a;--lbh:#b4e87a;
+  --earth:#8B6F47;--el:#C4A86B;
+  --aqua:#26A69A;--al:#80CBC4;--ad:#00796B;--adl:#35b9a8;
+  --bg:#f0f5e8;--bgc:#ffffff;--bgs:#e6eedc;--bgss:#d9e9cc;
+  --tp:#111d12;--ts:#445844;--tm:#7a8e7a;
+  --border:#cddcc0;--borderl:#e0ecd4;
+  --danger:#c62828;--warn:#e65100;--ok:#2e7d32;
+  --sh-sm:0 1px 4px rgba(26,58,42,.07);
+  --sh-md:0 4px 16px rgba(26,58,42,.09);
+  --sh-lg:0 8px 32px rgba(26,58,42,.13);
+  --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:22px;
+  --sb-w:260px;
+}
+[data-theme="dark"] {
+  --fd:#07110c;--f:#102419;--fm:#183624;--fl:#244833;--fa:#2f5a40;
+  --leaf:#5fc867;--ll:#8be096;--lb:#b4eb78;--lbh:#c6f594;
+  --earth:#d0b06f;--el:#e0c989;
+  --aqua:#36c1b4;--al:#8ee5dc;--ad:#35b9a8;--adl:#4dcfc3;
+  --bg:#0d1510;--bgc:#121f17;--bgs:#1b2a20;--bgss:#223428;
+  --tp:#edf7ec;--ts:#b7c9b7;--tm:#829783;
+  --border:#304235;--borderl:#253528;
+  --danger:#ff756d;--warn:#ffb15f;--ok:#80db86;
+  --sh-sm:0 1px 4px rgba(0,0,0,.24);
+  --sh-md:0 8px 24px rgba(0,0,0,.28);
+  --sh-lg:0 16px 48px rgba(0,0,0,.36);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--tp);overflow-x:hidden;transition:background .25s,color .25s;-webkit-font-smoothing:antialiased}
+
+/* ═══ SIDEBAR ═══ */
+.sb{
+  position:fixed;top:0;left:0;bottom:0;width:var(--sb-w);
+  background:var(--fd);display:flex;flex-direction:column;
+  z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1),box-shadow .3s;
+  border-right:1px solid rgba(255,255,255,.05);
+}
+[data-theme="light"] .sb{background:var(--f)}
+.sb-hdr{padding:20px 16px 16px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0}
+.sb-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.sb-logo-mark{width:32px;height:32px;background:var(--lb);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-logo-mark svg{width:17px;height:17px;color:var(--fd)}
+.sb-logo-text{font-size:17px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.sb-logo-text span{color:var(--lb)}
+.sb-logo-sub{font-size:9.5px;color:rgba(255,255,255,.28);font-weight:600;letter-spacing:.6px;text-transform:uppercase;margin-top:1px}
+
+.sb-nav{flex:1;overflow-y:auto;padding:10px 10px;scrollbar-width:none}
+.sb-nav::-webkit-scrollbar{display:none}
+.sb-sec{font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.2);padding:14px 10px 5px;user-select:none}
+.sb-item{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;
+  border-radius:10px;cursor:pointer;transition:all .18s;
+  font-size:13px;font-weight:500;color:rgba(255,255,255,.5);
+  position:relative;user-select:none;text-decoration:none;
+}
+.sb-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
+.sb-item.active{background:rgba(163,217,106,.12);color:var(--lb)}
+.sb-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--lb);border-radius:0 3px 3px 0}
+.sb-item-ico{width:18px;height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;opacity:.7}
+.sb-item.active .sb-item-ico{opacity:1}
+.sb-item-ico svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
+.sb-badge{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:20px;background:rgba(163,217,106,.15);color:var(--lb);margin-left:auto}
+.sb-badge.red{background:rgba(198,40,40,.18);color:var(--danger)}
+[data-theme="light"] .sb-badge{background:rgba(163,217,106,.2)}
+
+.sb-ftr{padding:12px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0}
+.sb-profile{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background .18s}
+.sb-profile:hover{background:rgba(255,255,255,.06)}
+.sb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--leaf),var(--ad));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.sb-name{font-size:12.5px;font-weight:600;color:#fff;line-height:1.2}
+.sb-role{font-size:10px;color:rgba(255,255,255,.3);font-weight:500}
+.sb-profile-ico{margin-left:auto;color:rgba(255,255,255,.25)}
+.sb-profile-ico svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ═══ OVERLAY (mobile) ═══ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:190;backdrop-filter:blur(2px)}
+.overlay.on{display:block}
+
+/* ═══ MAIN CONTENT ═══ */
+.main{margin-left:var(--sb-w);display:flex;flex-direction:column;min-height:100vh;transition:margin .3s}
+
+/* ═══ TOP BAR ═══ */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--bgc);border-bottom:1px solid var(--borderl);
+  padding:0 24px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-shrink:0;
+}
+.topbar-left{display:flex;align-items:center;gap:12px;min-width:0}
+.menu-btn{display:none;width:36px;height:36px;border:1px solid var(--borderl);border-radius:9px;background:var(--bg);cursor:pointer;align-items:center;justify-content:center;color:var(--ts);flex-shrink:0;transition:all .18s}
+.menu-btn:hover{background:var(--bgs)}
+.menu-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2}
+.page-title{font-size:16px;font-weight:700;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.page-sub{font-size:11px;color:var(--tm);margin-top:1px}
+.topbar-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+
+/* Season toggle */
+.season-tog{display:flex;background:var(--bg);border-radius:9px;padding:3px;border:1px solid var(--borderl)}
+.s-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;font-size:11.5px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--tm);transition:all .2s;font-family:inherit}
+.s-btn svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
+.s-btn.ar{background:var(--leaf);color:#fff;box-shadow:0 2px 8px rgba(76,175,80,.25)}
+.s-btn.as{background:var(--ad);color:#fff;box-shadow:0 2px 8px rgba(0,121,107,.25)}
+
+/* Theme toggle */
+.theme-btn{width:36px;height:36px;border:1px solid var(--borderl);border-radius:9px;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ts);transition:all .18s}
+.theme-btn:hover{background:var(--bgs)}
+.theme-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+
+/* Notif */
+.notif-wrap{position:relative}
+.notif-btn{width:36px;height:36px;border:1px solid var(--borderl);border-radius:9px;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ts);transition:all .18s;position:relative}
+.notif-btn:hover{background:var(--bgs)}
+.notif-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:2px solid var(--bgc);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+
+.notif-panel{
+  position:absolute;top:calc(100% + 10px);right:0;width:300px;
+  background:var(--bgc);border:1px solid var(--borderl);border-radius:var(--r-lg);
+  box-shadow:var(--sh-lg);z-index:300;
+  display:none;overflow:hidden;
+}
+.notif-panel.open{display:block;animation:slideDown .2s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.np-hdr{padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--borderl)}
+.np-hdr-t{font-size:13px;font-weight:700}
+.np-mark{font-size:11px;color:var(--aqua);background:none;border:none;cursor:pointer;font-family:inherit;font-weight:600;padding:0}
+.np-list{max-height:280px;overflow-y:auto}
+.np-item{display:flex;gap:10px;padding:12px 16px;border-bottom:1px solid var(--borderl);transition:background .15s;cursor:pointer}
+.np-item:hover{background:var(--bgs)}
+.np-item:last-child{border-bottom:none}
+.np-item.unread{background:var(--bgs)}
+.np-item.unread:hover{background:var(--bgss)}
+.np-dot{width:7px;height:7px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.np-dot.warn{background:var(--warn)}
+.np-dot.ok{background:var(--ok)}
+.np-dot.info{background:var(--aqua)}
+.np-dot.earn{background:var(--el)}
+.np-title{font-size:12px;font-weight:600;margin-bottom:2px}
+.np-text{font-size:11px;color:var(--tm)}
+.np-time{font-size:10px;color:var(--tm);margin-top:3px;font-weight:500}
+
+/* ═══ CONTENT PAGES ═══ */
+.content{flex:1;padding:22px 24px 80px}
+.page{display:none}
+.page.on{display:block}
+
+/* ═══ CARDS & LAYOUT ═══ */
+.card{background:var(--bgc);border:1px solid var(--borderl);border-radius:var(--r-lg);box-shadow:var(--sh-sm);overflow:hidden;transition:box-shadow .2s,transform .2s}
+.card:hover{box-shadow:var(--sh-md)}
+.ch{padding:16px 18px 0;display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;color:var(--tp)}
+.ct-ico{width:15px;height:15px;color:var(--tm);flex-shrink:0}
+.ct-ico svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8}
+.cb{padding:14px 18px 18px}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.mb16{margin-bottom:16px}
+.mb24{margin-bottom:24px}
+
+/* ═══ STAT CARDS ═══ */
+.sc{background:var(--bgc);border:1px solid var(--borderl);border-radius:var(--r-md);padding:16px 18px;box-shadow:var(--sh-sm);transition:all .2s;cursor:default}
+.sc:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sc-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc-ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.sc-ico.g{background:rgba(76,175,80,.1);color:var(--leaf)}
+.sc-ico.a{background:rgba(38,166,154,.1);color:var(--ad)}
+.sc-ico.e{background:rgba(139,111,71,.1);color:var(--earth)}
+.sc-ico.b{background:rgba(163,217,106,.12);color:#5a8c28}
+[data-theme="dark"] .sc-ico.b{color:var(--lb)}
+.trend{font-size:10.5px;font-weight:700;display:flex;align-items:center;gap:2px;padding:3px 7px;border-radius:20px}
+.trend svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:3}
+.trend.up{color:var(--ok);background:rgba(46,125,50,.1)}
+.trend.dn{color:var(--danger);background:rgba(198,40,40,.1)}
+.sc-val{font-family:'DM Serif Display',serif;font-size:26px;letter-spacing:-.5px;line-height:1.1;color:var(--tp)}
+.sc-lab{font-size:11px;color:var(--tm);margin-top:4px;font-weight:500}
+.sc-bar{height:3px;background:var(--bgs);border-radius:2px;margin-top:10px;overflow:hidden}
+.sc-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}
+.sc-bar-fill.g{background:linear-gradient(90deg,var(--leaf),var(--lb))}
+.sc-bar-fill.a{background:linear-gradient(90deg,var(--ad),var(--al))}
+.sc-bar-fill.e{background:linear-gradient(90deg,var(--earth),var(--el))}
+.sc-bar-fill.b{background:linear-gradient(90deg,var(--lb),var(--lbh))}
+
+/* ═══ BADGES ═══ */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px}
+.ba{background:rgba(76,175,80,.12);color:var(--ok)}
+.bw{background:rgba(230,81,0,.12);color:var(--warn)}
+.bi{background:rgba(38,166,154,.12);color:var(--ad)}
+.bd{background:rgba(198,40,40,.12);color:var(--danger)}
+.bg{background:rgba(139,111,71,.12);color:var(--earth)}
+.bn{background:var(--bgs);color:var(--tm)}
+
+/* ═══ BUTTONS ═══ */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .2s}
+.btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.btn-p{background:var(--lb);color:var(--fd)}
+[data-theme="dark"] .btn-p{color:#0d1a0f}
+.btn-p:hover{background:var(--lbh);transform:translateY(-1px);box-shadow:0 4px 14px rgba(163,217,106,.3)}
+.btn-s{background:var(--bg);color:var(--ts);border:1px solid var(--borderl)}
+.btn-s:hover{background:var(--bgs);color:var(--tp)}
+.btn-a{background:rgba(38,166,154,.1);color:var(--ad);border:1px solid rgba(38,166,154,.2)}
+.btn-a:hover{background:rgba(38,166,154,.18)}
+.btn-sm{padding:6px 12px;font-size:11px;border-radius:8px}
+
+/* ═══ FORM ELEMENTS ═══ */
+.fi{width:100%;padding:9px 12px;border-radius:9px;border:1px solid var(--borderl);background:var(--bgc);color:var(--tp);font-family:inherit;font-size:13px;transition:border-color .2s,box-shadow .2s;outline:none}
+.fi:focus{border-color:var(--leaf);box-shadow:0 0 0 3px rgba(76,175,80,.12)}
+.fs{width:100%;padding:9px 12px 9px 34px;border-radius:9px;border:1px solid var(--borderl);background:var(--bgc);color:var(--tp);font-family:inherit;font-size:13px;transition:border-color .2s;outline:none}
+.fs:focus{border-color:var(--leaf)}
+.fi-wrap{position:relative}
+.fi-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--tm)}
+.fi-ico svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+label{display:block;font-size:11.5px;font-weight:600;color:var(--ts);margin-bottom:5px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.frow1{margin-bottom:12px}
+
+/* ═══ TABLE ═══ */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{padding:8px 12px;text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--tm);border-bottom:2px solid var(--borderl);background:var(--bgs);white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--borderl);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bgs)}
+.td-name{font-weight:600;color:var(--tp)}
+.td-sub{font-size:10.5px;color:var(--tm);margin-top:1px}
+.row-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#fff;flex-shrink:0}
+
+/* ═══ PROGRESS / CYCLE ═══ */
+.cyc-steps{display:flex;gap:4px;margin-top:10px}
+.cyc-step{flex:1;height:6px;border-radius:3px;background:var(--bgs)}
+.cyc-step.done{background:var(--leaf)}
+.cyc-step.curr{background:var(--lb);animation:shimmer 1.8s ease-in-out infinite}
+.cyc-step.shrimp-done{background:var(--ad)}
+.cyc-step.shrimp-curr{background:var(--al);animation:shimmer 1.8s ease-in-out infinite}
+@keyframes shimmer{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* ═══ GAUGE ═══ */
+.gauge-wrap{position:relative;width:140px;height:140px;margin:0 auto 8px}
+.gauge-wrap svg{width:100%;height:100%}
+.gauge-val{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.gauge-num{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;line-height:1;color:var(--tp)}
+.gauge-unit{font-size:10.5px;color:var(--tm);font-weight:600;margin-top:2px}
+
+/* ═══ ALERT ITEMS ═══ */
+.alert-item{display:flex;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:7px;border:1px solid transparent}
+.alert-item:last-child{margin-bottom:0}
+.alert-item.warn{background:rgba(230,81,0,.07);border-color:rgba(230,81,0,.15)}
+.alert-item.ok{background:rgba(46,125,50,.07);border-color:rgba(46,125,50,.15)}
+.alert-item.info{background:rgba(38,166,154,.07);border-color:rgba(38,166,154,.15)}
+.alert-ico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.alert-ico svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.alert-item.warn .alert-ico{background:rgba(230,81,0,.12);color:var(--warn)}
+.alert-item.ok .alert-ico{background:rgba(46,125,50,.12);color:var(--ok)}
+.alert-item.info .alert-ico{background:rgba(38,166,154,.12);color:var(--ad)}
+.alert-t{font-size:12.5px;font-weight:600;margin-bottom:2px}
+.alert-d{font-size:11px;color:var(--tm);line-height:1.5}
+.alert-time{font-size:10px;color:var(--tm);margin-top:3px;font-weight:500}
+
+/* ═══ HUB STATUS ═══ */
+.hub-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--borderl)}
+.hub-item:last-child{border-bottom:none}
+.hub-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hub-dot.on{background:var(--ok);box-shadow:0 0 5px rgba(46,125,50,.4)}
+.hub-dot.wa{background:var(--warn);box-shadow:0 0 5px rgba(230,81,0,.4)}
+.hub-dot.off{background:var(--danger)}
+.hub-info{flex:1;min-width:0}
+.hub-name{font-size:12.5px;font-weight:600}
+.hub-sub{font-size:10.5px;color:var(--tm);margin-top:1px}
+.hub-pbar{flex:0 0 80px;height:5px;background:var(--bgs);border-radius:3px;overflow:hidden}
+.hub-pbar-fill{height:100%;border-radius:3px;transition:width .8s ease}
+.hub-pbar-fill.ok{background:var(--leaf)}
+.hub-pbar-fill.wa{background:var(--warn)}
+.hub-cap{font-size:10.5px;font-weight:700;color:var(--ts);flex:0 0 28px;text-align:right}
+
+/* ═══ COLLECT LIST ═══ */
+.coll-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--borderl)}
+.coll-item:last-child{border-bottom:none}
+.coll-date{background:var(--bgs);border-radius:9px;width:40px;text-align:center;padding:5px 0;flex-shrink:0}
+.coll-dm{font-size:14px;font-weight:800;color:var(--tp);line-height:1}
+.coll-mo{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--tm)}
+.coll-info{flex:1;min-width:0}
+.coll-ref{font-size:12px;font-weight:700;margin-bottom:1px}
+.coll-det{font-size:11px;color:var(--tm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coll-ico{width:28px;height:28px;flex-shrink:0}
+.coll-ico svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.6}
+
+/* ═══ PASSPORT CARD ═══ */
+.passport{
+  background:linear-gradient(135deg,var(--f),var(--fm));
+  border:1px solid rgba(255,255,255,.08);border-radius:var(--r-xl);
+  padding:20px;position:relative;overflow:hidden;
+}
+.passport::before{
+  content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;
+  background:radial-gradient(circle,rgba(163,217,106,.12),transparent 70%);
+  pointer-events:none;
+}
+.passport::after{
+  content:'';position:absolute;bottom:-20px;left:20px;width:100px;height:100px;
+  background:radial-gradient(circle,rgba(38,166,154,.08),transparent 70%);
+  pointer-events:none;
+}
+.pp-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.pp-tag{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.pp-ico{width:28px;height:28px;background:rgba(163,217,106,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--lb)}
+.pp-ico svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.pp-name{font-family:'DM Serif Display',serif;font-size:18px;color:#fff;margin-bottom:2px}
+.pp-id{font-size:10.5px;color:rgba(255,255,255,.38);font-weight:600;font-family:monospace;letter-spacing:.5px}
+.pp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)}
+.pp-stat-n{font-size:16px;font-weight:800;color:#fff;line-height:1}
+.pp-stat-l{font-size:9.5px;color:rgba(255,255,255,.36);margin-top:3px;font-weight:500}
+
+/* ═══ SALINITY GAUGE COLORS ═══ */
+.sal-legend{display:flex;justify-content:center;gap:20px;margin-top:12px;font-size:10.5px;font-weight:600}
+.sl-ok{color:var(--ok)}.sl-wa{color:var(--warn)}.sl-dn{color:var(--danger)}
+
+/* ═══ TIMELINE / ACTIVITY ═══ */
+.tl-item{display:flex;gap:12px;padding:0 0 16px}
+.tl-item:last-child{padding-bottom:0}
+.tl-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:2px solid var(--bgc);margin-top:3px}
+.tl-dot.g{background:var(--leaf)}
+.tl-dot.a{background:var(--aqua)}
+.tl-dot.e{background:var(--earth)}
+.tl-dot.w{background:var(--warn)}
+.tl-track{flex:1;width:1px;background:var(--borderl);margin:4px 0 0}
+.tl-body{flex:1;min-width:0}
+.tl-t{font-size:12.5px;font-weight:600;margin-bottom:2px}
+.tl-d{font-size:11px;color:var(--tm);line-height:1.5}
+.tl-time{font-size:10px;color:var(--tm);margin-top:3px;font-weight:500}
+
+/* ═══ SECTION HEADER ═══ */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px}
+.sec-title-ico{width:16px;height:16px;color:var(--tm)}
+.sec-title-ico svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8}
+
+/* ═══ RECOMMENDATION BANNER ═══ */
+.rec{background:linear-gradient(135deg,rgba(38,166,154,.08),rgba(163,217,106,.06));border:1px solid rgba(38,166,154,.2);border-radius:var(--r-lg);padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.rec-ico{width:40px;height:40px;background:rgba(38,166,154,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--ad);flex-shrink:0}
+.rec-ico svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+.rec-body{flex:1}
+.rec-label{font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ad);margin-bottom:3px}
+.rec-title{font-size:14px;font-weight:700;margin-bottom:3px}
+.rec-text{font-size:12px;color:var(--tm);line-height:1.5}
+.rec-date{font-size:12.5px;font-weight:800;color:var(--ad);margin-left:auto;flex-shrink:0;text-align:center;line-height:1.2}
+.rec-date-label{font-size:9.5px;color:var(--tm);font-weight:500;margin-top:2px}
+
+/* ═══ EMPTY STATE ═══ */
+.empty{text-align:center;padding:32px 16px;color:var(--tm)}
+.empty svg{width:36px;height:36px;stroke:var(--border);fill:none;stroke-width:1.5;margin:0 auto 10px;display:block}
+.empty-t{font-size:13px;font-weight:600;color:var(--ts);margin-bottom:4px}
+.empty-d{font-size:11.5px}
+
+/* ═══ MOBILE BOTTOM NAV ═══ */
+.mob-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:var(--bgc);border-top:1px solid var(--borderl);
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+}
+.mob-nav-inner{display:flex;justify-content:space-around;align-items:center}
+.mob-nav-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:4px 12px;border-radius:10px;cursor:pointer;
+  color:var(--tm);transition:all .18s;flex:1;max-width:72px;
+  background:none;border:none;font-family:inherit;
+}
+.mob-nav-item.active{color:var(--leaf)}
+.mob-nav-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7}
+.mob-nav-label{font-size:9.5px;font-weight:600}
+.mob-nav-dot{position:absolute;top:2px;right:2px;width:6px;height:6px;background:var(--danger);border-radius:50%;border:1.5px solid var(--bgc)}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width:900px){
+  .sb{transform:translateX(-100%)}
+  .sb.open{transform:translateX(0);box-shadow:var(--sh-lg)}
+  .main{margin-left:0}
+  .menu-btn{display:flex}
+  .season-tog{display:none}
+  .mob-nav{display:block}
+  .content{padding:16px 14px 90px}
+  .g4{grid-template-columns:1fr 1fr}
+  .g3,.g2{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .g4{grid-template-columns:1fr 1fr}
+  .topbar{padding:0 14px}
+  .page-title{font-size:14px}
+}
+
+/* ═══ ANIMATIONS ═══ */
+.fade-in{animation:fadeUp .5s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.s1{animation-delay:.05s}.s2{animation-delay:.1s}.s3{animation-delay:.15s}.s4{animation-delay:.2s}
+.s5{animation-delay:.25s}.s6{animation-delay:.3s}.s7{animation-delay:.35s}
+
+/* ═══ CARBON PIPELINE ═══ */
+.pipeline{display:flex;align-items:stretch;gap:0;margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid var(--borderl)}
+.pip-stage{flex:1;padding:12px;border-right:1px solid var(--borderl);transition:background .18s}
+.pip-stage:last-child{border-right:none}
+.pip-stage:hover{background:var(--bgs)}
+.pip-num{font-family:'DM Serif Display',serif;font-size:20px;color:var(--tp);line-height:1}
+.pip-label{font-size:10px;font-weight:600;color:var(--tm);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+.pip-status{font-size:10.5px;font-weight:700;margin-top:6px}
+.pip-status.ok{color:var(--ok)}.pip-status.pend{color:var(--warn)}.pip-status.new{color:var(--aqua)}
+
+/* ═══ SEARCH BAR ═══ */
+.search-bar{display:flex;gap:8px;margin-bottom:14px;align-items:center}
+.search-bar .fi-wrap{flex:1}
+
+/* ═══ MAP PLACEHOLDER ═══ */
+.map-ph{
+  background:linear-gradient(135deg,var(--bgs),var(--bgss));
+  border:1px solid var(--borderl);border-radius:10px;
+  height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;position:relative;overflow:hidden;
+}
+.map-ph::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,var(--border) 1px,transparent 1px);
+  background-size:24px 24px;opacity:.4;
+}
+.map-ph-text{font-size:12.5px;font-weight:600;color:var(--ts);position:relative;z-index:1}
+.map-ph-sub{font-size:11px;color:var(--tm);position:relative;z-index:1}
+.map-ico{width:36px;height:36px;background:var(--bgc);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--leaf);box-shadow:var(--sh-sm);position:relative;z-index:1}
+.map-ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+
+/* ═══ SETTINGS ═══ */
+.set-section{margin-bottom:20px}
+.set-sec-label{font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--tm);margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid var(--borderl)}
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--borderl)}
+.set-row:last-child{border-bottom:none}
+.set-row-l{flex:1}
+.set-label{font-size:13px;font-weight:500}
+.set-sub{font-size:11px;color:var(--tm);margin-top:1px}
+.tog{width:36px;height:20px;border-radius:20px;background:var(--bgs);border:1px solid var(--border);cursor:pointer;position:relative;transition:all .2s;flex-shrink:0}
+.tog.on{background:var(--leaf);border-color:var(--leaf)}
+.tog::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tog.on::after{left:18px}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sb" id="sidebar">
+  <div class="sb-hdr">
+    <a class="sb-logo" href="#">
+      <div class="sb-logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sb-logo-text">Green<span>Loop</span></div>
+        <div class="sb-logo-sub">Cán Bộ HTX</div>
+      </div>
+    </a>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-sec">Tổng quan</div>
+    <a class="sb-item active" onclick="nav('dashboard')">
+      <span class="sb-item-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+      Dashboard
+    </a>
+    <a class="sb-item" onclick="nav('farmers')">
+      <span class="sb-item-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      Nông Dân
+      <span class="sb-badge">38</span>
+    </a>
+
+    <div class="sb-sec">Carbon & Đất</div>
+    <a class="sb-item" onclick="nav('carbon')">
+      <span class="sb-item-ico"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span>
+      Carbon MRV
+      <span class="sb-badge">3 mới</span>
+    </a>
+    <a class="sb-item" onclick="nav('collection')">
+      <span class="sb-item-ico"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+      Thu Gom
+    </a>
+
+    <div class="sb-sec">Nước & Môi Trường</div>
+    <a class="sb-item" onclick="nav('water')">
+      <span class="sb-item-ico"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span>
+      Độ Mặn & Nước
+      <span class="sb-badge red">⚠ 1</span>
+    </a>
+    <a class="sb-item" onclick="nav('passport')">
+      <span class="sb-item-ico"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+      Carbon Passport
+    </a>
+
+    <div class="sb-sec">Hệ Thống</div>
+    <a class="sb-item" onclick="nav('settings')">
+      <span class="sb-item-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+      Cài Đặt
+    </a>
+  </nav>
+  <div class="sb-ftr">
+    <div class="sb-profile">
+      <div class="sb-av">NT</div>
+      <div>
+        <div class="sb-name">Nguyễn Thanh Hùng</div>
+        <div class="sb-role">HTX Cà Mau · Cán bộ kỹ thuật</div>
+      </div>
+      <div class="sb-profile-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg></div>
+    </div>
+  </div>
+</aside>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- MAIN -->
+<div class="main" id="main">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div>
+        <div class="page-title" id="pageTitle">Dashboard</div>
+        <div class="page-sub" id="pageSub">Tổng quan hoạt động hệ thống</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="season-tog">
+        <button class="s-btn ar" id="btnRice" onclick="setSeason('rice')">
+          <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg>
+          Lúa
+        </button>
+        <button class="s-btn" id="btnShrimp" onclick="setSeason('shrimp')">
+          <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          Tôm
+        </button>
+      </div>
+      <button class="theme-btn" onclick="toggleTheme()" aria-label="Đổi giao diện">
+        <svg id="themeIco" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <div class="notif-wrap">
+        <button class="notif-btn" onclick="toggleNotif()" aria-label="Thông báo">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot" id="notifDot"></span>
+        </button>
+        <div class="notif-panel" id="notifPanel">
+          <div class="np-hdr">
+            <span class="np-hdr-t">Thông báo</span>
+            <button class="np-mark" onclick="markAllRead()">Đánh dấu đã đọc</button>
+          </div>
+          <div class="np-list">
+            <div class="np-item unread" id="np1">
+              <span class="np-dot warn"></span>
+              <div class="np-body">
+                <div class="np-title">Độ mặn tăng - Kênh N-03</div>
+                <div class="np-text">3.8 g/L, đang tiếp cận ngưỡng cảnh báo</div>
+                <div class="np-time">2 giờ trước</div>
+              </div>
+            </div>
+            <div class="np-item unread" id="np2">
+              <span class="np-dot ok"></span>
+              <div class="np-body">
+                <div class="np-title">Carbon Credit Xác Nhận</div>
+                <div class="np-text">1.2 tCO₂e đã đăng ký AICE · Lô GL-003</div>
+                <div class="np-time">Hôm qua</div>
+              </div>
+            </div>
+            <div class="np-item">
+              <span class="np-dot info"></span>
+              <div class="np-body">
+                <div class="np-title">Xác nhận thu gom</div>
+                <div class="np-text">GL-2026-4821 · Ca Mau Central · 16/05</div>
+                <div class="np-time">2 ngày trước</div>
+              </div>
+            </div>
+            <div class="np-item">
+              <span class="np-dot earn"></span>
+              <div class="np-body">
+                <div class="np-title">Điểm Thưởng Biochar</div>
+                <div class="np-text">+480 điểm · Đổi vật tư nông nghiệp</div>
+                <div class="np-time">3 ngày trước</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ══ PAGE: DASHBOARD ══ -->
+    <div class="page on" id="p-dashboard">
+      <!-- KPI Grid -->
+      <div class="g4">
+        <div class="sc fade-in s1">
+          <div class="sc-top">
+            <div class="sc-ico g"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div>
+            <span class="trend up"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>12%</span>
+          </div>
+          <div class="sc-val" data-count="4.28" data-suffix=" t">4.28 t</div>
+          <div class="sc-lab">CO₂e Lưu Trữ</div>
+          <div class="sc-bar"><div class="sc-bar-fill g" style="width:68%"></div></div>
+        </div>
+        <div class="sc fade-in s2">
+          <div class="sc-top">
+            <div class="sc-ico b"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
+            <span class="trend up"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>8%</span>
+          </div>
+          <div class="sc-val" data-count="1420" data-suffix=" kg">1,420 kg</div>
+          <div class="sc-lab">Biochar Sản Xuất</div>
+          <div class="sc-bar"><div class="sc-bar-fill b" style="width:55%"></div></div>
+        </div>
+        <div class="sc fade-in s3">
+          <div class="sc-top">
+            <div class="sc-ico a"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <span class="trend up"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>24%</span>
+          </div>
+          <div class="sc-val" data-count="38" data-suffix="">38</div>
+          <div class="sc-lab">Hộ Gia Đình Đăng Ký</div>
+          <div class="sc-bar"><div class="sc-bar-fill a" style="width:76%"></div></div>
+        </div>
+        <div class="sc fade-in s4">
+          <div class="sc-top">
+            <div class="sc-ico e"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <span class="trend up"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>31%</span>
+          </div>
+          <div class="sc-val" data-count="4820" data-prefix="$">$4,820</div>
+          <div class="sc-lab">Doanh Thu (YTD)</div>
+          <div class="sc-bar"><div class="sc-bar-fill e" style="width:42%"></div></div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <!-- Revenue Chart -->
+        <div class="card fade-in s5">
+          <div class="ch">
+            <div class="ct">
+              <span class="ct-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+              Doanh Thu 6 Tháng
+            </div>
+            <span class="badge bi">USD</span>
+          </div>
+          <div class="cb">
+            <div style="position:relative;height:160px">
+              <canvas id="revenueChart" role="img" aria-label="Biểu đồ doanh thu 6 tháng">Doanh thu từ T11/2025 đến T4/2026</canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lua-Tom Cycle -->
+        <div class="card fade-in s6">
+          <div class="ch">
+            <div class="ct">
+              <span class="ct-ico"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></span>
+              Chu Kỳ Lúa-Tôm
+            </div>
+            <span class="badge ba" id="cycleBadge">Mùa Lúa</span>
+          </div>
+          <div class="cb">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bgs);border-radius:10px;margin-bottom:12px">
+              <div style="width:34px;height:34px;border-radius:9px;background:rgba(76,175,80,.12);display:flex;align-items:center;justify-content:center;color:var(--leaf)">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg>
+              </div>
+              <div style="flex:1">
+                <div style="font-size:12.5px;font-weight:700" id="phaseTitle">Canh tác lúa - Đang hoạt động</div>
+                <div style="font-size:11px;color:var(--tm)" id="phaseDesc">Giai đoạn phát triển. Thu gom phụ phẩm trong ~45 ngày.</div>
+              </div>
+            </div>
+            <div style="font-size:10.5px;color:var(--tm);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Tiến độ mùa vụ</div>
+            <div class="cyc-steps" id="cycleSteps"></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tm);margin-top:6px">
+              <span>Tháng 11 (Lúa)</span><span>Tháng 4 (Thu gom)</span><span>Tháng 8 (Tôm)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <!-- Recent Activity -->
+        <div class="card fade-in s7">
+          <div class="ch">
+            <div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Hoạt Động Gần Đây</div>
+          </div>
+          <div class="cb">
+            <div class="tl-item">
+              <div class="tl-line"><div class="tl-dot g"></div><div class="tl-track"></div></div>
+              <div class="tl-body">
+                <div class="tl-t">Carbon Credit Xác Nhận ✓</div>
+                <div class="tl-d">1.2 tCO₂e · Lô GL-003 · đăng ký AICE thành công</div>
+                <div class="tl-time">2 giờ trước</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-line"><div class="tl-dot w"></div><div class="tl-track"></div></div>
+              <div class="tl-body">
+                <div class="tl-t">Cảnh báo độ mặn</div>
+                <div class="tl-d">Kênh N-03 đạt 3.8 g/L - tiếp cận ngưỡng chuyển mùa</div>
+                <div class="tl-time">2 giờ trước</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-line"><div class="tl-dot a"></div><div class="tl-track"></div></div>
+              <div class="tl-body">
+                <div class="tl-t">Đăng ký hộ mới</div>
+                <div class="tl-d">Ông Trần Văn Minh · 2.4 ha · Sóc Trăng</div>
+                <div class="tl-time">Hôm qua</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-line"><div class="tl-dot g"></div><div class="tl-track" style="display:none"></div></div>
+              <div class="tl-body">
+                <div class="tl-t">Thu gom hoàn thành</div>
+                <div class="tl-d">320 kg rơm · HTX Cà Mau Central · GL-4821</div>
+                <div class="tl-time">2 ngày trước</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hub Map -->
+        <div class="card fade-in s7">
+          <div class="ch">
+            <div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>Mạng Lưới Hub</div>
+            <button class="btn btn-sm btn-a" style="gap:5px">
+              <svg viewBox="0 0 24 24" width="11" height="11"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
+              Bản đồ
+            </button>
+          </div>
+          <div class="cb">
+            <div class="map-ph" style="height:130px">
+              <div class="map-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div class="map-ph-text">Google Maps - Đồng bằng Sông Cửu Long</div>
+              <div class="map-ph-sub">4 hub · Cà Mau, Bạc Liêu, Sóc Trăng, Kiên Giang</div>
+            </div>
+            <div style="margin-top:12px">
+              <div class="hub-item">
+                <div class="hub-dot on"></div>
+                <div class="hub-info"><div class="hub-name">Cà Mau Central</div><div class="hub-sub">12 xe / tuần · đang hoạt động</div></div>
+                <div class="hub-pbar"><div class="hub-pbar-fill ok" style="width:78%"></div></div>
+                <div class="hub-cap" style="color:var(--warn)">78%</div>
+              </div>
+              <div class="hub-item">
+                <div class="hub-dot on"></div>
+                <div class="hub-info"><div class="hub-name">Bạc Liêu Bắc</div><div class="hub-sub">8 xe / tuần · đang hoạt động</div></div>
+                <div class="hub-pbar"><div class="hub-pbar-fill ok" style="width:45%"></div></div>
+                <div class="hub-cap">45%</div>
+              </div>
+              <div class="hub-item">
+                <div class="hub-dot wa"></div>
+                <div class="hub-info"><div class="hub-name">Sóc Trăng Hub</div><div class="hub-sub">Gần đầy công suất</div></div>
+                <div class="hub-pbar"><div class="hub-pbar-fill wa" style="width:91%"></div></div>
+                <div class="hub-cap" style="color:var(--danger)">91%</div>
+              </div>
+              <div class="hub-item">
+                <div class="hub-dot on"></div>
+                <div class="hub-info"><div class="hub-name">Kiên Giang</div><div class="hub-sub">6 xe / tuần · đang hoạt động</div></div>
+                <div class="hub-pbar"><div class="hub-pbar-fill ok" style="width:33%"></div></div>
+                <div class="hub-cap">33%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: FARMERS ══ -->
+    <div class="page" id="p-farmers">
+      <div class="rec">
+        <div class="rec-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="rec-body">
+          <div class="rec-label">Mục tiêu năm 1</div>
+          <div class="rec-title">38 / 50 hộ đã đăng ký</div>
+          <div class="rec-text">Còn 12 hộ để đạt mục tiêu Year 1. Tập trung tuyển dụng tại Sóc Trăng và Kiên Giang.</div>
+        </div>
+        <div class="rec-date">76%<div class="rec-date-label">Tiến độ</div></div>
+      </div>
+
+      <div class="search-bar mb16">
+        <div class="fi-wrap" style="flex:1">
+          <div class="fi-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <input class="fs" type="text" placeholder="Tìm nông dân, địa điểm..." id="farmerSearch" oninput="filterFarmers(this.value)">
+        </div>
+        <select class="fi" style="width:auto;padding-right:28px" onchange="filterFarmers()">
+          <option>Tất cả vùng</option>
+          <option>Cà Mau</option>
+          <option>Bạc Liêu</option>
+          <option>Sóc Trăng</option>
+          <option>Kiên Giang</option>
+        </select>
+        <button class="btn btn-p">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Thêm hộ
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="tbl-wrap">
+          <table id="farmersTable">
+            <thead>
+              <tr>
+                <th>Nông dân</th>
+                <th>Diện tích</th>
+                <th>Loại canh tác</th>
+                <th>CO₂e (t)</th>
+                <th>Thu nhập thêm</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="farmersBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: CARBON MRV ══ -->
+    <div class="page" id="p-carbon">
+      <div class="g3">
+        <div class="sc">
+          <div class="sc-top"><div class="sc-ico g"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="badge ba">Đã xác nhận</span></div>
+          <div class="sc-val">1.2 t</div>
+          <div class="sc-lab">CO₂e tháng này</div>
+        </div>
+        <div class="sc">
+          <div class="sc-top"><div class="sc-ico b"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><span class="badge bw">Chờ duyệt</span></div>
+          <div class="sc-val">3</div>
+          <div class="sc-lab">Lô đang xử lý</div>
+        </div>
+        <div class="sc">
+          <div class="sc-top"><div class="sc-ico e"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><span class="badge bi">AICE</span></div>
+          <div class="sc-val">$960</div>
+          <div class="sc-lab">Doanh thu credit</div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6m0-6l-6 6"/></svg></span>Pipeline Carbon VM0044</div></div>
+          <div class="cb">
+            <div class="pipeline">
+              <div class="pip-stage">
+                <div class="pip-num">8.2 t</div>
+                <div class="pip-label">Sinh khối Thu gom</div>
+                <div class="pip-status new">Đã xác nhận</div>
+              </div>
+              <div class="pip-stage">
+                <div class="pip-num">2.87 t</div>
+                <div class="pip-label">Biochar Sản Xuất</div>
+                <div class="pip-status ok">Hoàn thành</div>
+              </div>
+              <div class="pip-stage">
+                <div class="pip-num">4.28 t</div>
+                <div class="pip-label">CO₂e Tính Toán</div>
+                <div class="pip-status pend">Đang tính</div>
+              </div>
+              <div class="pip-stage">
+                <div class="pip-num">1.2 t</div>
+                <div class="pip-label">Credit Đã Phát Hành</div>
+                <div class="pip-status ok">Lên AICE</div>
+              </div>
+            </div>
+            <div style="margin-top:14px">
+              <div style="font-size:11px;color:var(--tm);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Lô gần đây</div>
+              <div class="coll-item">
+                <div class="coll-date"><div class="coll-dm">14</div><div class="coll-mo">Th5</div></div>
+                <div class="coll-info"><div class="coll-ref">GL-BATCH-005</div><div class="coll-det">320 kg sinh khối · 112 kg biochar · 0.45 tCO₂e</div></div>
+                <span class="badge ba">Xác nhận</span>
+              </div>
+              <div class="coll-item">
+                <div class="coll-date"><div class="coll-dm">08</div><div class="coll-mo">Th5</div></div>
+                <div class="coll-info"><div class="coll-ref">GL-BATCH-004</div><div class="coll-det">480 kg sinh khối · 168 kg biochar · 0.67 tCO₂e</div></div>
+                <span class="badge bw">Chờ duyệt</span>
+              </div>
+              <div class="coll-item">
+                <div class="coll-date"><div class="coll-dm">01</div><div class="coll-mo">Th5</div></div>
+                <div class="coll-info"><div class="coll-ref">GL-BATCH-003</div><div class="coll-det">560 kg sinh khối · 196 kg biochar · 0.78 tCO₂e</div></div>
+                <span class="badge bi">Lên AICE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></span>CO₂e Tích Lũy</div></div>
+          <div class="cb">
+            <div style="position:relative;height:160px">
+              <canvas id="co2Chart" role="img" aria-label="Biểu đồ CO2 tích lũy">CO2 tích lũy theo tháng</canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Biochar Calculator -->
+      <div class="card">
+        <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg></span>Máy Tính Biochar (VM0044)</div></div>
+        <div class="cb">
+          <div class="frow">
+            <div>
+              <label>Loại sinh khối</label>
+              <select class="fi" id="calc-type" onchange="calcBiochar()">
+                <option value="rice">Rơm lúa (Rice straw)</option>
+                <option value="shrimp">Bùn ao tôm</option>
+                <option value="mixed">Hỗn hợp</option>
+              </select>
+            </div>
+            <div>
+              <label>Khối lượng sinh khối (kg)</label>
+              <input class="fi" type="number" id="calc-mass" value="500" oninput="calcBiochar()" min="0">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px">
+            <div style="background:var(--bgs);border-radius:10px;padding:12px;text-align:center">
+              <div style="font-size:18px;font-weight:800;color:var(--leaf)" id="r-biochar">175</div>
+              <div style="font-size:10.5px;color:var(--tm);font-weight:500;margin-top:3px">kg Biochar</div>
+            </div>
+            <div style="background:var(--bgs);border-radius:10px;padding:12px;text-align:center">
+              <div style="font-size:18px;font-weight:800;color:var(--ad)" id="r-co2">0.28</div>
+              <div style="font-size:10.5px;color:var(--tm);font-weight:500;margin-top:3px">tCO₂e</div>
+            </div>
+            <div style="background:var(--bgs);border-radius:10px;padding:12px;text-align:center">
+              <div style="font-size:18px;font-weight:800;color:var(--earth)" id="r-usd">$4.20</div>
+              <div style="font-size:10.5px;color:var(--tm);font-weight:500;margin-top:3px">Dự kiến thu nhập</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: WATER ══ -->
+    <div class="page" id="p-water">
+      <div class="rec">
+        <div class="rec-ico"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div>
+        <div class="rec-body">
+          <div class="rec-label">Gợi ý từ MRC Data</div>
+          <div class="rec-title">Ngày Chuyển Mùa Tối Ưu: 15/06/2026</div>
+          <div class="rec-text">Dự báo MRC cho thấy độ xâm nhập mặn vượt 5 g/L khoảng 10/06. Chuẩn bị ao tôm trước 5 ngày để tối ưu chuyển vụ.</div>
+        </div>
+        <div class="rec-date">15/06<div class="rec-date-label">Chuyển vụ</div></div>
+      </div>
+
+      <div class="g2">
+        <!-- Gauge -->
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span>Đo Độ Mặn Trực Tiếp</div><span class="badge bw">Kênh N-03</span></div>
+          <div class="cb" style="text-align:center">
+            <div class="gauge-wrap">
+              <svg viewBox="0 0 160 160">
+                <circle cx="80" cy="80" r="62" fill="none" stroke="var(--bgs)" stroke-width="12"/>
+                <circle cx="80" cy="80" r="62" fill="none" stroke="var(--warn)" stroke-width="12"
+                  stroke-dasharray="195 194" stroke-dashoffset="48" stroke-linecap="round"
+                  transform="rotate(-90 80 80)" id="salinityArc"/>
+              </svg>
+              <div class="gauge-val">
+                <div class="gauge-num" id="salinityVal">3.8</div>
+                <div class="gauge-unit">g/L</div>
+              </div>
+            </div>
+            <div class="sal-legend">
+              <span class="sl-ok">▸ &lt;1 g/L Lúa an toàn</span>
+              <span class="sl-wa">▸ 1-5 g/L Chuyển tiếp</span>
+              <span class="sl-dn">▸ &gt;5 g/L Tôm tối ưu</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerts -->
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2.5"/></svg></span>Cảnh Báo Hoạt Động</div></div>
+          <div class="cb">
+            <div class="alert-item warn">
+              <div class="alert-ico"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div>
+              <div>
+                <div class="alert-t">Độ mặn tăng - Kênh N-03</div>
+                <div class="alert-d">3.8 g/L · Đang tiếp cận ngưỡng 5 g/L · Dự báo chạm ngưỡng 10/06</div>
+                <div class="alert-time">⏱ 2 giờ trước · Nguồn: MRC API</div>
+              </div>
+            </div>
+            <div class="alert-item ok">
+              <div class="alert-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div>
+                <div class="alert-t">Lịch lịch chuyển vụ đã cập nhật</div>
+                <div class="alert-d">Mô hình ML đề xuất ngày 15/06. Điều chỉnh so với dự báo trước +3 ngày.</div>
+                <div class="alert-time">⏱ Hôm qua · Nguồn: GreenLoop AI</div>
+              </div>
+            </div>
+            <div class="alert-item info">
+              <div class="alert-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2.5"/></svg></div>
+              <div>
+                <div class="alert-t">Oxy hoà tan bình thường</div>
+                <div class="alert-d">DO trung bình: 6.2 mg/L · Tất cả ao tôm trong giới hạn an toàn (>5 mg/L)</div>
+                <div class="alert-time">⏱ Cập nhật lúc 08:00 · Nguồn: Cảm biến IoT</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <!-- Salinity Chart -->
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Xu Hướng Độ Mặn 7 Ngày</div><span style="font-size:11px;color:var(--tm)">MRC Open API</span></div>
+          <div class="cb">
+            <div style="position:relative;height:150px">
+              <canvas id="salinityChart" role="img" aria-label="Biểu đồ xu hướng độ mặn 7 ngày">Xu hướng độ mặn</canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sensor network -->
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg></span>Mạng Cảm Biến</div><span class="badge bi">Phase 2</span></div>
+          <div class="cb">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div style="background:var(--bgs);border-radius:10px;padding:12px">
+                <div style="font-size:10px;color:var(--tm);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Ao Tôm A-01</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                  <div><div style="font-size:14px;font-weight:800;color:var(--ad)">3.8</div><div style="font-size:9.5px;color:var(--tm)">Mặn g/L</div></div>
+                  <div><div style="font-size:14px;font-weight:800;color:var(--leaf)">6.2</div><div style="font-size:9.5px;color:var(--tm)">DO mg/L</div></div>
+                  <div><div style="font-size:14px;font-weight:800;color:var(--warn)">7.8</div><div style="font-size:9.5px;color:var(--tm)">pH</div></div>
+                  <div><div style="font-size:14px;font-weight:800;color:var(--earth)">28.4</div><div style="font-size:9.5px;color:var(--tm)">Nhiệt °C</div></div>
+                </div>
+              </div>
+              <div style="background:var(--bgs);border-radius:10px;padding:12px">
+                <div style="font-size:10px;color:var(--tm);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Ao Tôm A-02</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                  <div><div style="font-size:14px;font-weight:800;color:var(--ok)">2.1</div><div style="font-size:9.5px;color:var(--tm)">Mặn g/L</div></div>
+                  <div><div style="font-size:14px;font-weight:800;color:var(--leaf)">7.1</div><div style="font-size:9.5px;color:var(--tm)">DO mg/L</div></div>
+                  <div><div style="font-size:14px;font-weight:800;color:var(--ok)">7.6</div><div style="font-size:9.5px;color:var(--tm)">pH</div></div>
+                  <div><div style="font-size:14px;font-weight:800;color:var(--earth)">27.9</div><div style="font-size:9.5px;color:var(--tm)">Nhiệt °C</div></div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:10px;padding:10px 12px;background:rgba(38,166,154,.07);border:1px solid rgba(38,166,154,.18);border-radius:9px;font-size:11.5px;color:var(--ad);font-weight:500">
+              ✓ Không có nguy cơ tôm chết - tất cả thông số trong giới hạn an toàn
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: COLLECTION ══ -->
+    <div class="page" id="p-collection">
+      <div class="g3">
+        <div class="sc"><div class="sc-top"><div class="sc-ico g"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div></div><div class="sc-val">3,840</div><div class="sc-lab">kg tháng này</div></div>
+        <div class="sc"><div class="sc-top"><div class="sc-ico a"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div><div class="sc-val">12</div><div class="sc-lab">Lượt pickup hoàn thành</div></div>
+        <div class="sc"><div class="sc-top"><div class="sc-ico e"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="sc-val">$11.20</div><div class="sc-lab">Chi phí vận tải / tấn</div></div>
+      </div>
+
+      <div class="g2">
+        <!-- Booking Form -->
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Đặt Lịch Thu Gom</div></div>
+          <div class="cb">
+            <div class="frow">
+              <div>
+                <label>Hub điểm đến</label>
+                <select class="fi" id="book-hub">
+                  <option>Cà Mau Central</option>
+                  <option>Bạc Liêu Bắc</option>
+                  <option>Sóc Trăng Hub</option>
+                  <option>Kiên Giang</option>
+                </select>
+              </div>
+              <div>
+                <label>Ngày thu gom</label>
+                <input class="fi" type="date" id="book-date" value="2026-05-20">
+              </div>
+            </div>
+            <div class="frow">
+              <div>
+                <label>Loại sinh khối</label>
+                <select class="fi" id="book-type">
+                  <option>Rơm lúa</option>
+                  <option>Bùn ao tôm</option>
+                  <option>Hỗn hợp</option>
+                </select>
+              </div>
+              <div>
+                <label>Khối lượng ước tính (kg)</label>
+                <input class="fi" type="number" id="book-mass" placeholder="500" min="500" step="50">
+              </div>
+            </div>
+            <div class="frow1">
+              <label>Ghi chú</label>
+              <input class="fi" type="text" id="book-note" placeholder="Địa điểm cụ thể, hướng dẫn xe tải...">
+            </div>
+            <button class="btn btn-p" style="width:100%;justify-content:center" onclick="bookCollection()">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Xác Nhận Đặt Lịch
+            </button>
+            <div id="bookSuccessMsg" style="display:none;margin-top:10px;padding:10px 12px;background:rgba(46,125,50,.08);border:1px solid rgba(46,125,50,.2);border-radius:9px;font-size:12.5px;color:var(--ok);font-weight:600;text-align:center"></div>
+          </div>
+        </div>
+
+        <!-- Upcoming collections -->
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6" stroke-width="2.5"/><line x1="3" y1="12" x2="3.01" y2="12" stroke-width="2.5"/><line x1="3" y1="18" x2="3.01" y2="18" stroke-width="2.5"/></svg></span>Lịch Sắp Tới</div></div>
+          <div class="cb" id="upcomingList">
+            <div class="coll-item">
+              <div class="coll-date"><div class="coll-dm">16</div><div class="coll-mo">Th5</div></div>
+              <div class="coll-info"><div class="coll-ref">GL-2026-4821</div><div class="coll-det">Cà Mau Central · 320 kg rơm lúa</div></div>
+              <span class="badge ba">Đã xác nhận</span>
+            </div>
+            <div class="coll-item">
+              <div class="coll-date"><div class="coll-dm">19</div><div class="coll-mo">Th5</div></div>
+              <div class="coll-info"><div class="coll-ref">GL-2026-4825</div><div class="coll-det">Bạc Liêu Bắc · 480 kg hỗn hợp</div></div>
+              <span class="badge bw">Chờ xác nhận</span>
+            </div>
+            <div class="coll-item">
+              <div class="coll-date"><div class="coll-dm">22</div><div class="coll-mo">Th5</div></div>
+              <div class="coll-info"><div class="coll-ref">GL-2026-4830</div><div class="coll-det">Sóc Trăng Hub · 650 kg rơm lúa</div></div>
+              <span class="badge bi">Lên lịch</span>
+            </div>
+            <div class="coll-item">
+              <div class="coll-date"><div class="coll-dm">25</div><div class="coll-mo">Th5</div></div>
+              <div class="coll-info"><div class="coll-ref">GL-2026-4835</div><div class="coll-det">Kiên Giang · 280 kg bùn ao tôm</div></div>
+              <span class="badge bi">Lên lịch</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: PASSPORT ══ -->
+    <div class="page" id="p-passport">
+      <div class="rec">
+        <div class="rec-ico"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+        <div class="rec-body">
+          <div class="rec-label">Carbon Farmer Passport</div>
+          <div class="rec-title">Thông tin chứng chỉ blockchain của nông dân</div>
+          <div class="rec-text">Mỗi nông dân có một Passport lưu trữ trên blockchain AICE - dùng để xin vay vốn xanh BIDV/Agribank và bảo hiểm Bảo Việt.</div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="passport">
+          <div class="pp-hdr">
+            <div class="pp-tag">GreenLoop · Carbon Farmer Passport · AICE</div>
+            <div class="pp-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          </div>
+          <div class="pp-name">Nguyễn Văn An</div>
+          <div class="pp-id">GL-PASS-0001 · CA MAU · Lua-Tom</div>
+          <div class="pp-stats">
+            <div><div class="pp-stat-n">4.28 t</div><div class="pp-stat-l">CO₂e lưu trữ</div></div>
+            <div><div class="pp-stat-n">1,420</div><div class="pp-stat-l">kg biochar</div></div>
+            <div><div class="pp-stat-n">$1,240</div><div class="pp-stat-l">Thu nhập thêm</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Lịch Sử Tích Lũy</div></div>
+          <div class="cb">
+            <div style="position:relative;height:180px">
+              <canvas id="passportChart" role="img" aria-label="Lịch sử tích lũy carbon">Carbon tích lũy theo tháng</canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- All passports list -->
+      <div class="card">
+        <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>Danh Sách Passport</div><button class="btn btn-sm btn-p">Xuất CSV</button></div>
+        <div class="cb">
+          <div style="display:grid;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bgs);border-radius:10px">
+              <div class="row-av" style="background:linear-gradient(135deg,var(--leaf),var(--ad))">NVA</div>
+              <div style="flex:1"><div style="font-size:12.5px;font-weight:700">Nguyễn Văn An</div><div style="font-size:10.5px;color:var(--tm)">GL-PASS-0001 · Cà Mau · 3.2 ha</div></div>
+              <div style="text-align:right"><div style="font-size:13px;font-weight:800;color:var(--leaf)">4.28 t</div><div style="font-size:10px;color:var(--tm)">CO₂e</div></div>
+              <span class="badge ba">Đầy đủ</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bgs);border-radius:10px">
+              <div class="row-av" style="background:linear-gradient(135deg,var(--aqua),var(--ad))">TVM</div>
+              <div style="flex:1"><div style="font-size:12.5px;font-weight:700">Trần Văn Minh</div><div style="font-size:10.5px;color:var(--tm)">GL-PASS-0002 · Sóc Trăng · 2.4 ha</div></div>
+              <div style="text-align:right"><div style="font-size:13px;font-weight:800;color:var(--leaf)">2.15 t</div><div style="font-size:10px;color:var(--tm)">CO₂e</div></div>
+              <span class="badge bw">Đang xử lý</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bgs);border-radius:10px">
+              <div class="row-av" style="background:linear-gradient(135deg,var(--earth),var(--el))">LTH</div>
+              <div style="flex:1"><div style="font-size:12.5px;font-weight:700">Lê Thị Hương</div><div style="font-size:10.5px;color:var(--tm)">GL-PASS-0003 · Bạc Liêu · 4.1 ha</div></div>
+              <div style="text-align:right"><div style="font-size:13px;font-weight:800;color:var(--leaf)">3.67 t</div><div style="font-size:10px;color:var(--tm)">CO₂e</div></div>
+              <span class="badge ba">Đầy đủ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: SETTINGS ══ -->
+    <div class="page" id="p-settings">
+      <div class="g2">
+        <div class="card">
+          <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Hồ Sơ Cán Bộ</div></div>
+          <div class="cb">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;padding:12px;background:var(--bgs);border-radius:10px">
+              <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--leaf),var(--ad));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0">NT</div>
+              <div><div style="font-size:14px;font-weight:700">Nguyễn Thanh Hùng</div><div style="font-size:12px;color:var(--tm)">nguyenthanhhung@htxcamau.vn</div><div style="margin-top:4px"><span class="badge ba">Cán bộ kỹ thuật</span></div></div>
+            </div>
+            <div class="frow1"><label>Họ và tên</label><input class="fi" value="Nguyễn Thanh Hùng"></div>
+            <div class="frow1"><label>Email</label><input class="fi" value="nguyenthanhhung@htxcamau.vn"></div>
+            <div class="frow1"><label>Số điện thoại</label><input class="fi" value="0901 234 567"></div>
+            <div class="frow1"><label>HTX / Tổ chức</label><input class="fi" value="HTX Nông nghiệp Cà Mau"></div>
+            <button class="btn btn-p" style="width:100%;justify-content:center;margin-top:4px">Lưu thay đổi</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="card mb16">
+            <div class="ch"><div class="ct"><span class="ct-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>Tuỳ Chỉnh Hệ Thống</div></div>
+            <div class="cb">
+              <div class="set-section">
+                <div class="set-sec-label">Giao Diện</div>
+                <div class="set-row">
+                  <div class="set-row-l"><div class="set-label">Chế độ tối</div><div class="set-sub">Giao diện tối cho dễ nhìn ban đêm</div></div>
+                  <div class="tog on" id="darkModeTog" onclick="toggleTheme()"></div>
+                </div>
+                <div class="set-row">
+                  <div class="set-row-l"><div class="set-label">Thông báo đẩy</div><div class="set-sub">Nhận cảnh báo độ mặn qua app</div></div>
+                  <div class="tog on" id="notifTog" onclick="this.classList.toggle('on')"></div>
+                </div>
+                <div class="set-row">
+                  <div class="set-row-l"><div class="set-label">Tự động cập nhật dữ liệu</div><div class="set-sub">Làm mới dữ liệu MRC mỗi 30 phút</div></div>
+                  <div class="tog on" onclick="this.classList.toggle('on')"></div>
+                </div>
+              </div>
+              <div class="set-section">
+                <div class="set-sec-label">Kết Nối</div>
+                <div class="set-row">
+                  <div class="set-row-l"><div class="set-label">MRC Salinity API</div><div class="set-sub">api.mrcmekong.org · Dữ liệu mở</div></div>
+                  <span class="badge ba">Kết nối</span>
+                </div>
+                <div class="set-row">
+                  <div class="set-row-l"><div class="set-label">AICE Blockchain Registry</div><div class="set-sub">aice.asean-carbon.org · VM0044</div></div>
+                  <span class="badge ba">Kết nối</span>
+                </div>
+                <div class="set-row">
+                  <div class="set-row-l"><div class="set-label">Verra Registry</div><div class="set-sub">registry.verra.org · Xác minh carbon</div></div>
+                  <span class="badge bw">Pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mob-nav" aria-label="Điều hướng chính">
+  <div class="mob-nav-inner">
+    <button class="mob-nav-item active" onclick="nav('dashboard')" id="mn-dashboard">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span class="mob-nav-label">Tổng quan</span>
+    </button>
+    <button class="mob-nav-item" onclick="nav('farmers')" id="mn-farmers">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <span class="mob-nav-label">Nông Dân</span>
+    </button>
+    <button class="mob-nav-item" onclick="nav('carbon')" id="mn-carbon">
+      <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg>
+      <span class="mob-nav-label">Carbon</span>
+    </button>
+    <button class="mob-nav-item" onclick="nav('water')" id="mn-water" style="position:relative">
+      <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+      <span class="mob-nav-label">Nước</span>
+      <span class="mob-nav-dot"></span>
+    </button>
+    <button class="mob-nav-item" onclick="nav('settings')" id="mn-settings">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span class="mob-nav-label">Cài đặt</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+// ─── NAVIGATION ───
+const pages={dashboard:'Dashboard',farmers:'Nông Dân',carbon:'Carbon MRV',water:'Độ Mặn & Nước',collection:'Thu Gom',passport:'Carbon Passport',settings:'Cài Đặt'};
+const subs={dashboard:'Tổng quan hoạt động hệ thống',farmers:'Danh sách hộ gia đình đăng ký',carbon:'Theo dõi tín chỉ carbon VM0044',water:'Giám sát nước và độ mặn',collection:'Lịch thu gom sinh khối',passport:'Chứng chỉ blockchain nông dân',settings:'Cấu hình hệ thống'};
+let currentPage='dashboard';
+let chartsInited={};
+
+function nav(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('.mob-nav-item').forEach(i=>i.classList.remove('active'));
+  const p=document.getElementById('p-'+id);
+  if(p){p.classList.add('on');p.querySelectorAll('.fade-in').forEach((el,i)=>{el.style.animationDelay=(i*0.06)+'s';el.style.opacity='0';setTimeout(()=>{el.style.opacity=''},10)});}
+  document.querySelector(`.sb-item[onclick="nav('${id}')"]`)?.classList.add('active');
+  const mn=document.getElementById('mn-'+id);
+  if(mn)mn.classList.add('active');
+  document.getElementById('pageTitle').textContent=pages[id]||id;
+  document.getElementById('pageSub').textContent=subs[id]||'';
+  currentPage=id;
+  closeSidebar();
+  if(id==='dashboard'&&!chartsInited.dashboard){initDashCharts();chartsInited.dashboard=true;}
+  if(id==='carbon'&&!chartsInited.carbon){initCarbonCharts();chartsInited.carbon=true;}
+  if(id==='water'&&!chartsInited.water){initWaterCharts();chartsInited.water=true;}
+  if(id==='passport'&&!chartsInited.passport){initPassportChart();chartsInited.passport=true;}
+}
+
+// ─── SIDEBAR MOBILE ───
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('on');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('on');
+}
+
+// ─── THEME ───
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  const ico=document.getElementById('themeIco');
+  if(isDark){ico.innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';}
+  else{ico.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';}
+  const tog=document.getElementById('darkModeTog');
+  if(tog)tog.classList.toggle('on',!isDark);
+}
+
+// ─── NOTIF ───
+function toggleNotif(){
+  document.getElementById('notifPanel').classList.toggle('open');
+}
+function markAllRead(){
+  document.querySelectorAll('.np-item.unread').forEach(i=>i.classList.remove('unread'));
+  document.getElementById('notifDot').style.display='none';
+  document.getElementById('notifPanel').classList.remove('open');
+}
+document.addEventListener('click',e=>{
+  const wrap=document.querySelector('.notif-wrap');
+  if(wrap&&!wrap.contains(e.target))document.getElementById('notifPanel').classList.remove('open');
+});
+
+// ─── SEASON ───
+function setSeason(s){
+  const br=document.getElementById('btnRice'),bs=document.getElementById('btnShrimp');
+  const cb=document.getElementById('cycleBadge');
+  if(s==='rice'){br.className='s-btn ar';bs.className='s-btn';cb.textContent='Mùa Lúa';cb.className='badge ba';buildCycleSteps('rice');}
+  else{br.className='s-btn';bs.className='s-btn as';cb.textContent='Mùa Tôm';cb.className='badge bi';buildCycleSteps('shrimp');}
+}
+
+// ─── CYCLE STEPS ───
+function buildCycleSteps(season){
+  const el=document.getElementById('cycleSteps');
+  if(!el)return;
+  el.innerHTML='';
+  const total=12;
+  const done=season==='rice'?5:3;
+  const curr=done+1;
+  for(let i=1;i<=total;i++){
+    const d=document.createElement('div');
+    d.className='cyc-step';
+    if(i<curr)d.classList.add(season==='rice'?'done':'shrimp-done');
+    else if(i===curr)d.classList.add(season==='rice'?'curr':'shrimp-curr');
+    el.appendChild(d);
+  }
+}
+
+// ─── FARMERS DATA ───
+const farmersData=[
+  {name:'Nguyễn Văn An',loc:'Cà Mau',area:'3.2 ha',type:'Lúa-Tôm',co2:'4.28',income:'+$1,240',status:'Hoạt động',init:'NVA',color:'135deg,#4CAF50,#00796B'},
+  {name:'Trần Văn Minh',loc:'Sóc Trăng',area:'2.4 ha',type:'Lúa-Tôm',co2:'2.15',income:'+$620',status:'Đang xử lý',init:'TVM',color:'135deg,#26A69A,#00796B'},
+  {name:'Lê Thị Hương',loc:'Bạc Liêu',area:'4.1 ha',type:'Lúa-Tôm',co2:'3.67',income:'+$1,050',status:'Hoạt động',init:'LTH',color:'135deg,#8B6F47,#C4A86B'},
+  {name:'Phạm Văn Đức',loc:'Kiên Giang',area:'1.8 ha',type:'Lúa',co2:'1.42',income:'+$410',status:'Hoạt động',init:'PVD',color:'135deg,#5fc867,#35b9a8'},
+  {name:'Võ Thị Mai',loc:'Cà Mau',area:'2.9 ha',type:'Lúa-Tôm',co2:'3.10',income:'+$895',status:'Hoạt động',init:'VTM',color:'135deg,#81C784,#26A69A'},
+  {name:'Nguyễn Thị Lan',loc:'Sóc Trăng',area:'1.5 ha',type:'Tôm',co2:'0.88',income:'+$255',status:'Mới đăng ký',init:'NTL',color:'135deg,#a3d96a,#4CAF50'},
+  {name:'Trần Văn Bình',loc:'Bạc Liêu',area:'3.6 ha',type:'Lúa-Tôm',co2:'3.92',income:'+$1,130',status:'Hoạt động',init:'TVB',color:'135deg,#36c1b4,#26A69A'},
+  {name:'Đinh Văn Hải',loc:'Kiên Giang',area:'2.2 ha',type:'Lúa',co2:'1.76',income:'+$510',status:'Đang xử lý',init:'DVH',color:'135deg,#d0b06f,#8B6F47'},
+];
+const statusBadge={
+  'Hoạt động':'badge ba','Đang xử lý':'badge bw','Mới đăng ký':'badge bi','Tạm dừng':'badge bd'
+};
+function renderFarmers(data){
+  const tbody=document.getElementById('farmersBody');
+  tbody.innerHTML=data.map(f=>`
+    <tr>
+      <td><div style="display:flex;align-items:center;gap:9px">
+        <div class="row-av" style="background:linear-gradient(${f.color})">${f.init}</div>
+        <div><div class="td-name">${f.name}</div><div class="td-sub">${f.loc} · ${f.area}</div></div>
+      </div></td>
+      <td>${f.area}</td>
+      <td><span class="badge bn">${f.type}</span></td>
+      <td style="font-weight:700;color:var(--leaf)">${f.co2} t</td>
+      <td style="font-weight:600;color:var(--ok)">${f.income}</td>
+      <td><span class="${statusBadge[f.status]||'badge bn'}">${f.status}</span></td>
+      <td><button class="btn btn-sm btn-a" style="padding:5px 10px;font-size:11px">Xem</button></td>
+    </tr>`).join('');
+}
+function filterFarmers(q=''){
+  const val=(q||document.getElementById('farmerSearch')?.value||'').toLowerCase();
+  renderFarmers(val?farmersData.filter(f=>f.name.toLowerCase().includes(val)||f.loc.toLowerCase().includes(val)):farmersData);
+}
+renderFarmers(farmersData);
+
+// ─── BIOCHAR CALCULATOR ───
+function calcBiochar(){
+  const mass=parseFloat(document.getElementById('calc-mass')?.value)||0;
+  const type=document.getElementById('calc-type')?.value||'rice';
+  const eff={rice:0.35,shrimp:0.28,mixed:0.32};
+  const e=eff[type]||0.35;
+  const biochar=Math.round(mass*e);
+  const co2=(mass*e*1.6/1000).toFixed(2);
+  const usd=((parseFloat(co2)*15)).toFixed(2);
+  const rb=document.getElementById('r-biochar');
+  const rc=document.getElementById('r-co2');
+  const ru=document.getElementById('r-usd');
+  if(rb)rb.textContent=biochar;
+  if(rc)rc.textContent=co2;
+  if(ru)ru.textContent='$'+usd;
+}
+
+// ─── COLLECTION BOOKING ───
+let bookCount=4836;
+function bookCollection(){
+  const hub=document.getElementById('book-hub')?.value;
+  const date=document.getElementById('book-date')?.value;
+  const mass=document.getElementById('book-mass')?.value||'500';
+  if(!hub||!date){return;}
+  bookCount++;
+  const ref='GL-2026-'+bookCount;
+  const msg=document.getElementById('bookSuccessMsg');
+  if(msg){msg.textContent=`✓ Đã đặt lịch ${ref} · ${hub} · ${date} · ${mass} kg`;msg.style.display='block';}
+  setTimeout(()=>{if(msg)msg.style.display='none';},5000);
+}
+
+// ─── CHART HELPERS ───
+const isDark=()=>document.documentElement.getAttribute('data-theme')==='dark';
+const gc=()=>isDark()?'#304235':'#e0ecd4';
+const tc=()=>isDark()?'#829783':'#7a8e7a';
+
+// ─── DASHBOARD CHARTS ───
+function initDashCharts(){
+  // Revenue
+  const r=document.getElementById('revenueChart');
+  if(!r)return;
+  new Chart(r,{
+    type:'bar',
+    data:{
+      labels:['T11','T12','T1','T2','T3','T4'],
+      datasets:[{
+        label:'Doanh thu (USD)',
+        data:[420,680,920,1240,1680,4820],
+        backgroundColor:'rgba(163,217,106,.7)',
+        borderColor:'rgba(163,217,106,1)',
+        borderWidth:0,
+        borderRadius:5,
+        borderSkipped:false
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{color:gc()},ticks:{color:tc(),font:{size:10}}},
+        y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10},callback:v=>'$'+v}}
+      }
+    }
+  });
+  buildCycleSteps('rice');
+}
+
+// ─── CARBON CHARTS ───
+function initCarbonCharts(){
+  const c=document.getElementById('co2Chart');
+  if(!c)return;
+  new Chart(c,{
+    type:'line',
+    data:{
+      labels:['T11','T12','T1','T2','T3','T4','T5'],
+      datasets:[{
+        label:'CO₂e tích lũy (t)',
+        data:[0.42,0.95,1.38,2.10,3.12,3.84,4.28],
+        borderColor:'#26A69A',
+        backgroundColor:'rgba(38,166,154,.12)',
+        fill:true,
+        tension:.4,
+        pointBackgroundColor:'#26A69A',
+        pointRadius:3,
+        borderWidth:2
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{color:gc()},ticks:{color:tc(),font:{size:10}}},
+        y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10},callback:v=>v+' t'}}
+      }
+    }
+  });
+}
+
+// ─── WATER CHARTS ───
+function initWaterCharts(){
+  const c=document.getElementById('salinityChart');
+  if(!c)return;
+  new Chart(c,{
+    type:'line',
+    data:{
+      labels:['08/5','09/5','10/5','11/5','12/5','13/5','14/5'],
+      datasets:[{
+        label:'Độ mặn (g/L)',
+        data:[2.1,2.4,2.8,3.1,3.4,3.6,3.8],
+        borderColor:'#26A69A',
+        backgroundColor:'rgba(38,166,154,.1)',
+        fill:true,tension:.4,
+        pointBackgroundColor:'#26A69A',pointRadius:3,borderWidth:2
+      },{
+        label:'Ngưỡng cảnh báo (5 g/L)',
+        data:[5,5,5,5,5,5,5],
+        borderColor:'rgba(230,81,0,.6)',
+        borderWidth:1.5,borderDash:[4,4],
+        pointRadius:0,fill:false
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false}
+      },
+      scales:{
+        x:{grid:{color:gc()},ticks:{color:tc(),font:{size:10}}},
+        y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10},callback:v=>v+' g/L'},min:0,max:8}
+      }
+    }
+  });
+}
+
+// ─── PASSPORT CHART ───
+function initPassportChart(){
+  const c=document.getElementById('passportChart');
+  if(!c)return;
+  new Chart(c,{
+    type:'bar',
+    data:{
+      labels:['T11','T12','T1','T2','T3','T4','T5'],
+      datasets:[{
+        label:'CO₂e/tháng (t)',
+        data:[0.42,0.53,0.43,0.72,1.02,0.72,0.44],
+        backgroundColor:'rgba(163,217,106,.75)',
+        borderRadius:4,borderSkipped:false
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{color:gc()},ticks:{color:tc(),font:{size:10}}},
+        y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10},callback:v=>v+' t'},min:0}
+      }
+    }
+  });
+}
+
+// ─── INIT ───
+window.addEventListener('DOMContentLoaded',()=>{
+  initDashCharts();
+  chartsInited.dashboard=true;
+  calcBiochar();
+  // Animate salinity gauge
+  const arc=document.getElementById('salinityArc');
+  if(arc){
+    const pct=3.8/8;
+    const circ=2*Math.PI*62;
+    arc.setAttribute('stroke-dasharray',(circ*pct).toFixed(1)+' '+(circ*(1-pct)).toFixed(1));
+  }
+  // Dark mode toggle sync
+  const tog=document.getElementById('darkModeTog');
+  if(tog)tog.classList.add('on');
+});
+</script>
+</body>
+</html>
