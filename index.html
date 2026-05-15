@@ -894,7 +894,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
     </div>
 
     <div class="l-right">
-      <!-- Các nhãn nổi bên cạnh mô hình -->
+      <!-- Floating chips - 3 key metrics the platform tracks (live dashboard preview) -->
       <div class="l-chip l-chip-1">
         <div class="l-chip-dot green"></div>
         <div class="l-chip-val">4.2 tCO₂e</div>
@@ -913,7 +913,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
 
       <!-- Voxel tree illustration -->
       <div class="l-illustration">
-        <canvas id="voxelTree" width="520" height="480" style="width:100%;height:auto;display:block;"></canvas>
+        <canvas id="voxelTree" width="620" height="600" style="width:100%;height:auto;display:block;"></canvas>
       </div>
     </div>
   </div>
@@ -1647,7 +1647,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
       <div class="page" id="p-salinity">
         <!-- Gợi ý cho mùa vụ -->
         <div class="rec mb18">
-          <div class="rl">Gợi ý từ dữ liệu</div>
+          <div class="rl">Data Recommendation</div>
           <div class="rt">Optimal Season Switch Date</div>
           <div class="rd">15 June 2026</div>
           <div class="rx">Salinity forecast from MRC shows intrusion crossing 5 g/L threshold around June 10. Switch rice fields to shrimp-pond preparation 5 days prior for optimal transition.</div>
@@ -2163,35 +2163,35 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           <div class="cb" id="faqList">
             <div class="faq-item open">
               <div class="faq-q" onclick="toggleFaq(this)">
-                Biochar được tính CO₂e như thế nào?
+                How is biochar measured in CO₂e?
                 <span class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
               </div>
               <div class="faq-a"><div class="faq-a-inner">GreenLoop applies the Verra VM0044 methodology with a validated pyrolysis efficiency of ~35% mass yield. Each tonne of biochar sequesters approximately 2.5 tCO₂e (rice straw). The Carbon Engine calculates exact values per feedstock type and batch weight.</div></div>
             </div>
             <div class="faq-item">
               <div class="faq-q" onclick="toggleFaq(this)">
-                Khi nào nhận được tiền từ carbon credit?
+                When do I receive carbon credit payments?
                 <span class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
               </div>
               <div class="faq-a"><div class="faq-a-inner">After biomass is delivered and processed, GreenLoop nests into Biocare's existing certified project, reducing verification time from 18 months to 6–9 months. Payout is then released directly to your AICE wallet via smart contract after successful AICE registry confirmation.</div></div>
             </div>
             <div class="faq-item">
               <div class="faq-q" onclick="toggleFaq(this)">
-                Độ mặn bao nhiêu thì chuyển sang vụ tôm?
+                At what salinity should I switch to shrimp season?
                 <span class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
               </div>
               <div class="faq-a"><div class="faq-a-inner">The Salinity Season Scheduler fires an alert when intrusion crosses 5 g/L (shrimp optimal threshold). Rice cultivation is safe below 1 g/L. The 1–5 g/L range is the transition window - GreenLoop recommends switching 5 days before the forecast 5 g/L crossing date.</div></div>
             </div>
             <div class="faq-item">
               <div class="faq-q" onclick="toggleFaq(this)">
-                Sludge ao tôm có được tính credit không?
+                Is shrimp pond sludge eligible for credits?
                 <span class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
               </div>
               <div class="faq-a"><div class="faq-a-inner">Yes - GreenLoop's dual feedstock model co-processes pond sludge alongside rice straw. Shrimp sludge biochar yields ~18% mass with 1.5 tCO₂e per tonne biochar (B-Grade). Sludge diversion from canals also creates a measurable water-quality co-benefit within the VM0044 project boundary.</div></div>
             </div>
             <div class="faq-item">
               <div class="faq-q" onclick="toggleFaq(this)">
-                Làm sao để đăng ký hộ mới?
+                How do new households enroll?
                 <span class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
               </div>
               <div class="faq-a"><div class="faq-a-inner">New households enroll through their local HTX cooperative. The cooperative staff acts as a Tier 1 MRV verifier - digitally signing biomass inputs at the collection point. No smartphone or individual account is required; the cooperative's sign-off creates the initial Carbon Farmer Passport record.</div></div>
@@ -2200,7 +2200,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         </div>
 
         <div class="help-contact">
-          <div class="hc-title">Cần hỗ trợ thêm?</div>
+          <div class="hc-title">Need more help?</div>
           <div class="hc-sub">Our support team and HTX network are ready to help</div>
           <div class="hc-btns">
             <button class="hc-btn hc-btn-p" onclick="toast('Connecting to HTX network…')">Contact HTX</button>
@@ -2705,7 +2705,74 @@ const STATIC_TEXT = {
   "Home": "Trang chủ",
   "Settings": "Cài đặt",
   "Help": "Trợ giúp",
-  "Landing": "Trang đầu"
+  "Landing": "Trang đầu",
+
+  // ── Landing - Section tags ──
+  "How it works": "Cách thức hoạt động",
+  "For Farmers": "Dành cho nông hộ",
+
+  // ── Landing - Solution section ──
+  "End-to-end from field": "Từ đồng ruộng đến",
+  "to carbon market": "thị trường carbon",
+  "GreenLoop unifies biomass logistics, partner pyrolysis, digital MRV, Soil-Water intelligence, and ASEAN carbon trading within a single farmer-facing platform.": "GreenLoop hợp nhất logistics sinh khối, nhiệt phân đối tác, MRV số, trí tuệ Đất-Nước và giao dịch carbon ASEAN trong một nền tảng cho nông hộ.",
+  "Biomass Collection": "Thu gom sinh khối",
+  "HTX cooperatives serve as hub-and-spoke micro-collection points. Min 500 kg/pickup, cost kept below $12/tonne.": "HTX đóng vai trò điểm thu gom theo mô hình hub-and-spoke. Tối thiểu 500 kg/lần, chi phí dưới 12$/tấn.",
+  "Partner Pyrolysis": "Nhiệt phân đối tác",
+  "Asset-light model: HUSK Vietnam and Biocare convert residues into EBC-certified biochar at ~35% mass yield.": "Mô hình không tài sản nặng: HUSK Vietnam và Biocare chuyển phụ phẩm thành biochar đạt chuẩn EBC với hiệu suất ~35%.",
+  "Automated MRV": "MRV tự động",
+  "Three-tier VM0044 verification with digital custody chain shortens credit registration to 6–9 months.": "Xác minh VM0044 ba cấp với chuỗi giám hộ kỹ thuật số rút ngắn đăng ký tín chỉ còn 6–9 tháng.",
+  "MRC salinity API overlay fires season-switch alerts when intrusion crosses 5 g/L. Pond DO monitoring in Phase 2.": "Lớp phủ API độ mặn MRC phát cảnh báo chuyển mùa khi vượt 5 g/L. Theo dõi DO ao trong Giai đoạn 2.",
+  "Blockchain-anchored credential unlocks green loans, preferential insurance, and direct AICE exchange listing.": "Chứng nhận lưu trên blockchain mở khóa vay xanh, bảo hiểm ưu đãi và niêm yết trực tiếp trên sàn AICE.",
+  "AICE Trading": "Giao dịch AICE",
+  "Credits settle as ASEAN Standard Carbon Units on the AICE interoperable exchange. Real-time SCU oracle pricing.": "Tín chỉ thanh toán dưới dạng ASEAN Standard Carbon Units trên sàn AICE liên thông. Định giá SCU theo thời gian thực.",
+
+  // ── Landing - Farmers section ──
+  "Built for Lua-Tom": "Thiết kế cho nông hộ",
+  "smallholders": "lúa-tôm nhỏ",
+  "GreenLoop's dual Lua-Tom module is the first validated model for integrated rice-aquaculture systems in the Mekong Delta - doubling credit volume per household.": "Module lúa-tôm kép của GreenLoop là mô hình đầu tiên được xác thực cho hệ thống lúa - thủy sản tại ĐBSCL, nhân đôi lượng tín chỉ mỗi hộ.",
+  "Dual-season credits": "Tín chỉ hai mùa",
+  "Wet-season rice straw + dry-season pond sludge = two revenue streams per year from one farm.": "Rơm mùa mưa + bùn ao mùa khô = hai dòng doanh thu/năm từ một nông hộ.",
+  "HTX on-ramp": "HTX là cầu nối",
+  "Cooperative staff act as zero-literacy data-entry proxies, removing the digital barrier for individual households.": "Cán bộ HTX nhập dữ liệu thay nông hộ, xóa bỏ rào cản công nghệ cho từng hộ gia đình.",
+  "Points rewards": "Điểm thưởng",
+  "Every kg delivered earns redeemable points for fertiliser inputs - bridging the gap before Verra credits clear.": "Mỗi kg giao nộp đổi được điểm thưởng phân bón - thu hẹp khoảng cách trước khi tín chỉ Verra giải ngân.",
+
+  // ── Landing - Impact section ──
+  "Measurable outcomes": "Kết quả đo lường được",
+  "by Year 3": "vào năm thứ 3",
+  "From 50 households in Year 1 to 2,000 households and 8,000 tCO₂e by Year 3 - with co-benefits across water, soil, and income.": "Từ 50 hộ năm 1 lên 2.000 hộ và 8.000 tCO₂e vào năm 3 - với lợi ích đồng hành về nước, đất và thu nhập.",
+  "tCO₂e sequestered / yr": "tCO₂e lưu giữ / năm",
+  "Enrolled households": "Số hộ đã tham gia",
+  "Average income uplift": "Tăng thu nhập trung bình",
+  "ha open burning eliminated": "ha không còn đốt rơm",
+
+  // ── Landing - Partners section ──
+  "Built on verified": "Xây trên hạ tầng",
+  "infrastructure": "đã được xác thực",
+  "GreenLoop integrates with established pyrolysis partners, carbon registries, and open government data sources - no proprietary hardware required in Phase 1.": "GreenLoop tích hợp với các đối tác nhiệt phân uy tín, sổ đăng ký carbon và nguồn dữ liệu mở của chính phủ - không cần thiết bị độc quyền trong Giai đoạn 1.",
+
+  // ── Help page FAQ - questions ──
+  "How is biochar measured in CO₂e?": "Biochar được tính CO₂e như thế nào?",
+  "When do I receive carbon credit payments?": "Khi nào tôi nhận được tiền từ tín chỉ carbon?",
+  "At what salinity should I switch to shrimp season?": "Độ mặn bao nhiêu thì chuyển sang vụ tôm?",
+  "Is shrimp pond sludge eligible for credits?": "Bùn ao tôm có được tính tín chỉ không?",
+  "How do new households enroll?": "Làm sao để đăng ký hộ mới?",
+  "Need more help?": "Cần hỗ trợ thêm?",
+
+  // ── Collection page - Hub names ──
+  "Ca Mau Central HTX": "HTX Trung tâm Cà Mau",
+  "Bac Lieu North Hub": "Điểm Bắc Bạc Liêu",
+  "Soc Trang Hub": "Điểm Sóc Trăng",
+  "Kien Giang Hub": "Điểm Kiên Giang",
+  "Ca Mau Central": "Trung tâm Cà Mau",
+  "Bac Lieu North": "Bắc Bạc Liêu",
+
+  // ── Collection page - Recent collections ──
+  "Shrimp Sludge": "Bùn ao tôm",
+  "Feb 12, 2026": "12/02/2026",
+  "Jan 28, 2026": "28/01/2026",
+  "Jan 15, 2026": "15/01/2026",
+  "Dec 20, 2025": "20/12/2025"
 };
 
 const ATTRIBUTE_TEXT = {
@@ -3357,10 +3424,10 @@ function clearLocalStorage() {
   const cv = document.getElementById('voxelTree');
   if (!cv) return;
   const ctx = cv.getContext('2d');
-  cv.width = 620; cv.height = 580;
+  cv.width = 620; cv.height = 600;
 
   const S = 15, HS = 7.5;   // voxel size
-  const CX = 310, CY = 385; // screen centre (pivot = trunk 3.5,3.5)
+  const CX = 310, CY = 395; // screen centre (pivot = trunk 3.5,3.5)
 
   // ── Input ──────────────────────────────────────────────────────
   let rot = 0, vel = 0, drag = false, lastX = 0, hov = false, wasHov = false;
@@ -3384,19 +3451,26 @@ function clearLocalStorage() {
 
   // ── Base palette: [top, lit-side, dark-side] ──────────────────
   const BASE = {
-    stone: ['#b0a890','#7e7868','#5a5650'],
-    gold:  ['#e8c840','#c4a020','#9e7c10'],
-    grass: ['#5ed840','#40aa28','#2a8018'],
-    trunk: ['#8a6040','#5c3818','#3a220c'],
-    trkG:  ['#808070','#5c5c50','#404038'],
-    lA:    ['#52d448','#34aa2c','#1e8218'],  // bright mid-green
-    lB:    ['#3ec040','#28982a','#187018'],  // forest green
-    lC:    ['#68dc58','#48b83c','#2e9024'],  // light lime-green
-    lD:    ['#2e9e38','#1c7a26','#0e5c18'],  // deep forest
-    lE:    ['#84e060','#60b840','#429028'],  // yellow-green highlight
-    lF:    ['#96e878','#72c458','#4ea038'],  // pale lime top-catch
-    flower:['#ffaa40','#e07020','#c04c10'],
-    fern:  ['#58c030','#389018','#28700e'],
+    stone:  ['#8a826f','#605a4c','#3e3a30'],   // deep bedrock (under-island)
+    earth:  ['#7a5530','#523818','#341e08'],   // dark dirt/sub-soil
+    soil:   ['#a87444','#7c4c20','#54300e'],   // top soil (warm clay)
+    grass:  ['#5ed840','#3ea428','#287618'],   // grass top
+    grassR: ['#74e050','#48b430','#2e801c'],   // grass variant (lighter)
+    trunkD: ['#6e4424','#4a2810','#2a1606'],   // dark trunk (buttress / base)
+    trunk:  ['#9a6c44','#6c401c','#42240c'],   // main trunk
+    trunkL: ['#b4866a','#82532c','#542e14'],   // light trunk (upper, more reddish)
+    bark:   ['#5e3818','#3c2008','#221204'],   // bark detail / knots
+    moss:   ['#4ab828','#2c8418','#185c0e'],   // moss on trunk base
+    lA:     ['#52d448','#34aa2c','#1e8218'],   // bright mid-green
+    lB:     ['#3ec040','#28982a','#187018'],   // forest green
+    lC:     ['#68dc58','#48b83c','#2e9024'],   // light lime-green
+    lD:     ['#2e9e38','#1c7a26','#0e5c18'],   // deep forest
+    lE:     ['#84e060','#60b840','#429028'],   // yellow-green highlight
+    lF:     ['#96e878','#72c458','#4ea038'],   // pale lime top-catch
+    flower: ['#ffaa40','#e07020','#c04c10'],   // orange flower
+    flowerP:['#ff80a0','#d04060','#a02040'],   // pink flower (variant)
+    fern:   ['#58c030','#389018','#28700e'],
+    rock:   ['#9a9080','#6c6452','#48422e'],   // edge rocks
   };
 
   // Pre-compute per-voxel colour arrays with organic variation
@@ -3408,10 +3482,20 @@ function clearLocalStorage() {
     const rs   = isLeaf ? (((seed>>8)&0xff)/255 - 0.5)*22 : 0; // red shift (orange ↔ red)
     const gs   = isLeaf ? rs * -0.25 : 0;
 
+    // Extra variation for soil/earth (warm streaks)
+    if (mat === 'soil' || mat === 'earth') {
+      const s2 = (((seed>>4)&0xf)/15 - 0.5)*16;
+      return [shiftCol(base[0], br+s2, s2*0.3), shiftCol(base[1], br*0.6+s2*0.4), shiftCol(base[2], br*0.4)];
+    }
     // Extra: top-face of grass gets subtle green variation
-    if (mat === 'grass') {
-      const g2 = (((seed>>4)&0xf)/15 - 0.5)*18;
+    if (mat === 'grass' || mat === 'grassR') {
+      const g2 = (((seed>>4)&0xf)/15 - 0.5)*20;
       return [shiftCol(base[0], br, 0, g2, 0), shiftCol(base[1], br*0.6), shiftCol(base[2], br*0.4)];
+    }
+    // Trunk bark variation - knots and streaks
+    if (mat === 'trunk' || mat === 'trunkD' || mat === 'trunkL') {
+      const k = (((seed>>5)&0x7)/7 - 0.5)*18;
+      return [shiftCol(base[0], br+k, k*0.4), shiftCol(base[1], br*0.7+k*0.3), shiftCol(base[2], br*0.5)];
     }
     return base.map(c => shiftCol(c, br, rs, gs, 0));
   }
@@ -3429,32 +3513,120 @@ function clearLocalStorage() {
     });
   }
 
-  // Island 8×8
-  for (let x=0;x<=7;x++) for (let y=0;y<=7;y++){
-    addV(x,y,0,'stone',0); addV(x,y,1,'gold',0); addV(x,y,2,'grass',0);
+  // ── Island: octagonal layered floating chunk ─────────────────
+  // Define an octagonal mask (cut corners off the 8x8) to look rounded
+  // Center is at (3.5,3.5); use a "manhattan + chamfer" shape
+  function inOctagon(x, y, r) {
+    const dx = Math.abs(x - 3.5), dy = Math.abs(y - 3.5);
+    // Square mask with cut corners — manhattan dist + chebyshev mix
+    return (dx + dy) <= r && Math.max(dx, dy) <= r - 0.5;
   }
-  // Decorative plants
-  [[0,1],[1,6],[2,0],[5,7],[6,0],[7,5],[0,5],[6,2],[1,1],[7,2],[2,7],[5,1],[0,3],[7,6],[3,7],[4,0],[6,5],[1,4]]
-    .forEach(([x,y])=>{ if(!(x>=3&&x<=4&&y>=3&&y<=4)) addV(x,y,3,Math.random()>.5?'flower':'fern',1); });
-  // Trunk 2×2, slightly tapered feel via colour
-  for (let gz=3;gz<=11;gz++)
-    [[3,3],[4,3],[3,4],[4,4]].forEach(([x,y])=>addV(x,y,gz,gz<5?'trkG':'trunk',0));
+
+  // z=-2: pointed bedrock taper (small, looks like roots/rock from below)
+  for (let x=2;x<=5;x++) for (let y=2;y<=5;y++) {
+    if (inOctagon(x, y, 2.5)) addV(x, y, -2, 'stone', 0);
+  }
+  // z=-1: wider bedrock
+  for (let x=1;x<=6;x++) for (let y=1;y<=6;y++) {
+    if (inOctagon(x, y, 3.5)) addV(x, y, -1, 'stone', 0);
+  }
+  // z=0: stone bottom (widest underside)
+  for (let x=0;x<=7;x++) for (let y=0;y<=7;y++) {
+    if (inOctagon(x, y, 4.5)) addV(x, y, 0, 'stone', 0);
+  }
+  // z=1: earth / sub-soil
+  for (let x=0;x<=7;x++) for (let y=0;y<=7;y++) {
+    if (inOctagon(x, y, 4.5)) addV(x, y, 1, 'earth', 0);
+  }
+  // z=2: warm top-soil layer (visible at edges)
+  for (let x=0;x<=7;x++) for (let y=0;y<=7;y++) {
+    if (inOctagon(x, y, 4.5)) addV(x, y, 2, 'soil', 0);
+  }
+  // z=3: grass top (mix of two greens for natural look)
+  for (let x=0;x<=7;x++) for (let y=0;y<=7;y++) {
+    if (inOctagon(x, y, 4.5)) {
+      const useAlt = ((x*7 + y*11) & 0x3) === 0;
+      addV(x, y, 3, useAlt ? 'grassR' : 'grass', 0);
+    }
+  }
+  // Edge rocks — a couple of jutting stones on the rim for visual interest
+  [[0,3],[7,4],[3,0]].forEach(([x,y]) => {
+    if (inOctagon(x, y, 4.5)) addV(x, y, 4, 'rock', 0);
+  });
+  // Decorative ground plants (flowers + ferns) on the grass top (z=4 sits on top of grass at z=3).
+  // Use positions that fit inside the octagon and avoid the trunk footprint (2,2 → 5,5).
+  const plantSpots = [
+    [0,3], [0,4],             // west rim
+    [7,3], [7,4],             // east rim
+    [3,0], [4,0],             // north rim
+    [3,7], [4,7],             // south rim
+    [1,2], [1,5], [6,2], [6,5], // diagonal mid-positions
+    [2,1], [5,1], [2,6], [5,6]
+  ];
+  plantSpots.forEach(([x,y])=>{
+    if (!inOctagon(x, y, 4.5)) return;
+    if (x>=2 && x<=5 && y>=2 && y<=5) return;       // keep trunk area clear
+    // Skip if we already placed an edge rock there
+    if ((x===0&&y===3)||(x===7&&y===4)||(x===3&&y===0)) return;
+    const r = (x*7 + y*13) & 0xf;                    // deterministic but varied
+    const mat = r > 10 ? 'flower' : r > 6 ? 'flowerP' : 'fern';
+    addV(x, y, 4, mat, 1);
+  });
+
+  // ── Trunk: buttress base (wider) + tapering main + bark detail ──
+  // Buttress at z=4-5: cross-shape (centre 2x2 + axial neighbours)
+  const trunkBase = new Set();
+  for (let gz=4;gz<=5;gz++) {
+    for (let x=2;x<=5;x++) for (let y=2;y<=5;y++) {
+      const inCore = (x>=3 && x<=4) && (y>=3 && y<=4);
+      const isAxial = ((x===3 || x===4) && (y===2 || y===5)) || ((y===3 || y===4) && (x===2 || x===5));
+      if (inCore || isAxial) {
+        addV(x, y, gz, 'trunkD', 0);
+        trunkBase.add(`${x},${y},${gz}`);
+      }
+    }
+  }
+  // Moss patches on buttress base (replace, don't add) - only at z=4
+  const mossSpots = [[2,3],[5,4],[3,5],[4,2]];
+  mossSpots.forEach(([x,y]) => {
+    const key = `${x},${y},4`;
+    if (trunkBase.has(key)) {
+      // Replace existing buttress voxel by changing its material
+      // Find and update
+      for (let i = voxels.length - 1; i >= 0; i--) {
+        const v = voxels[i];
+        if (v.gx === x && v.gy === y && v.gz === 4) {
+          v.mat = 'moss';
+          v.cols = makeColors('moss', x, y, 4, 0);
+          break;
+        }
+      }
+    }
+  });
+
+  // Main trunk: 2x2 from z=6 to z=11 with varied colours
+  for (let gz=6;gz<=11;gz++) {
+    [[3,3],[4,3],[3,4],[4,4]].forEach(([x,y])=>{
+      let mat = 'trunk';
+      if (gz >= 10) mat = 'trunkL';        // top of trunk lighter (more sun)
+      // Occasional bark knot
+      const knotSeed = (x*13 + y*17 + gz*23) & 0xf;
+      if (knotSeed === 5 && gz >= 7 && gz <= 9) mat = 'bark';
+      addV(x, y, gz, mat, 0);
+    });
+  }
 
   // ── Organic canopy (blob, not perfect sphere) ─────────────────
-  // Shape: ellipsoid slightly taller than wide + bumpy surface removal
   const leafPal = ['lA','lB','lC','lD','lE','lF'];
   for (let gx=-3;gx<=10;gx++) for (let gy=-3;gy<=10;gy++) for (let gz=11;gz<=23;gz++){
     const dx=gx-3.5, dy=gy-3.5, dz=gz-16.5;
-    // Ellipsoid: wider horizontally than vertically
     const rH = Math.sqrt(dx*dx + dy*dy);
-    const rE = Math.sqrt((rH/1.05)*(rH/1.05) + dz*dz); // slight horizontal stretch
+    const rE = Math.sqrt((rH/1.05)*(rH/1.05) + dz*dz);
     if (rE > 5.0) continue;
-    // Bumpy surface noise to break up perfect sphere
     const nSeed = (gx*31+gy*17+gz*7) & 0xff;
-    if (rE > 4.3 && nSeed % 3 === 0) continue;  // outer shell gaps
-    if (rE > 3.8 && nSeed % 7 === 6) continue;  // mid-shell micro-gaps
+    if (rE > 4.3 && nSeed % 3 === 0) continue;
+    if (rE > 3.8 && nSeed % 7 === 6) continue;
 
-    // Colour by height + noise
     let ci = dz>2.5?5 : dz>1?4 : dz>0?0 : dz>-1.5?1 : dz>-3?2 : dz>-4.5?3 : 2;
     const n = nSeed & 3;
     ci = Math.min(5, Math.max(0, ci + (n===0 ? -1 : n===3 ? 1 : 0)));
@@ -3493,12 +3665,32 @@ function clearLocalStorage() {
       if (!v.leaf || v.gz < 12) return;          // ← only canopy leaves
       const [px,py] = pr(v.gx+.5, v.gy+.5, v.gz+.5, cs, ss, 0);
       const ang = Math.atan2(py-(CY-90), px-CX) + (Math.random()-.5)*1.6;
-      const str = 8 + Math.random()*24;           // ← subtle: 8‒32 px
+      const str = 8 + Math.random()*24;
       v.sx = Math.cos(ang)*str;
       v.sy = Math.sin(ang)*str;
       v.vx = v.sx*.3; v.vy = v.sy*.3;
     });
   }
+
+  // ── CO₂ particle system: particles RISE from canopy & fade out ──
+  // Each particle is a small CO₂ molecule being sequestered, then released
+  // upward as a visual cue (it's actually backwards - the tree absorbs CO₂ -
+  // but the rising motion reads as "carbon flowing into the tree's offset")
+  const NUM_PARTICLES = 12;
+  const particles = [];
+  function spawnParticle(initial) {
+    return {
+      x: CX - 30 + (Math.random() - 0.5) * 180,
+      y: CY - 40 + Math.random() * 60,         // start in/near canopy
+      vy: -0.35 - Math.random() * 0.4,         // rise speed
+      vx: (Math.random() - 0.5) * 0.3,         // slight horizontal drift
+      r: 1.6 + Math.random() * 2.2,
+      life: initial ? Math.random() : 0,        // 0..1 lifecycle
+      decay: 0.0028 + Math.random() * 0.0024,   // fade rate
+      hue: Math.random() < 0.7 ? 'g' : 'w',     // green CO₂ or white wisp
+    };
+  }
+  for (let i = 0; i < NUM_PARTICLES; i++) particles.push(spawnParticle(true));
 
   // ── Render loop ───────────────────────────────────────────────
   function frame(ts) {
@@ -3512,7 +3704,6 @@ function clearLocalStorage() {
 
     // Physics
     voxels.forEach(v => {
-      // Only canopy leaves scatter; everything else stays locked at 0
       const isScatter = v.leaf && v.gz >= 12;
       const tx = (hov && isScatter) ? v.sx : 0;
       const ty = (hov && isScatter) ? v.sy : 0;
@@ -3531,39 +3722,81 @@ function clearLocalStorage() {
       }
     });
 
-    ctx.clearRect(0,0,620,580);
+    ctx.clearRect(0,0,620,600);
 
-    // Floating shadow
+    // Soft water reflection beneath the island (suggests floating)
     ctx.save();
-    ctx.translate(CX, CY+120+by*.4);
+    ctx.translate(CX, CY + 145 + by * .35);
+    const wg = ctx.createRadialGradient(0, 0, 4, 0, 0, 150);
+    wg.addColorStop(0, 'rgba(38, 166, 154, .14)');
+    wg.addColorStop(0.5, 'rgba(38, 166, 154, .06)');
+    wg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = wg; ctx.scale(3.4, .55);
+    ctx.beginPath(); ctx.arc(0, 0, 95, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+
+    // Drop shadow (dark)
+    ctx.save();
+    ctx.translate(CX, CY+128+by*.4);
     const sg=ctx.createRadialGradient(0,0,4,0,0,115);
-    sg.addColorStop(0,'rgba(0,0,0,.22)'); sg.addColorStop(1,'rgba(0,0,0,0)');
+    sg.addColorStop(0,'rgba(0,0,0,.26)'); sg.addColorStop(1,'rgba(0,0,0,0)');
     ctx.fillStyle=sg; ctx.scale(3.2,.5);
-    ctx.beginPath(); ctx.arc(0,0,85,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(0,0,82,0,Math.PI*2); ctx.fill();
     ctx.restore();
 
     // Canopy glow (cool green rim light)
     const cg=ctx.createRadialGradient(CX,CY-80,20,CX,CY-60,180);
     cg.addColorStop(0,'rgba(80,200,60,.10)'); cg.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=cg; ctx.fillRect(0,0,620,580);
+    ctx.fillStyle=cg; ctx.fillRect(0,0,620,600);
 
     // Ambient scene glow
     const ag=ctx.createRadialGradient(CX,CY,0,CX,CY,270);
     ag.addColorStop(0,'rgba(40,95,50,.18)'); ag.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=ag; ctx.fillRect(0,0,620,580);
+    ctx.fillStyle=ag; ctx.fillRect(0,0,620,600);
 
-    // Depth-sort + render
+    // Depth-sort + render voxels
     voxels
       .map(v=>({ v, depth:(v.gx-3.5)*(cs+ss)+(v.gy-3.5)*(cs-ss) }))
       .sort((a,b)=>a.depth-b.depth || a.v.gz-b.v.gz)
       .forEach(({v})=>dc(v,cs,ss,by));
 
-    // Floating CO₂ particles
-    [{x:280,y:48,r:3.8,p:0},{x:318,y:28,r:2.8,p:1.1},{x:346,y:56,r:3.2,p:2.3},
-     {x:294,y:16,r:2.2,p:.7},{x:330,y:40,r:1.8,p:1.8}].forEach(p=>{
+    // ── CO₂ rising particles: meaningful motion = "carbon being captured" ──
+    particles.forEach(p => {
+      p.life += p.decay;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy *= 0.998;   // very gentle drag
+
+      // Respawn when faded out or off-screen
+      if (p.life >= 1 || p.y < -10) {
+        const fresh = spawnParticle(false);
+        Object.assign(p, fresh);
+      }
+
+      // Fade in fast, fade out as life approaches 1
+      const a = p.life < 0.15
+        ? (p.life / 0.15) * 0.7
+        : (1 - p.life) * 0.7;
+
       ctx.beginPath();
-      ctx.arc(p.x, p.y+Math.sin(t*1.1+p.p)*7, p.r, 0, Math.PI*2);
-      ctx.fillStyle='rgba(163,217,106,.48)'; ctx.fill();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.hue === 'g'
+        ? `rgba(163, 217, 106, ${a})`
+        : `rgba(220, 240, 200, ${a * 0.8})`;
+      ctx.fill();
+
+      // Tiny tail/streak for sense of upward motion
+      if (a > 0.25) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x - p.vx * 6, p.y - p.vy * 6);
+        ctx.strokeStyle = p.hue === 'g'
+          ? `rgba(163, 217, 106, ${a * 0.35})`
+          : `rgba(220, 240, 200, ${a * 0.25})`;
+        ctx.lineWidth = p.r * 0.55;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
     });
 
     requestAnimationFrame(frame);
