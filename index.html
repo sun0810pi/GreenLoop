@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -294,7 +293,7 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .ci{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:13.5px;font-family:inherit;font-weight:600;color:var(--tp);background:var(--bg);transition:all .2s}
 .ci:focus{outline:none;border-color:var(--leaf);box-shadow:0 0 0 3px rgba(76,175,80,.1)}
 .cr{background:linear-gradient(135deg,rgba(76,175,80,.06),rgba(163,217,106,.06));border:1px solid rgba(76,175,80,.14);border-radius:var(--r-md);padding:14px;text-align:center}
-.crv{font-size:28px;font-weight:800;color:var(--f);letter-spacing:-.5px}
+.crv{font-size:28px;font-weight:800;color:var(--tp);letter-spacing:-.5px}
 .crl{font-size:11px;color:var(--ts);font-weight:500}
 
 /* Mẫu nhập liệu */
@@ -768,24 +767,77 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
   .l-nav-signin{display:none}
 }
 
-/* Light theme overrides for auth - force dark-themed colors regardless */
-body[data-theme="light"] #auth{background:var(--fd);color:#fff}
-body[data-theme="light"] #auth .au-card{background:rgba(255,255,255,.05)}
+/* === AUTH PAGE - LIGHT THEME (đổi sáng/tối thật, không khoá nền tối nữa) === */
+body[data-theme="light"] #auth{background:#f3f8ec;color:var(--tp)}
+body[data-theme="light"] #auth::before{
+  background:radial-gradient(ellipse 70% 60% at 20% 50%, rgba(76,175,80,.18) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 50% at 80% 25%, rgba(38,166,154,.12) 0%,transparent 55%),
+             radial-gradient(ellipse 44% 44% at 55% 80%, rgba(139,111,71,.08) 0%,transparent 45%)}
+body[data-theme="light"] #auth::after{
+  background-image:linear-gradient(rgba(26,58,42,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,42,.04) 1px,transparent 1px)}
+
+/* Logo: "Green" -> đậm, "Loop" -> xanh đậm dễ thấy trên nền sáng */
+body[data-theme="light"] #auth .au-nav-logo .l-logo-text{color:var(--tp)}
+body[data-theme="light"] #auth .au-nav-logo .l-logo-text span{color:var(--leaf)}
+
+/* Tiêu đề + text phụ */
 body[data-theme="light"] #auth .au-h1,
 body[data-theme="light"] #auth .au-form-h,
-body[data-theme="light"] #auth .au-perk-txt-t,
-body[data-theme="light"] #auth .l-logo-text{color:#fff}
+body[data-theme="light"] #auth .au-perk-txt-t{color:var(--tp)}
+body[data-theme="light"] #auth .au-desc,
+body[data-theme="light"] #auth .au-perk-txt-d,
+body[data-theme="light"] #auth .au-form-sub,
+body[data-theme="light"] #auth .au-check,
+body[data-theme="light"] #auth .au-divider{color:var(--ts)}
+body[data-theme="light"] #auth .au-fl{color:var(--tm)}
+body[data-theme="light"] #auth .au-foot{color:var(--tm)}
+body[data-theme="light"] #auth .au-demo-banner{background:linear-gradient(135deg,rgba(76,175,80,.08),rgba(38,166,154,.06));border-color:rgba(76,175,80,.3)}
+body[data-theme="light"] #auth .au-demo-banner-t{color:var(--ts)}
+body[data-theme="light"] #auth .au-demo-banner-t strong{color:var(--ad)}
+
+/* Card đăng nhập */
+body[data-theme="light"] #auth .au-card{background:#ffffff;border-color:var(--borderl);box-shadow:0 20px 50px rgba(26,58,42,.08)}
+body[data-theme="light"] #auth .au-tabs{background:var(--bg);border-color:var(--borderl)}
+body[data-theme="light"] #auth .au-tab{color:var(--tm)}
+body[data-theme="light"] #auth .au-tab:not(.active):hover{color:var(--tp)}
+body[data-theme="light"] #auth .au-tab.active{background:var(--lb);color:var(--fd)}
+
+/* Inputs */
 body[data-theme="light"] #auth .au-fi,
-body[data-theme="light"] #auth .au-fs{color:#fff;background:rgba(0,0,0,.2)}
-body[data-theme="light"] #auth .au-fs option{background:var(--f);color:#fff}
-body[data-theme="light"] #auth .au-tab.active{color:var(--fd)}
+body[data-theme="light"] #auth .au-fs{color:var(--tp);background:var(--bg);border-color:var(--border)}
+body[data-theme="light"] #auth .au-fi::placeholder{color:var(--tm)}
+body[data-theme="light"] #auth .au-fi:focus,
+body[data-theme="light"] #auth .au-fs:focus{background:#fff;border-color:var(--leaf);box-shadow:0 0 0 3px rgba(76,175,80,.12)}
+body[data-theme="light"] #auth .au-fs option{background:#fff;color:var(--tp)}
+body[data-theme="light"] #auth .au-pw-toggle{color:var(--tm)}
+body[data-theme="light"] #auth .au-pw-toggle:hover{color:var(--tp)}
+
+/* Nút */
 body[data-theme="light"] #auth .au-btn-p{color:var(--fd)}
-body[data-theme="light"] #auth .au-btn-s{color:#fff}
-body[data-theme="light"] .au-nav .mode-btn{color:rgba(255,255,255,.55)}
-body[data-theme="light"] .au-nav .mode-btn.active{background:var(--lb);color:var(--fd)}
-body[data-theme="light"] .au-nav .mode-group{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
-/* Landing nav buttons - keep visible regardless of theme (landing is always dark) */
-body[data-theme="light"] .l-nav-signin{color:#fff;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18)}
+body[data-theme="light"] #auth .au-btn-s{background:var(--bg);color:var(--tp);border-color:var(--border)}
+body[data-theme="light"] #auth .au-btn-s:hover{background:var(--bgs);border-color:var(--leaf)}
+body[data-theme="light"] #auth .au-nav-back{background:var(--bg);border-color:var(--borderl);color:var(--ts)}
+body[data-theme="light"] #auth .au-nav-back:hover{background:var(--bgs);color:var(--tp)}
+
+/* Chip thông tin + tag tin cậy */
+body[data-theme="light"] #auth .au-tag{background:rgba(76,175,80,.1);border-color:rgba(76,175,80,.22);color:var(--ad)}
+body[data-theme="light"] #auth .au-perk-ico{background:rgba(76,175,80,.1);border-color:rgba(76,175,80,.22);color:var(--ad)}
+body[data-theme="light"] #auth .au-trust-tag{background:rgba(26,58,42,.04);border-color:var(--borderl);color:var(--ts)}
+
+/* Mode group + Nav buttons */
+body[data-theme="light"] .au-nav .mode-group{background:rgba(255,255,255,.72);border-color:var(--borderl)}
+body[data-theme="light"] .au-nav .mode-btn{color:var(--tm)}
+body[data-theme="light"] .au-nav .mode-btn:hover{background:var(--bgs);color:var(--tp)}
+body[data-theme="light"] .au-nav .mode-btn.active{background:var(--f);color:#fff}
+
+/* Đường kẻ OR */
+body[data-theme="light"] #auth .au-divider::before,
+body[data-theme="light"] #auth .au-divider::after{background:var(--borderl)}
+
+/* === Auth dark mode giữ nguyên như cũ (mặc định khi #auth không có override) === */
+/* Landing nav buttons - landing goes light cream in light mode, so signin needs dark text */
+body[data-theme="light"] .l-nav-signin{color:var(--tp);background:rgba(26,58,42,.04);border-color:var(--borderl)}
+body[data-theme="light"] .l-nav-signin:hover{background:rgba(26,58,42,.08);border-color:var(--border);color:var(--tp)}
 body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);border-color:var(--lb)}
 </style>
 </head>
@@ -1327,7 +1379,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <div class="trend up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>sẵn</div>
             </div>
             <div class="sc-val">850 kg</div>
-            <div class="sc-lab">Straw waiting for pickup</div>
+            <div class="sc-lab" id="statStrawLabel">Straw waiting for pickup</div>
           </div>
           <div class="sc ani">
             <div class="sc-top">
@@ -1368,12 +1420,12 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             <div class="ch">
               <div class="ct">
                 <div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-                How much will my straw earn?
+                <span id="calcCardTitle">How much will my straw earn?</span>
               </div>
             </div>
             <div class="cb">
               <div class="fg">
-                <label class="fl">What I have</label>
+                <label class="fl" id="calcWhatLabel">What I have</label>
                 <select class="fs" id="calcType" onchange="calc()">
                   <option value="rice_straw">Rice straw (rơm)</option>
                   <option value="rice_husk">Rice husk (trấu)</option>
@@ -1414,19 +1466,19 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <span style="font-size:11px;color:var(--tm);font-weight:600">Goal: 25 tr VND</span>
             </div>
             <div class="cb">
-              <div style="margin-bottom:14px">
-                <div class="pl" style="margin-bottom:4px"><span>From straw &amp; husk</span><span>8.2 / 18 tr</span></div>
-                <div class="pt"><div class="pf g" style="width:45.5%"></div></div>
+              <div style="margin-bottom:14px" id="earningRow1">
+                <div class="pl" style="margin-bottom:4px"><span id="earningLabel1">From straw &amp; husk</span><span id="earningVal1">8.2 / 18 tr</span></div>
+                <div class="pt"><div class="pf g" id="earningBar1" style="width:45.5%"></div></div>
               </div>
-              <div style="margin-bottom:14px">
-                <div class="pl" style="margin-bottom:4px"><span>From pond sludge</span><span>2.1 / 4 tr</span></div>
-                <div class="pt"><div class="pf a" style="width:52.5%"></div></div>
+              <div style="margin-bottom:14px" id="earningRow2">
+                <div class="pl" style="margin-bottom:4px"><span id="earningLabel2">From pond sludge</span><span id="earningVal2">2.1 / 4 tr</span></div>
+                <div class="pt"><div class="pf a" id="earningBar2" style="width:52.5%"></div></div>
               </div>
-              <div>
+              <div id="earningRow3">
                 <div class="pl" style="margin-bottom:4px"><span>Carbon credit bonus</span><span>0.8 / 3 tr</span></div>
                 <div class="pt"><div class="pf e" style="width:26.6%"></div></div>
               </div>
-              <div style="margin-top:14px;padding:11px 13px;background:linear-gradient(135deg,rgba(76,175,80,.06),rgba(38,166,154,.04));border:1px solid rgba(76,175,80,.14);border-radius:10px;font-size:12px;color:var(--ts);line-height:1.6">
+              <div id="earningsSummary" style="margin-top:14px;padding:11px 13px;background:linear-gradient(135deg,rgba(76,175,80,.06),rgba(38,166,154,.04));border:1px solid rgba(76,175,80,.14);border-radius:10px;font-size:12px;color:var(--ts);line-height:1.6">
                 You've earned <strong style="color:var(--ok)">11.1 million VND</strong> so far - about <strong style="color:var(--tp)">44%</strong> of your goal.
               </div>
             </div>
@@ -1434,7 +1486,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
 
           <div class="card">
             <div class="ch">
-              <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg></div>Straw collected each month</div>
+              <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg></div><span id="miniChartTitle">Straw collected each month</span></div>
               <span class="badge bg" id="seasonBadge">Rice Season</span>
             </div>
             <div class="cb">
@@ -1449,24 +1501,24 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <!-- Tình trạng đất - dùng ngôn ngữ thân thiện -->
         <div class="card">
           <div class="ch">
-            <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22V12M12 12C12 12 8 9 4 12M12 12C12 12 16 9 20 12"/><circle cx="12" cy="6" r="4"/></svg></div>My field - Plot A (rice)</div>
-            <span class="badge bg">Soil getting better</span>
+            <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22V12M12 12C12 12 8 9 4 12M12 12C12 12 16 9 20 12"/><circle cx="12" cy="6" r="4"/></svg></div><span id="fieldCardTitle">My field - Plot A (rice)</span></div>
+            <span class="badge bg" id="fieldBadge">Soil getting better</span>
           </div>
           <div class="cb">
-            <div class="g3">
+            <div class="g3" id="fieldCardBody">
               <div style="text-align:center">
                 <div class="sr">
                   <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--bgs)" stroke-width="10"/><circle cx="50" cy="50" r="40" fill="none" stroke="var(--leaf)" stroke-width="10" stroke-dasharray="188 251" stroke-dashoffset="47" stroke-linecap="round" transform="rotate(-90 50 50)"/></svg>
-                  <div class="src"><div class="srv">Healthy</div><div class="srm" style="font-size:9px">soil</div></div>
+                  <div class="src"><div class="srv" id="fieldHealthVal">Healthy</div><div class="srm" style="font-size:9px" id="fieldHealthLbl">soil</div></div>
                 </div>
-                <div style="font-size:11.5px;font-weight:600;margin-top:6px">3.2 hectares</div>
+                <div style="font-size:11.5px;font-weight:600;margin-top:6px" id="fieldSize">3.2 hectares</div>
               </div>
-              <div>
+              <div id="fieldMetrics">
                 <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>Organic matter</span><span>2.8% - good</span></div><div class="pt"><div class="pf g" style="width:56%"></div></div></div>
                 <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>Moisture</span><span>72% - good</span></div><div class="pt"><div class="pf a" style="width:72%"></div></div></div>
                 <div><div class="pl" style="margin-bottom:3px"><span>pH (acidity)</span><span>6.4 - balanced</span></div><div class="pt"><div class="pf e" style="width:64%"></div></div></div>
               </div>
-              <div>
+              <div id="fieldChangeNote">
                 <div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">What changed</div>
                 <div style="font-size:12px;color:var(--ts);line-height:1.65">After putting biochar on the field for 2 seasons, the soil holds <strong>18% more water</strong> and rice grew stronger.</div>
                 <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">
@@ -1570,7 +1622,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             <div class="cb">
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
                 <div style="background:var(--bg);border-radius:10px;padding:14px">
-                  <div style="font-size:22px;font-weight:800;color:var(--f)">3,840</div>
+                  <div style="font-size:22px;font-weight:800;color:var(--leaf)">3,840</div>
                   <div style="font-size:11px;color:var(--tm);font-weight:500;margin-top:2px">kg this month</div>
                 </div>
                 <div style="background:var(--bg);border-radius:10px;padding:14px">
@@ -2510,7 +2562,150 @@ const STATIC_TEXT = {
   "200 kg applied, +0.48 tCO₂e": "Đã bón 200 kg, +0,48 tCO₂e",
   "Batch #GL-003 - 1.2 tCO₂e verified & registered on AICE": "Lô #GL-003 - 1,2 tCO₂e đã xác minh và đăng ký trên AICE",
   "150 kg applied, +0.36 tCO₂e": "Đã bón 150 kg, +0,36 tCO₂e",
-  "Passport created. Initial soil baseline recorded.": "Đã tạo hồ sơ. Đã ghi nhận đường cơ sở đất ban đầu."
+  "Passport created. Initial soil baseline recorded.": "Đã tạo hồ sơ. Đã ghi nhận đường cơ sở đất ban đầu.",
+
+  // ── Settings - Web & App section labels ──
+  "Installation": "Cài đặt ứng dụng",
+  "Display": "Hiển thị",
+  "Browser Notifications": "Thông báo trình duyệt",
+  "Session & Storage": "Phiên & Bộ nhớ",
+  "Keyboard Shortcuts": "Phím tắt",
+  "Offline mode": "Chế độ ngoại tuyến",
+  "Cache data for use without internet": "Lưu dữ liệu để dùng khi không có mạng",
+  "Cached data": "Dữ liệu đã tải",
+  "Clear cache": "Xóa bộ nhớ đệm",
+  "UI zoom": "Phóng to giao diện",
+  "Scale dashboard text and cards": "Điều chỉnh kích thước văn bản và thẻ",
+  "Reduced motion": "Giảm chuyển động",
+  "Disable animations and transitions": "Tắt hoạt ảnh và chuyển tiếp",
+  "High contrast": "Độ tương phản cao",
+  "Increase border and text contrast": "Tăng tương phản viền và văn bản",
+  "Push notifications": "Thông báo đẩy",
+  "Alerts when app is in background": "Nhận cảnh báo khi ứng dụng chạy nền",
+  "Click to enable": "Nhấn để bật",
+  "Sound on alert": "Âm thanh cảnh báo",
+  "Play sound for salinity / mortality warnings": "Phát âm khi có cảnh báo độ mặn / tôm chết",
+  "Unread count in tab title": "Hiện số chưa đọc trên tab",
+  "Show badge count in browser tab": "Hiện số thông báo trên tab trình duyệt",
+  "Auto-save form drafts": "Tự lưu nháp biểu mẫu",
+  "Restore unsubmitted booking forms on reload": "Khôi phục biểu mẫu chưa gửi khi tải lại",
+  "Session timeout": "Hết phiên tự động",
+  "Auto-logout after inactivity": "Tự đăng xuất khi không hoạt động",
+  "Never": "Không bao giờ",
+  "30 minutes": "30 phút",
+  "1 hour": "1 giờ",
+  "4 hours": "4 giờ",
+  "Remember last page": "Ghi nhớ trang cuối",
+  "Re-open on last visited section": "Mở lại mục đã xem lần trước",
+  "Local storage used": "Bộ nhớ cục bộ đã dùng",
+  "Preferences · drafts · cache index": "Tùy chọn · nháp · chỉ mục bộ nhớ",
+  "Reset all": "Đặt lại tất cả",
+  "PWA Ready": "Sẵn sàng cài đặt",
+  "Offline-capable PWA": "PWA - dùng được ngoại tuyến",
+  "Install GreenLoop as App": "Cài GreenLoop thành ứng dụng",
+
+  // ── Settings card titles ──
+  "Farmer Profile": "Hồ sơ nông hộ",
+  "Preferences": "Tùy chọn",
+  "Notification Settings": "Cài đặt thông báo",
+  "Farm & Field Management": "Quản lý ruộng & ao",
+  "Carbon & MRV Configuration": "Cấu hình Carbon & MRV",
+  "Integrations": "Kết nối",
+  "Data & Privacy": "Dữ liệu & Quyền riêng tư",
+  "Web & App": "Ứng dụng web",
+
+  // ── Settings pref labels ──
+  "Theme": "Giao diện",
+  "Light or dark interface": "Giao diện sáng hoặc tối",
+  "Language": "Ngôn ngữ",
+  "Display language": "Ngôn ngữ hiển thị",
+  "Compact view": "Giao diện gọn",
+  "Reduce card padding": "Giảm khoảng cách thẻ",
+  "Auto-switch season": "Tự chuyển mùa vụ",
+  "Switch based on salinity data": "Chuyển dựa theo dữ liệu độ mặn",
+  "Salinity alerts": "Cảnh báo độ mặn",
+  "Carbon credit issuance": "Phát hành tín chỉ carbon",
+  "Collection reminders": "Nhắc nhở thu gom",
+  "Weekly soil report": "Báo cáo đất hàng tuần",
+  "AICE price updates": "Cập nhật giá AICE",
+  "Shrimp mortality warnings": "Cảnh báo tôm chết hàng loạt",
+  "Save Changes": "Lưu thay đổi",
+  "Full name": "Họ và tên",
+  "Farm size (ha)": "Diện tích (ha)",
+  "Primary biomass type": "Loại sinh khối chính",
+  "Rice Straw": "Rơm lúa",
+  "Rice Husk": "Trấu",
+  "Shrimp Pond Sludge": "Bùn ao tôm",
+  "Mixed (Lua-Tom)": "Hỗn hợp (Lúa-Tôm)",
+  "Field A - Paddy": "Mảnh A - Lúa",
+  "Pond B - Shrimp": "Ao B - Tôm",
+  "Field C - Lua-Tom": "Mảnh C - Lúa-Tôm",
+  "Add new field or pond": "Thêm mảnh ruộng hoặc ao mới",
+  "Pyrolysis yield factor": "Hệ số thu hồi pyrolysis",
+  "Default: 35% (IPCC validated)": "Mặc định: 35% (IPCC xác nhận)",
+  "Connected": "Đã kết nối",
+  "Pending": "Đang chờ",
+  "Active": "Đang hoạt động",
+  "Connect": "Kết nối",
+  "Export my data": "Xuất dữ liệu của tôi",
+  "Download full CSV - biomass logs, soil records, credits": "Tải CSV đầy đủ - nhật ký sinh khối, đất, tín chỉ",
+  "Export": "Xuất",
+  "Carbon Passport PDF": "PDF Hộ chiếu Carbon",
+  "Generate shareable credential document": "Tạo tài liệu chứng nhận có thể chia sẻ",
+  "Generate": "Tạo",
+  "Data sharing consent": "Đồng ý chia sẻ dữ liệu",
+  "Anonymised data shared with MRC & MONRE": "Dữ liệu ẩn danh được chia sẻ với MRC & MONRE",
+  "Delete account": "Xóa tài khoản",
+  "Permanently remove all data - irreversible": "Xóa toàn bộ dữ liệu vĩnh viễn - không thể hoàn tác",
+  "Delete": "Xóa",
+
+  // ── Help page ──
+  "Frequently Asked Questions": "Câu hỏi thường gặp",
+  "Our support team and HTX network are ready to help": "Đội hỗ trợ và mạng HTX luôn sẵn sàng giúp bạn",
+  "Contact HTX": "Liên hệ HTX",
+  "Email Support": "Gửi email hỗ trợ",
+  "GreenLoop applies the Verra VM0044 methodology with a validated pyrolysis efficiency of ~35% mass yield. Each tonne of biochar sequesters approximately 2.5 tCO₂e (rice straw). The Carbon Engine calculates exact values per feedstock type and batch weight.": "GreenLoop áp dụng phương pháp Verra VM0044 với hiệu suất nhiệt phân được xác thực ~35% khối lượng. Mỗi tấn biochar hấp thụ khoảng 2,5 tCO₂e (rơm lúa). Carbon Engine tính toán chính xác theo loại nguyên liệu và khối lượng lô.",
+  "After biomass is delivered and processed, GreenLoop nests into Biocare's existing certified project, reducing verification time from 18 months to 6–9 months. Payout is then released directly to your AICE wallet via smart contract after successful AICE registry confirmation.": "Sau khi sinh khối được giao và xử lý, GreenLoop lồng vào dự án đã được chứng nhận của Biocare, rút ngắn thời gian xác minh từ 18 tháng xuống còn 6–9 tháng. Thanh toán được giải phóng trực tiếp vào ví AICE qua hợp đồng thông minh sau khi xác nhận đăng ký AICE thành công.",
+  "The Salinity Season Scheduler fires an alert when intrusion crosses 5 g/L (shrimp optimal threshold). Rice cultivation is safe below 1 g/L. The 1–5 g/L range is the transition window - GreenLoop recommends switching 5 days before the forecast 5 g/L crossing date.": "Lịch mùa vụ độ mặn phát cảnh báo khi độ mặn vượt 5 g/L (ngưỡng tối ưu cho tôm). Trồng lúa an toàn dưới 1 g/L. Khoảng 1–5 g/L là cửa sổ chuyển tiếp - GreenLoop khuyến nghị chuyển sang nuôi tôm 5 ngày trước ngày dự báo vượt 5 g/L.",
+  "Yes - GreenLoop's dual feedstock model co-processes pond sludge alongside rice straw. Shrimp sludge biochar yields ~18% mass with 1.5 tCO₂e per tonne biochar (B-Grade). Sludge diversion from canals also creates a measurable water-quality co-benefit within the VM0044 project boundary.": "Có - mô hình nguyên liệu kép của GreenLoop xử lý bùn ao cùng với rơm lúa. Biochar bùn tôm đạt ~18% khối lượng với 1,5 tCO₂e/tấn biochar (hạng B). Việc thu gom bùn thay vì xả ra kênh cũng tạo ra lợi ích đồng hành về chất lượng nước trong phạm vi dự án VM0044.",
+  "New households enroll through their local HTX cooperative. The cooperative staff acts as a Tier 1 MRV verifier - digitally signing biomass inputs at the collection point. No smartphone or individual account is required; the cooperative's sign-off creates the initial Carbon Farmer Passport record.": "Hộ mới đăng ký thông qua HTX địa phương. Cán bộ HTX đóng vai trò xác minh MRV Cấp 1 - ký số vào dữ liệu sinh khối tại điểm thu gom. Không cần điện thoại thông minh hay tài khoản cá nhân; chữ ký của HTX sẽ tạo hồ sơ Hộ chiếu Carbon ban đầu.",
+
+  // ── New shrimp-season strings ──
+  "How much will my pond sludge earn?": "Bùn ao tôm đáng bao nhiêu tiền?",
+  "Sludge collected each month": "Lượng bùn ao thu mỗi tháng",
+  "Sludge waiting for pickup": "Bùn ao đang chờ thu gom",
+  "From shrimp season carbon": "Từ carbon mùa tôm",
+  "My pond - Pond B (shrimp)": "Ao của tôi - Ao B (tôm)",
+  "Water quality good": "Chất lượng nước tốt",
+  "Good": "Tốt",
+  "pond": "ao",
+  "Salinity (g/L)": "Độ mặn (g/L)",
+  "optimal": "tối ưu",
+  "Dissolved oxygen": "Oxy hòa tan",
+  "balanced": "cân bằng",
+  "Pond status": "Tình trạng ao",
+  "Shrimp growing well. Sludge biochar from last cycle improved pond DO by": "Tôm đang lớn tốt. Biochar bùn từ vụ trước đã cải thiện DO ao",
+  "Expected harvest in 30 days.": "Dự kiến thu hoạch sau 30 ngày.",
+  "will collect sludge after harvest": "sẽ thu bùn sau khi thu hoạch",
+  "After putting biochar on the field for 2 seasons, the soil holds": "Sau 2 vụ rải biochar, đất giữ nước",
+  "more water": "nhiều hơn",
+  "and rice grew stronger.": "và lúa khỏe hơn rõ.",
+  "staff will test again": "sẽ kiểm tra lại vào",
+
+  // ── Nav titles ──
+  "Hello Mr. Thanh - Summer-Autumn rice season": "Chào anh Thanh - vụ Hè Thu",
+  "Book a pickup": "Đặt lịch thu gom",
+  "Schedule HTX truck to collect your straw": "Đặt xe HTX đến thu gom rơm rạ / bùn ao",
+  "Water check": "Kiểm tra nước",
+  "Salt water alerts for your fields & ponds": "Cảnh báo nước mặn cho ruộng và ao của bạn",
+  "My Carbon Record": "Số Carbon của tôi",
+  "Your earnings history & green credentials": "Lịch sử thu nhập & chứng nhận xanh",
+  "Account & preferences": "Tài khoản & tùy chọn",
+  "Ask HTX staff or read the guides": "Hỏi cán bộ HTX hoặc đọc hướng dẫn",
+  "Home": "Trang chủ",
+  "Settings": "Cài đặt",
+  "Help": "Trợ giúp",
+  "Landing": "Trang đầu"
 };
 
 const ATTRIBUTE_TEXT = {
@@ -2774,18 +2969,100 @@ function setSeason(s) {
   if (s === 'rice') {
     rb.className = 's-btn ar'; sb.className = 's-btn';
     cb.className = 'badge bg'; cb.textContent = t('Rice Phase');
-    sb2.className = 'badge bg'; sb2.textContent = t('Rice Season');
     pt.textContent = t('Rice growing - looks good');
     pd.textContent = t('Harvest in about 32 days. We will call you to pick up straw.');
+
+    // Mini chart: straw data
+    sb2.className = 'badge bg'; sb2.textContent = t('Rice Season');
+    const mct = document.getElementById('miniChartTitle');
+    if (mct) mct.textContent = t('Straw collected each month');
+
+    // Calculator
+    const cct = document.getElementById('calcCardTitle');
+    if (cct) cct.textContent = t('How much will my straw earn?');
+    const calcType = document.getElementById('calcType');
+    if (calcType) calcType.value = 'rice_straw';
+
+    // Stat label
+    const ssl = document.getElementById('statStrawLabel');
+    if (ssl) ssl.textContent = t('Straw waiting for pickup');
+
+    // Earnings breakdown
+    const el1 = document.getElementById('earningLabel1'); if (el1) el1.textContent = t('From straw & husk');
+    const ev1 = document.getElementById('earningVal1');   if (ev1) ev1.textContent = '8.2 / 18 tr';
+    const eb1 = document.getElementById('earningBar1');   if (eb1) { eb1.className = 'pf g'; eb1.style.width = '45.5%'; }
+    const el2 = document.getElementById('earningLabel2'); if (el2) el2.textContent = t('From pond sludge');
+    const ev2 = document.getElementById('earningVal2');   if (ev2) ev2.textContent = '2.1 / 4 tr';
+    const eb2 = document.getElementById('earningBar2');   if (eb2) { eb2.className = 'pf a'; eb2.style.width = '52.5%'; }
+    const es = document.getElementById('earningsSummary');
+    if (es) es.innerHTML = t('You\'ve earned') + ' <strong style="color:var(--ok)">11.1 ' + t('million VND') + '</strong> ' + t('so far - about') + ' <strong style="color:var(--tp)">44%</strong> ' + t('of your goal.');
+
+    // Field card
+    const fct = document.getElementById('fieldCardTitle'); if (fct) fct.textContent = t('My field - Plot A (rice)');
+    const fb  = document.getElementById('fieldBadge');     if (fb)  { fb.className = 'badge bg'; fb.textContent = t('Soil getting better'); }
+    const fhv = document.getElementById('fieldHealthVal'); if (fhv) fhv.textContent = t('Healthy');
+    const fhl = document.getElementById('fieldHealthLbl'); if (fhl) fhl.textContent = t('soil');
+    const fsz = document.getElementById('fieldSize');      if (fsz) fsz.textContent = t('3.2 hectares');
+    const fm  = document.getElementById('fieldMetrics');
+    if (fm) fm.innerHTML = `
+      <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>${t('Organic matter')}</span><span>${t('2.8% - good')}</span></div><div class="pt"><div class="pf g" style="width:56%"></div></div></div>
+      <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>${t('Moisture')}</span><span>${t('72% - good')}</span></div><div class="pt"><div class="pf a" style="width:72%"></div></div></div>
+      <div><div class="pl" style="margin-bottom:3px"><span>${t('pH (acidity)')}</span><span>${t('6.4 - balanced')}</span></div><div class="pt"><div class="pf e" style="width:64%"></div></div></div>`;
+    const fcn = document.getElementById('fieldChangeNote');
+    if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('What changed')}</div>
+      <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('After putting biochar on the field for 2 seasons, the soil holds')} <strong>18% ${t('more water')}</strong> ${t('and rice grew stronger.')}</div>
+      <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('staff will test again')}: <strong style="color:var(--tp)">May 28</strong></div>`;
+
   } else {
     rb.className = 's-btn'; sb.className = 's-btn as';
     cb.className = 'badge ba'; cb.textContent = t('Shrimp Phase');
-    sb2.className = 'badge ba'; sb2.textContent = t('Shrimp Season');
     pt.textContent = t('Shrimp growing - water is healthy');
     pd.textContent = t('Pond ready to drain in about 30 days. We will collect the sludge.');
+
+    // Mini chart: sludge data
+    sb2.className = 'badge ba'; sb2.textContent = t('Shrimp Season');
+    const mct = document.getElementById('miniChartTitle');
+    if (mct) mct.textContent = t('Sludge collected each month');
+
+    // Calculator
+    const cct = document.getElementById('calcCardTitle');
+    if (cct) cct.textContent = t('How much will my pond sludge earn?');
+    const calcType = document.getElementById('calcType');
+    if (calcType) calcType.value = 'shrimp_sludge';
+
+    // Stat label
+    const ssl = document.getElementById('statStrawLabel');
+    if (ssl) ssl.textContent = t('Sludge waiting for pickup');
+
+    // Earnings breakdown (shrimp-centric)
+    const el1 = document.getElementById('earningLabel1'); if (el1) el1.textContent = t('From pond sludge');
+    const ev1 = document.getElementById('earningVal1');   if (ev1) ev1.textContent = '3.4 / 8 tr';
+    const eb1 = document.getElementById('earningBar1');   if (eb1) { eb1.className = 'pf a'; eb1.style.width = '42.5%'; }
+    const el2 = document.getElementById('earningLabel2'); if (el2) el2.textContent = t('From shrimp season carbon');
+    const ev2 = document.getElementById('earningVal2');   if (ev2) ev2.textContent = '1.2 / 4 tr';
+    const eb2 = document.getElementById('earningBar2');   if (eb2) { eb2.className = 'pf g'; eb2.style.width = '30%'; }
+    const es = document.getElementById('earningsSummary');
+    if (es) es.innerHTML = t('You\'ve earned') + ' <strong style="color:var(--ok)">11.1 ' + t('million VND') + '</strong> ' + t('so far - about') + ' <strong style="color:var(--tp)">44%</strong> ' + t('of your goal.');
+
+    // Field card → Pond card
+    const fct = document.getElementById('fieldCardTitle'); if (fct) fct.textContent = t('My pond - Pond B (shrimp)');
+    const fb  = document.getElementById('fieldBadge');     if (fb)  { fb.className = 'badge ba'; fb.textContent = t('Water quality good'); }
+    const fhv = document.getElementById('fieldHealthVal'); if (fhv) fhv.textContent = t('Good');
+    const fhl = document.getElementById('fieldHealthLbl'); if (fhl) fhl.textContent = t('pond');
+    const fsz = document.getElementById('fieldSize');      if (fsz) fsz.textContent = '0.8 hectares';
+    const fm  = document.getElementById('fieldMetrics');
+    if (fm) fm.innerHTML = `
+      <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>${t('Salinity (g/L)')}</span><span>4.2 - ${t('optimal')}</span></div><div class="pt"><div class="pf a" style="width:65%"></div></div></div>
+      <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>${t('Dissolved oxygen')}</span><span>5.2 mg/L - ${t('good')}</span></div><div class="pt"><div class="pf g" style="width:72%"></div></div></div>
+      <div><div class="pl" style="margin-bottom:3px"><span>pH</span><span>7.8 - ${t('balanced')}</span></div><div class="pt"><div class="pf e" style="width:64%"></div></div></div>`;
+    const fcn = document.getElementById('fieldChangeNote');
+    if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('Pond status')}</div>
+      <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('Shrimp growing well. Sludge biochar from last cycle improved pond DO by')} <strong>12%</strong>. ${t('Expected harvest in 30 days.')}</div>
+      <div style="margin-top:12px;padding:10px;background:rgba(38,166,154,.06);border:1px solid rgba(38,166,154,.14);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('will collect sludge after harvest')}: <strong style="color:var(--tp)">~Jun 15</strong></div>`;
   }
   renderCycle();
   renderMiniChart();
+  calc();
 }
 
 /* Theo dõi chu kỳ */
@@ -2819,16 +3096,16 @@ function renderCycle() {
   }).join('');
 }
 
-/* Biểu đồ nhỏ */
+/* Biểu đồ nhỏ - thay đổi theo mùa vụ */
 function renderMiniChart() {
-  const rice = [190,240,370,500,620,430,290,160,130,210,330,400];
-  const shrimp = [90,70,55,75,100,130,300,440,400,360,210,110];
-  const data = season === 'rice' ? rice : shrimp;
+  const rice   = [190,240,370,500,620,430,290,160,130,210,330,400];
+  const shrimp = [0,0,80,220,380,480,510,390,250,420,580,180]; // sludge collection pattern
+  const data = season === 'shrimp' ? shrimp : rice;
   const max = Math.max(...data);
-  const color = season === 'rice' ? 'var(--leaf)' : 'var(--aqua)';
+  const color = season === 'shrimp' ? 'var(--aqua)' : 'var(--leaf)';
   document.getElementById('miniChart').innerHTML = data.map(v => {
-    const h = (v / max * 38) + 4;
-    return `<div class="mb-bar" style="height:${h}px;background:${color};opacity:${v/max*.6+.4}"></div>`;
+    const h = max > 0 ? (v / max * 38) + 4 : 4;
+    return `<div class="mb-bar" style="height:${h}px;background:${color};opacity:${max > 0 ? v/max*.6+.4 : .2}"></div>`;
   }).join('');
 }
 
@@ -3107,17 +3384,17 @@ function clearLocalStorage() {
 
   // ── Base palette: [top, lit-side, dark-side] ──────────────────
   const BASE = {
-    stone: ['#9e9e9e','#6e6e6e','#4e4e4e'],
-    gold:  ['#f5c840','#c89618','#9e7410'],
-    grass: ['#54c032','#389016','#28700e'],
-    trunk: ['#7a5030','#4e2e12','#321c08'],
-    trkG:  ['#707070','#4e4e4e','#323232'],
-    lA:    ['#ff6e30','#d44018','#aa2c08'],
-    lB:    ['#ff5020','#cc3210','#a82008'],
-    lC:    ['#e83c28','#be2416','#980e08'],
-    lD:    ['#c83018','#a21808','#800c04'],
-    lE:    ['#ff9050','#dd6030','#bc4018'],
-    lF:    ['#ffa060','#e07840','#c05828'], // extra highlight
+    stone: ['#b0a890','#7e7868','#5a5650'],
+    gold:  ['#e8c840','#c4a020','#9e7c10'],
+    grass: ['#5ed840','#40aa28','#2a8018'],
+    trunk: ['#8a6040','#5c3818','#3a220c'],
+    trkG:  ['#808070','#5c5c50','#404038'],
+    lA:    ['#52d448','#34aa2c','#1e8218'],  // bright mid-green
+    lB:    ['#3ec040','#28982a','#187018'],  // forest green
+    lC:    ['#68dc58','#48b83c','#2e9024'],  // light lime-green
+    lD:    ['#2e9e38','#1c7a26','#0e5c18'],  // deep forest
+    lE:    ['#84e060','#60b840','#429028'],  // yellow-green highlight
+    lF:    ['#96e878','#72c458','#4ea038'],  // pale lime top-catch
     flower:['#ffaa40','#e07020','#c04c10'],
     fern:  ['#58c030','#389018','#28700e'],
   };
@@ -3265,9 +3542,9 @@ function clearLocalStorage() {
     ctx.beginPath(); ctx.arc(0,0,85,0,Math.PI*2); ctx.fill();
     ctx.restore();
 
-    // Canopy glow (warm rim light)
+    // Canopy glow (cool green rim light)
     const cg=ctx.createRadialGradient(CX,CY-80,20,CX,CY-60,180);
-    cg.addColorStop(0,'rgba(255,120,30,.06)'); cg.addColorStop(1,'rgba(0,0,0,0)');
+    cg.addColorStop(0,'rgba(80,200,60,.10)'); cg.addColorStop(1,'rgba(0,0,0,0)');
     ctx.fillStyle=cg; ctx.fillRect(0,0,620,580);
 
     // Ambient scene glow
