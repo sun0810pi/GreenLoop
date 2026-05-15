@@ -89,23 +89,11 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:v
 .l-stat-n{font-family:'DM Serif Display',serif;font-size:30px;color:#fff;letter-spacing:-.5px}
 .l-stat-l{font-size:11px;color:rgba(255,255,255,.32);margin-top:4px;font-weight:500}
 
-.l-right{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
-.l-illustration{width:100%;max-width:520px;position:relative}
+.l-right{flex:1.15;display:flex;align-items:center;justify-content:center;position:relative}
+.l-illustration{width:100%;max-width:640px;position:relative}
 .l-illustration svg{width:100%;height:auto;display:block}
 
-/* Mấy nhãn nhỏ quanh hình minh họa */
-.l-chip{position:absolute;background:rgba(11,28,18,.82);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:8px 13px;z-index:10}
-.l-chip-1{top:14%;left:-4%;animation:fc1 4s ease-in-out infinite}
-.l-chip-2{top:52%;right:-2%;animation:fc2 4.5s ease-in-out .5s infinite}
-.l-chip-3{bottom:16%;left:10%;animation:fc1 5s ease-in-out 1s infinite}
-@keyframes fc1{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-@keyframes fc2{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
-.l-chip-val{font-size:14px;font-weight:800;color:#fff;line-height:1}
-.l-chip-lab{font-size:10px;color:rgba(255,255,255,.38);margin-top:2px;font-weight:500}
-.l-chip-dot{width:6px;height:6px;border-radius:50%;margin-bottom:4px}
-.l-chip-dot.green{background:var(--lb);box-shadow:0 0 6px rgba(163,217,106,.5)}
-.l-chip-dot.aqua{background:var(--aqua);box-shadow:0 0 6px rgba(38,166,154,.5)}
-.l-chip-dot.gold{background:#f0c040;box-shadow:0 0 6px rgba(240,192,64,.5)}
+/* (Floating metric chips removed - tree stands on its own now) */
 
 .l-footer{position:absolute;bottom:0;left:0;right:0;padding:16px 56px;display:flex;align-items:center;gap:10px;border-top:1px solid rgba(255,255,255,.04);z-index:20}
 .l-footer-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-right:4px}
@@ -129,11 +117,8 @@ body[data-theme="light"] .l-btn-s{border-color:var(--borderl)}
 body[data-theme="light"] .l-footer,
 body[data-theme="light"] .l-stat{border-color:var(--borderl)}
 body[data-theme="light"] .l-footer-label,
-body[data-theme="light"] .l-stat-l,
-body[data-theme="light"] .l-chip-lab{color:var(--tm)}
+body[data-theme="light"] .l-stat-l{color:var(--tm)}
 body[data-theme="light"] .l-ptag{background:rgba(26,58,42,.05);color:var(--ts)}
-body[data-theme="light"] .l-chip{background:rgba(255,255,255,.86);border-color:var(--borderl);box-shadow:var(--sh-sm)}
-body[data-theme="light"] .l-chip-val{color:var(--tp)}
 body[data-theme="light"] .l-nav .mode-group{background:rgba(255,255,255,.72);border-color:var(--borderl)}
 body[data-theme="light"] .l-nav .mode-btn{color:var(--tm)}
 body[data-theme="light"] .l-nav .mode-btn:hover{background:var(--bgs);color:var(--tp)}
@@ -444,13 +429,52 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
 /* Co giãn theo màn hình */
 @media(max-width:1100px){.g4{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){
-  .l-right{display:none}.l-left{max-width:100%}
-  .l-hero,.l-nav{padding-left:22px;padding-right:22px}
+  /* Hero: column layout, tree on top (smaller), text below */
+  .l-hero{flex-direction:column;align-items:stretch;min-height:auto;padding:8px 22px 28px;gap:8px;text-align:center}
+  .l-right{order:-1;flex:none;width:100%}
+  .l-illustration{max-width:380px;margin:0 auto}
+  .l-illustration canvas{display:block}
+  .l-left{flex:none;max-width:100%;margin:0 auto}
+  .l-tag{margin-bottom:14px}
+  .l-h1{font-size:clamp(30px,7vw,42px);margin-bottom:14px}
+  .l-desc{font-size:14px;margin:0 auto 24px;max-width:100%;line-height:1.65}
+  .l-btns{justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+  .l-stats{padding-top:20px}
+  .l-stat{padding:0 12px}
+  .l-stat-n{font-size:22px}
+  .l-stat-l{font-size:10px;line-height:1.3}
+
+  /* Nav */
+  .l-nav{padding:16px 22px}
   .l-nav-links{display:none}
   .l-actions{gap:6px}
-  .l-footer{padding:14px 22px}
+
+  /* Sections */
+  .l-section{padding:48px 22px}
+  .l-sec-divider{margin:0 22px}
+  .l-sec-p{font-size:13.5px}
+  .l-card-grid{grid-template-columns:1fr;gap:12px;margin-top:24px}
+  .l-card{padding:18px}
+  .l-impact-nums{grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+  .l-istat{padding:18px 12px}
+  .l-istat-n{font-size:26px}
+  .l-partners-logos{gap:8px;margin-top:20px}
+  .l-plogo{padding:8px 14px;font-size:11px}
+
+  /* Footer */
+  .l-footer{padding:14px 22px;flex-wrap:wrap;gap:6px}
+
+  /* App grids */
   .g2,.g3{grid-template-columns:1fr}
   .tb-right{flex-wrap:wrap;justify-content:flex-end}
+}
+@media(max-width:560px){
+  .l-illustration{max-width:320px}
+  .l-h1{font-size:30px}
+  .l-btns{flex-direction:column;align-items:stretch;gap:8px}
+  .l-btn-p,.l-btn-s{justify-content:center}
+  .l-stat:not(:first-child){padding-left:12px}
+  .l-stat{padding-right:12px}
 }
 @media(max-width:768px){
   .sb{display:none}
@@ -464,6 +488,55 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
   .g4{grid-template-columns:1fr}
   .bottnav{display:block}
   .toast{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+
+  /* ── Settings page mobile ── */
+  .sett-grid{grid-template-columns:1fr;gap:14px;margin-bottom:14px}
+  .notif-sett-grid{grid-template-columns:1fr;gap:0}
+  .avatar-init{width:46px;height:46px;font-size:15px;margin-bottom:12px}
+
+  /* Profile form 2-col → stack */
+  .sett-grid .g2{grid-template-columns:1fr;gap:12px}
+
+  /* MRV rows: keep label + input on one line if possible, but allow wrap */
+  .mrv-row{padding:10px 0;flex-wrap:wrap;gap:8px}
+  .mrv-row > div:first-child{flex:1 1 200px;min-width:140px}
+  .mrv-row .fs{width:100% !important;max-width:200px}
+  .mrv-row .ci{width:64px}
+
+  /* Integration items: allow descriptions to wrap */
+  .intg-item{gap:10px;padding:11px 0}
+  .intg-logo{width:34px;height:34px;font-size:10px}
+  .intg-desc{white-space:normal;line-height:1.4}
+  .intg-badge{padding:4px 8px;font-size:10px}
+
+  /* Field rows */
+  .field-row{gap:8px;padding:10px 0}
+  .field-action{font-size:11px;padding:5px 10px}
+
+  /* Data & privacy rows */
+  .data-action{gap:10px;padding:11px 0;flex-wrap:wrap}
+  .da-ico{width:34px;height:34px}
+  .da-info{flex:1 1 60%;min-width:120px}
+  .da-btn{font-size:11px;padding:6px 10px}
+
+  /* Web & App rows: allow wrap so right-side controls fit */
+  .web-row{padding:10px 0;flex-wrap:wrap;gap:8px}
+  .web-row-l{flex:1 1 200px;min-width:140px}
+  .web-row .fs{width:100% !important;max-width:200px}
+  .pwa-install-btn{flex-wrap:wrap;font-size:12px;padding:11px 12px}
+  .pwa-install-btn span{flex:1 0 100%;font-size:10px;opacity:.65;margin-top:2px}
+  .shortcut-grid{grid-template-columns:1fr}
+  .shortcut-item{padding:8px 10px}
+
+  /* ── Help page mobile ── */
+  .faq-q{font-size:13px;padding:13px 0;gap:10px}
+  .faq-a-inner{font-size:12px;padding-bottom:12px;line-height:1.7}
+  .faq-item.open .faq-a{max-height:340px}
+  .help-contact{padding:22px 18px;margin-top:14px}
+  .hc-title{font-size:15px}
+  .hc-sub{font-size:12px;margin-bottom:16px}
+  .hc-btns{flex-direction:column;gap:8px}
+  .hc-btn{padding:11px 18px;font-size:13px;width:100%}
 }
 /* ── Notification panel ── */
 .notif-wrap{position:relative}
@@ -894,23 +967,6 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
     </div>
 
     <div class="l-right">
-      <!-- Floating chips - 3 key metrics the platform tracks (live dashboard preview) -->
-      <div class="l-chip l-chip-1">
-        <div class="l-chip-dot green"></div>
-        <div class="l-chip-val">4.2 tCO₂e</div>
-        <div class="l-chip-lab">Sequestered today</div>
-      </div>
-      <div class="l-chip l-chip-2">
-        <div class="l-chip-dot aqua"></div>
-        <div class="l-chip-val">2.3 g/L</div>
-        <div class="l-chip-lab">Salinity - safe zone</div>
-      </div>
-      <div class="l-chip l-chip-3">
-        <div class="l-chip-dot gold"></div>
-        <div class="l-chip-val">$12.40</div>
-        <div class="l-chip-lab">SCU price / tCO₂e</div>
-      </div>
-
       <!-- Voxel tree illustration -->
       <div class="l-illustration">
         <canvas id="voxelTree" width="620" height="600" style="width:100%;height:auto;display:block;"></canvas>
@@ -3664,8 +3720,8 @@ function clearLocalStorage() {
     voxels.forEach(v => {
       if (!v.leaf || v.gz < 12) return;          // ← only canopy leaves
       const [px,py] = pr(v.gx+.5, v.gy+.5, v.gz+.5, cs, ss, 0);
-      const ang = Math.atan2(py-(CY-90), px-CX) + (Math.random()-.5)*1.6;
-      const str = 8 + Math.random()*24;
+      const ang = Math.atan2(py-(CY-90), px-CX) + (Math.random()-.5)*1.4;
+      const str = 4 + Math.random()*11;          // ← gentler: 4-15 px (was 8-32)
       v.sx = Math.cos(ang)*str;
       v.sy = Math.sin(ang)*str;
       v.vx = v.sx*.3; v.vy = v.sy*.3;
@@ -3693,11 +3749,22 @@ function clearLocalStorage() {
   for (let i = 0; i < NUM_PARTICLES; i++) particles.push(spawnParticle(true));
 
   // ── Render loop ───────────────────────────────────────────────
+  let wobbleAmp = 0;   // smoothed hover-wobble amplitude (eased toward target)
   function frame(ts) {
     const t = ts * .001;
     if (!drag) { rot += vel; vel *= .88; }
-    const cs=Math.cos(rot), ss=Math.sin(rot);
-    const by = Math.sin(t*.62)*7;                // island bob
+
+    // Gentle island sway/wobble while hovered: small sinusoidal rotation
+    // and a tiny bit more island bob - reads as "tree noticing the cursor".
+    const targetAmp = hov ? 0.045 : 0;
+    wobbleAmp += (targetAmp - wobbleAmp) * 0.06;
+    const wobbleRot = wobbleAmp * Math.sin(t * 3.0);
+    const effRot = rot + wobbleRot;
+
+    const cs=Math.cos(effRot), ss=Math.sin(effRot);
+    const bobSpeed = hov ? .85 : .62;
+    const bobAmp = hov ? 9 : 7;
+    const by = Math.sin(t * bobSpeed) * bobAmp;  // island bob (a touch livelier on hover)
 
     if (hov && !wasHov) explodeLeaves();
     wasHov = hov;
