@@ -632,6 +632,145 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
   .bottnav{display:block}
   .toast{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
 }
+
+/* ============================
+   AUTH PAGE — Login / Register
+   ============================ */
+.l-nav-auth{display:flex;align-items:center;gap:6px;margin-right:4px}
+.l-nav-signin{background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.78);padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.l-nav-signin:hover{background:rgba(255,255,255,.06);color:#fff;border-color:rgba(255,255,255,.24)}
+.l-nav-signup{background:rgba(163,217,106,.12);border:1px solid rgba(163,217,106,.28);color:var(--lb);padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.l-nav-signup:hover{background:rgba(163,217,106,.22);border-color:rgba(163,217,106,.45);transform:translateY(-1px)}
+
+#auth{display:none;min-height:100vh;background:var(--fd);position:relative;overflow-x:hidden}
+#auth.on{display:block}
+#auth::before{content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 50% at 18% 50%, rgba(45,90,61,.45) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 50% at 82% 30%, rgba(0,121,107,.16) 0%,transparent 55%),
+             radial-gradient(ellipse 40% 40% at 50% 90%, rgba(163,217,106,.05) 0%,transparent 45%);z-index:0}
+#auth::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:60px 60px;z-index:0}
+
+.au-nav{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:22px 56px}
+.au-nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.au-nav-logo .l-logo-icon{width:34px;height:34px;background:var(--lb);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--fd)}
+.au-nav-logo .l-logo-icon svg{width:18px;height:18px}
+.au-nav-logo .l-logo-text{font-size:19px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.au-nav-logo .l-logo-text span{color:var(--lb)}
+.au-nav-back{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.78);padding:8px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.au-nav-back:hover{background:rgba(255,255,255,.1);color:#fff}
+.au-nav-back svg{width:13px;height:13px}
+
+.au-wrap{position:relative;z-index:10;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;min-height:calc(100vh - 86px);padding:0 56px 56px;max-width:1280px;margin:0 auto}
+
+/* Left side — brand showcase */
+.au-left{padding:20px 0}
+.au-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(163,217,106,.08);border:1px solid rgba(163,217,106,.18);padding:5px 14px;border-radius:20px;color:var(--lb);font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:22px}
+.au-tag-dot{width:5px;height:5px;background:var(--lb);border-radius:50%;animation:blink 2s ease infinite}
+.au-h1{font-family:'DM Serif Display',serif;font-size:clamp(30px,3.4vw,46px);font-weight:400;color:#fff;line-height:1.12;letter-spacing:-1px;margin-bottom:18px}
+.au-h1 em{font-style:italic;color:var(--lb)}
+.au-desc{font-size:14.5px;color:rgba(255,255,255,.48);line-height:1.8;max-width:440px;margin-bottom:30px}
+
+.au-perks{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.au-perk{display:flex;gap:12px;align-items:flex-start}
+.au-perk-ico{width:32px;height:32px;border-radius:9px;background:rgba(163,217,106,.1);border:1px solid rgba(163,217,106,.18);display:flex;align-items:center;justify-content:center;color:var(--lb);flex-shrink:0}
+.au-perk-ico svg{width:15px;height:15px}
+.au-perk-txt-t{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:3px}
+.au-perk-txt-d{font-size:12.5px;color:rgba(255,255,255,.48);line-height:1.6}
+
+.au-trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.au-trust-tag{padding:6px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;font-size:10.5px;font-weight:600;color:rgba(255,255,255,.42)}
+
+/* Right side — form card */
+.au-right{display:flex;justify-content:center;align-items:center}
+.au-card{width:100%;max-width:440px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:36px 34px;backdrop-filter:blur(10px);box-shadow:0 24px 60px rgba(0,0,0,.32)}
+
+.au-tabs{display:flex;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:4px;margin-bottom:28px}
+.au-tab{flex:1;padding:10px 0;border:none;background:transparent;color:rgba(255,255,255,.5);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;border-radius:8px;transition:all .2s}
+.au-tab.active{background:var(--lb);color:var(--fd);box-shadow:0 4px 12px rgba(163,217,106,.22)}
+.au-tab:not(.active):hover{color:rgba(255,255,255,.85)}
+
+.au-form{display:none;flex-direction:column;gap:16px}
+.au-form.on{display:flex;animation:auFadeIn .26s ease}
+@keyframes auFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.au-form-h{font-family:'DM Serif Display',serif;font-size:24px;color:#fff;margin-bottom:2px;letter-spacing:-.3px}
+.au-form-sub{font-size:12.5px;color:rgba(255,255,255,.5);margin-bottom:14px;line-height:1.6}
+
+.au-fg{display:flex;flex-direction:column;gap:7px}
+.au-fl{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.62);letter-spacing:.4px;text-transform:uppercase}
+.au-fi{height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.2);color:#fff;font-family:inherit;font-size:13.5px;font-weight:500;padding:0 14px;transition:all .18s;outline:none}
+.au-fi:focus{border-color:var(--lb);background:rgba(0,0,0,.32);box-shadow:0 0 0 3px rgba(163,217,106,.12)}
+.au-fi::placeholder{color:rgba(255,255,255,.32)}
+.au-fs{height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.2);color:#fff;font-family:inherit;font-size:13.5px;font-weight:500;padding:0 12px;outline:none;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2381C784' stroke-width='2.6'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.au-fs option{background:var(--f);color:#fff}
+.au-fs:focus{border-color:var(--lb)}
+
+.au-pw-wrap{position:relative}
+.au-pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.42);cursor:pointer;padding:6px;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:color .15s}
+.au-pw-toggle:hover{color:#fff}
+.au-pw-toggle svg{width:16px;height:16px}
+
+.au-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;margin-top:-4px}
+.au-check{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.6);cursor:pointer;user-select:none}
+.au-check input{width:14px;height:14px;accent-color:var(--lb);cursor:pointer}
+.au-link{color:var(--lb);background:none;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;padding:0;transition:color .15s}
+.au-link:hover{color:#b4e87a;text-decoration:underline}
+
+.au-btn-p{background:var(--lb);color:var(--fd);padding:13px;border-radius:11px;font-size:14px;font-weight:800;cursor:pointer;border:none;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.2px}
+.au-btn-p svg{width:14px;height:14px}
+.au-btn-p:hover{background:#b4e87a;transform:translateY(-1px);box-shadow:0 8px 24px rgba(163,217,106,.25)}
+.au-btn-p:active{transform:translateY(0)}
+.au-btn-p:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.au-divider{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.32);font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin:6px 0}
+.au-divider::before,.au-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
+
+.au-btn-s{background:rgba(255,255,255,.05);color:rgba(255,255,255,.85);padding:12px;border-radius:11px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.1);font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.au-btn-s:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}
+.au-btn-s svg{width:15px;height:15px}
+
+.au-foot{text-align:center;font-size:12.5px;color:rgba(255,255,255,.42);margin-top:18px}
+.au-foot .au-link{font-size:12.5px}
+
+.au-demo-banner{background:linear-gradient(135deg,rgba(163,217,106,.08),rgba(38,166,154,.06));border:1px dashed rgba(163,217,106,.28);border-radius:11px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}
+.au-demo-banner-t{font-size:11.5px;color:rgba(255,255,255,.72);line-height:1.5}
+.au-demo-banner-t strong{color:var(--lb)}
+.au-demo-btn{background:var(--lb);color:var(--fd);border:none;padding:7px 14px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s}
+.au-demo-btn:hover{background:#b4e87a}
+
+/* Strength meter */
+.au-strength{display:flex;gap:4px;margin-top:6px}
+.au-str-bar{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.08);transition:background .2s}
+.au-str-bar.weak{background:#ff6b6b}
+.au-str-bar.fair{background:#ffb15f}
+.au-str-bar.good{background:#80db86}
+.au-str-bar.strong{background:var(--lb)}
+.au-str-label{font-size:10.5px;color:rgba(255,255,255,.5);margin-top:4px;font-weight:600}
+
+/* Mobile */
+@media(max-width:900px){
+  .au-nav{padding:18px 22px}
+  .au-wrap{grid-template-columns:1fr;padding:0 22px 32px;gap:24px;min-height:auto}
+  .au-left{padding:8px 0 0;text-align:center}
+  .au-desc{margin-left:auto;margin-right:auto}
+  .au-perks{display:none}
+  .au-trust{justify-content:center}
+  .au-card{padding:28px 22px}
+  .au-h1{font-size:28px}
+  .l-nav-auth{gap:4px}
+  .l-nav-signin{padding:8px 12px;font-size:12px}
+  .l-nav-signup{padding:8px 14px;font-size:12px}
+}
+@media(max-width:600px){
+  .l-nav-signin{display:none}
+}
+
+/* Light theme overrides for auth */
+body[data-theme="light"] #auth{background:var(--fd)}
+body[data-theme="light"] .au-card{background:rgba(255,255,255,.05)}
 </style>
 </head>
 <body>
@@ -660,7 +799,10 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
         <button class="mode-btn active" type="button" data-theme-choice="light" onclick="setTheme('light')">Light</button>
         <button class="mode-btn" type="button" data-theme-choice="dark" onclick="setTheme('dark')">Dark</button>
       </div>
-      <button class="l-nav-cta" onclick="enterApp()">Open Dashboard</button>
+      <div class="l-nav-auth">
+        <button class="l-nav-signin" type="button" onclick="showAuth('login')">Sign In</button>
+        <button class="l-nav-signup" type="button" onclick="showAuth('register')">Sign Up</button>
+      </div>
     </div>
   </nav>
 
@@ -818,6 +960,196 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
     <span class="l-ptag">MRC Salinity API</span>
     <span class="l-ptag">HUSK Vietnam</span>
     <span class="l-ptag">Biocare Projects</span>
+  </div>
+</div>
+
+<!-- =====================================
+     AUTH PAGE — Login / Register
+     ===================================== -->
+<div id="auth">
+  <nav class="au-nav">
+    <div class="au-nav-logo" onclick="backToLanding()">
+      <div class="l-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+      </div>
+      <div class="l-logo-text">Green<span>Loop</span></div>
+    </div>
+    <div class="l-actions">
+      <div class="mode-group" aria-label="Language">
+        <button class="mode-btn active" type="button" data-lang-choice="en" onclick="setLang('en')">EN</button>
+        <button class="mode-btn" type="button" data-lang-choice="vi" onclick="setLang('vi')">VI</button>
+      </div>
+      <button class="au-nav-back" type="button" onclick="backToLanding()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        <span>Back</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="au-wrap">
+    <!-- LEFT: brand showcase -->
+    <div class="au-left">
+      <div class="au-tag"><span class="au-tag-dot"></span>Mekong Delta &nbsp;·&nbsp; Climate Tech</div>
+      <h1 class="au-h1">Your Carbon,<br><em>Your Income</em></h1>
+      <p class="au-desc">Join 2,000+ Lua-Tom farmers turning rice straw and shrimp-pond sludge into verified Verra VM0044 carbon credits, traded on the ASEAN AICE exchange.</p>
+
+      <div class="au-perks">
+        <div class="au-perk">
+          <div class="au-perk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div>
+            <div class="au-perk-txt-t">Free to join</div>
+            <div class="au-perk-txt-d">No setup fees. HTX cooperative handles enrollment.</div>
+          </div>
+        </div>
+        <div class="au-perk">
+          <div class="au-perk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg></div>
+          <div>
+            <div class="au-perk-txt-t">Carbon Farmer Passport</div>
+            <div class="au-perk-txt-d">Blockchain-anchored credential, recognised by banks &amp; insurers.</div>
+          </div>
+        </div>
+        <div class="au-perk">
+          <div class="au-perk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div>
+            <div class="au-perk-txt-t">+18% income uplift</div>
+            <div class="au-perk-txt-d">Three independent streams: biochar sales, CBAM docs, carbon credits.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="au-trust">
+        <span class="au-trust-tag">Verra VM0044</span>
+        <span class="au-trust-tag">AICE Exchange</span>
+        <span class="au-trust-tag">HUSK Vietnam</span>
+        <span class="au-trust-tag">Biocare</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: form card -->
+    <div class="au-right">
+      <div class="au-card">
+        <div class="au-tabs">
+          <button class="au-tab active" id="auTabLogin" type="button" onclick="switchAuth('login')">Sign In</button>
+          <button class="au-tab" id="auTabReg" type="button" onclick="switchAuth('register')">Sign Up</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div class="au-form on" id="auFormLogin">
+          <div>
+            <div class="au-form-h">Welcome back</div>
+            <div class="au-form-sub">Sign in to access your dashboard, credits, and Carbon Passport.</div>
+          </div>
+
+          <div class="au-fg">
+            <label class="au-fl">Phone or Email</label>
+            <input class="au-fi" type="text" id="loginId" placeholder="0987 654 321 or you@farm.vn" autocomplete="username">
+          </div>
+
+          <div class="au-fg">
+            <label class="au-fl">Password</label>
+            <div class="au-pw-wrap">
+              <input class="au-fi" type="password" id="loginPw" placeholder="Enter your password" autocomplete="current-password" style="width:100%;padding-right:42px">
+              <button class="au-pw-toggle" type="button" onclick="togglePw('loginPw',this)" aria-label="Show password">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="au-row">
+            <label class="au-check"><input type="checkbox" id="loginRemember" checked> Remember me</label>
+            <button class="au-link" type="button" onclick="toast('Recovery link sent — check your phone (demo)')">Forgot password?</button>
+          </div>
+
+          <button class="au-btn-p" type="button" onclick="doLogin()">
+            <span>Sign In</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 19 12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+
+          <div class="au-divider">OR</div>
+
+          <button class="au-btn-s" type="button" onclick="toast('OTP sent to your phone (demo)')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Continue with OTP
+          </button>
+
+          <div class="au-foot">
+            Don't have an account?
+            <button class="au-link" type="button" onclick="switchAuth('register')">Sign up</button>
+          </div>
+
+          <div class="au-demo-banner">
+            <div class="au-demo-banner-t"><strong>Hackathon judge?</strong> Skip auth and explore the dashboard directly.</div>
+            <button class="au-demo-btn" type="button" onclick="skipAuth()">Demo</button>
+          </div>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div class="au-form" id="auFormReg">
+          <div>
+            <div class="au-form-h">Join GreenLoop</div>
+            <div class="au-form-sub">Free for farmers and HTX cooperatives. Takes under 2 minutes.</div>
+          </div>
+
+          <div class="au-fg">
+            <label class="au-fl">Full Name</label>
+            <input class="au-fi" type="text" id="regName" placeholder="Nguyen Van A" autocomplete="name">
+          </div>
+
+          <div class="au-fg">
+            <label class="au-fl">Phone Number</label>
+            <input class="au-fi" type="tel" id="regPhone" placeholder="0987 654 321" autocomplete="tel">
+          </div>
+
+          <div class="au-fg">
+            <label class="au-fl">Province</label>
+            <select class="au-fs" id="regProvince">
+              <option value="ca-mau">Ca Mau</option>
+              <option value="bac-lieu">Bac Lieu</option>
+              <option value="soc-trang">Soc Trang</option>
+              <option value="kien-giang">Kien Giang</option>
+              <option value="other">Other Mekong Delta</option>
+            </select>
+          </div>
+
+          <div class="au-fg">
+            <label class="au-fl">Role</label>
+            <select class="au-fs" id="regRole">
+              <option value="farmer">Farmer (Lua-Tom / Rice)</option>
+              <option value="htx">HTX Cooperative Staff</option>
+              <option value="buyer">Carbon Buyer / Corporate</option>
+            </select>
+          </div>
+
+          <div class="au-fg">
+            <label class="au-fl">Password</label>
+            <div class="au-pw-wrap">
+              <input class="au-fi" type="password" id="regPw" placeholder="At least 8 characters" autocomplete="new-password" oninput="updateStrength()" style="width:100%;padding-right:42px">
+              <button class="au-pw-toggle" type="button" onclick="togglePw('regPw',this)" aria-label="Show password">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="au-strength" id="auStrength">
+              <div class="au-str-bar"></div><div class="au-str-bar"></div><div class="au-str-bar"></div><div class="au-str-bar"></div>
+            </div>
+            <div class="au-str-label" id="auStrengthLabel">Enter a password</div>
+          </div>
+
+          <div class="au-row">
+            <label class="au-check"><input type="checkbox" id="regAgree" checked> I agree to the <button class="au-link" type="button" onclick="toast('Terms & Privacy page — demo')">Terms</button></label>
+          </div>
+
+          <button class="au-btn-p" type="button" onclick="doRegister()">
+            <span>Create Account</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 19 12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+
+          <div class="au-foot">
+            Already have an account?
+            <button class="au-link" type="button" onclick="switchAuth('login')">Sign in</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1869,6 +2201,55 @@ const STATIC_TEXT = {
   "Learn More": "Tìm hiểu thêm",
   "Light": "Sáng",
   "Dark": "Tối",
+  "Sign In": "Đăng nhập",
+  "Sign Up": "Đăng ký",
+  "Sign up": "Đăng ký",
+  "Sign in": "Đăng nhập",
+  "Back": "Quay lại",
+  "Your Carbon,": "Carbon của bạn,",
+  "Your Income": "Thu nhập của bạn",
+  "Join 2,000+ Lua-Tom farmers turning rice straw and shrimp-pond sludge into verified Verra VM0044 carbon credits, traded on the ASEAN AICE exchange.": "Tham gia cùng hơn 2.000 nông hộ lúa-tôm biến rơm rạ và bùn ao tôm thành tín chỉ carbon Verra VM0044 đã xác thực, giao dịch trên sàn AICE ASEAN.",
+  "Free to join": "Miễn phí tham gia",
+  "No setup fees. HTX cooperative handles enrollment.": "Không phí khởi tạo. HTX hỗ trợ đăng ký giúp bạn.",
+  "Carbon Farmer Passport": "Hộ chiếu Carbon Nông hộ",
+  "Blockchain-anchored credential, recognised by banks & insurers.": "Chứng nhận lưu trên blockchain, được ngân hàng và bảo hiểm công nhận.",
+  "+18% income uplift": "+18% tăng thu nhập",
+  "Three independent streams: biochar sales, CBAM docs, carbon credits.": "Ba nguồn thu độc lập: bán biochar, chứng từ CBAM, tín chỉ carbon.",
+  "Welcome back": "Chào mừng trở lại",
+  "Sign in to access your dashboard, credits, and Carbon Passport.": "Đăng nhập để truy cập bảng điều khiển, tín chỉ và Hộ chiếu Carbon.",
+  "Phone or Email": "Số điện thoại hoặc Email",
+  "Password": "Mật khẩu",
+  "Remember me": "Ghi nhớ tôi",
+  "Forgot password?": "Quên mật khẩu?",
+  "OR": "HOẶC",
+  "Continue with OTP": "Tiếp tục bằng mã OTP",
+  "Don't have an account?": "Chưa có tài khoản?",
+  "Already have an account?": "Đã có tài khoản?",
+  "Hackathon judge?": "Giám khảo hackathon?",
+  "Skip auth and explore the dashboard directly.": "Bỏ qua đăng nhập, vào thẳng dashboard.",
+  "Demo": "Demo",
+  "Join GreenLoop": "Tham gia GreenLoop",
+  "Free for farmers and HTX cooperatives. Takes under 2 minutes.": "Miễn phí cho nông hộ và HTX. Mất chưa đến 2 phút.",
+  "Full Name": "Họ và tên",
+  "Phone Number": "Số điện thoại",
+  "Province": "Tỉnh / Thành",
+  "Role": "Vai trò",
+  "Farmer (Lua-Tom / Rice)": "Nông hộ (Lúa-Tôm / Lúa)",
+  "HTX Cooperative Staff": "Cán bộ HTX",
+  "Carbon Buyer / Corporate": "Đơn vị mua tín chỉ / Doanh nghiệp",
+  "I agree to the": "Tôi đồng ý với",
+  "Terms": "Điều khoản",
+  "Create Account": "Tạo tài khoản",
+  "Enter a password": "Nhập mật khẩu",
+  "Too weak": "Quá yếu",
+  "Fair — add numbers/symbols": "Tạm — thêm số/ký tự đặc biệt",
+  "Good password": "Mật khẩu tốt",
+  "Strong password ✓": "Mật khẩu mạnh ✓",
+  "Ca Mau": "Cà Mau",
+  "Bac Lieu": "Bạc Liêu",
+  "Soc Trang": "Sóc Trăng",
+  "Kien Giang": "Kiên Giang",
+  "Other Mekong Delta": "Tỉnh ĐBSCL khác",
   "Mekong Delta · Climate Tech": "ĐBSCL · Công nghệ khí hậu",
   "Turn Residue": "Biến phụ phẩm",
   "Into": "thành",
@@ -2034,7 +2415,12 @@ const STATIC_TEXT = {
 
 const ATTRIBUTE_TEXT = {
   "Min 500 kg": "Tối thiểu 500 kg",
-  "Storage location, access notes…": "Vị trí lưu trữ, ghi chú đường vào..."
+  "Storage location, access notes…": "Vị trí lưu trữ, ghi chú đường vào...",
+  "0987 654 321 or you@farm.vn": "0987 654 321 hoặc ban@farm.vn",
+  "Enter your password": "Nhập mật khẩu của bạn",
+  "Nguyen Van A": "Nguyễn Văn A",
+  "0987 654 321": "0987 654 321",
+  "At least 8 characters": "Ít nhất 8 ký tự"
 };
 
 const COPY_INDEX = {};
@@ -2120,16 +2506,128 @@ function refreshCopy() {
   applyLanguage();
 }
 
-/* Điều hướng */
+/* ── Điều hướng (Landing → Auth → Dashboard) ── */
+let isAuthed = false; // demo state — replace with real session check later
+
 function enterApp() {
+  // Nếu đã đăng nhập rồi thì vào thẳng dashboard, chưa thì qua trang Auth
+  if (isAuthed) {
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('auth').classList.remove('on');
+    const app = document.getElementById('app');
+    app.classList.add('on');
+    initApp();
+  } else {
+    showAuth('login');
+  }
+}
+
+function showAuth(mode) {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('app').classList.remove('on');
+  document.getElementById('auth').classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  switchAuth(mode || 'login');
+  applyLanguage();
+}
+
+function switchAuth(mode) {
+  const isLogin = mode === 'login';
+  document.getElementById('auTabLogin').classList.toggle('active', isLogin);
+  document.getElementById('auTabReg').classList.toggle('active', !isLogin);
+  document.getElementById('auFormLogin').classList.toggle('on', isLogin);
+  document.getElementById('auFormReg').classList.toggle('on', !isLogin);
+}
+
+function backToLanding() {
+  document.getElementById('auth').classList.remove('on');
+  document.getElementById('app').classList.remove('on');
+  document.getElementById('landing').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  applyLanguage();
+}
+
+function togglePw(inputId, btn) {
+  const input = document.getElementById(inputId);
+  const isPw = input.type === 'password';
+  input.type = isPw ? 'text' : 'password';
+  btn.innerHTML = isPw
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+}
+
+function updateStrength() {
+  const pw = document.getElementById('regPw').value;
+  const bars = document.querySelectorAll('#auStrength .au-str-bar');
+  const label = document.getElementById('auStrengthLabel');
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+  if (/\d/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  const levels = ['weak','weak','fair','good','strong'];
+  const names = ['Enter a password','Too weak','Fair — add numbers/symbols','Good password','Strong password ✓'];
+  bars.forEach((b, i) => {
+    b.className = 'au-str-bar' + (i < score ? ' ' + levels[score] : '');
+  });
+  label.textContent = pw.length === 0 ? 'Enter a password' : names[score];
+}
+
+function doLogin() {
+  const id = document.getElementById('loginId').value.trim();
+  const pw = document.getElementById('loginPw').value;
+  if (!id || !pw) { toast('Please enter your phone/email and password'); return; }
+  // Demo: any non-empty input is accepted
+  isAuthed = true;
+  toast('Welcome back!');
+  setTimeout(() => {
+    document.getElementById('auth').classList.remove('on');
+    document.getElementById('landing').style.display = 'none';
+    const app = document.getElementById('app');
+    app.classList.add('on');
+    initApp();
+  }, 400);
+}
+
+function doRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const pw = document.getElementById('regPw').value;
+  const agree = document.getElementById('regAgree').checked;
+  if (!name || !phone || !pw) { toast('Please fill all required fields'); return; }
+  if (pw.length < 8) { toast('Password must be at least 8 characters'); return; }
+  if (!agree) { toast('Please accept the Terms to continue'); return; }
+  isAuthed = true;
+  // Update sidebar name with the registered one
+  try {
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    const av = document.querySelector('.sb-av'); if (av) av.textContent = initials;
+    const fn = document.querySelector('.sb-fn'); if (fn) fn.textContent = name;
+  } catch (e) {}
+  toast('Account created — welcome to GreenLoop!');
+  setTimeout(() => {
+    document.getElementById('auth').classList.remove('on');
+    document.getElementById('landing').style.display = 'none';
+    const app = document.getElementById('app');
+    app.classList.add('on');
+    initApp();
+  }, 500);
+}
+
+function skipAuth() {
+  // For hackathon judges — bypass login completely
+  isAuthed = true;
+  document.getElementById('auth').classList.remove('on');
   document.getElementById('landing').style.display = 'none';
   const app = document.getElementById('app');
   app.classList.add('on');
   initApp();
+  toast('Demo mode — exploring as guest');
 }
 
 function returnLanding() {
   document.getElementById('app').classList.remove('on');
+  document.getElementById('auth').classList.remove('on');
   document.getElementById('landing').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
   applyLanguage();

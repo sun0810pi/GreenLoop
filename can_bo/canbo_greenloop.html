@@ -1293,7 +1293,7 @@ tr:hover td{background:var(--bgs)}
 </nav>
 
 <script>
-// ─── NAVIGATION ───
+//  NAVIGATION 
 const pages={dashboard:'Dashboard',farmers:'Nông Dân',carbon:'Carbon MRV',water:'Độ Mặn & Nước',collection:'Thu Gom',passport:'Carbon Passport',settings:'Cài Đặt'};
 const subs={dashboard:'Tổng quan hoạt động hệ thống',farmers:'Danh sách hộ gia đình đăng ký',carbon:'Theo dõi tín chỉ carbon VM0044',water:'Giám sát nước và độ mặn',collection:'Lịch thu gom sinh khối',passport:'Chứng chỉ blockchain nông dân',settings:'Cấu hình hệ thống'};
 let currentPage='dashboard';
@@ -1318,7 +1318,7 @@ function nav(id){
   if(id==='passport'&&!chartsInited.passport){initPassportChart();chartsInited.passport=true;}
 }
 
-// ─── SIDEBAR MOBILE ───
+//  SIDEBAR MOBILE 
 function toggleSidebar(){
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('on');
@@ -1328,7 +1328,7 @@ function closeSidebar(){
   document.getElementById('overlay').classList.remove('on');
 }
 
-// ─── THEME ───
+//  THEME 
 function toggleTheme(){
   const html=document.documentElement;
   const isDark=html.getAttribute('data-theme')==='dark';
@@ -1340,7 +1340,7 @@ function toggleTheme(){
   if(tog)tog.classList.toggle('on',!isDark);
 }
 
-// ─── NOTIF ───
+//  NOTIF 
 function toggleNotif(){
   document.getElementById('notifPanel').classList.toggle('open');
 }
@@ -1354,7 +1354,7 @@ document.addEventListener('click',e=>{
   if(wrap&&!wrap.contains(e.target))document.getElementById('notifPanel').classList.remove('open');
 });
 
-// ─── SEASON ───
+//  SEASON 
 function setSeason(s){
   const br=document.getElementById('btnRice'),bs=document.getElementById('btnShrimp');
   const cb=document.getElementById('cycleBadge');
@@ -1362,7 +1362,7 @@ function setSeason(s){
   else{br.className='s-btn';bs.className='s-btn as';cb.textContent='Mùa Tôm';cb.className='badge bi';buildCycleSteps('shrimp');}
 }
 
-// ─── CYCLE STEPS ───
+//  CYCLE STEPS 
 function buildCycleSteps(season){
   const el=document.getElementById('cycleSteps');
   if(!el)return;
@@ -1379,7 +1379,7 @@ function buildCycleSteps(season){
   }
 }
 
-// ─── FARMERS DATA ───
+//  FARMERS DATA 
 const farmersData=[
   {name:'Nguyễn Văn An',loc:'Cà Mau',area:'3.2 ha',type:'Lúa-Tôm',co2:'4.28',income:'+$1,240',status:'Hoạt động',init:'NVA',color:'135deg,#4CAF50,#00796B'},
   {name:'Trần Văn Minh',loc:'Sóc Trăng',area:'2.4 ha',type:'Lúa-Tôm',co2:'2.15',income:'+$620',status:'Đang xử lý',init:'TVM',color:'135deg,#26A69A,#00796B'},
@@ -1415,7 +1415,7 @@ function filterFarmers(q=''){
 }
 renderFarmers(farmersData);
 
-// ─── BIOCHAR CALCULATOR ───
+//  BIOCHAR CALCULATOR 
 function calcBiochar(){
   const mass=parseFloat(document.getElementById('calc-mass')?.value)||0;
   const type=document.getElementById('calc-type')?.value||'rice';
@@ -1432,7 +1432,7 @@ function calcBiochar(){
   if(ru)ru.textContent='$'+usd;
 }
 
-// ─── COLLECTION BOOKING ───
+//  COLLECTION BOOKING 
 let bookCount=4836;
 function bookCollection(){
   const hub=document.getElementById('book-hub')?.value;
@@ -1446,12 +1446,12 @@ function bookCollection(){
   setTimeout(()=>{if(msg)msg.style.display='none';},5000);
 }
 
-// ─── CHART HELPERS ───
+//  CHART HELPERS 
 const isDark=()=>document.documentElement.getAttribute('data-theme')==='dark';
 const gc=()=>isDark()?'#304235':'#e0ecd4';
 const tc=()=>isDark()?'#829783':'#7a8e7a';
 
-// ─── DASHBOARD CHARTS ───
+//  DASHBOARD CHARTS 
 function initDashCharts(){
   // Revenue
   const r=document.getElementById('revenueChart');
@@ -1482,7 +1482,7 @@ function initDashCharts(){
   buildCycleSteps('rice');
 }
 
-// ─── CARBON CHARTS ───
+//  CARBON CHARTS 
 function initCarbonCharts(){
   const c=document.getElementById('co2Chart');
   if(!c)return;
@@ -1513,7 +1513,7 @@ function initCarbonCharts(){
   });
 }
 
-// ─── WATER CHARTS ───
+//  WATER CHARTS 
 function initWaterCharts(){
   const c=document.getElementById('salinityChart');
   if(!c)return;
@@ -1549,7 +1549,7 @@ function initWaterCharts(){
   });
 }
 
-// ─── PASSPORT CHART ───
+//  PASSPORT CHART 
 function initPassportChart(){
   const c=document.getElementById('passportChart');
   if(!c)return;
@@ -1575,7 +1575,7 @@ function initPassportChart(){
   });
 }
 
-// ─── INIT ───
+//  INIT 
 window.addEventListener('DOMContentLoaded',()=>{
   initDashCharts();
   chartsInited.dashboard=true;
