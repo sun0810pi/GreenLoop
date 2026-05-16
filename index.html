@@ -1,8 +1,24 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="GreenLoop – Biochar and carbon credit platform for Mekong Delta rice-shrimp farmers. Track biochar production, earn Verra VM0044 credits, monitor water salinity.">
+<meta name="theme-color" content="#0b1c12">
+<meta name="color-scheme" content="light dark">
 <title>GreenLoop - Biochar & Carbon Platform</title>
+<!-- Prevent theme flash: apply saved theme before first paint -->
+<script>
+(function(){
+  try{
+    var t=localStorage.getItem('greenloop-theme');
+    if(!t) t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+    document.documentElement.setAttribute('data-theme',t);
+  }catch(e){}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -33,10 +49,25 @@ body[data-theme="dark"] {
   --sh-lg: 0 16px 48px rgba(0,0,0,.36);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--tp);overflow-x:hidden;transition:background .2s,color .2s}
+html{scroll-padding-top:70px}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--tp);overflow-x:hidden;transition:background-color .2s,color .2s,border-color .2s,box-shadow .2s}
+button,[onclick]{touch-action:manipulation}
+
+/* Focus styles for keyboard navigation */
+.btn-p:focus-visible,.btn-a:focus-visible,.btn-o:focus-visible,
+.l-btn-p:focus-visible,.l-btn-s:focus-visible,
+.au-btn-p:focus-visible,.au-btn-s:focus-visible,
+.hc-btn:focus-visible,.sb-item:focus-visible,.bn-t:focus-visible{outline:2px solid var(--lb);outline-offset:2px}
+
+/* High contrast mode */
+body.high-contrast{--border:#7a9e7a;--borderl:#5a7e5a;--tm:#6a7e6a;--ts:#3a5a3a}
+body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--border)}
+
+/* Respect reduced motion */
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 /* Màn hình mở đầu */
-#landing{min-height:100vh;background:var(--fd);position:relative}
+#landing{min-height:100vh;min-height:100svh;background:var(--fd);position:relative}
 #landing::before{content:'';position:fixed;inset:0;pointer-events:none;
   background:radial-gradient(ellipse 70% 60% at 20% 50%, rgba(45,90,61,.45) 0%,transparent 60%),
              radial-gradient(ellipse 50% 50% at 80% 25%, rgba(0,121,107,.14) 0%,transparent 55%),
@@ -68,7 +99,7 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:v
 .l-nav .mode-btn:hover{color:#fff;background:rgba(255,255,255,.08)}
 .l-nav .mode-btn.active{background:var(--lb);color:var(--fd)}
 
-.l-hero{position:relative;z-index:10;display:flex;align-items:center;min-height:calc(100vh - 86px);padding:0 56px;gap:32px}
+.l-hero{position:relative;z-index:10;display:flex;align-items:center;min-height:calc(100vh - 86px);min-height:calc(100svh - 86px);padding:0 56px;gap:32px}
 .l-left{flex:1;max-width:520px}
 .l-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(163,217,106,.08);border:1px solid rgba(163,217,106,.18);padding:5px 14px;border-radius:20px;color:var(--lb);font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:26px}
 .l-tag-dot{width:5px;height:5px;background:var(--lb);border-radius:50%;animation:blink 2s ease infinite}
@@ -95,7 +126,7 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:v
 
 /* (Floating metric chips removed - tree stands on its own now) */
 
-.l-footer{position:absolute;bottom:0;left:0;right:0;padding:16px 56px;display:flex;align-items:center;gap:10px;border-top:1px solid rgba(255,255,255,.04);z-index:20}
+.l-footer{position:relative;bottom:auto;left:auto;right:auto;padding:16px 56px;display:flex;align-items:center;gap:10px;border-top:1px solid rgba(255,255,255,.04);z-index:20;flex-wrap:wrap}
 .l-footer-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-right:4px}
 .l-ptag{display:flex;align-items:center;padding:4px 10px;background:rgba(255,255,255,.04);border-radius:6px;font-size:10px;font-weight:600;color:rgba(255,255,255,.28)}
 
@@ -401,7 +432,7 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 
 /* Thanh tab dưới cho mobile */
 .bottnav{display:none;position:fixed;left:0;right:0;bottom:0;height:calc(62px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bgc);border-top:1px solid var(--borderl);box-shadow:0 -8px 24px rgba(26,58,42,.1);z-index:120}
-.bn-in{height:62px;display:grid;grid-template-columns:repeat(4,1fr)}
+.bn-in{height:62px;display:grid;grid-template-columns:repeat(6,1fr)}
 .bn-t{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;background:transparent;color:var(--tm);font-family:inherit;cursor:pointer;transition:color .18s}
 .bn-t::before{content:'';position:absolute;top:0;left:50%;width:28px;height:3px;border-radius:0 0 3px 3px;background:transparent;transform:translateX(-50%)}
 .bn-t.active{color:var(--leaf)}
@@ -430,8 +461,7 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
 @media(max-width:1100px){.g4{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){
   /* Hero: column layout, tree on top (smaller), text below */
-  .l-hero{flex-direction:column;align-items:stretch;min-height:auto;padding:8px 22px 28px;gap:8px;text-align:center}
-  .l-right{order:-1;flex:none;width:100%}
+  .l-hero{flex-direction:column;align-items:stretch;min-height:auto;padding:8px 22px 28px;gap:8px;text-align:center}  .l-right{order:-1;flex:none;width:100%}
   .l-illustration{max-width:380px;margin:0 auto}
   .l-illustration canvas{display:block}
   .l-left{flex:none;max-width:100%;margin:0 auto}
@@ -476,6 +506,25 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
   .l-stat:not(:first-child){padding-left:12px}
   .l-stat{padding-right:12px}
 }
+/* Button active/touch states */
+.l-btn-p:active{transform:translateY(0);opacity:.85}
+.l-btn-s:active{transform:translateY(0);opacity:.72}
+.hc-btn-p:active,.hc-btn-s:active{transform:translateY(0);opacity:.82}
+.btn-p:active{background:var(--fm)}
+/* Nav overflow fix on tiny screens */
+@media(max-width:480px){
+  .l-nav .mode-group[aria-label="Theme"]{display:none}
+}
+/* Stats 2-col on very small screens */
+@media(max-width:420px){
+  .l-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;border-top:1px solid rgba(255,255,255,.06);padding-top:20px}
+  .l-stat{border-right:none;padding:0!important}
+  .l-stat:last-child{grid-column:1 / -1;border-top:1px solid rgba(255,255,255,.06);padding-top:14px!important;border-right:none}
+}
+/* Input font-size fix for iOS auto-zoom prevention */
+@media(max-width:768px){
+  .fi,.fs,.au-fi,.au-fs,.ci{font-size:16px}
+}
 @media(max-width:768px){
   .sb{display:none}
   .sb.open{transform:translateX(0);box-shadow:10px 0 40px rgba(0,0,0,.28)}
@@ -501,7 +550,7 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
   .mrv-row{padding:10px 0;flex-wrap:wrap;gap:8px}
   .mrv-row > div:first-child{flex:1 1 200px;min-width:140px}
   .mrv-row .fs{width:100% !important;max-width:200px}
-  .mrv-row .ci{width:64px}
+  .mrv-row .ci-mrv{width:64px}
 
   /* Integration items: allow descriptions to wrap */
   .intg-item{gap:10px;padding:11px 0}
@@ -540,7 +589,7 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
 }
 /* ── Notification panel ── */
 .notif-wrap{position:relative}
-.notif-panel{position:absolute;top:calc(100% + 8px);right:0;width:320px;background:var(--bgc);border:1px solid var(--borderl);border-radius:var(--r-lg);box-shadow:var(--sh-lg);z-index:200;opacity:0;transform:translateY(-8px) scale(.97);pointer-events:none;transition:opacity .18s,transform .18s}
+.notif-panel{position:absolute;top:calc(100% + 8px);right:0;width:min(320px, calc(100vw - 16px));background:var(--bgc);border:1px solid var(--borderl);border-radius:var(--r-lg);box-shadow:var(--sh-lg);z-index:200;opacity:0;transform:translateY(-8px) scale(.97);pointer-events:none;transition:opacity .18s,transform .18s}
 .notif-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
 .np-hdr{display:flex;align-items:center;justify-content:space-between;padding:13px 16px 10px;border-bottom:1px solid var(--borderl)}
 .np-hdr-t{font-size:13px;font-weight:700}
@@ -674,7 +723,7 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
 .mrv-row:last-child{border-bottom:none}
 .mrv-label{font-size:13px;font-weight:500}
 .mrv-val{font-size:12.5px;font-weight:700;color:var(--tp)}
-.ci{height:32px;border-radius:7px;border:1px solid var(--borderl);background:var(--bg);color:var(--tp);font-family:inherit;font-size:12px;font-weight:600;padding:0 10px;width:100px;text-align:right}
+.ci-mrv{height:32px;border-radius:7px;border:1px solid var(--borderl);background:var(--bg);color:var(--tp);font-family:inherit;font-size:12px;font-weight:600;padding:0 10px;width:100px;text-align:right}
 /* ── Data & Privacy ── */
 .data-action{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--borderl)}
 .data-action:last-child{border-bottom:none}
@@ -756,7 +805,7 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
 
 /* Right side - form card */
 .au-right{display:flex;justify-content:center;align-items:center}
-.au-card{width:100%;max-width:440px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:36px 34px;backdrop-filter:blur(10px);box-shadow:0 24px 60px rgba(0,0,0,.32)}
+.au-card{width:100%;max-width:440px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:36px 34px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 24px 60px rgba(0,0,0,.32)}
 
 .au-tabs{display:flex;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:4px;margin-bottom:28px}
 .au-tab{flex:1;padding:10px 0;border:none;background:transparent;color:rgba(255,255,255,.5);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;border-radius:8px;transition:all .2s}
@@ -771,8 +820,8 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
 
 .au-fg{display:flex;flex-direction:column;gap:7px}
 .au-fl{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.62);letter-spacing:.4px;text-transform:uppercase}
-.au-fi{height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.2);color:#fff;font-family:inherit;font-size:13.5px;font-weight:500;padding:0 14px;transition:all .18s;outline:none}
-.au-fi:focus{border-color:var(--lb);background:rgba(0,0,0,.32);box-shadow:0 0 0 3px rgba(163,217,106,.12)}
+.au-fi{height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.2);color:#fff;font-family:inherit;font-size:13.5px;font-weight:500;padding:0 14px;transition:all .18s}
+.au-fi:focus{outline:none;border-color:var(--lb);background:rgba(0,0,0,.32);box-shadow:0 0 0 3px rgba(163,217,106,.12)}
 .au-fi::placeholder{color:rgba(255,255,255,.32)}
 .au-fs{height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.2);color:#fff;font-family:inherit;font-size:13.5px;font-weight:500;padding:0 12px;outline:none;cursor:pointer;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2381C784' stroke-width='2.6'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
@@ -969,7 +1018,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
     <div class="l-right">
       <!-- Voxel tree illustration -->
       <div class="l-illustration">
-        <canvas id="voxelTree" width="620" height="600" style="width:100%;height:auto;display:block;"></canvas>
+        <canvas id="voxelTree" width="620" height="600" style="width:100%;height:auto;display:block;" role="img" aria-label="Interactive 3D biochar tree illustration – drag to rotate"></canvas>
       </div>
     </div>
   </div>
@@ -1165,12 +1214,12 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           </div>
 
           <div class="au-fg">
-            <label class="au-fl">Phone or Email</label>
+            <label class="au-fl" for="loginId">Phone or Email</label>
             <input class="au-fi" type="text" id="loginId" placeholder="0987 654 321 or you@farm.vn" autocomplete="username">
           </div>
 
           <div class="au-fg">
-            <label class="au-fl">Password</label>
+            <label class="au-fl" for="loginPw">Password</label>
             <div class="au-pw-wrap">
               <input class="au-fi" type="password" id="loginPw" placeholder="Enter your password" autocomplete="current-password" style="width:100%;padding-right:42px">
               <button class="au-pw-toggle" type="button" onclick="togglePw('loginPw',this)" aria-label="Show password">
@@ -1215,17 +1264,17 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           </div>
 
           <div class="au-fg">
-            <label class="au-fl">Full Name</label>
+            <label class="au-fl" for="regName">Full Name</label>
             <input class="au-fi" type="text" id="regName" placeholder="Nguyen Van A" autocomplete="name">
           </div>
 
           <div class="au-fg">
-            <label class="au-fl">Phone Number</label>
+            <label class="au-fl" for="regPhone">Phone Number</label>
             <input class="au-fi" type="tel" id="regPhone" placeholder="0987 654 321" autocomplete="tel">
           </div>
 
           <div class="au-fg">
-            <label class="au-fl">Province</label>
+            <label class="au-fl" for="regProvince">Province</label>
             <select class="au-fs" id="regProvince">
               <option value="ca-mau">Ca Mau</option>
               <option value="bac-lieu">Bac Lieu</option>
@@ -1236,7 +1285,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           </div>
 
           <div class="au-fg">
-            <label class="au-fl">Role</label>
+            <label class="au-fl" for="regRole">Role</label>
             <select class="au-fs" id="regRole">
               <option value="farmer">Farmer (Lua-Tom / Rice)</option>
               <option value="htx">HTX Cooperative Staff</option>
@@ -1245,7 +1294,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           </div>
 
           <div class="au-fg">
-            <label class="au-fl">Password</label>
+            <label class="au-fl" for="regPw">Password</label>
             <div class="au-pw-wrap">
               <input class="au-fi" type="password" id="regPw" placeholder="At least 8 characters" autocomplete="new-password" oninput="updateStrength()" style="width:100%;padding-right:42px">
               <button class="au-pw-toggle" type="button" onclick="togglePw('regPw',this)" aria-label="Show password">
@@ -1894,11 +1943,11 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               </div>
               <div class="tog-row">
                 <div><div class="tog-label">Compact view</div><div class="tog-sub">Reduce card padding</div></div>
-                <div class="tog" id="togCompact" onclick="togglePref(this)" role="switch"></div>
+                <div class="tog" id="togCompact" onclick="togglePref(this)" role="switch" aria-checked="false"></div>
               </div>
               <div class="tog-row">
                 <div><div class="tog-label">Auto-switch season</div><div class="tog-sub">Switch based on salinity data</div></div>
-                <div class="tog on" id="togAutoSeason" onclick="togglePref(this)" role="switch"></div>
+                <div class="tog on" id="togAutoSeason" onclick="togglePref(this)" role="switch" aria-checked="true"></div>
               </div>
             </div>
           </div>
@@ -1911,27 +1960,27 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             <div class="notif-sett-grid">
               <div class="tog-row">
                 <div><div class="tog-label">Salinity alerts</div></div>
-                <div class="tog on" onclick="togglePref(this)"></div>
+                <div class="tog on" role="switch" aria-checked="true" onclick="togglePref(this)"></div>
               </div>
               <div class="tog-row">
                 <div><div class="tog-label">Carbon credit issuance</div></div>
-                <div class="tog on" onclick="togglePref(this)"></div>
+                <div class="tog on" role="switch" aria-checked="true" onclick="togglePref(this)"></div>
               </div>
               <div class="tog-row">
                 <div><div class="tog-label">Collection reminders</div></div>
-                <div class="tog on" onclick="togglePref(this)"></div>
+                <div class="tog on" role="switch" aria-checked="true" onclick="togglePref(this)"></div>
               </div>
               <div class="tog-row">
                 <div><div class="tog-label">Weekly soil report</div></div>
-                <div class="tog" onclick="togglePref(this)"></div>
+                <div class="tog" role="switch" aria-checked="false" onclick="togglePref(this)"></div>
               </div>
               <div class="tog-row">
                 <div><div class="tog-label">AICE price updates</div></div>
-                <div class="tog" onclick="togglePref(this)"></div>
+                <div class="tog" role="switch" aria-checked="false" onclick="togglePref(this)"></div>
               </div>
               <div class="tog-row">
                 <div><div class="tog-label">Shrimp mortality warnings</div></div>
-                <div class="tog on" onclick="togglePref(this)"></div>
+                <div class="tog on" role="switch" aria-checked="true" onclick="togglePref(this)"></div>
               </div>
             </div>
           </div>
@@ -1986,15 +2035,15 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           <div class="cb">
             <div class="mrv-row">
               <div><div class="mrv-label">Pyrolysis yield factor</div><div style="font-size:11px;color:var(--tm)">Default: 35% (IPCC validated)</div></div>
-              <input class="ci" type="number" value="35" min="10" max="60" step="1" onchange="toast('Yield factor updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">%</span>
+              <input class="ci-mrv" type="number" value="35" min="10" max="60" step="1" onchange="toast('Yield factor updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">%</span>
             </div>
             <div class="mrv-row">
               <div><div class="mrv-label">Rice straw CO₂e factor</div><div style="font-size:11px;color:var(--tm)">tCO₂e per tonne biochar</div></div>
-              <input class="ci" type="number" value="2.5" min="1" max="5" step="0.1" onchange="toast('CO₂e factor updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">t</span>
+              <input class="ci-mrv" type="number" value="2.5" min="1" max="5" step="0.1" onchange="toast('CO₂e factor updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">t</span>
             </div>
             <div class="mrv-row">
               <div><div class="mrv-label">Shrimp sludge CO₂e factor</div><div style="font-size:11px;color:var(--tm)">tCO₂e per tonne biochar</div></div>
-              <input class="ci" type="number" value="1.5" min="0.5" max="3" step="0.1" onchange="toast('CO₂e factor updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">t</span>
+              <input class="ci-mrv" type="number" value="1.5" min="0.5" max="3" step="0.1" onchange="toast('CO₂e factor updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">t</span>
             </div>
             <div class="mrv-row">
               <div><div class="mrv-label">MRV verification tier</div></div>
@@ -2005,11 +2054,11 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             </div>
             <div class="mrv-row">
               <div><div class="mrv-label">Salinity alert threshold</div><div style="font-size:11px;color:var(--tm)">Season-switch trigger</div></div>
-              <input class="ci" type="number" value="5" min="1" max="10" step="0.5" onchange="toast('Threshold updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">g/L</span>
+              <input class="ci-mrv" type="number" value="5" min="1" max="10" step="0.5" onchange="toast('Threshold updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">g/L</span>
             </div>
             <div class="mrv-row">
               <div><div class="mrv-label">Shrimp DO warning threshold</div><div style="font-size:11px;color:var(--tm)">Pre-mortality alert</div></div>
-              <input class="ci" type="number" value="4" min="1" max="8" step="0.5" onchange="toast('DO threshold updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">mg/L</span>
+              <input class="ci-mrv" type="number" value="4" min="1" max="8" step="0.5" onchange="toast('DO threshold updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">mg/L</span>
             </div>
             <div style="margin-top:14px;padding:12px;background:rgba(38,166,154,.05);border:1px solid rgba(38,166,154,.14);border-radius:10px;font-size:11.5px;color:var(--ts)">
               Changes to MRV factors affect credit calculations from the <strong>next batch forward</strong>. Historical records are immutable on AICE blockchain.
@@ -2091,7 +2140,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                   <div class="da-title">Data sharing consent</div>
                   <div class="da-desc">Anonymised data shared with MRC & MONRE</div>
                 </div>
-                <div class="tog on" onclick="togglePref(this)"></div>
+                <div class="tog on" role="switch" aria-checked="true" onclick="togglePref(this)"></div>
               </div>
               <div class="data-action">
                 <div class="da-ico r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></div>
@@ -2161,11 +2210,11 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               </div>
               <div class="web-row">
                 <div class="web-row-l"><div class="web-label">Sound on alert</div><div class="web-sub">Play sound for salinity / mortality warnings</div></div>
-                <div class="tog" onclick="togglePref(this)"></div>
+                <div class="tog" role="switch" aria-checked="false" onclick="togglePref(this)"></div>
               </div>
               <div class="web-row">
                 <div class="web-row-l"><div class="web-label">Unread count in tab title</div><div class="web-sub">Show badge count in browser tab</div></div>
-                <div class="tog on" onclick="togglePref(this)"></div>
+                <div class="tog on" role="switch" aria-checked="true" onclick="togglePref(this)"></div>
               </div>
             </div>
 
@@ -2173,7 +2222,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <div class="web-section-label">Session & Storage</div>
               <div class="web-row">
                 <div class="web-row-l"><div class="web-label">Auto-save form drafts</div><div class="web-sub">Restore unsubmitted booking forms on reload</div></div>
-                <div class="tog on" onclick="togglePref(this)"></div>
+                <div class="tog on" role="switch" aria-checked="true" onclick="togglePref(this)"></div>
               </div>
               <div class="web-row">
                 <div class="web-row-l"><div class="web-label">Session timeout</div><div class="web-sub">Auto-logout after inactivity</div></div>
@@ -2186,7 +2235,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               </div>
               <div class="web-row">
                 <div class="web-row-l"><div class="web-label">Remember last page</div><div class="web-sub">Re-open on last visited section</div></div>
-                <div class="tog on" onclick="togglePref(this)"></div>
+                <div class="tog on" role="switch" aria-checked="true" onclick="togglePref(this)"></div>
               </div>
               <div class="web-row">
                 <div class="web-row-l">
@@ -2205,7 +2254,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                 <div class="shortcut-item"><span>Water Intel</span><span class="shortcut-key"><span class="kbd">G</span><span class="kbd">W</span></span></div>
                 <div class="shortcut-item"><span>Passport</span><span class="shortcut-key"><span class="kbd">G</span><span class="kbd">P</span></span></div>
                 <div class="shortcut-item"><span>Settings</span><span class="shortcut-key"><span class="kbd">G</span><span class="kbd">S</span></span></div>
-                <div class="shortcut-item"><span>Toggle theme</span><span class="shortcut-key"><span class="kbd">⌘</span><span class="kbd">⇧</span><span class="kbd">T</span></span></div>
+                <div class="shortcut-item"><span>Toggle theme</span><span class="shortcut-key"><span class="kbd">⌘</span><span class="kbd">⇧</span><span class="kbd">D</span></span></div>
               </div>
             </div>
 
@@ -2286,6 +2335,14 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg>
         <span>Record</span>
       </button>
+      <button class="bn-t" type="button" data-page="settings" onclick="nav('settings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Settings</span>
+      </button>
+      <button class="bn-t" type="button" data-page="help" onclick="nav('help')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <span>Help</span>
+      </button>
     </div>
   </nav>
 </div><!-- hết dashboard -->
@@ -2307,7 +2364,7 @@ const ICO = {
 let season = 'rice';
 let currentPage = 'dashboard';
 let lang = readPref('greenloop-lang', 'en');
-let theme = readPref('greenloop-theme', 'light');
+let theme = readPref('greenloop-theme', window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
 
 function readPref(key, fallback) {
   try { return localStorage.getItem(key) || fallback; }
@@ -2929,6 +2986,7 @@ let isAuthed = false; // demo state - replace with real session check later
 
 function enterApp() {
   // Nếu đã đăng nhập rồi thì vào thẳng dashboard, chưa thì qua trang Auth
+  if (typeof window._stopTreeRaf === 'function') window._stopTreeRaf();
   if (isAuthed) {
     document.getElementById('landing').style.display = 'none';
     document.getElementById('auth').classList.remove('on');
@@ -2941,6 +2999,7 @@ function enterApp() {
 }
 
 function showAuth(mode) {
+  if (typeof window._stopTreeRaf === 'function') window._stopTreeRaf();
   document.getElementById('landing').style.display = 'none';
   document.getElementById('app').classList.remove('on');
   document.getElementById('auth').classList.add('on');
@@ -2963,6 +3022,7 @@ function backToLanding() {
   document.getElementById('landing').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
   applyLanguage();
+  if (typeof window._startTreeRaf === 'function') window._startTreeRaf();
 }
 
 function togglePw(inputId, btn) {
@@ -3049,6 +3109,7 @@ function returnLanding() {
   document.getElementById('landing').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
   applyLanguage();
+  if (typeof window._startTreeRaf === 'function') window._startTreeRaf();
 }
 
 function nav(page) {
@@ -3389,6 +3450,7 @@ function markAllRead() {
 /* ── Settings helpers ── */
 function togglePref(tog) {
   tog.classList.toggle('on');
+  tog.setAttribute('aria-checked', tog.classList.contains('on'));
 }
 function saveProfile() {
   const name = document.getElementById('settName').value.trim();
@@ -3469,7 +3531,7 @@ function clearLocalStorage() {
       const page = map[e.key.toLowerCase()];
       if (page) { nav(page); gPressed = false; }
     }
-    if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === 't' || e.key === 'T')) {
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === 'd' || e.key === 'D')) {
       setTheme(theme === 'light' ? 'dark' : 'light');
     }
   });
@@ -3480,7 +3542,9 @@ function clearLocalStorage() {
   const cv = document.getElementById('voxelTree');
   if (!cv) return;
   const ctx = cv.getContext('2d');
-  cv.width = 620; cv.height = 600;
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = 620 * dpr; cv.height = 600 * dpr;
+  ctx.scale(dpr, dpr);
 
   const S = 15, HS = 7.5;   // voxel size
   const CX = 310, CY = 395; // screen centre (pivot = trunk 3.5,3.5)
@@ -3492,7 +3556,7 @@ function clearLocalStorage() {
   cv.addEventListener('mousedown',  e=>{drag=true;lastX=gX(e);vel=0;cv.style.cursor='grabbing';});
   cv.addEventListener('touchstart', e=>{drag=true;lastX=gX(e);vel=0;e.preventDefault();},{passive:false});
   window.addEventListener('mousemove',  e=>{if(!drag)return;const d=gX(e)-lastX;rot+=d*.008;vel=d*.008;lastX=gX(e);});
-  window.addEventListener('touchmove',  e=>{if(!drag)return;const d=gX(e)-lastX;rot+=d*.008;vel=d*.008;lastX=gX(e);e.preventDefault();},{passive:false});
+  window.addEventListener('touchmove',  e=>{if(!drag)return;const d=gX(e)-lastX;rot+=d*.008;vel=d*.008;lastX=gX(e);if(e.cancelable)e.preventDefault();},{passive:false});
   window.addEventListener('mouseup',  ()=>{drag=false;cv.style.cursor='grab';});
   window.addEventListener('touchend', ()=>{drag=false;});
   cv.addEventListener('mouseenter', ()=>{hov=true;});
@@ -3868,7 +3932,17 @@ function clearLocalStorage() {
 
     requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+  let rafId = requestAnimationFrame(frame);
+
+  // Pause when tab is hidden (saves battery)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { cancelAnimationFrame(rafId); }
+    else { rafId = requestAnimationFrame(frame); }
+  });
+
+  // Expose stop function so nav() can pause when leaving landing
+  window._stopTreeRaf = () => cancelAnimationFrame(rafId);
+  window._startTreeRaf = () => { rafId = requestAnimationFrame(frame); };
 })();
 </script>
 </body>
