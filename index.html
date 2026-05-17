@@ -63,8 +63,20 @@ button,[onclick]{touch-action:manipulation}
 body.high-contrast{--border:#7a9e7a;--borderl:#5a7e5a;--tm:#6a7e6a;--ts:#3a5a3a}
 body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--border)}
 
-/* Respect reduced motion */
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+.pk-filter{padding:5px 12px;border-radius:99px;border:1px solid var(--border);background:transparent;font-size:12px;font-weight:600;color:var(--ts);cursor:pointer;font-family:inherit;transition:all .15s}
+.pk-filter:hover{background:var(--bgs)}
+.pk-filter.active{background:var(--f);color:#fff;border-color:var(--f)}
+.pk-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--borderl);cursor:pointer;transition:background .15s;border-radius:6px;margin:0 -4px;padding-left:4px;padding-right:4px}
+.pk-row:hover{background:var(--bgs)}
+.pk-row:last-child{border-bottom:none}
+.pk-biomass{font-size:13px;font-weight:600;color:var(--tp)}
+.pk-meta{font-size:11px;color:var(--tm);margin-top:2px}
+.pk-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.pk-kg{font-size:12px;font-weight:700;color:var(--ts)}
+.pk-detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--borderl);font-size:13px}
+.pk-detail-row:last-child{border-bottom:none}
+.pk-detail-label{color:var(--tm);font-weight:500}
+.pk-detail-val{color:var(--tp);font-weight:600;text-align:right}
 
 /* Màn hình mở đầu */
 #landing{min-height:100vh;min-height:100svh;background:var(--fd);position:relative}
@@ -1348,6 +1360,10 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="21" r="1.5"/><circle cx="20" cy="21" r="1.5"/></svg></span>
         <span>Book a pickup</span>
       </div>
+      <div class="sb-item" onclick="nav('pickups')">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6" stroke-width="2.5"/><line x1="3" y1="12" x2="3.01" y2="12" stroke-width="2.5"/><line x1="3" y1="18" x2="3.01" y2="18" stroke-width="2.5"/></svg></span>
+        <span>My Pickups</span>
+      </div>
       <div class="sb-item" onclick="nav('salinity')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg></span>
         <span>Water check</span>
@@ -1744,6 +1760,54 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trang My Pickups -->
+      <div class="page" id="p-pickups">
+        <!-- Filter bar -->
+        <div class="card mb18">
+          <div class="cb" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-top:16px">
+            <span style="font-size:13px;font-weight:600;color:var(--ts)">Filter:</span>
+            <button class="pk-filter active" onclick="filterPickups('all')">Tất cả</button>
+            <button class="pk-filter" onclick="filterPickups('pending')">Pending</button>
+            <button class="pk-filter" onclick="filterPickups('confirmed')">Confirmed</button>
+            <button class="pk-filter" onclick="filterPickups('collected')">Collected</button>
+            <button class="pk-filter" onclick="filterPickups('processed')">Processed</button>
+            <button class="pk-filter" onclick="filterPickups('cancelled')">Cancelled</button>
+            <button class="btn btn-o" style="margin-left:auto;padding:7px 14px;font-size:12px" onclick="renderPickupsPage()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.73-7.65"/></svg>
+              Refresh
+            </button>
+          </div>
+        </div>
+
+        <!-- List -->
+        <div class="card">
+          <div class="ch">
+            <div class="ct">
+              <div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6" stroke-width="2.5"/><line x1="3" y1="12" x2="3.01" y2="12" stroke-width="2.5"/><line x1="3" y1="18" x2="3.01" y2="18" stroke-width="2.5"/></svg></div>
+              Danh sách lịch thu gom
+            </div>
+            <span class="badge bw" id="pickupCount">Loading...</span>
+          </div>
+          <div class="cb" id="pickupsList" style="padding-top:8px">
+            <div style="text-align:center;padding:32px;color:var(--tm)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32" style="margin-bottom:8px;opacity:.4"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg>
+              <div style="font-size:13px">Đang tải...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail modal (inline) -->
+        <div id="pickupDetail" style="display:none;margin-top:18px">
+          <div class="card">
+            <div class="ch">
+              <div class="ct">Chi tiết lịch thu gom</div>
+              <button class="btn btn-o" style="padding:5px 12px;font-size:12px" onclick="document.getElementById('pickupDetail').style.display='none'">✕ Đóng</button>
+            </div>
+            <div class="cb" id="pickupDetailBody"></div>
           </div>
         </div>
       </div>
@@ -2361,7 +2425,7 @@ const ICO = {
 };
 
 /* ── GreenLoop API Config ── */
-const API = 'https://green-loop-backend-production.up.railway.app'; // đổi thành Railway URL khi deploy lên production
+const API = 'https://green-loop-backend-production.up.railway.app';
 let GL_TOKEN = null;
 
 // Khôi phục token từ lần đăng nhập trước (nếu có)
