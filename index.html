@@ -2360,6 +2360,30 @@ const ICO = {
   num: (n) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">${n}</text></svg>`
 };
 
+/* ── GreenLoop API Config ── */
+const API = 'http://localhost:3000'; // đổi thành Railway URL khi deploy lên production
+let GL_TOKEN = null;
+
+// Khôi phục token từ lần đăng nhập trước (nếu có)
+try {
+  const saved = localStorage.getItem('gl_token');
+  if (saved) GL_TOKEN = saved;
+} catch (e) {}
+
+// Helper gọi API — tự gắn Authorization header
+async function apiFetch(path, opts = {}) {
+  const res = await fetch(API + path, {
+    ...opts,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(GL_TOKEN ? { 'Authorization': `Bearer ${GL_TOKEN}` } : {}),
+      ...(opts.headers || {})
+    }
+  });
+  if (!res.ok) throw await res.json();
+  return res.json();
+}
+
 /* Trạng thái hiện tại */
 let season = 'rice';
 let currentPage = 'dashboard';
@@ -2983,10 +3007,9 @@ function refreshCopy() {
 }
 
 /* ── Điều hướng (Landing → Auth → Dashboard) ── */
-let isAuthed = false; // demo state - replace with real session check later
+let isAuthed = !!GL_TOKEN; // true nếu đã có token từ lần đăng nhập trước
 
 function enterApp() {
-  // Nếu đã đăng nhập rồi thì vào thẳng dashboard, chưa thì qua trang Auth
   if (typeof window._stopTreeRaf === 'function') window._stopTreeRaf();
   if (isAuthed) {
     document.getElementById('landing').style.display = 'none';
@@ -3052,45 +3075,68 @@ function updateStrength() {
   label.textContent = pw.length === 0 ? 'Enter a password' : names[score];
 }
 
-function doLogin() {
+async function doLogin() {
   const id = document.getElementById('loginId').value.trim();
   const pw = document.getElementById('loginPw').value;
-  if (!id || !pw) { toast('Please enter your phone/email and password'); return; }
-  // Demo: any non-empty input is accepted
-  isAuthed = true;
-  toast('Welcome back!');
-  setTimeout(() => {
-    document.getElementById('auth').classList.remove('on');
-    document.getElementById('landing').style.display = 'none';
-    const app = document.getElementById('app');
-    app.classList.add('on');
-    initApp();
-  }, 400);
-}
-
-function doRegister() {
-  const name = document.getElementById('regName').value.trim();
-  const phone = document.getElementById('regPhone').value.trim();
-  const pw = document.getElementById('regPw').value;
-  const agree = document.getElementById('regAgree').checked;
-  if (!name || !phone || !pw) { toast('Please fill all required fields'); return; }
-  if (pw.length < 8) { toast('Password must be at least 8 characters'); return; }
-  if (!agree) { toast('Please accept the Terms to continue'); return; }
-  isAuthed = true;
-  // Update sidebar name with the registered one
+  if (!id || !pw) { toast('Nhập số điện thoại và mật khẩu'); return; }
   try {
+    toast('Đang đăng nhập...');
+    const data = await apiFetch('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ phone: id, password: pw })
+    });
+    GL_TOKEN = data.token;
+    try { localStorage.setItem('gl_token', GL_TOKEN); } catch (e) {}
+    // Cập nhật tên + avatar trên sidebar
+    const { name } = data.user;
     const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
     const av = document.querySelector('.sb-av'); if (av) av.textContent = initials;
     const fn = document.querySelector('.sb-fn'); if (fn) fn.textContent = name;
-  } catch (e) {}
-  toast('Account created - welcome to GreenLoop!');
-  setTimeout(() => {
-    document.getElementById('auth').classList.remove('on');
-    document.getElementById('landing').style.display = 'none';
-    const app = document.getElementById('app');
-    app.classList.add('on');
-    initApp();
-  }, 500);
+    isAuthed = true;
+    toast(`Chào ${name}!`);
+    setTimeout(() => {
+      document.getElementById('auth').classList.remove('on');
+      document.getElementById('landing').style.display = 'none';
+      const app = document.getElementById('app');
+      app.classList.add('on');
+      initApp();
+    }, 400);
+  } catch (err) {
+    toast(err.error || 'Đăng nhập thất bại — kiểm tra lại số điện thoại / mật khẩu');
+  }
+}
+
+async function doRegister() {
+  const name  = document.getElementById('regName').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const pw    = document.getElementById('regPw').value;
+  const agree = document.getElementById('regAgree').checked;
+  if (!name || !phone || !pw) { toast('Điền đủ thông tin'); return; }
+  if (pw.length < 8) { toast('Password must be at least 8 characters'); return; }
+  if (!agree) { toast('Please accept the Terms to continue'); return; }
+  try {
+    toast('Đang tạo tài khoản...');
+    const data = await apiFetch('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ name, phone, password: pw, role: 'farmer' })
+    });
+    GL_TOKEN = data.token;
+    try { localStorage.setItem('gl_token', GL_TOKEN); } catch (e) {}
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    const av = document.querySelector('.sb-av'); if (av) av.textContent = initials;
+    const fn = document.querySelector('.sb-fn'); if (fn) fn.textContent = name;
+    isAuthed = true;
+    toast('Tài khoản đã tạo — chào mừng!');
+    setTimeout(() => {
+      document.getElementById('auth').classList.remove('on');
+      document.getElementById('landing').style.display = 'none';
+      const app = document.getElementById('app');
+      app.classList.add('on');
+      initApp();
+    }, 500);
+  } catch (err) {
+    toast(err.error || 'Đăng ký thất bại — số điện thoại có thể đã được dùng');
+  }
 }
 
 function skipAuth() {
@@ -3105,6 +3151,10 @@ function skipAuth() {
 }
 
 function returnLanding() {
+  // Logout: xóa token
+  GL_TOKEN = null;
+  isAuthed = false;
+  try { localStorage.removeItem('gl_token'); } catch (e) {}
   document.getElementById('app').classList.remove('on');
   document.getElementById('auth').classList.remove('on');
   document.getElementById('landing').style.display = 'block';
@@ -3332,16 +3382,40 @@ function calc() {
 }
 
 /* Đặt lịch thu gom */
-function bookCollection() {
-  const type = document.getElementById('bookBiomassType').value;
+async function bookCollection() {
+  const type   = document.getElementById('bookBiomassType').value;
   const weight = document.getElementById('bookWeight').value;
-  const date = document.getElementById('bookDate').value;
+  const date   = document.getElementById('bookDate').value;
+  const notes  = document.getElementById('bookNotes')?.value || '';
+  const hub    = document.getElementById('bookHub')?.value || 'Chưa chọn điểm tập kết';
   if (!type || !weight || !date) { toast(t('Please fill in all required fields')); return; }
-  const ref = 'GL-2026-' + (Math.floor(Math.random() * 9000) + 1000);
-  document.getElementById('bookingRef').textContent = ref;
-  document.getElementById('bookingForm').style.display = 'none';
-  document.getElementById('bookingSuccess').classList.add('on');
-  toast(t('Collection booked successfully!'));
+  const typeMap = {
+    'rice_straw':    'rice_straw',
+    'rice_husk':     'rice_straw',
+    'shrimp_sludge': 'pond_sludge',
+    'coconut':       'mixed'
+  };
+  try {
+    toast(t('Đang đặt lịch...'));
+    const data = await apiFetch('/api/pickups', {
+      method: 'POST',
+      body: JSON.stringify({
+        biomass_type: typeMap[type] || 'mixed',
+        quantity_kg: parseFloat(weight),
+        location: hub,
+        province: 'ca-mau',
+        scheduled_at: new Date(date).toISOString(),
+        notes
+      })
+    });
+    document.getElementById('bookingRef').textContent = 'GL-' + data.id.slice(0, 8).toUpperCase();
+    document.getElementById('bookingForm').style.display = 'none';
+    document.getElementById('bookingSuccess').classList.add('on');
+    toast(t('Collection booked successfully!'));
+    renderCollections();
+  } catch (err) {
+    toast(err.error || 'Không thể đặt lịch — kiểm tra kết nối server');
+  }
 }
 
 function resetBooking() {
@@ -3354,58 +3428,119 @@ function resetBooking() {
 }
 
 /* Lịch sử thu gom gần đây */
-function renderCollections() {
-  const cols = [
-    { type:'Rice Straw', weight:'620 kg', date:'Feb 12, 2026', st:'Completed', bc:'bg' },
-    { type:'Coconut Shell', weight:'340 kg', date:'Jan 28, 2026', st:'Completed', bc:'bg' },
-    { type:'Shrimp Sludge', weight:'480 kg', date:'Jan 15, 2026', st:'Processing', bc:'bw' },
-    { type:'Rice Husk', weight:'750 kg', date:'Dec 20, 2025', st:'Completed', bc:'bg' }
-  ];
-  document.getElementById('recentCollections').innerHTML = cols.map(c => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--borderl)">
-      <div>
-        <div style="font-size:13px;font-weight:600">${t(c.type)}</div>
-        <div style="font-size:11px;color:var(--tm)">${c.weight} · ${c.date}</div>
+async function renderCollections() {
+  const stMap = { pending:'Pending', confirmed:'Confirmed', collected:'Processing', processed:'Completed', cancelled:'Cancelled' };
+  const bcMap = { processed:'bg', confirmed:'bw', pending:'bw', collected:'bw', cancelled:'bd' };
+  try {
+    const { data } = await apiFetch('/api/pickups?limit=4');
+    const html = data.length ? data.map(c => `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--borderl)">
+        <div>
+          <div style="font-size:13px;font-weight:600">${t(c.biomass_type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()))}</div>
+          <div style="font-size:11px;color:var(--tm)">${c.quantity_kg} kg · ${new Date(c.scheduled_at).toLocaleDateString('vi-VN')}</div>
+        </div>
+        <span class="badge ${bcMap[c.status] || 'bw'}">${t(stMap[c.status] || c.status)}</span>
       </div>
-      <span class="badge ${c.bc}">${t(c.st)}</span>
-    </div>
-  `).join('');
+    `).join('') : '<div style="font-size:13px;color:var(--tm);padding:12px 0">Chưa có lịch thu gom nào.</div>';
+    document.getElementById('recentCollections').innerHTML = html;
+  } catch {
+    // Fallback: data tĩnh khi offline / server chưa chạy
+    const cols = [
+      { type:'Rice Straw', weight:'620 kg', date:'Feb 12, 2026', st:'Completed', bc:'bg' },
+      { type:'Coconut Shell', weight:'340 kg', date:'Jan 28, 2026', st:'Completed', bc:'bg' },
+      { type:'Shrimp Sludge', weight:'480 kg', date:'Jan 15, 2026', st:'Processing', bc:'bw' },
+      { type:'Rice Husk', weight:'750 kg', date:'Dec 20, 2025', st:'Completed', bc:'bg' }
+    ];
+    document.getElementById('recentCollections').innerHTML = cols.map(c => `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--borderl)">
+        <div>
+          <div style="font-size:13px;font-weight:600">${t(c.type)}</div>
+          <div style="font-size:11px;color:var(--tm)">${c.weight} · ${c.date}</div>
+        </div>
+        <span class="badge ${c.bc}">${t(c.st)}</span>
+      </div>
+    `).join('');
+  }
 }
 
-/* Cảnh báo */
-function renderAlerts() {
-  const alerts = [
-    { t:'warn', icon:ICO.warn, title:'Salinity Rising - Canal N-03', text:'Reading 3.8 g/L. Approaching transition threshold. Monitor closely over next 72h.' },
-    { t:'ok', icon:ICO.check, title:'Paddy Field A - Safe Range', text:'Current salinity 0.6 g/L - well within rice cultivation limits.' },
-    { t:'danger', icon:ICO.danger, title:'Upstream Intrusion Forecast', text:'Tidal model predicts 5+ g/L spike in 72 hours. Prepare water gates now.' }
-  ];
-  document.getElementById('alertsContainer').innerHTML = alerts.map(a => `
-    <div class="ab ${a.t}">
-      <div class="ai">${a.icon}</div>
-      <div><div class="at">${t(a.title)}</div><div class="ax">${t(a.text)}</div></div>
-    </div>
-  `).join('');
+/* Cảnh báo độ mặn */
+async function renderAlerts() {
+  try {
+    const { data } = await apiFetch('/api/salinity');
+    document.getElementById('alertsContainer').innerHTML = data.map(s => {
+      const type = s.alert ? 'danger' : s.value_gpl > 2.5 ? 'warn' : 'ok';
+      const icon = s.alert ? ICO.danger : s.value_gpl > 2.5 ? ICO.warn : ICO.check;
+      const msg  = s.alert
+        ? `Vượt ngưỡng 5 g/L — nên chuyển sang mùa tôm`
+        : s.value_gpl > 2.5
+          ? `Gần ngưỡng — theo dõi thêm 72h`
+          : `Trong giới hạn an toàn cho lúa`;
+      return `
+        <div class="ab ${type}">
+          <div class="ai">${icon}</div>
+          <div>
+            <div class="at">${s.station} — ${s.value_gpl} g/L</div>
+            <div class="ax">${s.river || s.province} · ${msg}</div>
+          </div>
+        </div>`;
+    }).join('');
+  } catch {
+    // Fallback khi offline
+    const alerts = [
+      { t:'warn',   icon:ICO.warn,   title:'Salinity Rising - Canal N-03',      text:'Reading 3.8 g/L. Approaching transition threshold. Monitor closely over next 72h.' },
+      { t:'ok',     icon:ICO.check,  title:'Paddy Field A - Safe Range',         text:'Current salinity 0.6 g/L - well within rice cultivation limits.' },
+      { t:'danger', icon:ICO.danger, title:'Upstream Intrusion Forecast',        text:'Tidal model predicts 5+ g/L spike in 72 hours. Prepare water gates now.' }
+    ];
+    document.getElementById('alertsContainer').innerHTML = alerts.map(a => `
+      <div class="ab ${a.t}">
+        <div class="ai">${a.icon}</div>
+        <div><div class="at">${t(a.title)}</div><div class="ax">${t(a.text)}</div></div>
+      </div>
+    `).join('');
+  }
 }
 
-/* Dòng thời gian hồ sơ */
-function renderTimeline() {
-  const events = [
-    { d:'Feb 2026', t:'Biochar Application - Paddy Field A', x:'180 kg applied, +0.42 tCO₂e', dot:'g' },
-    { d:'Dec 2025', t:'Biochar Application - Shrimp Pond B', x:'95 kg sludge-biochar, +0.18 tCO₂e', dot:'a' },
-    { d:'Oct 2025', t:'Soil Test - Annual Review', x:'Organic carbon up 0.4%, score improved to 87', dot:'e' },
-    { d:'Aug 2025', t:'Biochar Application - Paddy Field A', x:'200 kg applied, +0.48 tCO₂e', dot:'g' },
-    { d:'Jun 2025', t:'Carbon Credit Issuance', x:'Batch #GL-003 - 1.2 tCO₂e verified & registered on AICE', dot:'g' },
-    { d:'Mar 2025', t:'Biochar Application - Paddy Field B', x:'150 kg applied, +0.36 tCO₂e', dot:'g' },
-    { d:'Jan 2025', t:'GreenLoop Enrollment', x:'Passport created. Initial soil baseline recorded.', dot:'e' }
-  ];
-  document.getElementById('passportTimeline').innerHTML = events.map(e => `
-    <div class="tli">
-      <div class="tld ${e.dot}"></div>
-      <div class="tl-date">${e.d}</div>
-      <div class="tl-title">${t(e.t)}</div>
-      <div class="tl-detail">${t(e.x)}</div>
-    </div>
-  `).join('');
+/* Dòng thời gian hồ sơ carbon */
+async function renderTimeline() {
+  try {
+    const { data } = await apiFetch('/api/carbon?limit=7');
+    const html = data.length ? data.map(e => {
+      const dot = (e.status === 'verified' || e.status === 'issued') ? 'g' : 'e';
+      const label = e.season === 'wet_rice' ? 'Lúa' : 'Tôm';
+      const date = new Date(e.created_at).toLocaleDateString('vi-VN', { month: 'short', year: 'numeric' });
+      return `
+        <div class="tli">
+          <div class="tld ${dot}"></div>
+          <div class="tl-date">${date}</div>
+          <div class="tl-title">Carbon ${label} — ${e.status}</div>
+          <div class="tl-detail">${e.biochar_kg} kg biochar · ${e.co2e_tonnes} tCO₂e · ${e.scu_units || 0} SCU</div>
+        </div>`;
+    }).join('') : `
+      <div class="tli">
+        <div class="tld e"></div>
+        <div class="tl-date">Hôm nay</div>
+        <div class="tl-title">Đăng ký GreenLoop</div>
+        <div class="tl-detail">Carbon passport đã tạo. Bắt đầu đặt lịch thu gom để tích lũy tín chỉ.</div>
+      </div>`;
+    document.getElementById('passportTimeline').innerHTML = html;
+  } catch {
+    // Fallback data tĩnh
+    const events = [
+      { d:'Feb 2026', t:'Biochar Application - Paddy Field A', x:'180 kg applied, +0.42 tCO₂e', dot:'g' },
+      { d:'Dec 2025', t:'Biochar Application - Shrimp Pond B', x:'95 kg sludge-biochar, +0.18 tCO₂e', dot:'a' },
+      { d:'Oct 2025', t:'Soil Test - Annual Review', x:'Organic carbon up 0.4%, score improved to 87', dot:'e' },
+      { d:'Jun 2025', t:'Carbon Credit Issuance', x:'Batch #GL-003 - 1.2 tCO₂e verified & registered on AICE', dot:'g' },
+      { d:'Jan 2025', t:'GreenLoop Enrollment', x:'Passport created. Initial soil baseline recorded.', dot:'e' }
+    ];
+    document.getElementById('passportTimeline').innerHTML = events.map(e => `
+      <div class="tli">
+        <div class="tld ${e.dot}"></div>
+        <div class="tl-date">${e.d}</div>
+        <div class="tl-title">${t(e.t)}</div>
+        <div class="tl-detail">${t(e.x)}</div>
+      </div>
+    `).join('');
+  }
 }
 
 /* Thông báo nổi */
