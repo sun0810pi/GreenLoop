@@ -77,6 +77,18 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .pk-detail-row:last-child{border-bottom:none}
 .pk-detail-label{color:var(--tm);font-weight:500}
 .pk-detail-val{color:var(--tp);font-weight:600;text-align:right}
+.gl-empty{padding:14px 0;font-size:13px;color:var(--tm);line-height:1.5}
+.gl-error{padding:11px 12px;border:1px solid rgba(198,40,40,.18);background:rgba(198,40,40,.06);border-radius:10px;font-size:12px;color:var(--danger);line-height:1.5}
+.gl-row-actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-top:8px}
+.gl-mini-btn{border:1px solid var(--borderl);background:var(--bg);color:var(--ts);border-radius:8px;padding:5px 9px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer}
+.gl-mini-btn:hover{background:var(--bgs);color:var(--tp)}
+.gl-mini-btn.danger{color:var(--danger);border-color:rgba(198,40,40,.25);background:rgba(198,40,40,.05)}
+.gl-mini-select{height:28px;border:1px solid var(--borderl);border-radius:8px;background:var(--bg);color:var(--tp);font-family:inherit;font-size:11px;padding:0 7px}
+.gl-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gl-detail-cell{padding:10px;background:var(--bg);border:1px solid var(--borderl);border-radius:10px}
+.gl-detail-k{font-size:10px;color:var(--tm);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.gl-detail-v{font-size:12px;color:var(--tp);font-weight:700;word-break:break-word}
+.gl-muted{color:var(--tm)!important}
 
 /* Màn hình mở đầu */
 #landing{min-height:100vh;min-height:100svh;background:var(--fd);position:relative}
@@ -2427,6 +2439,9 @@ const ICO = {
 /* ── GreenLoop API Config ── */
 const API = 'https://green-loop-backend-production.up.railway.app';
 let GL_TOKEN = null;
+let currentUser = null;
+let isApiOnline = true;
+let isAuthed = false;
 
 // Khôi phục token từ lần đăng nhập trước (nếu có)
 try {
@@ -2434,18 +2449,129 @@ try {
   if (saved) GL_TOKEN = saved;
 } catch (e) {}
 
+function clearSession(showMessage = true) {
+  GL_TOKEN = null;
+  currentUser = null;
+  isAuthed = false;
+  try { localStorage.removeItem('gl_token'); } catch (e) {}
+  if (showMessage) toast('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+}
+
+function setBusy(el, busy, label) {
+  if (!el) return;
+  if (busy) {
+    el.dataset.oldText = el.textContent;
+    el.disabled = true;
+    el.style.opacity = '.72';
+    if (label) el.textContent = label;
+  } else {
+    el.disabled = false;
+    el.style.opacity = '';
+    if (el.dataset.oldText) el.textContent = el.dataset.oldText;
+  }
+}
+
+function friendlyError(err, fallback = 'Không thể kết nối GreenLoop API') {
+  if (!err) return fallback;
+  if (err.error) return err.error;
+  if (err.message) return err.message;
+  return fallback;
+}
+
+function formatDate(value, opts) {
+  if (!value) return '-';
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return value;
+  return d.toLocaleDateString('vi-VN', opts || { day:'2-digit', month:'2-digit', year:'numeric' });
+}
+
+function formatKg(value) {
+  return (Number(value) || 0).toLocaleString('vi-VN') + ' kg';
+}
+
+function formatTonnes(value) {
+  return (Number(value) || 0).toLocaleString('vi-VN', { maximumFractionDigits: 3 }) + ' t';
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[ch]));
+}
+
+function updateUserUI(user) {
+  if (!user) return;
+  currentUser = user;
+  const name = user.name || 'GreenLoop User';
+  const initials = name.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'GL';
+  const av = document.querySelector('.sb-av'); if (av) av.textContent = initials;
+  const fn = document.querySelector('.sb-fn'); if (fn) fn.textContent = name;
+  const fr = document.querySelector('.sb-fr'); if (fr) fr.textContent = [user.role, user.province].filter(Boolean).join(' · ') || 'GreenLoop';
+  const settName = document.getElementById('settName'); if (settName) settName.value = name;
+  const settPhone = document.getElementById('settPhone'); if (settPhone && user.phone) settPhone.value = user.phone;
+  const settProvince = document.getElementById('settProvince'); if (settProvince && user.province) settProvince.value = user.province.replace(/-/g, '');
+  const settFarmSize = document.getElementById('settFarmSize'); if (settFarmSize && user.farm_ha !== undefined) settFarmSize.value = user.farm_ha || '';
+  const settAvatar = document.getElementById('settAvatar'); if (settAvatar) settAvatar.textContent = initials;
+  const dashSub = season === 'rice'
+    ? `Xin chào ${name} - vụ lúa Hè Thu`
+    : `Xin chào ${name} - vụ tôm Đông Xuân`;
+  const pageSub = document.getElementById('pageSub');
+  if (pageSub && currentPage === 'dashboard') pageSub.textContent = dashSub;
+}
+
+function showApp() {
+  isAuthed = true;
+  document.getElementById('auth')?.classList.remove('on');
+  const landing = document.getElementById('landing');
+  if (landing) landing.style.display = 'none';
+  document.getElementById('app')?.classList.add('on');
+  initApp();
+}
+
+async function restoreSession() {
+  if (!GL_TOKEN) return;
+  try {
+    const data = await apiFetch('/api/auth/me', { silent401: true });
+    updateUserUI(data.user);
+    showApp();
+  } catch (err) {
+    clearSession(false);
+  }
+}
+
 // Helper gọi API — tự gắn Authorization header
 async function apiFetch(path, opts = {}) {
-  const res = await fetch(API + path, {
-    ...opts,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(GL_TOKEN ? { 'Authorization': `Bearer ${GL_TOKEN}` } : {}),
-      ...(opts.headers || {})
-    }
-  });
-  if (!res.ok) throw await res.json();
-  return res.json();
+  const { silent401, ...fetchOpts } = opts;
+  let res;
+  try {
+    res = await fetch(API + path, {
+      ...fetchOpts,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(GL_TOKEN ? { 'Authorization': `Bearer ${GL_TOKEN}` } : {}),
+        ...(fetchOpts.headers || {})
+      }
+    });
+    isApiOnline = true;
+  } catch (err) {
+    isApiOnline = false;
+    throw { error: 'Không kết nối được Railway API. Demo sẽ dùng dữ liệu dự phòng nếu có.' };
+  }
+
+  let payload = null;
+  const text = await res.text();
+  if (text) {
+    try { payload = JSON.parse(text); }
+    catch { payload = { error: text }; }
+  }
+
+  if (res.status === 401) {
+    if (!silent401) clearSession(true);
+    throw payload || { error: 'Phiên đăng nhập hết hạn' };
+  }
+  if (res.status === 403) throw payload || { error: 'Tài khoản chưa có quyền thực hiện thao tác này' };
+  if (!res.ok) throw payload || { error: `API error ${res.status}` };
+  return payload;
 }
 
 /* Trạng thái hiện tại */
@@ -3071,16 +3197,13 @@ function refreshCopy() {
 }
 
 /* ── Điều hướng (Landing → Auth → Dashboard) ── */
-let isAuthed = !!GL_TOKEN; // true nếu đã có token từ lần đăng nhập trước
+isAuthed = !!GL_TOKEN; // true nếu đã có token từ lần đăng nhập trước
 
 function enterApp() {
   if (typeof window._stopTreeRaf === 'function') window._stopTreeRaf();
   if (isAuthed) {
-    document.getElementById('landing').style.display = 'none';
-    document.getElementById('auth').classList.remove('on');
-    const app = document.getElementById('app');
-    app.classList.add('on');
-    initApp();
+    if (currentUser) showApp();
+    else restoreSession().catch(() => showAuth('login'));
   } else {
     showAuth('login');
   }
@@ -3140,10 +3263,12 @@ function updateStrength() {
 }
 
 async function doLogin() {
+  const btn = window.event?.currentTarget;
   const id = document.getElementById('loginId').value.trim();
   const pw = document.getElementById('loginPw').value;
   if (!id || !pw) { toast('Nhập số điện thoại và mật khẩu'); return; }
   try {
+    setBusy(btn, true, 'Đang đăng nhập...');
     toast('Đang đăng nhập...');
     const data = await apiFetch('/api/auth/login', {
       method: 'POST',
@@ -3151,26 +3276,18 @@ async function doLogin() {
     });
     GL_TOKEN = data.token;
     try { localStorage.setItem('gl_token', GL_TOKEN); } catch (e) {}
-    // Cập nhật tên + avatar trên sidebar
-    const { name } = data.user;
-    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-    const av = document.querySelector('.sb-av'); if (av) av.textContent = initials;
-    const fn = document.querySelector('.sb-fn'); if (fn) fn.textContent = name;
-    isAuthed = true;
-    toast(`Chào ${name}!`);
-    setTimeout(() => {
-      document.getElementById('auth').classList.remove('on');
-      document.getElementById('landing').style.display = 'none';
-      const app = document.getElementById('app');
-      app.classList.add('on');
-      initApp();
-    }, 400);
+    updateUserUI(data.user);
+    toast(`Chào ${data.user.name}!`);
+    setTimeout(showApp, 350);
   } catch (err) {
-    toast(err.error || 'Đăng nhập thất bại — kiểm tra lại số điện thoại / mật khẩu');
+    toast(friendlyError(err, 'Đăng nhập thất bại - kiểm tra lại số điện thoại / mật khẩu'));
+  } finally {
+    setBusy(btn, false);
   }
 }
 
 async function doRegister() {
+  const btn = window.event?.currentTarget;
   const name  = document.getElementById('regName').value.trim();
   const phone = document.getElementById('regPhone').value.trim();
   const pw    = document.getElementById('regPw').value;
@@ -3179,6 +3296,7 @@ async function doRegister() {
   if (pw.length < 8) { toast('Password must be at least 8 characters'); return; }
   if (!agree) { toast('Please accept the Terms to continue'); return; }
   try {
+    setBusy(btn, true, 'Đang tạo...');
     toast('Đang tạo tài khoản...');
     const data = await apiFetch('/api/auth/register', {
       method: 'POST',
@@ -3186,20 +3304,13 @@ async function doRegister() {
     });
     GL_TOKEN = data.token;
     try { localStorage.setItem('gl_token', GL_TOKEN); } catch (e) {}
-    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-    const av = document.querySelector('.sb-av'); if (av) av.textContent = initials;
-    const fn = document.querySelector('.sb-fn'); if (fn) fn.textContent = name;
-    isAuthed = true;
-    toast('Tài khoản đã tạo — chào mừng!');
-    setTimeout(() => {
-      document.getElementById('auth').classList.remove('on');
-      document.getElementById('landing').style.display = 'none';
-      const app = document.getElementById('app');
-      app.classList.add('on');
-      initApp();
-    }, 500);
+    updateUserUI(data.user);
+    toast('Tài khoản đã tạo - chào mừng!');
+    setTimeout(showApp, 350);
   } catch (err) {
-    toast(err.error || 'Đăng ký thất bại — số điện thoại có thể đã được dùng');
+    toast(friendlyError(err, 'Đăng ký thất bại - số điện thoại có thể đã được dùng'));
+  } finally {
+    setBusy(btn, false);
   }
 }
 
@@ -3216,9 +3327,7 @@ function skipAuth() {
 
 function returnLanding() {
   // Logout: xóa token
-  GL_TOKEN = null;
-  isAuthed = false;
-  try { localStorage.removeItem('gl_token'); } catch (e) {}
+  clearSession(false);
   document.getElementById('app').classList.remove('on');
   document.getElementById('auth').classList.remove('on');
   document.getElementById('landing').style.display = 'block';
@@ -3447,12 +3556,14 @@ function calc() {
 
 /* Đặt lịch thu gom */
 async function bookCollection() {
+  const btn = window.event?.currentTarget;
   const type   = document.getElementById('bookBiomassType').value;
-  const weight = document.getElementById('bookWeight').value;
+  const weight = Number(document.getElementById('bookWeight').value);
   const date   = document.getElementById('bookDate').value;
   const notes  = document.getElementById('bookNotes')?.value || '';
   const hub    = document.getElementById('bookHub')?.value || 'Chưa chọn điểm tập kết';
   if (!type || !weight || !date) { toast(t('Please fill in all required fields')); return; }
+  if (weight < 500) { toast('Khối lượng tối thiểu là 500 kg'); return; }
   const typeMap = {
     'rice_straw':    'rice_straw',
     'rice_husk':     'rice_straw',
@@ -3460,12 +3571,13 @@ async function bookCollection() {
     'coconut':       'mixed'
   };
   try {
+    setBusy(btn, true, 'Đang gửi...');
     toast(t('Đang đặt lịch...'));
     const data = await apiFetch('/api/pickups', {
       method: 'POST',
       body: JSON.stringify({
         biomass_type: typeMap[type] || 'mixed',
-        quantity_kg: parseFloat(weight),
+        quantity_kg: weight,
         location: hub,
         province: 'ca-mau',
         scheduled_at: new Date(date).toISOString(),
@@ -3478,7 +3590,9 @@ async function bookCollection() {
     toast(t('Collection booked successfully!'));
     renderCollections();
   } catch (err) {
-    toast(err.error || 'Không thể đặt lịch — kiểm tra kết nối server');
+    toast(friendlyError(err, 'Không thể đặt lịch - kiểm tra kết nối server'));
+  } finally {
+    setBusy(btn, false);
   }
 }
 
@@ -3496,17 +3610,19 @@ async function renderCollections() {
   const stMap = { pending:'Pending', confirmed:'Confirmed', collected:'Processing', processed:'Completed', cancelled:'Cancelled' };
   const bcMap = { processed:'bg', confirmed:'bw', pending:'bw', collected:'bw', cancelled:'bd' };
   try {
-    const { data } = await apiFetch('/api/pickups?limit=4');
-    const html = data.length ? data.map(c => `
+    const { data } = await apiFetch('/api/pickups?limit=20');
+    const recentHtml = data.length ? data.slice(0, 4).map(c => `
       <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--borderl)">
         <div>
-          <div style="font-size:13px;font-weight:600">${t(c.biomass_type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()))}</div>
-          <div style="font-size:11px;color:var(--tm)">${c.quantity_kg} kg · ${new Date(c.scheduled_at).toLocaleDateString('vi-VN')}</div>
+          <div style="font-size:13px;font-weight:600">${escapeHtml(labelBiomass(c.biomass_type))}</div>
+          <div style="font-size:11px;color:var(--tm)">${formatKg(c.quantity_kg)} · ${formatDate(c.scheduled_at)}</div>
         </div>
         <span class="badge ${bcMap[c.status] || 'bw'}">${t(stMap[c.status] || c.status)}</span>
       </div>
-    `).join('') : '<div style="font-size:13px;color:var(--tm);padding:12px 0">Chưa có lịch thu gom nào.</div>';
-    document.getElementById('recentCollections').innerHTML = html;
+    `).join('') : '<div class="gl-empty">Chưa có lịch thu gom nào.</div>';
+    const recent = document.getElementById('recentCollections');
+    if (recent) recent.innerHTML = recentHtml;
+    renderPickupList(data);
   } catch {
     // Fallback: data tĩnh khi offline / server chưa chạy
     const cols = [
@@ -3524,13 +3640,126 @@ async function renderCollections() {
         <span class="badge ${c.bc}">${t(c.st)}</span>
       </div>
     `).join('');
+    const list = document.getElementById('pickupsList');
+    if (list) list.innerHTML = '<div class="gl-error">Không tải được danh sách từ Railway API. Đang hiển thị dữ liệu demo ở thẻ gần đây.</div>';
+  }
+}
+
+function labelBiomass(type) {
+  return ({
+    rice_straw: 'Rice Straw',
+    pond_sludge: 'Shrimp Pond Sludge',
+    mixed: 'Mixed Biomass',
+    rice_husk: 'Rice Husk',
+    shrimp_sludge: 'Shrimp Pond Sludge',
+    coconut: 'Coconut Shell'
+  })[type] || String(type || 'Biomass').replace(/_/g, ' ');
+}
+
+function renderPickupList(data) {
+  const list = document.getElementById('pickupsList');
+  const count = document.getElementById('pickupCount');
+  if (!list) return;
+  if (count) count.textContent = `${data.length} lịch`;
+  if (!data.length) {
+    list.innerHTML = '<div class="gl-empty">Chưa có lịch thu gom. Hãy đặt lịch đầu tiên ở form bên trái.</div>';
+    return;
+  }
+  const stMap = { pending:'Pending', confirmed:'Confirmed', collected:'Processing', processed:'Completed', cancelled:'Cancelled' };
+  const bcMap = { processed:'bg', confirmed:'bw', pending:'bw', collected:'bw', cancelled:'bd' };
+  const canManage = currentUser && ['htx','admin'].includes(currentUser.role);
+  list.innerHTML = data.map(c => {
+    const canCancel = currentUser && (currentUser.role === 'admin' || c.user_id === currentUser.id) && ['pending','confirmed'].includes(c.status);
+    return `
+      <div class="pk-row" onclick="loadPickupDetail('${escapeHtml(c.id)}')">
+        <div>
+          <div class="pk-biomass">${escapeHtml(labelBiomass(c.biomass_type))}</div>
+          <div class="pk-meta">${formatKg(c.quantity_kg)} · ${formatDate(c.scheduled_at)} · ${escapeHtml(c.location || '')}</div>
+          ${c.farmer_name ? `<div class="pk-meta">Farmer: ${escapeHtml(c.farmer_name)} ${c.farmer_phone ? '· ' + escapeHtml(c.farmer_phone) : ''}</div>` : ''}
+          <div class="gl-row-actions" onclick="event.stopPropagation()">
+            <button class="gl-mini-btn" type="button" onclick="loadPickupDetail('${escapeHtml(c.id)}')">Chi tiết</button>
+            ${canCancel ? `<button class="gl-mini-btn danger" type="button" onclick="cancelPickup('${escapeHtml(c.id)}')">Hủy</button>` : ''}
+            ${canManage ? `
+              <select class="gl-mini-select" id="pickupStatus-${escapeHtml(c.id)}">
+                ${['pending','confirmed','collected','processed','cancelled'].map(s => `<option value="${s}" ${s === c.status ? 'selected' : ''}>${stMap[s]}</option>`).join('')}
+              </select>
+              <button class="gl-mini-btn" type="button" onclick="updatePickupStatus('${escapeHtml(c.id)}')">Cập nhật</button>
+            ` : ''}
+          </div>
+        </div>
+        <div class="pk-right">
+          <span class="badge ${bcMap[c.status] || 'bw'}">${t(stMap[c.status] || c.status)}</span>
+          <div class="pk-kg">${formatKg(c.biochar_yield_kg || Math.round((Number(c.quantity_kg) || 0) * .35))} biochar</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function loadPickupDetail(id) {
+  const box = document.getElementById('pickupDetail');
+  const body = document.getElementById('pickupDetailBody');
+  if (!box || !body) return;
+  box.style.display = 'block';
+  body.innerHTML = '<div class="gl-empty">Đang tải chi tiết...</div>';
+  try {
+    const { data } = await apiFetch('/api/pickups/' + encodeURIComponent(id));
+    body.innerHTML = `
+      <div class="gl-detail-grid">
+        <div class="gl-detail-cell"><div class="gl-detail-k">Loại</div><div class="gl-detail-v">${escapeHtml(labelBiomass(data.biomass_type))}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">Trạng thái</div><div class="gl-detail-v">${escapeHtml(data.status)}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">Khối lượng</div><div class="gl-detail-v">${formatKg(data.quantity_kg)}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">Biochar</div><div class="gl-detail-v">${formatKg(data.biochar_yield_kg || Math.round((Number(data.quantity_kg) || 0) * .35))}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">Ngày hẹn</div><div class="gl-detail-v">${formatDate(data.scheduled_at)}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">HTX</div><div class="gl-detail-v">${escapeHtml(data.htx_code || 'Chưa gán')}</div></div>
+      </div>
+      <div class="pk-detail-row"><span class="pk-detail-label">Địa điểm</span><span class="pk-detail-val">${escapeHtml(data.location)}</span></div>
+      <div class="pk-detail-row"><span class="pk-detail-label">Ghi chú</span><span class="pk-detail-val">${escapeHtml(data.notes || 'Không có')}</span></div>
+      ${data.farmer_name ? `<div class="pk-detail-row"><span class="pk-detail-label">Nông hộ</span><span class="pk-detail-val">${escapeHtml(data.farmer_name)}</span></div>` : ''}
+    `;
+  } catch (err) {
+    body.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Không tải được chi tiết lịch thu gom'))}</div>`;
+  }
+}
+
+async function cancelPickup(id) {
+  if (!confirm('Hủy lịch thu gom này?')) return;
+  try {
+    await apiFetch('/api/pickups/' + encodeURIComponent(id), { method:'DELETE' });
+    toast('Đã hủy lịch thu gom');
+    renderCollections();
+  } catch (err) {
+    toast(friendlyError(err, 'Không thể hủy lịch này'));
+  }
+}
+
+async function updatePickupStatus(id) {
+  const sel = document.getElementById('pickupStatus-' + id);
+  if (!sel) return;
+  const body = { status: sel.value };
+  if (sel.value === 'processed') {
+    const yieldKg = prompt('Nhập khối lượng biochar tạo ra (kg):', '420');
+    if (!yieldKg) return;
+    body.biochar_yield_kg = Number(yieldKg);
+  }
+  try {
+    await apiFetch('/api/pickups/' + encodeURIComponent(id) + '/status', {
+      method:'PATCH',
+      body: JSON.stringify(body)
+    });
+    toast('Đã cập nhật trạng thái');
+    renderCollections();
+    renderTimeline();
+    renderCarbonSummary();
+  } catch (err) {
+    toast(friendlyError(err, 'Không thể cập nhật trạng thái'));
   }
 }
 
 /* Cảnh báo độ mặn */
 async function renderAlerts() {
   try {
-    const { data } = await apiFetch('/api/salinity');
+    const { data, summary } = await apiFetch('/api/salinity');
+    updateSalinityGauge(data, summary);
     document.getElementById('alertsContainer').innerHTML = data.map(s => {
       const type = s.alert ? 'danger' : s.value_gpl > 2.5 ? 'warn' : 'ok';
       const icon = s.alert ? ICO.danger : s.value_gpl > 2.5 ? ICO.warn : ICO.check;
@@ -3548,6 +3777,7 @@ async function renderAlerts() {
           </div>
         </div>`;
     }).join('');
+    renderSalinityAdvice();
   } catch {
     // Fallback khi offline
     const alerts = [
@@ -3564,20 +3794,60 @@ async function renderAlerts() {
   }
 }
 
+function updateSalinityGauge(data, summary) {
+  if (!Array.isArray(data) || !data.length) return;
+  const preferred = currentUser?.province ? data.find(s => s.province === currentUser.province) : null;
+  const reading = preferred || data[0];
+  const value = Number(reading.value_gpl) || 0;
+  const gaugeValue = document.querySelector('#p-salinity .gv');
+  const gaugeUnit = document.querySelector('#p-salinity .gu');
+  const arc = document.getElementById('salinityArc');
+  if (gaugeValue) gaugeValue.textContent = value.toFixed(1);
+  if (gaugeUnit) gaugeUnit.textContent = `${reading.station || 'station'} · g/L salinity`;
+  if (arc) {
+    const circumference = 251;
+    const ratio = Math.max(0, Math.min(value / 8, 1));
+    arc.style.strokeDasharray = `${Math.round(circumference * ratio)} ${circumference}`;
+    arc.style.stroke = value >= 5 ? 'var(--danger)' : value >= 2.5 ? 'var(--warn)' : 'var(--leaf)';
+  }
+  const rec = document.querySelector('#p-salinity .rec-card, #p-salinity .advice-card');
+  if (summary?.recommendation && rec) rec.textContent = summary.recommendation;
+}
+
+async function renderSalinityAdvice() {
+  const province = currentUser?.province || 'ca-mau';
+  try {
+    const advice = await apiFetch('/api/salinity/season-advice?province=' + encodeURIComponent(province));
+    const container = document.getElementById('alertsContainer');
+    if (!container) return;
+    const klass = advice.recommended_season === 'shrimp' ? 'danger' : advice.recommended_season === 'transition' ? 'warn' : 'ok';
+    const icon = advice.recommended_season === 'shrimp' ? ICO.danger : advice.recommended_season === 'transition' ? ICO.warn : ICO.check;
+    container.insertAdjacentHTML('afterbegin', `
+      <div class="ab ${klass}">
+        <div class="ai">${icon}</div>
+        <div>
+          <div class="at">Khuyến nghị mùa vụ - ${escapeHtml(province)}</div>
+          <div class="ax">${escapeHtml(advice.advice || 'Không có khuyến nghị')}</div>
+        </div>
+      </div>`);
+  } catch {}
+}
+
 /* Dòng thời gian hồ sơ carbon */
 async function renderTimeline() {
   try {
+    renderCarbonSummary();
     const { data } = await apiFetch('/api/carbon?limit=7');
     const html = data.length ? data.map(e => {
       const dot = (e.status === 'verified' || e.status === 'issued') ? 'g' : 'e';
       const label = e.season === 'wet_rice' ? 'Lúa' : 'Tôm';
       const date = new Date(e.created_at).toLocaleDateString('vi-VN', { month: 'short', year: 'numeric' });
       return `
-        <div class="tli">
+        <div class="tli" style="cursor:pointer" onclick="loadCarbonDetail('${escapeHtml(e.id)}')">
           <div class="tld ${dot}"></div>
           <div class="tl-date">${date}</div>
-          <div class="tl-title">Carbon ${label} — ${e.status}</div>
-          <div class="tl-detail">${e.biochar_kg} kg biochar · ${e.co2e_tonnes} tCO₂e · ${e.scu_units || 0} SCU</div>
+          <div class="tl-title">Carbon ${label} - ${escapeHtml(e.status)}</div>
+          <div class="tl-detail">${formatKg(e.biochar_kg)} biochar · ${formatTonnes(e.co2e_tonnes)}CO₂e · ${(Number(e.scu_units) || 0).toFixed(2)} SCU</div>
         </div>`;
     }).join('') : `
       <div class="tli">
@@ -3607,6 +3877,49 @@ async function renderTimeline() {
   }
 }
 
+async function renderCarbonSummary() {
+  try {
+    const summary = await apiFetch('/api/carbon/summary');
+    const pp = document.querySelector('#p-passport .pp');
+    if (!pp) return;
+    const name = pp.querySelector('.pp-name');
+    const id = pp.querySelector('.pp-id');
+    const values = pp.querySelectorAll('.pp-sv');
+    const labels = pp.querySelectorAll('.pp-sl');
+    if (name && currentUser?.name) name.textContent = currentUser.name;
+    if (id) id.textContent = `GL-PASSPORT-${(currentUser?.id || 'DEMO').slice(0, 8).toUpperCase()}-${(currentUser?.province || 'CAMAU').toUpperCase()}`;
+    if (values[0]) values[0].textContent = formatTonnes(summary.total_co2e_tonnes);
+    if (values[1]) values[1].textContent = Math.round(Number(summary.total_biochar_kg) || 0).toLocaleString('vi-VN');
+    if (values[2]) values[2].textContent = Math.round(Number(summary.points_balance) || 0).toLocaleString('vi-VN');
+    if (labels[0]) labels[0].textContent = 'Total CO₂e';
+    if (labels[1]) labels[1].textContent = 'kg Biochar';
+    if (labels[2]) labels[2].textContent = 'Reward Points';
+    const firstCardVals = document.querySelectorAll('#p-dashboard .sc-val');
+    if (firstCardVals[0] && summary.total_revenue_usd) firstCardVals[0].textContent = '$' + Number(summary.total_revenue_usd).toFixed(2);
+  } catch {}
+}
+
+async function loadCarbonDetail(id) {
+  try {
+    const { data } = await apiFetch('/api/carbon/' + encodeURIComponent(id));
+    const trail = Array.isArray(data.mrv_trail) && data.mrv_trail.length
+      ? data.mrv_trail.map(l => `Tier ${l.tier}: ${l.action}`).join('\n')
+      : 'Chưa có log MRV';
+    alert([
+      `Carbon record: ${data.id}`,
+      `Biochar: ${formatKg(data.biochar_kg)}`,
+      `CO₂e: ${formatTonnes(data.co2e_tonnes)}`,
+      `Status: ${data.status}`,
+      `Passport hash: ${data.passport_hash || 'Chưa có'}`,
+      '',
+      'MRV trail:',
+      trail
+    ].join('\n'));
+  } catch (err) {
+    toast(friendlyError(err, 'Không tải được chi tiết carbon'));
+  }
+}
+
 /* Thông báo nổi */
 function toast(msg) {
   const t = document.getElementById('toast');
@@ -3623,6 +3936,8 @@ function initApp() {
   renderCollections();
   renderAlerts();
   renderTimeline();
+  renderNotifications();
+  renderPoints();
   calc();
   updateCalcOptionsLang();
   applyLanguage();
@@ -3633,6 +3948,7 @@ function initApp() {
 
 setTheme(theme);
 refreshCopy();
+if (GL_TOKEN) restoreSession();
 
 /* ── Landing section scroll ── */
 function lScroll(id, e) {
@@ -3654,9 +3970,87 @@ document.addEventListener('click', function(e) {
   }
 });
 function markAllRead() {
-  document.getElementById('notifDot').style.display = 'none';
-  document.querySelectorAll('.np-item.unread').forEach(i => i.classList.remove('unread'));
-  toast('All notifications marked as read');
+  apiFetch('/api/notifications/read-all', { method:'PATCH' })
+    .then(() => {
+      document.getElementById('notifDot').style.display = 'none';
+      document.querySelectorAll('.np-item.unread').forEach(i => i.classList.remove('unread'));
+      toast('All notifications marked as read');
+      renderNotifications();
+    })
+    .catch(err => toast(friendlyError(err, 'Không thể đánh dấu đã đọc')));
+}
+
+async function renderNotifications() {
+  const list = document.querySelector('#notifPanel .np-list');
+  const dot = document.getElementById('notifDot');
+  if (!list || !GL_TOKEN) return;
+  try {
+    const res = await apiFetch('/api/notifications');
+    if (dot) dot.style.display = res.unread_count > 0 ? 'block' : 'none';
+    const rows = (res.data || []).map(n => {
+      const kind = n.type === 'alert' ? 'warn' : n.type === 'success' ? 'ok' : n.type === 'warning' ? 'warn' : 'info';
+      return `
+        <div class="np-item ${Number(n.read) ? '' : 'unread'}" onclick="markNotificationRead('${escapeHtml(n.id)}')">
+          <span class="np-dot ${kind}"></span>
+          <div class="np-body">
+            <div class="np-title">${escapeHtml(n.title)}</div>
+            <div class="np-text">${escapeHtml(n.body)}</div>
+            <div class="np-time">${formatDate(n.created_at, { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })}</div>
+          </div>
+        </div>`;
+    }).join('');
+    list.innerHTML = `
+      <div id="pointsMiniCard" class="np-item" style="cursor:default"></div>
+      ${rows || '<div class="gl-empty" style="padding:12px">Chưa có thông báo mới.</div>'}
+    `;
+    renderPoints();
+  } catch (err) {
+    list.innerHTML = `<div class="gl-error" style="margin:10px">${escapeHtml(friendlyError(err, 'Không tải được thông báo'))}</div>`;
+  }
+}
+
+async function markNotificationRead(id) {
+  try {
+    await apiFetch('/api/notifications/' + encodeURIComponent(id) + '/read', { method:'PATCH' });
+    renderNotifications();
+  } catch {}
+}
+
+async function renderPoints() {
+  if (!GL_TOKEN) return;
+  try {
+    const res = await apiFetch('/api/points');
+    const card = document.getElementById('pointsMiniCard');
+    if (card) {
+      card.innerHTML = `
+        <span class="np-dot earn"></span>
+        <div class="np-body">
+          <div class="np-title">${Number(res.balance || 0).toLocaleString('vi-VN')} reward points</div>
+          <div class="np-text">Đổi tối thiểu 100 điểm lấy voucher vật tư HTX.</div>
+          <div class="gl-row-actions">
+            <button class="gl-mini-btn" type="button" onclick="event.stopPropagation();redeemPoints()">Đổi 100 điểm</button>
+          </div>
+        </div>`;
+    }
+  } catch {}
+}
+
+async function redeemPoints() {
+  const amount = Number(prompt('Bạn muốn đổi bao nhiêu điểm?', '100'));
+  if (!amount) return;
+  if (amount < 100) { toast('Tối thiểu 100 điểm'); return; }
+  try {
+    const res = await apiFetch('/api/points/redeem', {
+      method:'POST',
+      body: JSON.stringify({ amount, item:'fertiliser_voucher' })
+    });
+    toast(`Đã đổi voucher ${res.voucher_code}`);
+    renderPoints();
+    renderNotifications();
+    renderCarbonSummary();
+  } catch (err) {
+    toast(friendlyError(err, 'Không thể đổi điểm'));
+  }
 }
 
 /* ── Settings helpers ── */
@@ -3664,14 +4058,27 @@ function togglePref(tog) {
   tog.classList.toggle('on');
   tog.setAttribute('aria-checked', tog.classList.contains('on'));
 }
-function saveProfile() {
+async function saveProfile() {
   const name = document.getElementById('settName').value.trim();
-  if (name) {
-    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-    document.getElementById('settAvatar').textContent = initials;
-    document.querySelector('.sb-fn').textContent = name;
+  const provinceRaw = document.getElementById('settProvince')?.value || '';
+  const province = ({ camau:'ca-mau', baclieu:'bac-lieu', soctrang:'soc-trang', kiengiang:'kien-giang' })[provinceRaw] || provinceRaw;
+  const farm_ha = Number(document.getElementById('settFarmSize')?.value || 0);
+  try {
+    await apiFetch('/api/auth/me', {
+      method:'PUT',
+      body: JSON.stringify({ name, province, farm_ha })
+    });
+    const data = await apiFetch('/api/auth/me');
+    updateUserUI(data.user);
+    toast('Profile updated');
+  } catch (err) {
+    if (name) {
+      const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      document.getElementById('settAvatar').textContent = initials;
+      document.querySelector('.sb-fn').textContent = name;
+    }
+    toast(friendlyError(err, 'Profile updated locally only'));
   }
-  toast('Profile updated');
 }
 
 /* ── FAQ accordion ── */
