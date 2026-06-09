@@ -1,0 +1,26 @@
+HUONG DAN MO GREENLOOP CHO NGUOI KHONG BIET CODE
+
+1. Cai Node.js
+   - Mo https://nodejs.org/
+   - Tai ban LTS moi nhat.
+   - Yeu cau Node.js 22 tro len.
+
+2. Mo GreenLoop
+   - Giai nen thu muc GreenLoop-main neu dang la file zip.
+   - Mo thu muc GreenLoop-main.
+   - Bam dup vao file OPEN_GREENLOOP.bat.
+   - Cho vai giay, trinh duyet se tu mo.
+
+3. Dang nhap demo
+   farmer@greenloop.vn / password123
+   htx@greenloop.vn / password123
+   admin@greenloop.vn / password123
+
+4. Khi dang dung app
+   - Khong dong cua so "GreenLoop Server".
+   - Muon tat app thi dong cua so "GreenLoop Server".
+
+5. Neu khong mo duoc
+   - Kiem tra da cai Node.js chua.
+   - Neu port 3000 bi ban, launcher se tu dung port 3001.
+   - Neu Windows Firewall hien thong bao, bam Allow access.

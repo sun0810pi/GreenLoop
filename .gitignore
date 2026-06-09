@@ -1,0 +1,6 @@
+data/*.json
+data/*.sqlite
+data/*.sqlite-*
+!data/.gitkeep
+node_modules/
+.env

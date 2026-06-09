@@ -1,0 +1,14 @@
+{
+  "name": "greenloop-backend",
+  "version": "1.0.0",
+  "description": "Local backend for the GreenLoop hackathon frontend.",
+  "main": "server.js",
+  "scripts": {
+    "db:init": "node scripts/init-db.js",
+    "start": "npm run db:init && node server.js",
+    "dev": "npm run db:init && node server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
