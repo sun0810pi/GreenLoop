@@ -19,7 +19,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Lora:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
 <style>
 :root {
   --fd: #0b1c12; --f: #1a3a2a; --fm: #2d5a3d; --fl: #3d6e50;
@@ -50,7 +50,7 @@ body[data-theme="dark"] {
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-padding-top:70px}
-body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--tp);overflow-x:hidden;transition:background-color .2s,color .2s,border-color .2s,box-shadow .2s}
+body{font-family:'Be Vietnam Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--tp);overflow-x:hidden;transition:background-color .2s,color .2s,border-color .2s,box-shadow .2s}
 button,[onclick]{touch-action:manipulation}
 
 /* Focus styles for keyboard navigation */
@@ -89,6 +89,13 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .gl-detail-k{font-size:10px;color:var(--tm);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
 .gl-detail-v{font-size:12px;color:var(--tp);font-weight:700;word-break:break-word}
 .gl-muted{color:var(--tm)!important}
+.ops-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.ops-kpi{padding:15px;border:1px solid var(--borderl);background:var(--bg);border-radius:8px}
+.ops-kpi b{display:block;font-size:23px;line-height:1.15;color:var(--tp);font-variant-numeric:tabular-nums}
+.ops-kpi span{display:block;font-size:11px;color:var(--tm);font-weight:700;margin-top:5px;text-transform:uppercase;letter-spacing:.4px}
+.ops-list{display:grid;gap:8px}.ops-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--borderl)}.ops-row:last-child{border-bottom:0}.ops-name{font-size:13px;font-weight:700}.ops-meta{font-size:11px;color:var(--tm);margin-top:3px}.ops-status{font-size:11px;font-weight:800;color:var(--ad);background:rgba(38,166,154,.10);padding:5px 8px;border-radius:6px;white-space:nowrap}.ops-status.warn{color:var(--warn);background:rgba(230,81,0,.1)}
+.role-workspace{display:none}.role-workspace.on{display:block}#p-dashboard.role-mode>:not(#roleWorkspace){display:none}.role-eyebrow{font-size:11px;font-weight:800;color:var(--ad);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}.role-title{font-size:22px;line-height:1.25;margin-bottom:7px}.role-desc{font-size:13px;color:var(--ts);line-height:1.55;max-width:760px}.role-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.role-action{border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:9px 12px;color:var(--tp);font:700 12px inherit;cursor:pointer}.role-action.primary{background:var(--f);border-color:var(--f);color:#fff}.role-action:hover{background:var(--bgs)}.role-action.primary:hover{background:var(--fm)}
+@media(max-width:980px){.ops-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.ops-grid{grid-template-columns:1fr}.ops-row{align-items:flex-start;flex-direction:column;gap:7px}}
 
 /* Màn hình mở đầu */
 #landing{min-height:100vh;min-height:100svh;background:var(--fd);position:relative}
@@ -128,7 +135,7 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .l-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(163,217,106,.08);border:1px solid rgba(163,217,106,.18);padding:5px 14px;border-radius:20px;color:var(--lb);font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:26px}
 .l-tag-dot{width:5px;height:5px;background:var(--lb);border-radius:50%;animation:blink 2s ease infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.l-h1{font-family:'DM Serif Display',serif;font-size:clamp(36px,4vw,60px);font-weight:400;color:#fff;line-height:1.1;letter-spacing:-1px;margin-bottom:18px}
+.l-h1{font-family:'Lora',Georgia,serif;font-size:clamp(36px,4vw,60px);font-weight:500;color:#fff;line-height:1.1;letter-spacing:0;margin-bottom:18px}
 .l-h1 em{font-style:italic;color:var(--lb)}
 .l-desc{font-size:15px;font-weight:400;color:rgba(255,255,255,.48);line-height:1.8;max-width:420px;margin-bottom:36px}
 .l-btns{display:flex;gap:12px;margin-bottom:52px}
@@ -141,7 +148,7 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .l-stat{flex:1;padding-right:24px;border-right:1px solid rgba(255,255,255,.06)}
 .l-stat:last-child{border-right:none;padding-right:0;padding-left:24px}
 .l-stat:not(:first-child){padding-left:24px}
-.l-stat-n{font-family:'DM Serif Display',serif;font-size:30px;color:#fff;letter-spacing:-.5px}
+.l-stat-n{font-family:'Lora',Georgia,serif;font-size:30px;color:#fff;letter-spacing:0}
 .l-stat-l{font-size:11px;color:rgba(255,255,255,.32);margin-top:4px;font-weight:500}
 
 .l-right{flex:1.15;display:flex;align-items:center;justify-content:center;position:relative}
@@ -232,6 +239,8 @@ body[data-theme="light"] .l-nav .mode-btn.active{background:var(--f);color:#fff}
 .s-btn svg{width:12px;height:12px}
 .s-btn.ar{background:var(--leaf);color:#fff;box-shadow:0 2px 8px rgba(76,175,80,.3)}
 .s-btn.as{background:var(--ad);color:#fff;box-shadow:0 2px 8px rgba(0,121,107,.3)}
+.s-btn.at{background:var(--earth);color:#fff;box-shadow:0 2px 8px rgba(151,105,58,.3)}
+.mobile-season-switcher{display:none}
 .notif-b{width:36px;height:36px;background:var(--bg);border:1px solid var(--borderl);border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:all .2s;color:var(--ts)}
 .notif-b:hover{background:var(--bgs)}
 .notif-b svg{width:15px;height:15px}
@@ -347,6 +356,7 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--r-sm);font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .2s}
 .btn svg{width:14px;height:14px}
 .btn-p{background:var(--f);color:#fff}
+.btn-p:not(.btn){display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 13px;border:0;border-radius:8px;font:700 12px inherit;cursor:pointer}
 .btn-p:hover{background:var(--fm);transform:translateY(-1px);box-shadow:var(--sh-md)}
 .btn-a{background:var(--ad);color:#fff}
 .btn-a:hover{background:var(--aqua);transform:translateY(-1px)}
@@ -557,6 +567,9 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
   .tb-right{gap:8px;flex-wrap:nowrap}
   .top-bar .mode-group,
   .top-bar .season-tog{display:none}
+  .mobile-season-switcher{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:4px;margin-bottom:14px;background:var(--bgc);border:1px solid var(--borderl);border-radius:8px}
+  .mobile-season-btn{min-height:34px;padding:5px 4px;border:0;border-radius:6px;background:transparent;color:var(--tm);font:700 11px inherit;cursor:pointer;white-space:nowrap}
+  .mobile-season-btn.active{background:var(--leaf);color:#fff}.mobile-season-btn[data-season-control="shrimp"].active{background:var(--ad)}.mobile-season-btn[data-season-control="tram"].active{background:var(--earth)}
   .pc{padding:16px 14px calc(92px + env(safe-area-inset-bottom,0px))}
   .g4{grid-template-columns:1fr}
   .bottnav{display:block}
@@ -669,7 +682,7 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
 /* ── Landing sections ── */
 .l-section{position:relative;z-index:10;padding:80px 56px}
 .l-sec-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--lb);background:rgba(163,217,106,.08);border:1px solid rgba(163,217,106,.15);padding:4px 12px;border-radius:20px;margin-bottom:18px}
-.l-sec-h2{font-family:'DM Serif Display',serif;font-size:clamp(26px,3vw,42px);color:#fff;letter-spacing:-.5px;margin-bottom:14px;line-height:1.15}
+.l-sec-h2{font-family:'Lora',Georgia,serif;font-size:clamp(26px,3vw,42px);color:#fff;letter-spacing:0;margin-bottom:14px;line-height:1.15}
 .l-sec-p{font-size:14px;color:rgba(255,255,255,.44);line-height:1.8;max-width:520px}
 .l-sec-divider{border:none;border-top:1px solid rgba(255,255,255,.06);margin:0 56px}
 .l-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
@@ -680,7 +693,7 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
 .l-card-d{font-size:12px;color:rgba(255,255,255,.38);line-height:1.65}
 .l-impact-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:36px}
 .l-istat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:22px 18px;text-align:center}
-.l-istat-n{font-family:'DM Serif Display',serif;font-size:34px;color:#fff;letter-spacing:-.5px;margin-bottom:4px}
+.l-istat-n{font-family:'Lora',Georgia,serif;font-size:34px;color:#fff;letter-spacing:0;margin-bottom:4px}
 .l-istat-l{font-size:11px;color:rgba(255,255,255,.36);font-weight:500}
 .l-partners-logos{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
 .l-plogo{padding:10px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;font-size:12px;font-weight:600;color:rgba(255,255,255,.44)}
@@ -813,7 +826,7 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
 .au-left{padding:20px 0}
 .au-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(163,217,106,.08);border:1px solid rgba(163,217,106,.18);padding:5px 14px;border-radius:20px;color:var(--lb);font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:22px}
 .au-tag-dot{width:5px;height:5px;background:var(--lb);border-radius:50%;animation:blink 2s ease infinite}
-.au-h1{font-family:'DM Serif Display',serif;font-size:clamp(30px,3.4vw,46px);font-weight:400;color:#fff;line-height:1.12;letter-spacing:-1px;margin-bottom:18px}
+.au-h1{font-family:'Lora',Georgia,serif;font-size:clamp(30px,3.4vw,46px);font-weight:500;color:#fff;line-height:1.12;letter-spacing:0;margin-bottom:18px}
 .au-h1 em{font-style:italic;color:var(--lb)}
 .au-desc{font-size:14.5px;color:rgba(255,255,255,.48);line-height:1.8;max-width:440px;margin-bottom:30px}
 
@@ -839,7 +852,7 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
 .au-form{display:none;flex-direction:column;gap:16px}
 .au-form.on{display:flex;animation:auFadeIn .26s ease}
 @keyframes auFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.au-form-h{font-family:'DM Serif Display',serif;font-size:24px;color:#fff;margin-bottom:2px;letter-spacing:-.3px}
+.au-form-h{font-family:'Lora',Georgia,serif;font-size:24px;color:#fff;margin-bottom:2px;letter-spacing:0}
 .au-form-sub{font-size:12.5px;color:rgba(255,255,255,.5);margin-bottom:14px;line-height:1.6}
 
 .au-fg{display:flex;flex-direction:column;gap:7px}
@@ -999,7 +1012,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
       <div class="l-logo-text">Green<span>Loop</span></div>
     </div>
     <ul class="l-nav-links">
-      <li><a href="#l-solution" onclick="lScroll('l-solution',event)">Solution</a></li>
+      <li><a href="#l-solution" onclick="lScroll('l-solution',event)">How it works</a></li>
       <li><a href="#l-farmers" onclick="lScroll('l-farmers',event)">Farmers</a></li>
       <li><a href="#l-impact" onclick="lScroll('l-impact',event)">Impact</a></li>
       <li><a href="#l-partners" onclick="lScroll('l-partners',event)">Partners</a></li>
@@ -1024,7 +1037,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
     <div class="l-left">
       <div class="l-tag a1"><span class="l-tag-dot"></span>Mekong Delta &nbsp;·&nbsp; Climate Tech</div>
       <h1 class="l-h1 a2">Turn Residue<br>Into <em>Carbon</em><br>Into Income</h1>
-      <p class="l-desc a3">GreenLoop converts rice straw and shrimp-pond sludge into biochar - automating Verra VM0044 carbon credits for smallholder Lua-Tom farmers across Vietnam's Mekong Delta.</p>
+      <p class="l-desc a3">GreenLoop connects rice, aquaculture and melaleuca households to turn straw, aquatic by-products and melaleuca residue into biochar, bio-materials and verifiable carbon value across the Mekong Delta.</p>
       <div class="l-btns a4">
         <button class="l-btn-p" onclick="enterApp()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 19 12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -1052,38 +1065,38 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
   <!-- Solution section -->
   <section id="l-solution" class="l-section">
     <div class="l-sec-tag">How it works</div>
-    <h2 class="l-sec-h2">End-to-end from field<br>to carbon market</h2>
-    <p class="l-sec-p">GreenLoop unifies biomass logistics, partner pyrolysis, digital MRV, Soil-Water intelligence, and ASEAN carbon trading within a single farmer-facing platform.</p>
+    <h2 class="l-sec-h2">From residue intake<br>to verified value</h2>
+    <p class="l-sec-p">Every lot moves through a visible chain: farmer onboarding, biomass validation, collection dispatch, processing, MRV verification, product traceability and carbon revenue sharing.</p>
     <div class="l-card-grid">
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="21" r="1.5"/><circle cx="20" cy="21" r="1.5"/></svg></div>
-        <div class="l-card-t">Biomass Collection</div>
-        <div class="l-card-d">HTX cooperatives serve as hub-and-spoke micro-collection points. Min 500 kg/pickup, cost kept below $12/tonne.</div>
+        <div class="l-card-t">Biomass Intake</div>
+        <div class="l-card-d">Farmers and HTX record rice straw, aquatic by-products and melaleuca residue with weight, origin and batch identity from the start.</div>
       </div>
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
-        <div class="l-card-t">Partner Pyrolysis</div>
-        <div class="l-card-d">Asset-light model: HUSK Vietnam and Biocare convert residues into EBC-certified biochar at ~35% mass yield.</div>
+        <div class="l-card-t">HTX Logistics</div>
+        <div class="l-card-d">Cooperatives consolidate, grade and dispatch biomass to processing hubs, tracking route capacity, cost per tonne and custody at each hand-off.</div>
       </div>
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div>
-        <div class="l-card-t">Automated MRV</div>
-        <div class="l-card-d">Three-tier VM0044 verification with digital custody chain shortens credit registration to 6–9 months.</div>
+        <div class="l-card-t">Circular Conversion</div>
+        <div class="l-card-d">Pyrolysis and bio-refining transform inputs into stable biochar, cellulose materials and other bio-products for green value chains.</div>
       </div>
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div>
-        <div class="l-card-t">Water Intelligence</div>
-        <div class="l-card-d">MRC salinity API overlay fires season-switch alerts when intrusion crosses 5 g/L. Pond DO monitoring in Phase 2.</div>
+        <div class="l-card-t">MRV & Verification</div>
+        <div class="l-card-d">Measurement, reporting and verification link mass, process evidence and carbon factors to an auditable record for every batch.</div>
       </div>
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg></div>
         <div class="l-card-t">Carbon Passport</div>
-        <div class="l-card-d">Blockchain-anchored credential unlocks green loans, preferential insurance, and direct AICE exchange listing.</div>
+        <div class="l-card-d">A QR-linked identity connects each farmer, biomass batch and verified output to a complete, auditable carbon record.</div>
       </div>
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <div class="l-card-t">AICE Trading</div>
-        <div class="l-card-d">Credits settle as ASEAN Standard Carbon Units on the AICE interoperable exchange. Real-time SCU oracle pricing.</div>
+        <div class="l-card-t">Binance Sustainability</div>
+        <div class="l-card-d">Verified credits can be prepared for marketplace listing with a clear farmer, HTX and platform revenue split.</div>
       </div>
     </div>
   </section>
@@ -1093,23 +1106,23 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
   <!-- Farmers section -->
   <section id="l-farmers" class="l-section">
     <div class="l-sec-tag">For Farmers</div>
-    <h2 class="l-sec-h2">Built for Lua-Tom<br>smallholders</h2>
-    <p class="l-sec-p">GreenLoop's dual Lua-Tom module is the first validated model for integrated rice-aquaculture systems in the Mekong Delta - doubling credit volume per household.</p>
+    <h2 class="l-sec-h2">Built for rice, aquaculture<br>and melaleuca households</h2>
+    <p class="l-sec-p">The rice-aquaculture-melaleuca module digitizes farm activity in the Mekong Delta and links seasonal production, residue and carbon value in one record per household.</p>
     <div class="l-card-grid">
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
-        <div class="l-card-t">Dual-season credits</div>
-        <div class="l-card-d">Wet-season rice straw + dry-season pond sludge = two revenue streams per year from one farm.</div>
+        <div class="l-card-t">Three seasonal value streams</div>
+        <div class="l-card-d">Rice straw, aquaculture by-products and melaleuca products create three traceable value streams across the year.</div>
       </div>
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
         <div class="l-card-t">HTX on-ramp</div>
-        <div class="l-card-d">Cooperative staff act as zero-literacy data-entry proxies, removing the digital barrier for individual households.</div>
+        <div class="l-card-d">HTX staff coordinate local operations, standardize farmer data and validate inputs before synchronizing them with GreenLoop MRV.</div>
       </div>
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
         <div class="l-card-t">Points rewards</div>
-        <div class="l-card-d">Every kg delivered earns redeemable points for fertiliser inputs - bridging the gap before Verra credits clear.</div>
+        <div class="l-card-d">Each biomass delivery and verified sustainable practice earns points that can be redeemed for green farm inputs before credits are issued.</div>
       </div>
     </div>
   </section>
@@ -1138,7 +1151,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
     <p class="l-sec-p">GreenLoop integrates with established pyrolysis partners, carbon registries, and open government data sources - no proprietary hardware required in Phase 1.</p>
     <div class="l-partners-logos">
       <span class="l-plogo">Verra VM0044</span>
-      <span class="l-plogo">AICE Exchange</span>
+      <span class="l-plogo">Binance Sustainability</span>
       <span class="l-plogo">HUSK Vietnam</span>
       <span class="l-plogo">Biocare Projects</span>
       <span class="l-plogo">MRC Salinity API</span>
@@ -1153,7 +1166,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
   <div class="l-footer">
     <span class="l-footer-label">Verified by</span>
     <span class="l-ptag">Verra VM0044</span>
-    <span class="l-ptag">AICE Exchange</span>
+    <span class="l-ptag">Binance Sustainability</span>
     <span class="l-ptag">MRC Salinity API</span>
     <span class="l-ptag">HUSK Vietnam</span>
     <span class="l-ptag">Biocare Projects</span>
@@ -1188,7 +1201,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
     <div class="au-left">
       <div class="au-tag"><span class="au-tag-dot"></span>Mekong Delta &nbsp;·&nbsp; Climate Tech</div>
       <h1 class="au-h1">Your Carbon,<br><em>Your Income</em></h1>
-      <p class="au-desc">Join 2,000+ Lua-Tom farmers turning rice straw and shrimp-pond sludge into verified Verra VM0044 carbon credits, traded on the ASEAN AICE exchange.</p>
+      <p class="au-desc">Join 2,000+ Lua-Tom farmers turning rice straw and shrimp-pond sludge into verified Verra VM0044 carbon credits, prepared for Binance Sustainability marketplace workflows.</p>
 
       <div class="au-perks">
         <div class="au-perk">
@@ -1216,7 +1229,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
 
       <div class="au-trust">
         <span class="au-trust-tag">Verra VM0044</span>
-        <span class="au-trust-tag">AICE Exchange</span>
+        <span class="au-trust-tag">Binance Sustainability</span>
         <span class="au-trust-tag">HUSK Vietnam</span>
         <span class="au-trust-tag">Biocare</span>
       </div>
@@ -1314,6 +1327,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <option value="farmer">Farmer (Lua-Tom / Rice)</option>
               <option value="htx">HTX Cooperative Staff</option>
               <option value="buyer">Carbon Buyer / Corporate</option>
+              <option value="partner">Partner (processor / logistics / refinery)</option>
             </select>
           </div>
 
@@ -1364,32 +1378,41 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
     </div>
     <nav class="sb-nav">
       <div class="sb-sec">Main</div>
-      <div class="sb-item active" onclick="nav('dashboard')">
+      <div class="sb-item active" data-roles="farmer,htx,buyer,partner,admin" onclick="nav('dashboard')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
         <span>Home</span>
       </div>
-      <div class="sb-item" onclick="nav('collection')">
+      <div class="sb-item" data-roles="farmer,htx,admin" onclick="nav('ecosystem')">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21V3"/><path d="M12 8c-3-4-7-3-8-2 1 3 4 5 8 5"/><path d="M12 13c3-4 7-3 8-2-1 3-4 5-8 5"/><path d="M5 21h14"/></svg></span>
+        <span>Ecosystem</span>
+      </div>
+      <div class="sb-item" data-roles="farmer,htx" onclick="nav('collection')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="21" r="1.5"/><circle cx="20" cy="21" r="1.5"/></svg></span>
         <span>Book a pickup</span>
       </div>
-      <div class="sb-item" onclick="nav('pickups')">
+      <div class="sb-item" data-roles="farmer,htx,admin" onclick="nav('pickups')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6" stroke-width="2.5"/><line x1="3" y1="12" x2="3.01" y2="12" stroke-width="2.5"/><line x1="3" y1="18" x2="3.01" y2="18" stroke-width="2.5"/></svg></span>
         <span>My Pickups</span>
       </div>
-      <div class="sb-item" onclick="nav('salinity')">
+      <div class="sb-item" data-roles="farmer,htx,admin" onclick="nav('salinity')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg></span>
         <span>Water check</span>
       </div>
-      <div class="sb-item" onclick="nav('passport')">
+      <div class="sb-item" data-roles="farmer,htx,buyer,admin" onclick="nav('passport')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg></span>
         <span>My Carbon Record</span>
       </div>
+      <div class="sb-sec">Operations</div>
+      <div class="sb-item" data-roles="htx,buyer,partner,admin" onclick="nav('operations')">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17h7M17.5 13.5v7"/></svg></span>
+        <span>Operations</span>
+      </div>
       <div class="sb-sec">Settings</div>
-      <div class="sb-item" onclick="nav('settings')">
+      <div class="sb-item" data-roles="farmer,htx,buyer,partner,admin" onclick="nav('settings')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
         <span>Settings</span>
       </div>
-      <div class="sb-item" onclick="nav('help')">
+      <div class="sb-item" data-roles="farmer,htx,buyer,partner,admin" onclick="nav('help')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2.5"/></svg></span>
         <span>Help</span>
       </div>
@@ -1432,7 +1455,11 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           </button>
           <button class="s-btn" id="shrimpBtn" onclick="setSeason('shrimp')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2"/></svg>
-            Shrimp Season
+            Aquaculture Season
+          </button>
+          <button class="s-btn" id="tramBtn" onclick="setSeason('tram')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21V4"/><path d="M12 10c-4 0-6-2-7-5 4 0 7 1 7 5Z"/><path d="M12 14c4 0 6-2 7-5-4 0-7 1-7 5Z"/></svg>
+            Melaleuca Season
           </button>
         </div>
         <div class="notif-wrap">
@@ -1485,9 +1512,15 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
     </div>
 
     <div class="pc">
+      <div class="mobile-season-switcher" role="group" aria-label="Season selector">
+        <button class="mobile-season-btn active" type="button" data-season-control="rice" onclick="setSeason('rice')">Rice Season</button>
+        <button class="mobile-season-btn" type="button" data-season-control="shrimp" onclick="setSeason('shrimp')">Aquaculture Season</button>
+        <button class="mobile-season-btn" type="button" data-season-control="tram" onclick="setSeason('tram')">Melaleuca Season</button>
+      </div>
 
       <!-- Trang tổng quan -->
       <div class="page on" id="p-dashboard">
+        <div class="role-workspace" id="roleWorkspace" aria-live="polite"></div>
         <!-- 4 thẻ chính: cái nông dân thật sự quan tâm -->
         <div class="g4 mb18">
           <div class="sc ani">
@@ -1564,6 +1597,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                   <option value="rice_husk" data-en="Rice husk (trấu)" data-vi="Trấu">Rice husk (trấu)</option>
                   <option value="shrimp_sludge" data-en="Pond sludge (bùn ao)" data-vi="Bùn ao tôm">Pond sludge (bùn ao)</option>
                   <option value="coconut" data-en="Coconut shell (vỏ dừa)" data-vi="Vỏ dừa">Coconut shell (vỏ dừa)</option>
+                  <option value="melaleuca" data-en="Melaleuca residue" data-vi="Phụ phẩm tràm">Melaleuca residue</option>
                 </select>
               </div>
               <div class="fg">
@@ -1663,6 +1697,24 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         </div>
       </div>
 
+      <div class="page" id="p-ecosystem">
+        <div class="card mb18"><div class="ch"><div class="ct">Ecosystem Engine</div><span class="badge ba">Rice - Aquaculture - Melaleuca</span></div><div class="cb">
+          <div class="g2">
+            <div><div class="fg"><label class="fl">Ecological zone</label><select class="fs" id="ecoZone"></select></div><div class="fg"><label class="fl">Aquatic species / model</label><select class="fs" id="ecoSpecies"></select></div><div class="fg"><label class="fl">Melaleuca forest area (ha)</label><input class="ci" id="ecoForestHa" type="number" min="0" step="0.1"></div><button class="btn btn-p" type="button" onclick="saveEcosystemProfile()">Save ecosystem profile</button></div>
+            <div class="card"><div class="ch"><div class="ct">Ecosystem recommendation</div></div><div class="cb" id="ecoRecommendation"><div class="gl-empty">Loading ecosystem profile...</div></div></div>
+          </div>
+        </div></div>
+        <div class="g2 mb18">
+          <div class="card"><div class="ch"><div class="ct">Melaleuca biomass to LCNF</div></div><div class="cb"><div class="ops-list"><div class="ops-row"><div><div class="ops-name">Leaf, small branch and thinning wood</div><div class="ops-meta">Stable saline-tolerant forest biomass</div></div><span class="ops-status">LCNF</span></div><div class="ops-row"><div><div class="ops-name">Bio-material outputs</div><div class="ops-meta">Export trays, bio-packaging, shock-absorbent sheets, agricultural mulch film and bio-composites</div></div><span class="ops-status">traceable</span></div></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">Aquatic by-products</div></div><div class="cb" id="ecoSpeciesDetail"><div class="gl-empty">Select an aquatic species to view residues.</div></div></div>
+        </div>
+        <div class="g2 mb18">
+          <div class="card"><div class="ch"><div class="ct">Environmental monitoring</div><button class="gl-mini-btn" type="button" onclick="nav('salinity')">Open water check</button></div><div class="cb"><div class="ops-list"><div class="ops-row"><div><div class="ops-name">Water: salinity, pH and DO</div><div class="ops-meta">Supports species selection, seasonal risk control and low-chemical aquaculture.</div></div><span class="ops-status">monitored</span></div><div class="ops-row"><div><div class="ops-name">Soil: organic matter and moisture</div><div class="ops-meta">Tracks biochar benefit, soil recovery and carbon evidence.</div></div><span class="ops-status">MRV</span></div></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">Green finance readiness</div><button class="gl-mini-btn" type="button" onclick="nav('passport')">Open carbon passport</button></div><div class="cb" id="ecoFinance"><div class="gl-empty">Loading carbon and finance readiness...</div></div></div>
+        </div>
+        <div class="card"><div class="ch"><div class="ct">Bio-refinery pathways</div></div><div class="cb"><div class="ops-list" id="ecoRefinery"></div></div></div>
+      </div>
+
       <!-- Trang thu gom -->
       <div class="page" id="p-collection">
         <div class="g2 mb18">
@@ -1679,7 +1731,8 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                     <option value="">Select type...</option>
                     <option value="rice_straw">Rice Straw</option>
                     <option value="rice_husk">Rice Husk</option>
-                    <option value="shrimp_sludge">Shrimp Pond Sludge</option>
+                    <option value="shrimp_sludge">Aquaculture Pond Sludge</option>
+                    <option value="melaleuca">Melaleuca Residue</option>
                     <option value="coconut">Coconut Shell</option>
                   </select>
                 </div>
@@ -1942,7 +1995,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                   </div>
                   <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:9px">
                     <div style="width:32px;height:32px;border-radius:8px;background:rgba(163,217,106,.12);display:flex;align-items:center;justify-content:center;color:#4a7a20;flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
-                    <div><div style="font-size:12.5px;font-weight:600">AICE Exchange Listing</div><div style="font-size:11px;color:var(--tm)">Trade SCUs on ASEAN Interoperable Exchange</div></div>
+                    <div><div style="font-size:12.5px;font-weight:600">Binance Sustainability Listing</div><div style="font-size:11px;color:var(--tm)">Prepare verified credits for marketplace settlement</div></div>
                   </div>
                 </div>
               </div>
@@ -1960,6 +2013,28 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
       </div>
 
       <!-- Settings page -->
+      <div class="page" id="p-operations">
+        <div class="card mb18">
+          <div class="ch"><div class="ct">SIPOC Operations Control</div><span class="badge ba">Live data</span></div>
+          <div class="cb">
+            <div class="ops-grid" id="opsKpis"><div class="ops-kpi"><b>...</b><span>Biomass batches</span></div><div class="ops-kpi"><b>...</b><span>Open tasks</span></div><div class="ops-kpi"><b>...</b><span>Live routes</span></div><div class="ops-kpi"><b>...</b><span>MRV checks</span></div></div>
+            <div class="g2">
+              <div class="card"><div class="ch"><div class="ct">Data ingestion & batch custody</div></div><div class="cb"><div class="fg"><label class="fl">Feedstock</label><select class="fs" id="opsBiomass"><option value="rice_straw">Rice straw</option><option value="pond_sludge">Shrimp pond sludge</option><option value="tram">Melaleuca</option></select></div><div class="fg"><label class="fl">Input weight (kg)</label><input class="ci" id="opsWeight" type="number" min="1" value="500"></div><button class="btn-p" type="button" onclick="createBatch()">Create traceable batch</button><div class="ops-meta" style="margin-top:10px">Batch ID, custody hash and HTX validation task are created together.</div></div></div>
+              <div class="card"><div class="ch"><div class="ct">Verification & compliance</div></div><div class="cb"><div class="ops-list" id="opsCompliance"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="g2 mb18">
+          <div class="card"><div class="ch"><div class="ct">Workflow pipeline</div><button class="gl-mini-btn" type="button" onclick="renderOperations()">Refresh</button></div><div class="cb"><div class="ops-list" id="opsTasks"></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">Logistics control tower</div></div><div class="cb"><div class="ops-list" id="opsRoutes"></div></div></div>
+        </div>
+        <div class="g2 mb18">
+          <div class="card"><div class="ch"><div class="ct">Product catalog & traceability</div></div><div class="cb"><div class="ops-list" id="opsProducts"></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">Partner portal</div></div><div class="cb"><div class="ops-list" id="opsPartners"></div></div></div>
+        </div>
+        <div class="card"><div class="ch"><div class="ct">Carbon monetization</div></div><div class="cb"><div class="ops-list" id="opsOffers"></div></div></div>
+      </div>
+
       <div class="page" id="p-settings">
         <div class="sett-grid">
           <!-- Card 1: Farmer Profile -->
@@ -2051,7 +2126,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                 <div class="tog" role="switch" aria-checked="false" onclick="togglePref(this)"></div>
               </div>
               <div class="tog-row">
-                <div><div class="tog-label">AICE price updates</div></div>
+                <div><div class="tog-label">Binance Sustainability price updates</div></div>
                 <div class="tog" role="switch" aria-checked="false" onclick="togglePref(this)"></div>
               </div>
               <div class="tog-row">
@@ -2081,7 +2156,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <div class="field-row">
                 <span class="field-dot shrimp"></span>
                 <div class="field-meta">
-                  <div class="field-name">Pond B - Shrimp</div>
+              <div class="field-name">Pond B - Aquaculture</div>
                   <div class="field-detail">0.8 ha · Sludge · Linked to Field A</div>
                 </div>
                 <button class="field-action" onclick="toast('Editing Pond B…')">Edit</button>
@@ -2137,7 +2212,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <input class="ci-mrv" type="number" value="4" min="1" max="8" step="0.5" onchange="toast('DO threshold updated')"> <span style="font-size:12px;color:var(--tm);margin-left:4px">mg/L</span>
             </div>
             <div style="margin-top:14px;padding:12px;background:rgba(38,166,154,.05);border:1px solid rgba(38,166,154,.14);border-radius:10px;font-size:11.5px;color:var(--ts)">
-              Changes to MRV factors affect credit calculations from the <strong>next batch forward</strong>. Historical records are immutable on AICE blockchain.
+              Changes to MRV factors affect credit calculations from the <strong>next batch forward</strong>. Historical records remain protected in the GreenLoop audit ledger.
             </div>
           </div>
         </div>
@@ -2148,12 +2223,12 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>Integrations</div></div>
             <div class="cb">
               <div class="intg-item">
-                <div class="intg-logo" style="background:rgba(38,166,154,.08);color:var(--ad);font-size:9px">AICE</div>
+                <div class="intg-logo" style="background:rgba(38,166,154,.08);color:var(--ad);font-size:9px">BIN</div>
                 <div class="intg-info">
-                  <div class="intg-name">AICE Exchange</div>
+                  <div class="intg-name">Binance Sustainability</div>
                   <div class="intg-desc">Wallet: 0x3F…a4d2 · SCU trading active</div>
                 </div>
-                <button class="intg-badge connected" onclick="toast('AICE wallet settings…')">Connected</button>
+                <button class="intg-badge connected" onclick="toast('Binance Sustainability connection settings…')">Connected</button>
               </div>
               <div class="intg-item">
                 <div class="intg-logo" style="background:rgba(26,58,42,.06);font-size:9px">BIDV</div>
@@ -2354,7 +2429,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                 When do I receive carbon credit payments?
                 <span class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
               </div>
-              <div class="faq-a"><div class="faq-a-inner">After biomass is delivered and processed, GreenLoop nests into Biocare's existing certified project, reducing verification time from 18 months to 6–9 months. Payout is then released directly to your AICE wallet via smart contract after successful AICE registry confirmation.</div></div>
+              <div class="faq-a"><div class="faq-a-inner">After biomass is delivered and processed, GreenLoop packages the evidence needed for a certified project. Once verification and issuance are complete, the marketplace settlement workflow records the revenue split for the farmer, HTX and platform.</div></div>
             </div>
             <div class="faq-item">
               <div class="faq-q" onclick="toggleFaq(this)">
@@ -2395,27 +2470,27 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
 
   <nav class="bottnav" aria-label="Mobile navigation">
     <div class="bn-in">
-      <button class="bn-t active" type="button" data-page="dashboard" onclick="nav('dashboard')">
+      <button class="bn-t active" type="button" data-page="dashboard" data-roles="farmer,htx,buyer,partner,admin" onclick="nav('dashboard')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
         <span>Home</span>
       </button>
-      <button class="bn-t" type="button" data-page="collection" onclick="nav('collection')">
+      <button class="bn-t" type="button" data-page="collection" data-roles="farmer,htx" onclick="nav('collection')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="21" r="1.5"/><circle cx="20" cy="21" r="1.5"/></svg>
         <span>Pickup</span>
       </button>
-      <button class="bn-t" type="button" data-page="salinity" onclick="nav('salinity')">
+      <button class="bn-t" type="button" data-page="salinity" data-roles="farmer,htx,admin" onclick="nav('salinity')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
         <span>Water</span>
       </button>
-      <button class="bn-t" type="button" data-page="passport" onclick="nav('passport')">
+      <button class="bn-t" type="button" data-page="passport" data-roles="farmer,htx,buyer,admin" onclick="nav('passport')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg>
         <span>Record</span>
       </button>
-      <button class="bn-t" type="button" data-page="settings" onclick="nav('settings')">
+      <button class="bn-t" type="button" data-page="settings" data-roles="farmer,htx,buyer,partner,admin" onclick="nav('settings')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         <span>Settings</span>
       </button>
-      <button class="bn-t" type="button" data-page="help" onclick="nav('help')">
+      <button class="bn-t" type="button" data-page="help" data-roles="farmer,htx,buyer,partner,admin" onclick="nav('help')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2.5" stroke-linecap="round"/></svg>
         <span>Help</span>
       </button>
@@ -2437,7 +2512,7 @@ const ICO = {
 };
 
 /* ── GreenLoop API Config ── */
-const API = 'https://green-loop-backend-production.up.railway.app';
+const API = ['localhost', '127.0.0.1'].includes(window.location.hostname) ? '' : 'https://green-loop-backend-production.up.railway.app';
 let GL_TOKEN = null;
 let currentUser = null;
 let isApiOnline = true;
@@ -2463,7 +2538,7 @@ function setBusy(el, busy, label) {
     el.dataset.oldText = el.textContent;
     el.disabled = true;
     el.style.opacity = '.72';
-    if (label) el.textContent = label;
+    if (label) el.textContent = t(label);
   } else {
     el.disabled = false;
     el.style.opacity = '';
@@ -2514,9 +2589,143 @@ function updateUserUI(user) {
   const settAvatar = document.getElementById('settAvatar'); if (settAvatar) settAvatar.textContent = initials;
   const dashSub = season === 'rice'
     ? `Xin chào ${name} - vụ lúa Hè Thu`
-    : `Xin chào ${name} - vụ tôm Đông Xuân`;
+    : season === 'tram'
+      ? `Xin chào ${name} - mùa chăm sóc tràm`
+      : `Xin chào ${name} - vụ thủy sản Đông Xuân`;
   const pageSub = document.getElementById('pageSub');
   if (pageSub && currentPage === 'dashboard') pageSub.textContent = dashSub;
+  applyRoleWorkspace(user);
+}
+
+const ROLE_WORKSPACES = {
+  htx: {
+    label: 'HTX operations', title: 'Điều phối thu gom, dữ liệu và logistics',
+    desc: 'Theo dõi lô sinh khối, phân công xử lý, điều phối xe và xác minh dữ liệu đầu vào cho các nông hộ trong vùng.',
+    actions: [['Book collection', 'collection', true], ['Manage pickups', 'pickups'], ['Open operations', 'operations'], ['Water alerts', 'salinity']]
+  },
+  buyer: {
+    label: 'Carbon buyer portal', title: 'Danh mục tín chỉ và hồ sơ truy xuất',
+    desc: 'Khám phá tín chỉ đã xác minh, kiểm tra traceability, sản phẩm đầu ra và phân bổ doanh thu trước khi gửi yêu cầu giao dịch.',
+    actions: [['Browse credit offers', 'operations', true], ['Review carbon records', 'passport']]
+  },
+  partner: {
+    label: 'Partner workspace', title: 'Lô cần xử lý và yêu cầu tích hợp',
+    desc: 'Quản lý task xử lý, sản phẩm đầu ra, bằng chứng MRV và các yêu cầu dữ liệu trong chuỗi giá trị GreenLoop.',
+    actions: [['Open operations', 'operations', true], ['Account settings', 'settings']]
+  },
+  admin: {
+    label: 'Platform administration', title: 'Quản trị hệ sinh thái GreenLoop',
+    desc: 'Theo dõi toàn hệ thống, điều phối vận hành, kiểm soát dữ liệu MRV và xem các luồng logistics, partner và marketplace.',
+    actions: [['Open operations', 'operations', true], ['Manage pickups', 'pickups'], ['Water monitoring', 'salinity']]
+  }
+};
+
+function roleAllows(el, role) {
+  const roles = String(el.dataset.roles || '').split(',').map(x => x.trim());
+  return !roles.length || roles.includes(role);
+}
+
+function applyRoleWorkspace(user) {
+  const role = user?.role || 'farmer';
+  document.body.dataset.role = role;
+  document.querySelectorAll('[data-roles]').forEach(el => { el.hidden = !roleAllows(el, role); });
+  const dashboard = document.getElementById('p-dashboard');
+  const workspace = document.getElementById('roleWorkspace');
+  const config = ROLE_WORKSPACES[role];
+  if (!dashboard || !workspace) return;
+  dashboard.classList.toggle('role-mode', Boolean(config));
+  workspace.classList.toggle('on', Boolean(config));
+  if (!config) { workspace.innerHTML = ''; return; }
+  workspace.innerHTML = `
+    <div class="card mb18"><div class="cb">
+      <div class="role-eyebrow">${escapeHtml(t(config.label))}</div>
+      <h2 class="role-title">${escapeHtml(config.title)}</h2>
+      <p class="role-desc">${escapeHtml(config.desc)}</p>
+      <div class="role-actions">${config.actions.map(([label, page, primary]) => `<button class="role-action ${primary ? 'primary' : ''}" type="button" onclick="nav('${escapeHtml(page)}')">${escapeHtml(t(label))}</button>`).join('')}</div>
+    </div></div>
+    <div id="roleConsole"><div class="g4 mb18" id="roleKpis"><div class="sc"><div class="sc-val">...</div><div class="sc-lab">Loading workspace</div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Priority queue</div></div><div class="cb"><div class="ops-list" id="roleQueue"><div class="gl-empty">Loading role-specific data...</div></div></div></div></div>`;
+  renderRoleWorkspace(role);
+}
+
+async function renderRoleWorkspace(role) {
+  const consoleEl = document.getElementById('roleConsole');
+  if (!consoleEl) return;
+  try {
+    if (role === 'htx') {
+      const [overview, tasks, routes] = await Promise.all([apiFetch('/api/platform/overview'), apiFetch('/api/platform/tasks'), apiFetch('/api/platform/logistics/routes')]);
+      consoleEl.innerHTML = `<div class="ops-grid mb18">${[[overview.batches.count,'Biomass batches'],[overview.active_tasks,'Open tasks'],[overview.live_routes,'Collection routes'],[overview.pending_verification,'MRV checks']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}</div>
+      <div class="g2 mb18"><div class="card"><div class="ch"><div class="ct">HTX task dispatch</div></div><div class="cb"><div class="ops-list">${tasks.data.slice(0,8).map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Unassigned batch')} · ${escapeHtml(x.assignee_role)}${x.due_at ? ' · ' + escapeHtml(formatDate(x.due_at)) : ''}</div></div><div class="role-actions"><span class="ops-status">${escapeHtml(t(x.status))}</span>${x.status !== 'done' ? `<button class="role-action" type="button" onclick="setWorkspaceTaskStatus('${escapeHtml(x.id)}','done')">Mark complete</button>` : ''}</div></div>`).join('') || `<div class="gl-empty">No HTX tasks waiting.</div>`}</div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Create collection route</div></div><div class="cb"><div class="fg"><label class="fl" for="htxRouteName">Route name</label><input class="ci" id="htxRouteName" value="CM-02: HTX collection route"></div><div class="g2"><div class="fg"><label class="fl" for="htxRouteCapacity">Capacity (kg)</label><input class="ci" id="htxRouteCapacity" type="number" min="1" value="3000"></div><div class="fg"><label class="fl" for="htxRouteCost">Cost / tonne (VND)</label><input class="ci" id="htxRouteCost" type="number" min="0" value="280000"></div></div><button class="role-action primary" type="button" onclick="createHtxRoute()">Create route</button></div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Live collection routes</div></div><div class="cb"><div class="ops-list">${routes.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.route_name)}</div><div class="ops-meta">${escapeHtml(formatDate(x.scheduled_at))} · ${formatKg(x.assigned_kg)} / ${formatKg(x.capacity_kg)} · ${Number(x.cost_per_ton_vnd).toLocaleString('vi-VN')} VND/t</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No routes planned.</div>`}</div></div></div>`;
+    } else if (role === 'buyer') {
+      const [offers, products, interests] = await Promise.all([apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/products'), apiFetch('/api/platform/credits/interests')]);
+      consoleEl.innerHTML = `<div class="ops-grid mb18">${[[offers.data.length,'Open credit offers'],[products.data.length,'Traceable products'],[interests.data.filter(x=>x.status==='pending').length,'Pending purchase requests'],['VM0044','MRV framework']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}</div>
+      <div class="card mb18"><div class="ch"><div class="ct">Verified carbon marketplace</div></div><div class="cb"><div class="ops-list">${offers.data.map(x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">$${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e · ${escapeHtml(x.carbon_id)}</div></div><button class="role-action primary" type="button" onclick="submitCreditInterest('${escapeHtml(x.id)}',${Number(x.tonnes)})">Send purchase request</button></div>`).join('') || `<div class="gl-empty">No verified credit offers available.</div>`}</div></div></div>
+      <div class="g2"><div class="card"><div class="ch"><div class="ct">My purchase requests</div></div><div class="cb"><div class="ops-list">${interests.data.map(x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">${escapeHtml(x.message || 'No message')} · $${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No purchase requests yet.</div>`}</div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Traceable outputs</div></div><div class="cb"><div class="ops-list">${products.data.slice(0,5).map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Traceable output')} · ${formatKg(x.quantity_kg)}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No output products available.</div>`}</div></div></div></div>`;
+    } else if (role === 'partner') {
+      const [tasks, products, partners] = await Promise.all([apiFetch('/api/platform/tasks'), apiFetch('/api/platform/products'), apiFetch('/api/platform/partners')]);
+      consoleEl.innerHTML = `<div class="ops-grid mb18">${[[tasks.data.length,'Assigned processing tasks'],[products.data.length,'Output products'],[partners.data.filter(x=>x.status==='active').length,'Active partners'],['MRV','Evidence workflow']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}</div>
+      <div class="g2 mb18"><div class="card"><div class="ch"><div class="ct">Processing workbench</div></div><div class="cb"><div class="ops-list">${tasks.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Platform task')} · ${escapeHtml(x.notes || 'Processing evidence required')}</div></div><div class="role-actions"><span class="ops-status">${escapeHtml(t(x.status))}</span>${x.status === 'open' ? `<button class="role-action" type="button" onclick="setWorkspaceTaskStatus('${escapeHtml(x.id)}','in_progress')">Start</button>` : ''}${x.status !== 'done' ? `<button class="role-action primary" type="button" onclick="setWorkspaceTaskStatus('${escapeHtml(x.id)}','done')">Complete</button>` : ''}</div></div>`).join('') || `<div class="gl-empty">No partner tasks assigned.</div>`}</div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Register processing output</div></div><div class="cb"><div class="fg"><label class="fl" for="partnerProductName">Output name</label><input class="ci" id="partnerProductName" value="Processed biochar batch"></div><div class="g2"><div class="fg"><label class="fl" for="partnerProductKg">Quantity (kg)</label><input class="ci" id="partnerProductKg" type="number" min="1" value="250"></div><div class="fg"><label class="fl" for="partnerProductPrice">Unit price (VND)</label><input class="ci" id="partnerProductPrice" type="number" min="0" value="6800"></div></div><button class="role-action primary" type="button" onclick="createPartnerOutput()">Register output</button></div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Available outputs</div></div><div class="cb"><div class="ops-list">${products.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${formatKg(x.quantity_kg)} · ${Number(x.unit_price_vnd).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No outputs registered.</div>`}</div></div></div>`;
+    } else if (role === 'admin') {
+      const [stats, overview, users, carbon] = await Promise.all([apiFetch('/api/admin/stats'), apiFetch('/api/platform/overview'), apiFetch('/api/admin/users'), apiFetch('/api/carbon')]);
+      const p = stats.platform || {};
+      const pending = carbon.data.filter(x => x.status === 'pending');
+      consoleEl.innerHTML = `<div class="ops-grid mb18">${[[overview.batches.count,'Platform batches'],[p.total_co2e_tonnes || 0,'tCO2e issued'],[p.active_salinity_alerts || 0,'Water alerts'],[pending.length,'Pending carbon verification']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}</div>
+      <div class="g2 mb18"><div class="card"><div class="ch"><div class="ct">Carbon verification queue</div></div><div class="cb"><div class="ops-list">${pending.slice(0,8).map(x => `<div class="ops-row"><div><div class="ops-name">${Number(x.co2e_tonnes).toFixed(3)} tCO2e · ${escapeHtml(x.farmer_name || 'Farmer')}</div><div class="ops-meta">${escapeHtml(x.methodology || 'Verra VM0044')} · ${escapeHtml(formatDate(x.created_at))}</div></div><button class="role-action primary" type="button" onclick="verifyCarbonRecord('${escapeHtml(x.id)}')">Verify</button></div>`).join('') || `<div class="gl-empty">No carbon records waiting for verification.</div>`}</div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Platform controls</div></div><div class="cb"><div class="ops-list"><div class="ops-row"><div><div class="ops-name">MRV compliance</div><div class="ops-meta">Custody, mass, laboratory and validation controls are monitored in Operations.</div></div><button class="role-action" type="button" onclick="nav('operations')">Open operations</button></div><div class="ops-row"><div><div class="ops-name">Regional analytics</div><div class="ops-meta">Review biomass, carbon and salinity performance by province.</div></div><button class="role-action" type="button" onclick="nav('salinity')">Open monitoring</button></div></div></div></div></div>
+      <div class="card"><div class="ch"><div class="ct">User administration</div></div><div class="cb"><div class="ops-list">${users.data.slice(0,12).map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.email || x.phone || '')} · ${escapeHtml(x.province || 'No province')}</div></div><div class="role-actions"><select class="fs" id="adminRole-${escapeHtml(x.id)}" style="width:auto;min-width:112px"><option value="farmer" ${x.role==='farmer'?'selected':''}>Farmer</option><option value="htx" ${x.role==='htx'?'selected':''}>HTX</option><option value="buyer" ${x.role==='buyer'?'selected':''}>Buyer</option><option value="partner" ${x.role==='partner'?'selected':''}>Partner</option><option value="admin" ${x.role==='admin'?'selected':''}>Admin</option></select><button class="role-action" type="button" onclick="setAdminUserRole('${escapeHtml(x.id)}')">Save role</button></div></div>`).join('') || `<div class="gl-empty">No users found.</div>`}</div></div></div>`;
+    }
+    applyLanguage();
+  } catch (err) {
+    consoleEl.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Unable to load this workspace.'))}</div>`;
+  }
+}
+
+async function setWorkspaceTaskStatus(id, status) {
+  try { await apiFetch(`/api/platform/tasks/${id}`, { method:'PATCH', body:JSON.stringify({ status }) }); toast('Task updated'); renderRoleWorkspace(currentUser.role); }
+  catch (err) { toast(friendlyError(err, 'Could not update task')); }
+}
+
+async function createHtxRoute() {
+  const route_name = document.getElementById('htxRouteName')?.value.trim();
+  const capacity_kg = Number(document.getElementById('htxRouteCapacity')?.value);
+  const cost_per_ton_vnd = Number(document.getElementById('htxRouteCost')?.value);
+  if (!route_name || !Number.isFinite(capacity_kg) || !Number.isFinite(cost_per_ton_vnd)) return toast('Enter valid route details');
+  try { await apiFetch('/api/platform/logistics/routes', { method:'POST', body:JSON.stringify({ route_name, capacity_kg, cost_per_ton_vnd, province:currentUser.province || 'ca-mau', scheduled_at:new Date(Date.now()+86400000).toISOString() }) }); toast('Collection route created'); renderRoleWorkspace('htx'); }
+  catch (err) { toast(friendlyError(err, 'Could not create route')); }
+}
+
+async function submitCreditInterest(offerId, maximum) {
+  const tonnes = Number(window.prompt(`Quantity to request (maximum ${maximum} tCO2e):`, Math.min(maximum, 1).toFixed(2)));
+  if (!Number.isFinite(tonnes) || tonnes <= 0) return;
+  const message = window.prompt('Message to the credit seller:', 'Please share the verification package and settlement timeline.') || '';
+  try { await apiFetch(`/api/platform/credits/offers/${offerId}/interests`, { method:'POST', body:JSON.stringify({ tonnes, message }) }); toast('Purchase request sent'); renderRoleWorkspace('buyer'); }
+  catch (err) { toast(friendlyError(err, 'Could not send purchase request')); }
+}
+
+async function createPartnerOutput() {
+  const name = document.getElementById('partnerProductName')?.value.trim();
+  const quantity_kg = Number(document.getElementById('partnerProductKg')?.value);
+  const unit_price_vnd = Number(document.getElementById('partnerProductPrice')?.value);
+  if (!name || !Number.isFinite(quantity_kg) || !Number.isFinite(unit_price_vnd)) return toast('Enter valid output details');
+  try { await apiFetch('/api/platform/products', { method:'POST', body:JSON.stringify({ name, quantity_kg, unit_price_vnd, category:'bio_material' }) }); toast('Processing output registered'); renderRoleWorkspace('partner'); }
+  catch (err) { toast(friendlyError(err, 'Could not register output')); }
+}
+
+async function verifyCarbonRecord(id) {
+  try { await apiFetch(`/api/carbon/${id}/verify`, { method:'POST', body:JSON.stringify({ notes:'Verified from admin workspace' }) }); toast('Carbon record verified'); renderRoleWorkspace('admin'); }
+  catch (err) { toast(friendlyError(err, 'Could not verify carbon record')); }
+}
+
+async function setAdminUserRole(id) {
+  const role = document.getElementById(`adminRole-${id}`)?.value;
+  if (!role) return;
+  try { await apiFetch(`/api/admin/users/${id}/role`, { method:'PATCH', body:JSON.stringify({ role }) }); toast('User role updated'); renderRoleWorkspace('admin'); }
+  catch (err) { toast(friendlyError(err, 'Could not update user role')); }
 }
 
 function showApp() {
@@ -2608,7 +2817,7 @@ const STATIC_TEXT = {
   "Back": "Quay lại",
   "Your Carbon,": "Carbon của bạn,",
   "Your Income": "Thu nhập của bạn",
-  "Join 2,000+ Lua-Tom farmers turning rice straw and shrimp-pond sludge into verified Verra VM0044 carbon credits, traded on the ASEAN AICE exchange.": "Tham gia cùng hơn 2.000 nông hộ lúa-tôm biến rơm rạ và bùn ao tôm thành tín chỉ carbon Verra VM0044 đã xác thực, giao dịch trên sàn AICE ASEAN.",
+  "Join 2,000+ Lua-Tom farmers turning rice straw and shrimp-pond sludge into verified Verra VM0044 carbon credits, prepared for Binance Sustainability marketplace workflows.": "Tham gia cùng hơn 2.000 nông hộ lúa-tôm biến rơm rạ và bùn ao tôm thành tín chỉ carbon Verra VM0044 đã xác thực, sẵn sàng cho quy trình marketplace Binance Sustainability.",
   "Free to join": "Miễn phí tham gia",
   "No setup fees. HTX cooperative handles enrollment.": "Không phí khởi tạo. HTX hỗ trợ đăng ký giúp bạn.",
   "Blockchain-anchored credential, recognised by banks & insurers.": "Chứng nhận lưu trên blockchain, được ngân hàng và bảo hiểm công nhận.",
@@ -2757,7 +2966,7 @@ const STATIC_TEXT = {
   "CARBON CREDITS": "TÍN CHỈ CARBON",
   "per season": "mỗi vụ",
   "sludge / pond": "bùn / ao",
-  "traded on AICE": "giao dịch trên AICE",
+  "prepared for Binance Sustainability": "sẵn sàng cho Binance Sustainability",
   "Pyrolysis": "Nhiệt phân",
   "Co-process": "Đồng xử lý",
   "Verified by": "Xác thực bởi",
@@ -2863,7 +3072,7 @@ const STATIC_TEXT = {
   "BIDV / Agribank - unlocked at 2 tCO₂e": "BIDV / Agribank - mở khi đạt 2 tCO₂e",
   "Preferential Insurance Rate": "Mức phí bảo hiểm ưu đãi",
   "Bao Viet agricultural - 12% discount": "Bảo Việt nông nghiệp - giảm 12%",
-  "AICE Exchange Listing": "Niêm yết trên sàn AICE",
+  "Binance Sustainability Listing": "Niêm yết trên Binance Sustainability",
   "Trade SCUs on ASEAN Interoperable Exchange": "Giao dịch SCU trên ASEAN Interoperable Exchange",
   "Sequestration History": "Lịch sử lưu giữ carbon",
   "Completed": "Hoàn tất",
@@ -2895,7 +3104,7 @@ const STATIC_TEXT = {
   "95 kg sludge-biochar, +0.18 tCO₂e": "95 kg biochar từ bùn ao, +0,18 tCO₂e",
   "Organic carbon up 0.4%, score improved to 87": "Carbon hữu cơ tăng 0,4%, điểm cải thiện lên 87",
   "200 kg applied, +0.48 tCO₂e": "Đã bón 200 kg, +0,48 tCO₂e",
-  "Batch #GL-003 - 1.2 tCO₂e verified & registered on AICE": "Lô #GL-003 - 1,2 tCO₂e đã xác minh và đăng ký trên AICE",
+  "Batch #GL-003 - 1.2 tCO₂e verified and ready for marketplace settlement": "Lô #GL-003 - 1,2 tCO₂e đã xác minh và sẵn sàng quyết toán marketplace",
   "150 kg applied, +0.36 tCO₂e": "Đã bón 150 kg, +0,36 tCO₂e",
   "Passport created. Initial soil baseline recorded.": "Đã tạo hồ sơ. Đã ghi nhận đường cơ sở đất ban đầu.",
 
@@ -2962,7 +3171,7 @@ const STATIC_TEXT = {
   "Carbon credit issuance": "Phát hành tín chỉ carbon",
   "Collection reminders": "Nhắc nhở thu gom",
   "Weekly soil report": "Báo cáo đất hàng tuần",
-  "AICE price updates": "Cập nhật giá AICE",
+  "Binance Sustainability price updates": "Cập nhật giá Binance Sustainability",
   "Shrimp mortality warnings": "Cảnh báo tôm chết hàng loạt",
   "Save Changes": "Lưu thay đổi",
   "Full name": "Họ và tên",
@@ -2997,7 +3206,7 @@ const STATIC_TEXT = {
   "Contact HTX": "Liên hệ HTX",
   "Email Support": "Gửi email hỗ trợ",
   "GreenLoop applies the Verra VM0044 methodology with a validated pyrolysis efficiency of ~35% mass yield. Each tonne of biochar sequesters approximately 2.5 tCO₂e (rice straw). The Carbon Engine calculates exact values per feedstock type and batch weight.": "GreenLoop áp dụng phương pháp Verra VM0044 với hiệu suất nhiệt phân được xác thực ~35% khối lượng. Mỗi tấn biochar hấp thụ khoảng 2,5 tCO₂e (rơm lúa). Carbon Engine tính toán chính xác theo loại nguyên liệu và khối lượng lô.",
-  "After biomass is delivered and processed, GreenLoop nests into Biocare's existing certified project, reducing verification time from 18 months to 6–9 months. Payout is then released directly to your AICE wallet via smart contract after successful AICE registry confirmation.": "Sau khi sinh khối được giao và xử lý, GreenLoop lồng vào dự án đã được chứng nhận của Biocare, rút ngắn thời gian xác minh từ 18 tháng xuống còn 6–9 tháng. Thanh toán được giải phóng trực tiếp vào ví AICE qua hợp đồng thông minh sau khi xác nhận đăng ký AICE thành công.",
+  "After biomass is delivered and processed, GreenLoop packages the evidence needed for a certified project. Once verification and issuance are complete, the marketplace settlement workflow records the revenue split for the farmer, HTX and platform.": "Sau khi sinh khối được giao và xử lý, GreenLoop đóng gói bằng chứng cần thiết cho dự án được chứng nhận. Khi xác minh và phát hành hoàn tất, quy trình marketplace ghi nhận phân chia doanh thu cho nông hộ, HTX và nền tảng.",
   "The Salinity Season Scheduler fires an alert when intrusion crosses 5 g/L (shrimp optimal threshold). Rice cultivation is safe below 1 g/L. The 1–5 g/L range is the transition window - GreenLoop recommends switching 5 days before the forecast 5 g/L crossing date.": "Lịch mùa vụ độ mặn phát cảnh báo khi độ mặn vượt 5 g/L (ngưỡng tối ưu cho tôm). Trồng lúa an toàn dưới 1 g/L. Khoảng 1–5 g/L là cửa sổ chuyển tiếp - GreenLoop khuyến nghị chuyển sang nuôi tôm 5 ngày trước ngày dự báo vượt 5 g/L.",
   "Yes - GreenLoop's dual feedstock model co-processes pond sludge alongside rice straw. Shrimp sludge biochar yields ~18% mass with 1.5 tCO₂e per tonne biochar (B-Grade). Sludge diversion from canals also creates a measurable water-quality co-benefit within the VM0044 project boundary.": "Có - mô hình nguyên liệu kép của GreenLoop xử lý bùn ao cùng với rơm lúa. Biochar bùn tôm đạt ~18% khối lượng với 1,5 tCO₂e/tấn biochar (hạng B). Việc thu gom bùn thay vì xả ra kênh cũng tạo ra lợi ích đồng hành về chất lượng nước trong phạm vi dự án VM0044.",
   "New households enroll through their local HTX cooperative. The cooperative staff acts as a Tier 1 MRV verifier - digitally signing biomass inputs at the collection point. No smartphone or individual account is required; the cooperative's sign-off creates the initial Carbon Farmer Passport record.": "Hộ mới đăng ký thông qua HTX địa phương. Cán bộ HTX đóng vai trò xác minh MRV Cấp 1 - ký số vào dữ liệu sinh khối tại điểm thu gom. Không cần điện thoại thông minh hay tài khoản cá nhân; chữ ký của HTX sẽ tạo hồ sơ Hộ chiếu Carbon ban đầu.",
@@ -3042,9 +3251,41 @@ const STATIC_TEXT = {
   "Automated MRV": "MRV tự động",
   "Three-tier VM0044 verification with digital custody chain shortens credit registration to 6–9 months.": "Xác minh VM0044 ba cấp với chuỗi giám hộ kỹ thuật số rút ngắn đăng ký tín chỉ còn 6–9 tháng.",
   "MRC salinity API overlay fires season-switch alerts when intrusion crosses 5 g/L. Pond DO monitoring in Phase 2.": "Lớp phủ API độ mặn MRC phát cảnh báo chuyển mùa khi vượt 5 g/L. Theo dõi DO ao trong Giai đoạn 2.",
-  "Blockchain-anchored credential unlocks green loans, preferential insurance, and direct AICE exchange listing.": "Chứng nhận lưu trên blockchain mở khóa vay xanh, bảo hiểm ưu đãi và niêm yết trực tiếp trên sàn AICE.",
-  "AICE Trading": "Giao dịch AICE",
-  "Credits settle as ASEAN Standard Carbon Units on the AICE interoperable exchange. Real-time SCU oracle pricing.": "Tín chỉ thanh toán dưới dạng ASEAN Standard Carbon Units trên sàn AICE liên thông. Định giá SCU theo thời gian thực.",
+  "A QR-linked identity connects each farmer, biomass batch and verified output to a complete, auditable carbon record.": "Định danh liên kết QR kết nối từng nông hộ, lô sinh khối và đầu ra đã xác minh với hồ sơ carbon đầy đủ, có thể kiểm toán.",
+  "Binance Sustainability": "Binance Sustainability",
+  "Verified credits can be prepared for marketplace listing with a clear farmer, HTX and platform revenue split.": "Tín chỉ đã xác minh có thể được chuẩn bị để niêm yết marketplace với phân chia doanh thu rõ ràng cho nông hộ, HTX và nền tảng.",
+  "GreenLoop connects rice, aquaculture and melaleuca households to turn straw, aquatic by-products and melaleuca residue into biochar, bio-materials and verifiable carbon value across the Mekong Delta.": "GreenLoop kết nối nông hộ lúa, thủy sản và tràm để chuyển rơm rạ, phụ phẩm thủy sản và phụ phẩm tràm thành biochar, vật liệu sinh học và giá trị carbon có thể xác minh trên toàn Đồng bằng sông Cửu Long.",
+  "From residue intake": "Từ thu nhận phụ phẩm",
+  "to verified value": "đến giá trị được xác minh",
+  "Every lot moves through a visible chain: farmer onboarding, biomass validation, collection dispatch, processing, MRV verification, product traceability and carbon revenue sharing.": "Mỗi lô sinh khối đi qua một chuỗi minh bạch: onboarding nông hộ, xác thực sinh khối, điều phối thu gom, xử lý, xác minh MRV, truy xuất đầu ra và phân chia doanh thu carbon.",
+  "Biomass Intake": "Tiếp nhận sinh khối",
+  "Farmers and HTX record rice straw, aquatic by-products and melaleuca residue with weight, origin and batch identity from the start.": "Nông hộ và HTX ghi nhận rơm rạ, phụ phẩm thủy sản và phụ phẩm tràm cùng khối lượng, nguồn gốc và mã định danh lô ngay từ đầu.",
+  "HTX Logistics": "Logistics HTX",
+  "Cooperatives consolidate, grade and dispatch biomass to processing hubs, tracking route capacity, cost per tonne and custody at each hand-off.": "HTX tập kết, phân loại và điều phối sinh khối đến điểm xử lý, đồng thời theo dõi năng lực tuyến, chi phí mỗi tấn và chuỗi bàn giao.",
+  "Circular Conversion": "Chuyển đổi tuần hoàn",
+  "Pyrolysis and bio-refining transform inputs into stable biochar, cellulose materials and other bio-products for green value chains.": "Nhiệt phân và tinh chế sinh học chuyển đầu vào thành biochar bền vững, vật liệu cellulose và các sản phẩm sinh học cho chuỗi giá trị xanh.",
+  "MRV & Verification": "MRV và xác minh",
+  "Measurement, reporting and verification link mass, process evidence and carbon factors to an auditable record for every batch.": "Đo lường, báo cáo và xác minh liên kết khối lượng, bằng chứng xử lý và hệ số carbon thành hồ sơ có thể kiểm toán cho từng lô.",
+  "Built for rice, aquaculture": "Thiết kế cho nông hộ lúa, thủy sản",
+  "and melaleuca households": "và tràm",
+  "The rice-aquaculture-melaleuca module digitizes farm activity in the Mekong Delta and links seasonal production, residue and carbon value in one record per household.": "Module lúa - thủy sản - tràm số hóa hoạt động canh tác tại Đồng bằng sông Cửu Long, liên kết sản xuất theo mùa, phụ phẩm và giá trị carbon trong một hồ sơ mỗi nông hộ.",
+  "Three seasonal value streams": "Ba dòng giá trị theo mùa",
+  "Rice straw, aquaculture by-products and melaleuca products create three traceable value streams across the year.": "Rơm rạ, phụ phẩm thủy sản và sản phẩm từ tràm tạo ra ba dòng giá trị có thể truy xuất trong năm.",
+  "HTX staff coordinate local operations, standardize farmer data and validate inputs before synchronizing them with GreenLoop MRV.": "Cán bộ HTX điều phối vận hành địa phương, chuẩn hóa dữ liệu nông hộ và xác thực đầu vào trước khi đồng bộ với MRV GreenLoop.",
+  "Each biomass delivery and verified sustainable practice earns points that can be redeemed for green farm inputs before credits are issued.": "Mỗi lần giao sinh khối và hoạt động canh tác bền vững đã xác minh đều tích điểm, có thể đổi lấy vật tư nông nghiệp xanh trước khi tín chỉ được phát hành.",
+  "Melaleuca Residue": "Phụ phẩm tràm",
+  "HTX operations": "Vận hành HTX",
+  "Carbon buyer portal": "Cổng đơn vị mua tín chỉ",
+  "Partner workspace": "Không gian làm việc đối tác",
+  "Platform administration": "Quản trị nền tảng",
+  "Open operations": "Mở vận hành",
+  "Browse credit offers": "Xem chào bán tín chỉ",
+  "Book collection": "Đặt lịch thu gom",
+  "Manage pickups": "Quản lý thu gom",
+  "Water alerts": "Cảnh báo nước",
+  "Review carbon records": "Xem hồ sơ carbon",
+  "Account settings": "Cài đặt tài khoản",
+  "Water monitoring": "Theo dõi nước",
 
   // ── Landing - Farmers section ──
   "Built for Lua-Tom": "Thiết kế cho nông hộ",
@@ -3103,6 +3344,223 @@ const ATTRIBUTE_TEXT = {
   "Nguyen Van A": "Nguyễn Văn A",
   "0987 654 321": "0987 654 321",
   "At least 8 characters": "Ít nhất 8 ký tự"
+  , "Operations": "Vận hành",
+  "Batch, partner, MRV, logistics and carbon marketplace control": "Quản lý lô sinh khối, đối tác, MRV, logistics và thị trường carbon",
+  "SIPOC Operations Control": "Điều hành SIPOC",
+  "Live data": "Dữ liệu trực tiếp",
+  "Biomass batches": "Lô sinh khối",
+  "Open workflow tasks": "Công việc đang mở",
+  "Live collection routes": "Tuyến thu gom đang chạy",
+  "Pending MRV checks": "Kiểm tra MRV chờ xử lý",
+  "Data ingestion & batch custody": "Nhập dữ liệu và chuỗi giám hộ lô",
+  "Feedstock": "Nguyên liệu đầu vào",
+  "Rice straw": "Rơm rạ",
+  "Shrimp pond sludge": "Bùn ao tôm",
+  "Melaleuca": "Tràm",
+  "Input weight (kg)": "Khối lượng đầu vào (kg)",
+  "Create traceable batch": "Tạo lô có thể truy xuất",
+  "Batch ID, custody hash and HTX validation task are created together.": "Mã lô, mã giám hộ và công việc xác thực của HTX được tạo cùng lúc.",
+  "Verification & compliance": "Xác minh và tuân thủ",
+  "Biomass chain of custody": "Chuỗi giám hộ sinh khối",
+  "Weighbridge mass evidence": "Bằng chứng cân khối lượng",
+  "EBC laboratory analysis": "Phân tích phòng thí nghiệm EBC",
+  "Third-party verification": "Xác minh bên thứ ba",
+  "Carbon registry issuance": "Phát hành trên sổ đăng ký carbon",
+  "required": "bắt buộc",
+  "Workflow pipeline": "Quy trình công việc",
+  "Refresh": "Làm mới",
+  "Logistics control tower": "Trung tâm điều phối logistics",
+  "Product catalog & traceability": "Danh mục sản phẩm và truy xuất",
+  "Partner portal": "Cổng đối tác",
+  "Carbon monetization": "Thương mại hóa carbon",
+  "Water check": "Kiểm tra nước",
+  "Salt water alerts for your fields & ponds": "Cảnh báo nước mặn cho ruộng và ao của bạn",
+  "Optimal Season Switch Date": "Ngày chuyển mùa phù hợp",
+  "Live Salinity Reading": "Chỉ số độ mặn hiện tại",
+  "Active Alerts": "Cảnh báo đang bật",
+  "7-Day Salinity Trend": "Xu hướng độ mặn 7 ngày",
+  "Water Sensors (Phase 2)": "Cảm biến nước (Giai đoạn 2)",
+  "Home": "Trang đầu",
+  "Book collection": "Đặt lịch thu gom",
+  "My Pickups": "Lịch thu gom của tôi",
+  "My Carbon Record": "Sổ carbon của tôi",
+  "Settings": "Cài đặt",
+  "Help": "Trợ giúp"
+  , "open": "đang mở"
+  , "in_progress": "đang thực hiện"
+  , "dispatching": "đang điều phối"
+  , "pending": "đang chờ"
+  , "completed": "hoàn tất"
+  , "Recovery link sent - check your phone (demo)": "Đã gửi link khôi phục - kiểm tra điện thoại (demo)"
+  , "OTP sent to your phone (demo)": "Đã gửi OTP đến điện thoại (demo)"
+  , "Terms & Privacy page - demo": "Trang điều khoản và bảo mật - demo"
+  , "Demo mode - exploring as guest": "Chế độ demo - đang xem với tư cách khách"
+  , "Password must be at least 8 characters": "Mật khẩu phải có ít nhất 8 ký tự"
+  , "Please accept the Terms to continue": "Vui lòng chấp nhận điều khoản để tiếp tục"
+  , "Enter a valid biomass weight": "Vui lòng nhập khối lượng sinh khối hợp lệ"
+  , "Nhập số điện thoại và mật khẩu": "Please enter phone and password"
+  , "Đang đăng nhập...": "Signing in..."
+  , "Điền đủ thông tin": "Please fill in all fields"
+  , "Đang tạo tài khoản...": "Creating account..."
+  , "Tài khoản đã tạo - chào mừng!": "Account created - welcome!"
+  , "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.": "Session expired. Please sign in again."
+  , "Khối lượng tối thiểu là 500 kg": "Minimum 500 kg required"
+  , "Đang đặt lịch...": "Booking collection..."
+  , "Đã hủy lịch thu gom": "Collection cancelled"
+  , "Tối thiểu 100 điểm": "Minimum 100 points required"
+  , "All notifications marked as read": "Đã đánh dấu tất cả thông báo là đã đọc"
+  , "Field added": "Đã thêm ruộng"
+  , "Editing Field A…": "Đang chỉnh sửa Thửa A…"
+  , "Editing Pond B…": "Đang chỉnh sửa Ao B…"
+  , "Editing Field C…": "Đang chỉnh sửa Thửa C…"
+  , "Yield factor updated": "Đã cập nhật hệ số năng suất"
+  , "CO₂e factor updated": "Đã cập nhật hệ số CO₂e"
+  , "Tier updated": "Đã cập nhật cấp MRV"
+  , "Threshold updated": "Đã cập nhật ngưỡng"
+  , "DO threshold updated": "Đã cập nhật ngưỡng DO"
+  , "Session timeout updated": "Đã cập nhật thời gian tự động đăng xuất"
+  , "Profile updated": "Đã cập nhật hồ sơ"
+  , "Cache cleared successfully": "Đã xóa cache thành công"
+  , "Local preferences reset - reload to apply": "Đã đặt lại tùy chọn - tải lại trang để áp dụng"
+  , "Binance Sustainability connection settings…": "Cài đặt kết nối Binance Sustainability…"
+  , "Opening BIDV portal…": "Đang mở cổng BIDV…"
+  , "Bao Viet policy…": "Chính sách Bảo Việt…"
+  , "MRC API status…": "Trạng thái MRC API…"
+  , "Connecting to Verra…": "Đang kết nối Verra…"
+  , "Preparing export…": "Đang chuẩn bị xuất dữ liệu…"
+  , "Generating PDF…": "Đang tạo PDF…"
+  , "Please contact your HTX to deactivate": "Vui lòng liên hệ HTX để hủy kích hoạt"
+  , "Connecting to HTX network…": "Đang kết nối mạng HTX…"
+  , "Opening email support…": "Đang mở email hỗ trợ…"
+  , "Push not supported in this browser": "Trình duyệt này không hỗ trợ push notification"
+  , "Push notifications enabled": "Đã bật thông báo đẩy"
+  , "Permission denied - enable in browser settings": "Bị từ chối - bật lại trong cài đặt trình duyệt"
+  , "Show password": "Hiện mật khẩu"
+  , "Mobile navigation": "Điều hướng di động"
+  , "Interactive 3D biochar tree illustration – drag to rotate": "Minh họa cây biochar 3D – kéo để xoay"
+  , "Toggle theme": "Chuyển giao diện"
+  , "confirmed": "Đã xác nhận"
+  , "collected": "Đã thu gom"
+  , "processed": "Đã xử lý"
+  , "cancelled": "Đã hủy"
+  , "blocked": "Bị chặn"
+  , "verified": "Đã xác minh"
+  , "issued": "Đã phát hành"
+  , "traded": "Đã giao dịch"
+  , "Loading workspace": "Đang tải không gian làm việc"
+  , "Loading role-specific data...": "Đang tải dữ liệu theo vai trò..."
+  , "Loading...": "Đang tải..."
+  , "Priority queue": "Hàng ưu tiên"
+  , "Platform control": "Kiểm soát nền tảng"
+  , "Open tasks": "Tác vụ mở"
+  , "Collection routes": "Tuyến thu gom"
+  , "MRV checks": "Kiểm tra MRV"
+  , "No HTX tasks waiting.": "Không có tác vụ HTX nào đang chờ."
+  , "No verified credit offers available.": "Không có đề nghị tín chỉ đã xác minh nào."
+  , "No partner tasks assigned.": "Không có tác vụ đối tác nào được giao."
+  , "Filter:": "Lọc:"
+  , "Edit": "Chỉnh sửa"
+  , "Live routes": "Tuyến đường thực tế"
+  , "Users, batches, MRV and logistics are available in Operations.": "Người dùng, lô hàng, MRV và logistics có tại trang Vận hành."
+  , "Ecosystem": "Hệ sinh thái"
+  , "Ecosystem Engine": "Bộ máy hệ sinh thái"
+  , "Configure rice, aquaculture and melaleuca systems by ecological zone": "Cấu hình hệ lúa, thủy sản và tràm theo vùng sinh thái"
+  , "Rice - Aquaculture - Melaleuca": "Lúa - Thủy sản - Tràm"
+  , "Ecological zone": "Vùng sinh thái"
+  , "Aquatic species / model": "Đối tượng / mô hình thủy sản"
+  , "Melaleuca forest area (ha)": "Diện tích rừng tràm (ha)"
+  , "Save ecosystem profile": "Lưu hồ sơ hệ sinh thái"
+  , "Ecosystem recommendation": "Khuyến nghị hệ sinh thái"
+  , "Melaleuca biomass to LCNF": "Sinh khối tràm thành LCNF"
+  , "Aquatic by-products": "Phụ phẩm thủy sản"
+  , "Bio-refinery pathways": "Các dòng chuyển hóa Bio-refinery"
+  , "Aquaculture Season": "Mùa thủy sản"
+  , "Melaleuca Season": "Mùa tràm"
+  , "Hello Mr. Thanh - Winter-Spring aquaculture season": "Chào anh Thanh - vụ thủy sản Đông Xuân"
+  , "Hello Mr. Thanh - Melaleuca management season": "Chào anh Thanh - mùa chăm sóc tràm"
+  , "Aquaculture Phase": "Giai đoạn thủy sản"
+  , "Aquaculture system - water is healthy": "Hệ thống thủy sản - nước đang ổn định"
+  , "Aquaculture is developing well. Sludge biochar from the last cycle improved pond DO by": "Thủy sản đang phát triển tốt. Biochar từ bùn vụ trước đã cải thiện DO ao thêm"
+  , "Melaleuca management - biomass is ready": "Chăm sóc tràm - sinh khối đã sẵn sàng"
+  , "Selective thinning and leaf collection are planned this month.": "Tỉa thưa và thu gom lá tràm được lên kế hoạch trong tháng này."
+  , "Melaleuca biomass collected each month": "Sinh khối tràm thu gom mỗi tháng"
+  , "How much will my melaleuca biomass earn?": "Sinh khối tràm của tôi sẽ mang lại bao nhiêu?"
+  , "Melaleuca biomass ready for collection": "Sinh khối tràm sẵn sàng thu gom"
+  , "From melaleuca LCNF materials": "Từ vật liệu LCNF tràm"
+  , "From melaleuca carbon": "Từ carbon tràm"
+  , "My melaleuca forest - Plot C": "Rừng tràm của tôi - Lô C"
+  , "Salt-tolerant forest stable": "Rừng chịu mặn ổn định"
+  , "Stable": "Ổn định"
+  , "forest": "rừng"
+  , "Canopy cover": "Độ che phủ tán"
+  , "Soil salinity": "Độ mặn đất"
+  , "tolerant": "phù hợp"
+  , "Stored biomass carbon": "Carbon sinh khối lưu trữ"
+  , "verified": "đã xác minh"
+  , "Melaleuca stabilizes saline soil and provides renewable leaves, branches and thinning wood for LCNF materials.": "Tràm ổn định đất nhiễm mặn và cung cấp lá, cành, gỗ tỉa thưa tái tạo cho vật liệu LCNF."
+  , "staff will inspect the forest again": "sẽ kiểm tra rừng lần nữa"
+  , "Forest monitoring": "Theo dõi rừng"
+  , "Leaf collection": "Thu gom lá"
+  , "Selective thinning": "Tỉa thưa chọn lọc"
+  , "LCNF processing": "Chế biến LCNF"
+  , "Soil restoration": "Phục hồi đất"
+  , "Carbon verification": "Xác minh carbon"
+  , "Aquaculture Pond Sludge": "Bùn ao thủy sản"
+  , "Aquaculture pond sludge": "Bùn ao thủy sản"
+  , "Pond B - Aquaculture": "Ao B - Thủy sản"
+  , "From aquaculture season carbon": "Từ carbon mùa thủy sản"
+  , "My pond - Pond B (aquaculture)": "Ao của tôi - Ao B (thủy sản)"
+  , "Environmental monitoring": "Giám sát môi trường"
+  , "Open water check": "Mở kiểm tra nước"
+  , "Water: salinity, pH and DO": "Nước: độ mặn, pH và DO"
+  , "Supports species selection, seasonal risk control and low-chemical aquaculture.": "Hỗ trợ chọn đối tượng nuôi, kiểm soát rủi ro mùa vụ và nuôi thủy sản giảm hóa chất."
+  , "Soil: organic matter and moisture": "Đất: hữu cơ và độ ẩm"
+  , "Tracks biochar benefit, soil recovery and carbon evidence.": "Theo dõi lợi ích biochar, phục hồi đất và bằng chứng carbon."
+  , "Green finance readiness": "Mức sẵn sàng tài chính xanh"
+  , "Open carbon passport": "Mở sổ carbon"
+  , "Loading carbon and finance readiness...": "Đang tải mức sẵn sàng carbon và tài chính..."
+  , "Carbon evidence": "Bằng chứng carbon"
+  , "Green credit and insurance": "Tín dụng và bảo hiểm xanh"
+  , "Carbon Passport combines environmental evidence, traceable biomass and seasonal monitoring for lender or insurer review.": "Sổ carbon kết hợp bằng chứng môi trường, sinh khối truy xuất được và theo dõi mùa vụ cho tổ chức tín dụng hoặc bảo hiểm đánh giá."
+  , "HTX task dispatch": "Điều phối tác vụ HTX"
+  , "Mark complete": "Đánh dấu hoàn tất"
+  , "Create collection route": "Tạo tuyến thu gom"
+  , "Route name": "Tên tuyến"
+  , "Capacity (kg)": "Sức chứa (kg)"
+  , "Cost / tonne (VND)": "Chi phí / tấn (VND)"
+  , "Create route": "Tạo tuyến"
+  , "Live collection routes": "Tuyến thu gom đang hoạt động"
+  , "Verified carbon marketplace": "Chợ tín chỉ carbon đã xác minh"
+  , "Pending purchase requests": "Yêu cầu mua đang chờ"
+  , "Send purchase request": "Gửi yêu cầu mua"
+  , "My purchase requests": "Yêu cầu mua của tôi"
+  , "No purchase requests yet.": "Chưa có yêu cầu mua nào."
+  , "Traceable outputs": "Sản phẩm đầu ra có thể truy xuất"
+  , "Processing workbench": "Bàn xử lý sản xuất"
+  , "Assigned processing tasks": "Tác vụ xử lý được giao"
+  , "Start": "Bắt đầu"
+  , "Complete": "Hoàn tất"
+  , "Register processing output": "Ghi nhận sản phẩm xử lý"
+  , "Output name": "Tên sản phẩm đầu ra"
+  , "Quantity (kg)": "Khối lượng (kg)"
+  , "Unit price (VND)": "Đơn giá (VND)"
+  , "Register output": "Ghi nhận đầu ra"
+  , "Available outputs": "Sản phẩm đầu ra sẵn có"
+  , "Carbon verification queue": "Hàng chờ xác minh carbon"
+  , "Pending carbon verification": "Chờ xác minh carbon"
+  , "Verify": "Xác minh"
+  , "No carbon records waiting for verification.": "Không có hồ sơ carbon nào chờ xác minh."
+  , "Platform controls": "Kiểm soát nền tảng"
+  , "Regional analytics": "Phân tích theo vùng"
+  , "Open operations": "Mở vận hành"
+  , "Open monitoring": "Mở giám sát"
+  , "User administration": "Quản trị người dùng"
+  , "Save role": "Lưu vai trò"
+  , "No users found.": "Không tìm thấy người dùng."
+  , "Farmer": "Nông hộ"
+  , "Buyer": "Bên mua"
+  , "Partner": "Đối tác"
+  , "Admin": "Quản trị viên"
 };
 
 const COPY_INDEX = {};
@@ -3153,6 +3611,24 @@ function applyLanguage() {
     el.setAttribute('placeholder', t(el.getAttribute('placeholder')));
   });
 
+  document.querySelectorAll('[aria-label]').forEach(el => {
+    const original = el.getAttribute('data-aria-en') || el.getAttribute('aria-label');
+    if (!el.getAttribute('data-aria-en')) el.setAttribute('data-aria-en', original);
+    el.setAttribute('aria-label', t(original));
+  });
+
+  document.querySelectorAll('[title]').forEach(el => {
+    const original = el.getAttribute('data-title-en') || el.getAttribute('title');
+    if (!el.getAttribute('data-title-en')) el.setAttribute('data-title-en', original);
+    el.setAttribute('title', t(original));
+  });
+
+  document.querySelectorAll('select:not(#calcType) option').forEach(opt => {
+    const original = opt.getAttribute('data-en') || opt.textContent.trim();
+    if (!opt.getAttribute('data-en')) opt.setAttribute('data-en', original);
+    opt.textContent = t(original);
+  });
+
   updateModeButtons();
 }
 
@@ -3192,6 +3668,10 @@ function refreshCopy() {
   renderCollections();
   renderAlerts();
   renderTimeline();
+  renderNotifications();
+  renderPoints();
+  renderCarbonSummary();
+  if (currentUser?.role) renderRoleWorkspace(currentUser.role);
   calc();
   applyLanguage();
 }
@@ -3290,6 +3770,8 @@ async function doRegister() {
   const btn = window.event?.currentTarget;
   const name  = document.getElementById('regName').value.trim();
   const phone = document.getElementById('regPhone').value.trim();
+  const province = document.getElementById('regProvince').value;
+  const role = document.getElementById('regRole').value;
   const pw    = document.getElementById('regPw').value;
   const agree = document.getElementById('regAgree').checked;
   if (!name || !phone || !pw) { toast('Điền đủ thông tin'); return; }
@@ -3300,7 +3782,7 @@ async function doRegister() {
     toast('Đang tạo tài khoản...');
     const data = await apiFetch('/api/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ name, phone, password: pw, role: 'farmer' })
+      body: JSON.stringify({ name, phone, password: pw, role, province })
     });
     GL_TOKEN = data.token;
     try { localStorage.setItem('gl_token', GL_TOKEN); } catch (e) {}
@@ -3337,6 +3819,8 @@ function returnLanding() {
 }
 
 function nav(page) {
+  const requestedItem = document.querySelector(`.sb-item[onclick="nav('${page}')"]`);
+  if (currentUser && requestedItem && requestedItem.hidden) page = 'dashboard';
   document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
   document.querySelectorAll('.bn-t').forEach(i => i.classList.remove('active'));
@@ -3352,12 +3836,16 @@ function nav(page) {
   currentPage = page;
   const dashSub = season === 'rice'
     ? t('Hello Mr. Thanh - Summer-Autumn rice season')
-    : t('Hello Mr. Thanh - Winter-Spring shrimp season');
+    : season === 'tram'
+      ? t('Hello Mr. Thanh - Melaleuca management season')
+      : t('Hello Mr. Thanh - Winter-Spring aquaculture season');
   const titles = {
     dashboard: [t('Home'), dashSub],
+    ecosystem: ['Ecosystem Engine', 'Configure rice, aquaculture and melaleuca systems by ecological zone'],
     collection: [t('Book a pickup'), t('Schedule HTX truck to collect your straw')],
     salinity: [t('Water check'), t('Salt water alerts for your fields & ponds')],
     passport: [t('My Carbon Record'), t('Your earnings history & green credentials')],
+    operations: [t('Operations'), t('Batch, partner, MRV, logistics and carbon marketplace control')],
     settings: [t('Settings'), t('Account & preferences')],
     help:     [t('Help'), t('Ask HTX staff or read the guides')]
   };
@@ -3365,13 +3853,109 @@ function nav(page) {
     document.getElementById('pageTitle').textContent = titles[page][0];
     document.getElementById('pageSub').textContent = titles[page][1];
   }
+  if (page === 'operations') renderOperations();
+  if (page === 'ecosystem') renderEcosystem();
+}
+
+let ecosystemCatalog = null;
+function ecosystemOptions(items, selected, label) {
+  return items.map(item => `<option value="${escapeHtml(item.id)}" ${item.id === selected ? 'selected' : ''}>${escapeHtml(label(item))}</option>`).join('');
+}
+async function renderEcosystem() {
+  const recommendation = document.getElementById('ecoRecommendation');
+  try {
+    const [ecosystem, carbon] = await Promise.all([apiFetch('/api/platform/ecosystem/profile'), apiFetch('/api/carbon/summary')]);
+    const { profile, catalog } = ecosystem;
+    ecosystemCatalog = catalog;
+    const current = profile || { zone_code:'brackish_transition', aquatic_system:'crab', melaleuca_ha:0, practices:[] };
+    const zone = document.getElementById('ecoZone'), species = document.getElementById('ecoSpecies'), forest = document.getElementById('ecoForestHa');
+    if (zone) zone.innerHTML = ecosystemOptions(catalog.zones, current.zone_code, x => `${x.name} (${x.salinity})`);
+    if (species) species.innerHTML = ecosystemOptions(catalog.species, current.aquatic_system, x => x.name);
+    if (forest) forest.value = current.melaleuca_ha;
+    const selectedZone = catalog.zones.find(x => x.id === current.zone_code) || catalog.zones[0];
+    const selectedSpecies = catalog.species.find(x => x.id === current.aquatic_system) || catalog.species[0];
+    if (recommendation) recommendation.innerHTML = `<div class="ops-name">${escapeHtml(selectedZone.model)}</div><div class="ops-meta" style="margin-top:7px">Độ mặn phù hợp: ${escapeHtml(selectedZone.salinity)}. Loài đang chọn: ${escapeHtml(selectedSpecies.name)}.</div><div class="ops-meta" style="margin-top:7px">Thực hành khuyến nghị: giảm hóa chất, theo dõi pH - độ mặn - DO, và ghi nhận toàn bộ dòng sinh khối.</div>`;
+    const detail = document.getElementById('ecoSpeciesDetail');
+    if (detail) detail.innerHTML = `<div class="ops-name">${escapeHtml(selectedSpecies.name)}</div><div class="ops-meta" style="margin-top:7px">Phụ phẩm: ${escapeHtml(selectedSpecies.residue)}</div><div class="ops-meta" style="margin-top:7px">${escapeHtml(selectedSpecies.note)}</div>`;
+    const refinery = document.getElementById('ecoRefinery');
+    if (refinery) refinery.innerHTML = catalog.refinery.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.process)}</div><div class="ops-meta">Đầu vào: ${escapeHtml(x.input)}<br>Đầu ra: ${escapeHtml(x.output)}<br>Giá trị: ${escapeHtml(x.value)}</div></div><span class="ops-status">circular</span></div>`).join('');
+    const finance = document.getElementById('ecoFinance');
+    if (finance) finance.innerHTML = `<div class="ops-row"><div><div class="ops-name">Carbon evidence</div><div class="ops-meta">${formatTonnes(carbon.total_co2e_tonnes)} CO2e recorded across ${Number(carbon.record_count || 0)} verified or pending records.</div></div><span class="ops-status">MRV</span></div><div class="ops-row"><div><div class="ops-name">Green credit and insurance</div><div class="ops-meta">Carbon Passport combines environmental evidence, traceable biomass and seasonal monitoring for lender or insurer review.</div></div><span class="ops-status">ready</span></div>`;
+  } catch (err) { if (recommendation) recommendation.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Unable to load ecosystem profile'))}</div>`; }
+}
+async function saveEcosystemProfile() {
+  const zone_code = document.getElementById('ecoZone')?.value;
+  const aquatic_system = document.getElementById('ecoSpecies')?.value;
+  const melaleuca_ha = Number(document.getElementById('ecoForestHa')?.value);
+  try {
+    await apiFetch('/api/platform/ecosystem/profile', { method:'PUT', body:JSON.stringify({ zone_code, aquatic_system, melaleuca_ha, practices:['low_chemical','water_monitoring','biomass_custody'] }) });
+    toast('Ecosystem profile saved'); renderEcosystem();
+  } catch (err) { toast(friendlyError(err, 'Unable to save ecosystem profile')); }
+}
+
+function opRows(targetId, items, render, empty) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  target.innerHTML = items.length ? items.map(render).join('') : `<div class="gl-empty">${empty}</div>`;
+}
+
+async function renderOperations() {
+  try {
+    if (currentUser?.role === 'buyer') {
+      const [products, offers, compliance] = await Promise.all([
+        apiFetch('/api/platform/products'), apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/compliance')
+      ]);
+      const buyerKpis = document.getElementById('opsKpis');
+      if (buyerKpis) buyerKpis.innerHTML = [[offers.data.length,'Open credit offers'],[products.data.length,'Traceable outputs'],['VM0044','MRV framework'],['70 / 20 / 10','Revenue split']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
+      ['opsTasks','opsRoutes','opsPartners'].forEach(id => opRows(id, [], () => '', 'This operational data is restricted to HTX, partners and administrators.'));
+      opRows('opsProducts', products.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Traceable output')} · ${formatKg(x.quantity_kg)}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No traceable outputs available.');
+      opRows('opsOffers', offers.data, x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">$${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No credit offers available.');
+      opRows('opsCompliance', compliance.checks, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.label)}</div><div class="ops-meta">${escapeHtml(compliance.framework)}</div></div><span class="ops-status warn">${escapeHtml(x.status)}</span></div>`, 'Compliance checklist unavailable.');
+      return;
+    }
+    const [overview, tasks, routes, products, partners, offers, compliance] = await Promise.all([
+      apiFetch('/api/platform/overview'), apiFetch('/api/platform/tasks'), apiFetch('/api/platform/logistics/routes'),
+      apiFetch('/api/platform/products'), apiFetch('/api/platform/partners'), apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/compliance')
+    ]);
+    const ov = document.getElementById('opsKpis');
+    if (ov) ov.innerHTML = [
+      [overview.batches.count, 'Biomass batches'],
+      [overview.active_tasks, 'Open workflow tasks'],
+      [overview.live_routes, 'Live collection routes'],
+      [overview.pending_verification, 'Pending MRV checks']
+    ].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
+    opRows('opsTasks', tasks.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Platform task')} · ${escapeHtml(x.assignee_role)}${x.due_at ? ' · due ' + escapeHtml(formatDate(x.due_at)) : ''}</div></div><span class="ops-status ${x.status === 'blocked' ? 'warn' : ''}">${escapeHtml(x.status.replace('_',' '))}</span></div>`, 'No workflow tasks.');
+    opRows('opsRoutes', routes.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.route_name)}</div><div class="ops-meta">${escapeHtml(formatDate(x.scheduled_at))} · ${formatKg(x.assigned_kg)} / ${formatKg(x.capacity_kg)} · ${Number(x.cost_per_ton_vnd).toLocaleString('vi-VN')} VND/t</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No routes planned.');
+    opRows('opsProducts', products.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Unlinked batch')} · ${formatKg(x.quantity_kg)} · ${Number(x.unit_price_vnd).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No outputs listed.');
+    opRows('opsPartners', partners.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.type.replaceAll('_',' '))} · ${escapeHtml(x.province || 'Mekong Delta')}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No partners onboarded.');
+    opRows('opsOffers', offers.data, x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">$${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e · verified credit offer</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No credits currently offered.');
+    opRows('opsCompliance', compliance.checks, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.label)}</div><div class="ops-meta">${escapeHtml(compliance.framework)}</div></div><span class="ops-status warn">${escapeHtml(x.status)}</span></div>`, 'Compliance checklist unavailable.');
+  } catch (err) {
+    ['opsTasks','opsRoutes','opsProducts','opsPartners','opsOffers','opsCompliance'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Unable to load operations data'))}</div>`;
+    });
+  }
+}
+
+async function createBatch() {
+  const biomass = document.getElementById('opsBiomass')?.value;
+  const inputKg = Number(document.getElementById('opsWeight')?.value);
+  if (!Number.isFinite(inputKg) || inputKg <= 0) return toast('Enter a valid biomass weight');
+  try {
+    const result = await apiFetch('/api/platform/batches', { method: 'POST', body: JSON.stringify({ biomass_type: biomass, input_kg: inputKg }) });
+    toast(`Batch ${result.batch_code} created with custody tracking`); renderOperations();
+  } catch (err) { toast(friendlyError(err, 'Could not create biomass batch')); }
 }
 
 /* Đổi mùa vụ */
 function setSeason(s) {
   season = s;
+  document.querySelectorAll('[data-season-control]').forEach(button => {
+    button.classList.toggle('active', button.dataset.seasonControl === s);
+  });
   const rb = document.getElementById('riceBtn');
   const sb = document.getElementById('shrimpBtn');
+  const tb = document.getElementById('tramBtn');
   const cb = document.getElementById('cycleBadge');
   const sb2 = document.getElementById('seasonBadge');
   const pt = document.getElementById('phaseTitle');
@@ -3382,11 +3966,13 @@ function setSeason(s) {
     const psub = document.getElementById('pageSub');
     if (psub) psub.textContent = s === 'rice'
       ? t('Hello Mr. Thanh - Summer-Autumn rice season')
-      : t('Hello Mr. Thanh - Winter-Spring shrimp season');
+      : s === 'tram'
+        ? t('Hello Mr. Thanh - Melaleuca management season')
+        : t('Hello Mr. Thanh - Winter-Spring aquaculture season');
   }
 
   if (s === 'rice') {
-    rb.className = 's-btn ar'; sb.className = 's-btn';
+    rb.className = 's-btn ar'; sb.className = 's-btn'; if (tb) tb.className = 's-btn';
     cb.className = 'badge bg'; cb.textContent = t('Rice Phase');
     pt.textContent = t('Rice growing - looks good');
     pd.textContent = t('Harvest in about 32 days. We will call you to pick up straw.');
@@ -3432,14 +4018,14 @@ function setSeason(s) {
       <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('After putting biochar on the field for 2 seasons, the soil holds')} <strong>18% ${t('more water')}</strong> ${t('and rice grew stronger.')}</div>
       <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('staff will test again')}: <strong style="color:var(--tp)">May 28</strong></div>`;
 
-  } else {
-    rb.className = 's-btn'; sb.className = 's-btn as';
-    cb.className = 'badge ba'; cb.textContent = t('Shrimp Phase');
-    pt.textContent = t('Shrimp growing - water is healthy');
+  } else if (s === 'shrimp') {
+    rb.className = 's-btn'; sb.className = 's-btn as'; if (tb) tb.className = 's-btn';
+    cb.className = 'badge ba'; cb.textContent = t('Aquaculture Phase');
+    pt.textContent = t('Aquaculture system - water is healthy');
     pd.textContent = t('Pond ready to drain in about 30 days. We will collect the sludge.');
 
     // Mini chart: sludge data
-    sb2.className = 'badge ba'; sb2.textContent = t('Shrimp Season');
+    sb2.className = 'badge ba'; sb2.textContent = t('Aquaculture Season');
     const mct = document.getElementById('miniChartTitle');
     if (mct) mct.textContent = t('Sludge collected each month');
 
@@ -3453,18 +4039,18 @@ function setSeason(s) {
     const ssl = document.getElementById('statStrawLabel');
     if (ssl) ssl.textContent = t('Sludge waiting for pickup');
 
-    // Earnings breakdown (shrimp-centric)
+    // Earnings breakdown (aquaculture)
     const el1 = document.getElementById('earningLabel1'); if (el1) el1.textContent = t('From pond sludge');
     const ev1 = document.getElementById('earningVal1');   if (ev1) ev1.textContent = '3.4 / 8M';
     const eb1 = document.getElementById('earningBar1');   if (eb1) { eb1.className = 'pf a'; eb1.style.width = '42.5%'; }
-    const el2 = document.getElementById('earningLabel2'); if (el2) el2.textContent = t('From shrimp season carbon');
+    const el2 = document.getElementById('earningLabel2'); if (el2) el2.textContent = t('From aquaculture season carbon');
     const ev2 = document.getElementById('earningVal2');   if (ev2) ev2.textContent = '1.2 / 4M';
     const eb2 = document.getElementById('earningBar2');   if (eb2) { eb2.className = 'pf g'; eb2.style.width = '30%'; }
     const es = document.getElementById('earningsSummary');
     if (es) es.innerHTML = t('You\'ve earned') + ' <strong style="color:var(--ok)">11.1 ' + t('million VND') + '</strong> ' + t('so far - about') + ' <strong style="color:var(--tp)">44%</strong> ' + t('of your goal.');
 
-    // Field card → Pond card
-    const fct = document.getElementById('fieldCardTitle'); if (fct) fct.textContent = t('My pond - Pond B (shrimp)');
+    // Field card -> pond card
+    const fct = document.getElementById('fieldCardTitle'); if (fct) fct.textContent = t('My pond - Pond B (aquaculture)');
     const fb  = document.getElementById('fieldBadge');     if (fb)  { fb.className = 'badge ba'; fb.textContent = t('Water quality good'); }
     const fhv = document.getElementById('fieldHealthVal'); if (fhv) fhv.textContent = t('Good');
     const fhl = document.getElementById('fieldHealthLbl'); if (fhl) fhl.textContent = t('pond');
@@ -3476,8 +4062,49 @@ function setSeason(s) {
       <div><div class="pl" style="margin-bottom:3px"><span>pH</span><span>7.8 - ${t('balanced')}</span></div><div class="pt"><div class="pf e" style="width:64%"></div></div></div>`;
     const fcn = document.getElementById('fieldChangeNote');
     if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('Pond status')}</div>
-      <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('Shrimp growing well. Sludge biochar from last cycle improved pond DO by')} <strong>12%</strong>. ${t('Expected harvest in 30 days.')}</div>
+      <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('Aquaculture is developing well. Sludge biochar from the last cycle improved pond DO by')} <strong>12%</strong>. ${t('Expected harvest in 30 days.')}</div>
       <div style="margin-top:12px;padding:10px;background:rgba(38,166,154,.06);border:1px solid rgba(38,166,154,.14);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('will collect sludge after harvest')}: <strong style="color:var(--tp)">~Jun 15</strong></div>`;
+  } else {
+    rb.className = 's-btn'; sb.className = 's-btn'; if (tb) tb.className = 's-btn at';
+    cb.className = 'badge be'; cb.textContent = t('Melaleuca Season');
+    pt.textContent = t('Melaleuca management - biomass is ready');
+    pd.textContent = t('Selective thinning and leaf collection are planned this month.');
+
+    sb2.className = 'badge be'; sb2.textContent = t('Melaleuca Season');
+    const mct = document.getElementById('miniChartTitle');
+    if (mct) mct.textContent = t('Melaleuca biomass collected each month');
+
+    const cct = document.getElementById('calcCardTitle');
+    if (cct) cct.textContent = t('How much will my melaleuca biomass earn?');
+    const calcType = document.getElementById('calcType');
+    if (calcType) calcType.value = 'melaleuca';
+
+    const ssl = document.getElementById('statStrawLabel');
+    if (ssl) ssl.textContent = t('Melaleuca biomass ready for collection');
+
+    const el1 = document.getElementById('earningLabel1'); if (el1) el1.textContent = t('From melaleuca LCNF materials');
+    const ev1 = document.getElementById('earningVal1');   if (ev1) ev1.textContent = '4.8 / 10M';
+    const eb1 = document.getElementById('earningBar1');   if (eb1) { eb1.className = 'pf e'; eb1.style.width = '48%'; }
+    const el2 = document.getElementById('earningLabel2'); if (el2) el2.textContent = t('From melaleuca carbon');
+    const ev2 = document.getElementById('earningVal2');   if (ev2) ev2.textContent = '1.6 / 4M';
+    const eb2 = document.getElementById('earningBar2');   if (eb2) { eb2.className = 'pf g'; eb2.style.width = '40%'; }
+    const es = document.getElementById('earningsSummary');
+    if (es) es.innerHTML = t('You\'ve earned') + ' <strong style="color:var(--ok)">6.4 ' + t('million VND') + '</strong> ' + t('so far - about') + ' <strong style="color:var(--tp)">46%</strong> ' + t('of your goal.');
+
+    const fct = document.getElementById('fieldCardTitle'); if (fct) fct.textContent = t('My melaleuca forest - Plot C');
+    const fb  = document.getElementById('fieldBadge');     if (fb)  { fb.className = 'badge be'; fb.textContent = t('Salt-tolerant forest stable'); }
+    const fhv = document.getElementById('fieldHealthVal'); if (fhv) fhv.textContent = t('Stable');
+    const fhl = document.getElementById('fieldHealthLbl'); if (fhl) fhl.textContent = t('forest');
+    const fsz = document.getElementById('fieldSize');      if (fsz) fsz.textContent = '1.5 hectares';
+    const fm  = document.getElementById('fieldMetrics');
+    if (fm) fm.innerHTML = `
+      <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>${t('Canopy cover')}</span><span>86% - ${t('good')}</span></div><div class="pt"><div class="pf g" style="width:86%"></div></div></div>
+      <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>${t('Soil salinity')}</span><span>5.8‰ - ${t('tolerant')}</span></div><div class="pt"><div class="pf e" style="width:58%"></div></div></div>
+      <div><div class="pl" style="margin-bottom:3px"><span>${t('Stored biomass carbon')}</span><span>18.6 tCO2e - ${t('verified')}</span></div><div class="pt"><div class="pf a" style="width:74%"></div></div></div>`;
+    const fcn = document.getElementById('fieldChangeNote');
+    if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('What changed')}</div>
+      <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('Melaleuca stabilizes saline soil and provides renewable leaves, branches and thinning wood for LCNF materials.')}</div>
+      <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('staff will inspect the forest again')}: <strong style="color:var(--tp)">Jun 30</strong></div>`;
   }
   renderCycle();
   renderMiniChart();
@@ -3502,7 +4129,15 @@ function renderCycle() {
     { l:'Sludge', s:'Dec–Jan', st:'up' },
     { l:'Transition', s:'Jan', st:'up' }
   ];
-  const phases = season === 'rice' ? rice : shrimp;
+  const tram = [
+    { l:'Forest monitoring', s:'Jan-Feb', st:'done' },
+    { l:'Leaf collection', s:'Mar-Apr', st:'done' },
+    { l:'Selective thinning', s:'May-Jun', st:'curs' },
+    { l:'LCNF processing', s:'Jul-Aug', st:'up' },
+    { l:'Soil restoration', s:'Sep-Oct', st:'up' },
+    { l:'Carbon verification', s:'Nov-Dec', st:'up' }
+  ];
+  const phases = season === 'rice' ? rice : season === 'tram' ? tram : shrimp;
   document.getElementById('cycleTracker').innerHTML = phases.map((p, i) => {
     const icon = p.st === 'done' ? ICO.check :
                  p.st === 'cur' || p.st === 'curs' ? ICO.bullet : ICO.num(i+1);
@@ -3519,9 +4154,10 @@ function renderCycle() {
 function renderMiniChart() {
   const rice   = [190,240,370,500,620,430,290,160,130,210,330,400];
   const shrimp = [0,0,80,220,380,480,510,390,250,420,580,180]; // sludge collection pattern
-  const data = season === 'shrimp' ? shrimp : rice;
+  const tram = [110,140,260,420,560,680,520,380,290,410,470,360];
+  const data = season === 'rice' ? rice : season === 'tram' ? tram : shrimp;
   const max = Math.max(...data);
-  const color = season === 'shrimp' ? 'var(--aqua)' : 'var(--leaf)';
+  const color = season === 'rice' ? 'var(--leaf)' : season === 'tram' ? 'var(--earth)' : 'var(--aqua)';
   document.getElementById('miniChart').innerHTML = data.map(v => {
     const h = max > 0 ? (v / max * 38) + 4 : 4;
     return `<div class="mb-bar" style="height:${h}px;background:${color};opacity:${max > 0 ? v/max*.6+.4 : .2}"></div>`;
@@ -3536,6 +4172,7 @@ function calc() {
     rice_straw:    { y:.30, co2:2.5, vnd:1250, q:'good' },
     rice_husk:     { y:.35, co2:2.8, vnd:1400, q:'good' },
     shrimp_sludge: { y:.18, co2:1.5, vnd:900,  q:'okay' },
+    melaleuca:     { y:.33, co2:2.9, vnd:1450, q:'very good' },
     coconut:       { y:.32, co2:2.7, vnd:1500, q:'very good' }
   };
   const r = rates[type];
@@ -3568,6 +4205,7 @@ async function bookCollection() {
     'rice_straw':    'rice_straw',
     'rice_husk':     'rice_straw',
     'shrimp_sludge': 'pond_sludge',
+    'melaleuca':    'tram',
     'coconut':       'mixed'
   };
   try {
@@ -3652,6 +4290,8 @@ function labelBiomass(type) {
     mixed: 'Mixed Biomass',
     rice_husk: 'Rice Husk',
     shrimp_sludge: 'Shrimp Pond Sludge',
+    tram: 'Melaleuca Residue',
+    melaleuca: 'Melaleuca Residue',
     coconut: 'Coconut Shell'
   })[type] || String(type || 'Biomass').replace(/_/g, ' ');
 }
@@ -3863,7 +4503,7 @@ async function renderTimeline() {
       { d:'Feb 2026', t:'Biochar Application - Paddy Field A', x:'180 kg applied, +0.42 tCO₂e', dot:'g' },
       { d:'Dec 2025', t:'Biochar Application - Shrimp Pond B', x:'95 kg sludge-biochar, +0.18 tCO₂e', dot:'a' },
       { d:'Oct 2025', t:'Soil Test - Annual Review', x:'Organic carbon up 0.4%, score improved to 87', dot:'e' },
-      { d:'Jun 2025', t:'Carbon Credit Issuance', x:'Batch #GL-003 - 1.2 tCO₂e verified & registered on AICE', dot:'g' },
+      { d:'Jun 2025', t:'Carbon Credit Issuance', x:'Batch #GL-003 - 1.2 tCO₂e verified and ready for marketplace settlement', dot:'g' },
       { d:'Jan 2025', t:'GreenLoop Enrollment', x:'Passport created. Initial soil baseline recorded.', dot:'e' }
     ];
     document.getElementById('passportTimeline').innerHTML = events.map(e => `
@@ -3922,10 +4562,10 @@ async function loadCarbonDetail(id) {
 
 /* Thông báo nổi */
 function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('on');
-  setTimeout(() => t.classList.remove('on'), 3000);
+  const toastEl = document.getElementById('toast');
+  toastEl.textContent = t(msg);
+  toastEl.classList.add('on');
+  setTimeout(() => toastEl.classList.remove('on'), 3000);
 }
 
 /* Khởi tạo */
