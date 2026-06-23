@@ -183,6 +183,29 @@ function initSchema() {
       practices TEXT NOT NULL DEFAULT '[]', updated_at TEXT NOT NULL,
       FOREIGN KEY (user_id) REFERENCES users(id)
     );
+    CREATE TABLE IF NOT EXISTS environmental_readings (
+      id TEXT PRIMARY KEY, user_id TEXT NOT NULL, station TEXT NOT NULL, province TEXT NOT NULL,
+      metric TEXT NOT NULL, value REAL NOT NULL, unit TEXT NOT NULL, sampled_at TEXT NOT NULL,
+      source TEXT NOT NULL DEFAULT 'manual', alert INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+    CREATE TABLE IF NOT EXISTS soil_samples (
+      id TEXT PRIMARY KEY, user_id TEXT NOT NULL, ph REAL, organic_matter_pct REAL, moisture_pct REAL,
+      soil_carbon_pct REAL, lab_name TEXT, evidence_hash TEXT NOT NULL, sampled_at TEXT NOT NULL,
+      created_at TEXT NOT NULL, FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+    CREATE TABLE IF NOT EXISTS refinery_runs (
+      id TEXT PRIMARY KEY, batch_id TEXT NOT NULL, process TEXT NOT NULL, input_kg REAL NOT NULL,
+      output_kg REAL, output_type TEXT, quality_grade TEXT, status TEXT NOT NULL DEFAULT 'planned',
+      notes TEXT, started_at TEXT NOT NULL, completed_at TEXT, created_at TEXT NOT NULL,
+      FOREIGN KEY (batch_id) REFERENCES biomass_batches(id)
+    );
+    CREATE TABLE IF NOT EXISTS finance_applications (
+      id TEXT PRIMARY KEY, user_id TEXT NOT NULL, product_type TEXT NOT NULL, amount_vnd REAL NOT NULL,
+      purpose TEXT NOT NULL, readiness_score INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'submitted',
+      evidence_hash TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
   `);
 
   // Seed demo data if empty

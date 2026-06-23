@@ -1403,7 +1403,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <span>My Carbon Record</span>
       </div>
       <div class="sb-sec">Operations</div>
-      <div class="sb-item" data-roles="htx,buyer,partner,admin" onclick="nav('operations')">
+      <div class="sb-item" data-roles="farmer,htx,buyer,partner,admin" onclick="nav('operations')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17h7M17.5 13.5v7"/></svg></span>
         <span>Operations</span>
       </div>
@@ -1709,10 +1709,13 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           <div class="card"><div class="ch"><div class="ct">Aquatic by-products</div></div><div class="cb" id="ecoSpeciesDetail"><div class="gl-empty">Select an aquatic species to view residues.</div></div></div>
         </div>
         <div class="g2 mb18">
-          <div class="card"><div class="ch"><div class="ct">Environmental monitoring</div><button class="gl-mini-btn" type="button" onclick="nav('salinity')">Open water check</button></div><div class="cb"><div class="ops-list"><div class="ops-row"><div><div class="ops-name">Water: salinity, pH and DO</div><div class="ops-meta">Supports species selection, seasonal risk control and low-chemical aquaculture.</div></div><span class="ops-status">monitored</span></div><div class="ops-row"><div><div class="ops-name">Soil: organic matter and moisture</div><div class="ops-meta">Tracks biochar benefit, soil recovery and carbon evidence.</div></div><span class="ops-status">MRV</span></div></div></div></div>
-          <div class="card"><div class="ch"><div class="ct">Green finance readiness</div><button class="gl-mini-btn" type="button" onclick="nav('passport')">Open carbon passport</button></div><div class="cb" id="ecoFinance"><div class="gl-empty">Loading carbon and finance readiness...</div></div></div>
+          <div class="card"><div class="ch"><div class="ct">Environmental monitoring</div><button class="gl-mini-btn" type="button" onclick="nav('salinity')">Open water check</button></div><div class="cb"><div class="fg"><label class="fl" for="envMetric">Measurement</label><select class="fs" id="envMetric"><option value="ph">Water pH</option><option value="dissolved_oxygen">Dissolved oxygen (DO)</option><option value="temperature">Water temperature</option><option value="organic_matter">Soil organic matter</option><option value="moisture">Soil moisture</option></select></div><div class="g2"><div class="fg"><label class="fl" for="envValue">Value</label><input class="ci" id="envValue" type="number" step="0.1" min="0"></div><div class="fg"><label class="fl" for="envStation">Station / pond</label><input class="ci" id="envStation" maxlength="100" placeholder="Pond W-01"></div></div><button class="btn btn-p" type="button" onclick="saveEnvironmentalReading()">Record measurement</button><div class="ops-list" id="ecoEnvironment" style="margin-top:14px"></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">MRV soil baseline</div></div><div class="cb"><div class="g2"><div class="fg"><label class="fl" for="soilPh">Soil pH</label><input class="ci" id="soilPh" type="number" step="0.1" min="0" max="14"></div><div class="fg"><label class="fl" for="soilOrganic">Organic matter (%)</label><input class="ci" id="soilOrganic" type="number" step="0.1" min="0" max="100"></div><div class="fg"><label class="fl" for="soilMoisture">Moisture (%)</label><input class="ci" id="soilMoisture" type="number" step="0.1" min="0" max="100"></div><div class="fg"><label class="fl" for="soilCarbon">Soil carbon (%)</label><input class="ci" id="soilCarbon" type="number" step="0.1" min="0" max="100"></div></div><button class="btn btn-o" type="button" onclick="saveSoilSample()">Save MRV soil sample</button><div class="ops-list" id="ecoSoil" style="margin-top:14px"></div></div></div>
         </div>
-        <div class="card"><div class="ch"><div class="ct">Bio-refinery pathways</div></div><div class="cb"><div class="ops-list" id="ecoRefinery"></div></div></div>
+        <div class="g2 mb18">
+          <div class="card"><div class="ch"><div class="ct">Green finance readiness</div><button class="gl-mini-btn" type="button" onclick="nav('passport')">Open carbon passport</button></div><div class="cb" id="ecoFinance"><div class="gl-empty">Loading carbon and finance readiness...</div></div><div class="cb" style="padding-top:0"><div class="fg"><label class="fl" for="financeType">Product</label><select class="fs" id="financeType"><option value="credit">Green credit</option><option value="insurance">Climate insurance</option></select></div><div class="g2"><div class="fg"><label class="fl" for="financeAmount">Requested amount (VND)</label><input class="ci" id="financeAmount" type="number" min="1" placeholder="50000000"></div><div class="fg"><label class="fl" for="financePurpose">Purpose</label><input class="ci" id="financePurpose" maxlength="500" placeholder="Improve pond water system"></div></div><button class="btn btn-p" type="button" onclick="submitFinanceApplication()">Submit for review</button></div></div>
+          <div class="card"><div class="ch"><div class="ct">Bio-refinery pathways</div></div><div class="cb"><div class="ops-list" id="ecoRefinery"></div><div class="ops-list" id="ecoRefineryRuns" style="margin-top:14px"></div></div></div>
+        </div>
       </div>
 
       <!-- Trang thu gom -->
@@ -3561,6 +3564,81 @@ const ATTRIBUTE_TEXT = {
   , "Buyer": "Bên mua"
   , "Partner": "Đối tác"
   , "Admin": "Quản trị viên"
+  , "reward points": "điểm thưởng"
+  , "Pickup Confirmed": "Đã xác nhận thu gom"
+  , "Your tram pickup (500 kg) scheduled for 24/6/2026.": "Lịch thu gom tràm của bạn (500 kg) được lên lịch ngày 24/6/2026."
+  , "Salinity Alert - Sóc Trăng": "Cảnh báo độ mặn - Sóc Trăng"
+  , "Station Sóc Trăng reads 5.8 g/L - above 5 g/L threshold. Switch to rice season.": "Trạm Sóc Trăng đo được 5,8 g/L - vượt ngưỡng 5 g/L. Hãy chuyển sang vụ lúa."
+  , "Carbon Credit Verified": "Đã xác minh tín chỉ carbon"
+  , "Your 1.31 SCU from May harvest has been verified under VM0044.": "1,31 SCU từ vụ thu hoạch tháng 5 của bạn đã được xác minh theo VM0044."
+  , "SIPOC Operations Control": "Điều hành SIPOC"
+  , "Live data": "Dữ liệu trực tiếp"
+  , "Biomass batches": "Lô sinh khối"
+  , "Open workflow tasks": "Công việc đang mở"
+  , "Open tasks": "Công việc đang mở"
+  , "Live collection routes": "Tuyến thu gom đang hoạt động"
+  , "Collection routes": "Tuyến thu gom"
+  , "Pending MRV checks": "Kiểm tra MRV đang chờ"
+  , "MRV checks": "Kiểm tra MRV"
+  , "Data ingestion & batch custody": "Nhập dữ liệu và chuỗi giám hộ lô"
+  , "Feedstock": "Nguyên liệu đầu vào"
+  , "Rice husk": "Trấu"
+  , "Create traceable batch": "Tạo lô có thể truy xuất"
+  , "Batch ID, custody hash and HTX validation task are created together.": "Mã lô, mã giám hộ và công việc xác thực của HTX được tạo cùng lúc."
+  , "Verification & compliance": "Xác minh và tuân thủ"
+  , "Workflow pipeline": "Quy trình công việc"
+  , "Logistics control tower": "Trung tâm điều phối logistics"
+  , "Product catalog & traceability": "Danh mục sản phẩm và truy xuất"
+  , "Partner portal": "Cổng đối tác"
+  , "Carbon monetization": "Thương mại hóa carbon"
+  , "Biomass chain of custody": "Chuỗi giám hộ sinh khối"
+  , "Weighbridge mass evidence": "Chứng từ cân khối lượng"
+  , "EBC laboratory analysis": "Phân tích phòng thí nghiệm EBC"
+  , "Third-party verification": "Xác minh bên thứ ba"
+  , "Carbon registry issuance": "Phát hành trên sổ đăng ký carbon"
+  , "required": "bắt buộc"
+  , "open": "đang mở"
+  , "in progress": "đang xử lý"
+  , "due": "hạn"
+  , "Confirm route weighbridge record": "Xác nhận biên bản cân của tuyến"
+  , "Validate biomass intake": "Xác thực sinh khối đầu vào"
+  , "Validate imported biomass intake": "Xác thực sinh khối nhập vào"
+  , "Upload EBC laboratory analysis": "Tải lên phân tích phòng thí nghiệm EBC"
+  , "dispatching": "đang điều phối"
+  , "available": "sẵn có"
+  , "active": "đang hoạt động"
+  , "biochar processor": "đơn vị xử lý biochar"
+  , "bio refinery": "nhà máy tinh chế sinh học"
+  , "material buyer": "đơn vị mua vật liệu"
+  , "verified credit offer": "đề nghị tín chỉ đã xác minh"
+  , "EBC Biochar - rice straw": "Biochar EBC - rơm rạ"
+  , "Full name": "Họ và tên"
+  , "Province": "Tỉnh/thành"
+  , "Farm size (ha)": "Diện tích canh tác (ha)"
+  , "Primary biomass type": "Loại sinh khối chính"
+  , "Shrimp Pond Sludge": "Bùn ao tôm"
+  , "Mixed (Lua-Tom)": "Hỗn hợp (lúa-tôm)"
+  , "Save Changes": "Lưu thay đổi"
+  , "Preferences": "Tùy chọn"
+  , "Light or dark interface": "Giao diện sáng hoặc tối"
+  , "Display language": "Ngôn ngữ hiển thị"
+  , "Compact view": "Chế độ gọn"
+  , "Reduce card padding": "Giảm khoảng đệm thẻ"
+  , "Auto-switch season": "Tự động chuyển mùa vụ"
+  , "Switch based on salinity data": "Chuyển theo dữ liệu độ mặn"
+  , "Notification Settings": "Cài đặt thông báo"
+  , "Salinity alerts": "Cảnh báo độ mặn"
+  , "Carbon credit issuance": "Phát hành tín chỉ carbon"
+  , "Collection reminders": "Nhắc lịch thu gom"
+  , "Weekly soil report": "Báo cáo đất hằng tuần"
+  , "Shrimp mortality warnings": "Cảnh báo tôm chết"
+  , "Farm & Field Management": "Quản lý trang trại và khu canh tác"
+  , "Add field": "Thêm khu canh tác"
+  , "Field A - Paddy": "Ruộng A - Lúa"
+  , "Pond B - Aquaculture": "Ao B - Thủy sản"
+  , "Field C - Lua-Tom": "Ruộng C - Lúa tôm"
+  , "Add new field or pond": "Thêm ruộng hoặc ao mới"
+  , "Edit": "Chỉnh sửa"
 };
 
 const COPY_INDEX = {};
@@ -3577,8 +3655,14 @@ function normalizeCopy(text) {
 
 function t(text) {
   const item = COPY_INDEX[normalizeCopy(text)];
-  if (!item) return text;
-  return lang === 'vi' ? item.vi : item.en;
+  if (item) return lang === 'vi' ? item.vi : item.en;
+  if (lang !== 'vi') return text;
+  // API responses often combine labels (for example "partner · due 24/06") into one text node.
+  // Translate known fragments as a fallback so asynchronous content follows the selected language too.
+  const fragments = [...new Map(Object.values(COPY_INDEX).map(entry => [entry.en, entry])).values()];
+  return fragments
+    .sort((a, b) => b.en.length - a.en.length)
+    .reduce((translated, entry) => translated.split(entry.en).join(entry.vi), String(text));
 }
 
 function keepEdgeSpace(original, nextText) {
@@ -3623,10 +3707,13 @@ function applyLanguage() {
     el.setAttribute('title', t(original));
   });
 
-  document.querySelectorAll('select:not(#calcType) option').forEach(opt => {
-    const original = opt.getAttribute('data-en') || opt.textContent.trim();
-    if (!opt.getAttribute('data-en')) opt.setAttribute('data-en', original);
-    opt.textContent = t(original);
+  document.querySelectorAll('select option').forEach(opt => {
+    const en = opt.getAttribute('data-en') || opt.textContent.trim();
+    const item = COPY_INDEX[normalizeCopy(en)];
+    const vi = opt.getAttribute('data-vi') || item?.vi || en;
+    if (!opt.getAttribute('data-en')) opt.setAttribute('data-en', en);
+    if (!opt.getAttribute('data-vi')) opt.setAttribute('data-vi', vi);
+    opt.textContent = lang === 'vi' ? vi : en;
   });
 
   updateModeButtons();
@@ -3858,13 +3945,27 @@ function nav(page) {
 }
 
 let ecosystemCatalog = null;
+const ECOSYSTEM_EN = {
+  saline_stable:'Zone I - Stable salinity', brackish_transition:'Zone II - Brackish transition', fresh_brackish:'Zone III - Fresh-brackish flexible', fresh_stable:'Zone IV - Stable freshwater',
+  shrimp:'Shrimp', crab:'Mud crab', clam:'Clam', oyster:'Oyster', mudskipper:'Mudskipper', mullet:'Mullet', giant_freshwater_prawn:'Giant freshwater prawn', tilapia:'Tilapia', pangasius:'Pangasius', eel:'Eel', snakehead:'Snakehead'
+};
 function ecosystemOptions(items, selected, label) {
-  return items.map(item => `<option value="${escapeHtml(item.id)}" ${item.id === selected ? 'selected' : ''}>${escapeHtml(label(item))}</option>`).join('');
+  return items.map(item => {
+    const vi = label(item);
+    const en = label({ ...item, name: ECOSYSTEM_EN[item.id] || item.name });
+    const text = lang === 'vi' ? vi : en;
+    return `<option value="${escapeHtml(item.id)}" data-en="${escapeHtml(en)}" data-vi="${escapeHtml(vi)}" ${item.id === selected ? 'selected' : ''}>${escapeHtml(text)}</option>`;
+  }).join('');
 }
 async function renderEcosystem() {
   const recommendation = document.getElementById('ecoRecommendation');
   try {
-    const [ecosystem, carbon] = await Promise.all([apiFetch('/api/platform/ecosystem/profile'), apiFetch('/api/carbon/summary')]);
+    const [ecosystem, carbon, environment, soil, finance, refineryRuns] = await Promise.all([
+      apiFetch('/api/platform/ecosystem/profile'), apiFetch('/api/carbon/summary'),
+      apiFetch('/api/platform/environment/readings?limit=5'), apiFetch('/api/platform/mrv/soil-samples'),
+      apiFetch('/api/platform/finance/applications'),
+      currentUser?.role === 'buyer' ? Promise.resolve({data:[]}) : apiFetch('/api/platform/refinery/runs').catch(() => ({data:[]}))
+    ]);
     const { profile, catalog } = ecosystem;
     ecosystemCatalog = catalog;
     const current = profile || { zone_code:'brackish_transition', aquatic_system:'crab', melaleuca_ha:0, practices:[] };
@@ -3879,8 +3980,16 @@ async function renderEcosystem() {
     if (detail) detail.innerHTML = `<div class="ops-name">${escapeHtml(selectedSpecies.name)}</div><div class="ops-meta" style="margin-top:7px">Phụ phẩm: ${escapeHtml(selectedSpecies.residue)}</div><div class="ops-meta" style="margin-top:7px">${escapeHtml(selectedSpecies.note)}</div>`;
     const refinery = document.getElementById('ecoRefinery');
     if (refinery) refinery.innerHTML = catalog.refinery.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.process)}</div><div class="ops-meta">Đầu vào: ${escapeHtml(x.input)}<br>Đầu ra: ${escapeHtml(x.output)}<br>Giá trị: ${escapeHtml(x.value)}</div></div><span class="ops-status">circular</span></div>`).join('');
-    const finance = document.getElementById('ecoFinance');
-    if (finance) finance.innerHTML = `<div class="ops-row"><div><div class="ops-name">Carbon evidence</div><div class="ops-meta">${formatTonnes(carbon.total_co2e_tonnes)} CO2e recorded across ${Number(carbon.record_count || 0)} verified or pending records.</div></div><span class="ops-status">MRV</span></div><div class="ops-row"><div><div class="ops-name">Green credit and insurance</div><div class="ops-meta">Carbon Passport combines environmental evidence, traceable biomass and seasonal monitoring for lender or insurer review.</div></div><span class="ops-status">ready</span></div>`;
+    const environmentTarget = document.getElementById('ecoEnvironment');
+    if (environmentTarget) environmentTarget.innerHTML = environment.data.length ? environment.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.metric.replace('_',' '))}: ${Number(x.value).toFixed(1)} ${escapeHtml(x.unit)}</div><div class="ops-meta">${escapeHtml(x.station)} · ${new Date(x.sampled_at).toLocaleDateString()}</div></div><span class="ops-status ${x.alert ? 'warn' : ''}">${x.alert ? 'alert' : 'normal'}</span></div>`).join('') : `<div class="gl-empty">No environmental measurements yet.</div>`;
+    const soilTarget = document.getElementById('ecoSoil');
+    if (soilTarget) soilTarget.innerHTML = soil.data.length ? soil.data.slice(0,3).map(x => `<div class="ops-row"><div><div class="ops-name">pH ${x.ph ?? '—'} · organic ${x.organic_matter_pct ?? '—'}%</div><div class="ops-meta">Moisture ${x.moisture_pct ?? '—'}% · soil carbon ${x.soil_carbon_pct ?? '—'}%</div></div><span class="ops-status">MRV</span></div>`).join('') : `<div class="gl-empty">Record a baseline soil sample for MRV.</div>`;
+    const financeTarget = document.getElementById('ecoFinance');
+    const latestFinance = finance.data[0];
+    if (financeTarget) financeTarget.innerHTML = `<div class="ops-row"><div><div class="ops-name">Carbon evidence</div><div class="ops-meta">${formatTonnes(carbon.total_co2e_tonnes)} CO2e recorded across ${Number(carbon.record_count || 0)} records.</div></div><span class="ops-status">MRV</span></div>${latestFinance ? `<div class="ops-row"><div><div class="ops-name">${escapeHtml(latestFinance.product_type)} application</div><div class="ops-meta">Readiness score ${Number(latestFinance.readiness_score)}/100 · ${escapeHtml(latestFinance.status)}</div></div><span class="ops-status">submitted</span></div>` : `<div class="ops-row"><div><div class="ops-name">Green credit and insurance</div><div class="ops-meta">Submit a data-backed application for partner review.</div></div><span class="ops-status">ready</span></div>`}`;
+    const runsTarget = document.getElementById('ecoRefineryRuns');
+    if (runsTarget) runsTarget.innerHTML = refineryRuns.data.length ? refineryRuns.data.slice(0,3).map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.process)} · ${escapeHtml(x.batch_code)}</div><div class="ops-meta">${formatKg(x.input_kg)} input${x.output_kg !== null ? ` → ${formatKg(x.output_kg)} output` : ''}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') : `<div class="gl-empty">No refinery runs have been recorded.</div>`;
+    applyLanguage();
   } catch (err) { if (recommendation) recommendation.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Unable to load ecosystem profile'))}</div>`; }
 }
 async function saveEcosystemProfile() {
@@ -3891,6 +4000,19 @@ async function saveEcosystemProfile() {
     await apiFetch('/api/platform/ecosystem/profile', { method:'PUT', body:JSON.stringify({ zone_code, aquatic_system, melaleuca_ha, practices:['low_chemical','water_monitoring','biomass_custody'] }) });
     toast('Ecosystem profile saved'); renderEcosystem();
   } catch (err) { toast(friendlyError(err, 'Unable to save ecosystem profile')); }
+}
+async function saveEnvironmentalReading() {
+  const metric=document.getElementById('envMetric')?.value, value=Number(document.getElementById('envValue')?.value), station=document.getElementById('envStation')?.value;
+  try { const result=await apiFetch('/api/platform/environment/readings',{method:'POST',body:JSON.stringify({metric,value,station})}); toast(result.alert?'Measurement saved — threshold alert triggered':'Environmental measurement saved'); renderEcosystem(); } catch(err) { toast(friendlyError(err,'Unable to save measurement')); }
+}
+async function saveSoilSample() {
+  const optionalNumber=id=>{const value=document.getElementById(id)?.value;return value===''?undefined:Number(value);};
+  const body={ph:optionalNumber('soilPh'),organic_matter_pct:optionalNumber('soilOrganic'),moisture_pct:optionalNumber('soilMoisture'),soil_carbon_pct:optionalNumber('soilCarbon')};
+  try { await apiFetch('/api/platform/mrv/soil-samples',{method:'POST',body:JSON.stringify(body)}); toast('MRV soil sample saved with evidence hash'); renderEcosystem(); } catch(err) { toast(friendlyError(err,'Unable to save soil sample')); }
+}
+async function submitFinanceApplication() {
+  const product_type=document.getElementById('financeType')?.value, amount_vnd=Number(document.getElementById('financeAmount')?.value), purpose=document.getElementById('financePurpose')?.value;
+  try { const result=await apiFetch('/api/platform/finance/applications',{method:'POST',body:JSON.stringify({product_type,amount_vnd,purpose})}); toast(`Application submitted — readiness score ${result.readiness_score}/100`); renderEcosystem(); } catch(err) { toast(friendlyError(err,'Unable to submit application')); }
 }
 
 function opRows(targetId, items, render, empty) {

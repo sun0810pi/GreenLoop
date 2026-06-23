@@ -92,6 +92,53 @@ router.post('/iot/readings', requireRole('htx','admin','partner'), async (req,re
   } catch(err){next(err);}
 });
 
+const ENVIRONMENT_METRICS = {
+  salinity: { unit: 'g/L', min: 0, max: 80, alert: v => v >= 5 },
+  ph: { unit: 'pH', min: 0, max: 14, alert: v => v < 6 || v > 8.5 },
+  dissolved_oxygen: { unit: 'mg/L', min: 0, max: 30, alert: v => v < 4 },
+  temperature: { unit: '°C', min: -5, max: 60, alert: v => v < 20 || v > 34 },
+  organic_matter: { unit: '%', min: 0, max: 100, alert: v => v < 2 },
+  moisture: { unit: '%', min: 0, max: 100, alert: v => v < 35 }
+};
+router.get('/environment/readings', auth, async (req,res,next)=>{try{
+  const db=await getDb(), metric=clean(req.query.metric,40), limit=Math.min(Math.max(Number(req.query.limit)||30,1),100);
+  const mine=req.user.role==='farmer'; const sql=`SELECT * FROM environmental_readings ${mine?'WHERE user_id=?':metric?'WHERE metric=?':''} ORDER BY sampled_at DESC LIMIT ${limit}`;
+  res.json({data:rows(db,sql,mine?[req.user.id]:metric?[metric]:[])});
+}catch(err){next(err);}});
+router.post('/environment/readings', auth, async (req,res,next)=>{try{
+  const metric=clean(req.body.metric,40), cfg=ENVIRONMENT_METRICS[metric], value=Number(req.body.value);
+  if(!cfg || !Number.isFinite(value) || value<cfg.min || value>cfg.max) return res.status(400).json({error:'Valid metric and value are required'});
+  const db=await getDb(),now=new Date().toISOString(),id=uuidv4(),station=clean(req.body.station,100)||'Farm measurement',province=clean(req.body.province,50)||req.user.province||'other';
+  db.run('INSERT INTO environmental_readings VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',[id,req.user.id,station,province,metric,value,cfg.unit,clean(req.body.sampled_at,40)||now,clean(req.body.source,30)||'manual',cfg.alert(value)?1:0,now]);
+  audit(db,req.user.id,'environmental_reading',id,'recorded',{metric,value,unit:cfg.unit});saveDb();res.status(201).json({id,metric,value,unit:cfg.unit,alert:cfg.alert(value)});
+}catch(err){next(err);}});
+
+router.get('/mrv/soil-samples', auth, async (req,res,next)=>{try{const db=await getDb();const mine=req.user.role==='farmer';res.json({data:rows(db,`SELECT * FROM soil_samples ${mine?'WHERE user_id=?':''} ORDER BY sampled_at DESC LIMIT 50`,mine?[req.user.id]:[])});}catch(err){next(err);}});
+router.post('/mrv/soil-samples', auth, async (req,res,next)=>{try{
+  const values=['ph','organic_matter_pct','moisture_pct','soil_carbon_pct'].reduce((a,k)=>{const v=Number(req.body[k]);a[k]=Number.isFinite(v)?v:null;return a;},{});
+  if(Object.values(values).every(v=>v===null)||(values.ph!==null&&(values.ph<0||values.ph>14))||['organic_matter_pct','moisture_pct','soil_carbon_pct'].some(k=>values[k]!==null&&(values[k]<0||values[k]>100))) return res.status(400).json({error:'Provide at least one valid soil measurement'});
+  const db=await getDb(),now=new Date().toISOString(),id=uuidv4(),evidence='sha256:'+crypto.createHash('sha256').update(`${req.user.id}|${JSON.stringify(values)}|${now}`).digest('hex');
+  db.run('INSERT INTO soil_samples VALUES (?,?,?,?,?,?,?,?,?,?,?)',[id,req.user.id,values.ph,values.organic_matter_pct,values.moisture_pct,values.soil_carbon_pct,clean(req.body.lab_name,100)||'Field sample',evidence,clean(req.body.sampled_at,40)||now,now]);
+  audit(db,req.user.id,'soil_sample',id,'recorded',{...values,evidence});saveDb();res.status(201).json({id,evidence_hash:evidence});
+}catch(err){next(err);}});
+
+router.get('/refinery/runs', auth, requireOperationalAccess, async (req,res,next)=>{try{const db=await getDb();res.json({data:rows(db,'SELECT r.*,b.batch_code FROM refinery_runs r JOIN biomass_batches b ON b.id=r.batch_id ORDER BY r.started_at DESC')});}catch(err){next(err);}});
+router.post('/refinery/runs', requireRole(...MANAGERS), async (req,res,next)=>{try{
+  const batchId=clean(req.body.batch_id,80),process=clean(req.body.process,60),input=Number(req.body.input_kg),output=req.body.output_kg===undefined?null:Number(req.body.output_kg),status=clean(req.body.status,20)||'planned';
+  if(!batchId||!process||!Number.isFinite(input)||input<=0||(output!==null&&(!Number.isFinite(output)||output<0))||!['planned','running','completed','failed'].includes(status)) return res.status(400).json({error:'Valid refinery run fields are required'});
+  const db=await getDb(),batch=one(db,'SELECT id FROM biomass_batches WHERE id=?',[batchId]);if(!batch)return res.status(404).json({error:'Batch not found'});const now=new Date().toISOString(),id=uuidv4();
+  db.run('INSERT INTO refinery_runs VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',[id,batchId,process,input,output,clean(req.body.output_type,60)||null,clean(req.body.quality_grade,30)||null,status,clean(req.body.notes,600)||null,now,status==='completed'?now:null,now]);
+  db.run('UPDATE biomass_batches SET status=?,updated_at=? WHERE id=?',[status==='completed'?'classified':'processing',now,batchId]);audit(db,req.user.id,'refinery_run',id,'created',{batchId,process,input,output});saveDb();res.status(201).json({id,status});
+}catch(err){next(err);}});
+
+router.get('/finance/applications', auth, async (req,res,next)=>{try{const db=await getDb();const mine=req.user.role==='farmer';res.json({data:rows(db,`SELECT * FROM finance_applications ${mine?'WHERE user_id=?':''} ORDER BY created_at DESC`,mine?[req.user.id]:[])});}catch(err){next(err);}});
+router.post('/finance/applications', auth, async (req,res,next)=>{try{
+  const product=clean(req.body.product_type,30),amount=Number(req.body.amount_vnd),purpose=clean(req.body.purpose,500);if(!['credit','insurance'].includes(product)||!Number.isFinite(amount)||amount<=0||!purpose)return res.status(400).json({error:'Valid product_type, amount_vnd and purpose are required'});
+  const db=await getDb(),carbon=one(db,'SELECT COALESCE(SUM(co2e_tonnes),0) AS value FROM carbon_records WHERE user_id=?',[req.user.id]),samples=one(db,'SELECT COUNT(*) AS value FROM soil_samples WHERE user_id=?',[req.user.id]),readings=one(db,'SELECT COUNT(*) AS value FROM environmental_readings WHERE user_id=?',[req.user.id]);
+  const score=Math.min(100,Math.round(35+Number(carbon.value)*10+Number(samples.value)*12+Math.min(Number(readings.value),10)*3));const now=new Date().toISOString(),id=uuidv4(),evidence='sha256:'+crypto.createHash('sha256').update(`${req.user.id}|${product}|${amount}|${score}|${now}`).digest('hex');
+  db.run('INSERT INTO finance_applications VALUES (?,?,?,?,?,?,?,?,?,?)',[id,req.user.id,product,amount,purpose,score,'submitted',evidence,now,now]);audit(db,req.user.id,'finance_application',id,'submitted',{product,amount,score});saveDb();res.status(201).json({id,status:'submitted',readiness_score:score,evidence_hash:evidence});
+}catch(err){next(err);}});
+
 router.get('/tasks', auth, requireOperationalAccess, async (req, res, next) => { try { const db=await getDb(); const isFarmer=req.user.role==='farmer', isPartner=req.user.role==='partner'; const where=isFarmer?'WHERE b.owner_id=?':isPartner?'WHERE t.assignee_role=?':''; const params=isFarmer?[req.user.id]:isPartner?['partner']:[]; const data=rows(db, `SELECT t.*, b.batch_code FROM workflow_tasks t LEFT JOIN biomass_batches b ON b.id=t.batch_id ${where} ORDER BY CASE t.status WHEN 'blocked' THEN 0 WHEN 'in_progress' THEN 1 ELSE 2 END, t.due_at`, params); res.json({data}); } catch(err){next(err);} });
 router.post('/tasks', requireRole(...MANAGERS), async (req,res,next)=>{ try { const title=clean(req.body.title); const role=clean(req.body.assignee_role,40); if(!title || !['farmer','htx','partner','admin','logistics'].includes(role)) return res.status(400).json({error:'Valid title and assignee_role required'}); const db=await getDb(), now=new Date().toISOString(), id=uuidv4(); db.run('INSERT INTO workflow_tasks VALUES (?,?,?,?,?,?,?,?,?)',[id,clean(req.body.batch_id,80)||null,title,role,'open',clean(req.body.due_at,40)||null,clean(req.body.notes,600)||null,now,null]); audit(db,req.user.id,'workflow_task',id,'created',{title,role}); saveDb(); res.status(201).json({id,status:'open'}); }catch(err){next(err);} });
 router.patch('/tasks/:id', requireRole(...MANAGERS), async (req,res,next)=>{ try { const status=clean(req.body.status,30); if(!TASK_STATES.includes(status)) return res.status(400).json({error:'Invalid task status'}); const db=await getDb(), task=one(db,'SELECT assignee_role FROM workflow_tasks WHERE id=?',[req.params.id]); if(!task)return res.status(404).json({error:'Task not found'}); if(req.user.role==='partner' && task.assignee_role!=='partner')return res.status(403).json({error:'Partners can only update their assigned tasks'}); const done=status==='done'?new Date().toISOString():null; db.run('UPDATE workflow_tasks SET status=?, completed_at=? WHERE id=?',[status,done,req.params.id]); audit(db,req.user.id,'workflow_task',req.params.id,'status_changed',{status}); saveDb(); res.json({status}); }catch(err){next(err);} });
