@@ -16,9 +16,18 @@ const platformRoutes = require('./src/routes/platform');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const corsOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
-app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:3000' }));
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || corsOrigins.length === 0 || corsOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  }
+}));
 app.use(express.json({ limit: '1mb' }));
 
 // Request logger

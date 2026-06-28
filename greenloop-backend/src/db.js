@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 let db;
-const DB_PATH = path.join(__dirname, '../greenloop.db.json');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, '../greenloop.db.json');
 
 async function getDb() {
   if (db) return db;
@@ -30,6 +30,7 @@ async function getDb() {
 function saveDb() {
   if (!db) return;
   const data = Array.from(db.export());
+  fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
   fs.writeFileSync(DB_PATH, JSON.stringify({ data }));
 }
 

@@ -1,0 +1,10 @@
+.git
+.codegraph
+.review-green-loopy
+greenloop-backend/node_modules
+greenloop-backend/greenloop.db.json
+greenloop-backend/server.*.log
+greenloop-backend/.env
+node_modules
+npm-debug.log
+.DS_Store

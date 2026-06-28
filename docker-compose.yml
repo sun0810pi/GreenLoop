@@ -1,0 +1,18 @@
+services:
+  greenloop:
+    build: .
+    container_name: greenloop
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_PATH: /data/greenloop.db.json
+      JWT_SECRET: ${JWT_SECRET:-change-this-before-production}
+      CORS_ORIGIN: ${CORS_ORIGIN:-}
+    volumes:
+      - greenloop-data:/data
+
+volumes:
+  greenloop-data:

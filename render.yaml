@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: greenloop
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: cd greenloop-backend && npm ci
+    startCommand: cd greenloop-backend && npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
