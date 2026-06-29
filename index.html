@@ -487,6 +487,26 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .mi svg{width:100%;height:100%}
 .mt{font-size:12.5px;font-weight:700;position:relative;z-index:1}
 .ms{font-size:10.5px;color:var(--tm);position:relative;z-index:1}
+.hub-map{height:235px;border-radius:var(--r-md);position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(12,58,47,.96),rgba(12,35,28,.98));border:1px solid rgba(38,166,154,.28);box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}
+.hub-map::before{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.8),rgba(0,0,0,.2));pointer-events:none}
+.hub-map svg{position:absolute;inset:0;width:100%;height:100%}
+.map-river{fill:none;stroke:rgba(128,203,196,.28);stroke-width:8;stroke-linecap:round}
+.hub-route{fill:none;stroke:var(--aqua);stroke-width:3;stroke-linecap:round;stroke-dasharray:8 8;filter:drop-shadow(0 0 5px rgba(38,166,154,.5));animation:routeFlow 9s linear infinite}
+.hub-route.warn{stroke:var(--warn);filter:drop-shadow(0 0 5px rgba(230,81,0,.45))}
+.hub-route.muted{stroke:rgba(163,217,106,.55);stroke-width:2;opacity:.75}
+.hub-dot{fill:var(--c);filter:url(#hubGlow)}
+.hub-pulse{fill:var(--c);opacity:.2;animation:hubPulse 2.2s ease-out infinite}
+.hub-label{fill:rgba(237,247,236,.82);font:700 11px var(--font-ui);paint-order:stroke;stroke:rgba(7,17,12,.72);stroke-width:3px}
+.hub-map-head{position:absolute;left:14px;right:14px;top:13px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.hub-map-title{font-size:13px;font-weight:800;color:#fff}
+.hub-map-sub{font-size:10.5px;color:rgba(237,247,236,.58);margin-top:3px}
+.hub-live{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;background:rgba(38,166,154,.12);border:1px solid rgba(38,166,154,.25);color:var(--al);font-size:10px;font-weight:800;white-space:nowrap}
+.hub-live span{width:6px;height:6px;border-radius:50%;background:var(--aqua);box-shadow:0 0 0 0 rgba(54,193,180,.55);animation:liveDot 1.4s ease-out infinite}
+.hub-callout{position:absolute;right:14px;bottom:13px;width:min(230px,calc(100% - 28px));padding:10px 11px;border-radius:10px;background:rgba(7,17,12,.72);border:1px solid rgba(230,81,0,.32);box-shadow:0 10px 30px rgba(0,0,0,.24)}
+.hub-callout b{display:block;color:var(--warn);font-size:12px;margin-bottom:2px}
+.hub-callout span{display:block;color:rgba(237,247,236,.7);font-size:10.5px;line-height:1.45}
+@keyframes routeFlow{to{stroke-dashoffset:-96}}
+@keyframes hubPulse{0%{transform:scale(.6);opacity:.35;transform-origin:center}100%{transform:scale(1.9);opacity:0;transform-origin:center}}
 
 /* Lưới cảm biến */
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
@@ -1848,16 +1868,61 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>Hub Network</div>
             </div>
             <div class="cb">
-              <div class="mph">
-                <div class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div class="mt">Mekong Delta Hub Map</div>
-                <div class="ms">4 hubs · Google Maps overlay</div>
+              <div class="hub-map" aria-label="Bản đồ demo mạng lưới thu gom ĐBSCL">
+                <svg viewBox="0 0 620 248" preserveAspectRatio="none" role="img" aria-label="Tuyến thu gom từ Kiên Giang, Sóc Trăng, Bạc Liêu về trung tâm Cà Mau">
+                  <defs>
+                    <linearGradient id="deltaWater" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="rgba(38,166,154,.24)"/>
+                      <stop offset="100%" stop-color="rgba(76,175,80,.08)"/>
+                    </linearGradient>
+                    <filter id="hubGlow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  </defs>
+                  <path d="M26,62 C130,18 235,45 318,22 C405,-2 520,22 590,72 L590,226 L34,226 C70,176 82,132 26,62Z" fill="url(#deltaWater)" opacity=".72"/>
+                  <path d="M96,40 C158,88 198,118 226,210" class="map-river"/>
+                  <path d="M265,30 C300,86 332,126 410,202" class="map-river"/>
+                  <path d="M500,68 C468,120 444,156 420,218" class="map-river"/>
+                  <path d="M142,96 C220,118 300,154 392,188" class="hub-route"/>
+                  <path d="M492,92 C458,126 424,158 392,188" class="hub-route warn"/>
+                  <path d="M296,66 C326,112 360,154 392,188" class="hub-route"/>
+                  <path d="M392,188 C350,206 304,218 248,214" class="hub-route muted"/>
+                  <g class="hub-marker" style="--x:392px;--y:188px;--c:var(--leaf)">
+                    <circle cx="392" cy="188" r="14" class="hub-pulse"/>
+                    <circle cx="392" cy="188" r="7" class="hub-dot"/>
+                  </g>
+                  <g class="hub-marker" style="--x:492px;--y:92px;--c:var(--warn)">
+                    <circle cx="492" cy="92" r="14" class="hub-pulse"/>
+                    <circle cx="492" cy="92" r="7" class="hub-dot"/>
+                  </g>
+                  <g class="hub-marker" style="--x:296px;--y:66px;--c:var(--leaf)">
+                    <circle cx="296" cy="66" r="14" class="hub-pulse"/>
+                    <circle cx="296" cy="66" r="7" class="hub-dot"/>
+                  </g>
+                  <g class="hub-marker" style="--x:142px;--y:96px;--c:var(--leaf)">
+                    <circle cx="142" cy="96" r="14" class="hub-pulse"/>
+                    <circle cx="142" cy="96" r="7" class="hub-dot"/>
+                  </g>
+                  <text x="404" y="181" class="hub-label">Cà Mau</text>
+                  <text x="504" y="86" class="hub-label">Sóc Trăng</text>
+                  <text x="308" y="60" class="hub-label">Bạc Liêu</text>
+                  <text x="154" y="90" class="hub-label">Kiên Giang</text>
+                </svg>
+                <div class="hub-map-head">
+                  <div>
+                    <div class="hub-map-title">Mạng lưới thu gom ĐBSCL</div>
+                    <div class="hub-map-sub">4 điểm tập kết · 3 tuyến đang hoạt động · 1 điểm quá tải</div>
+                  </div>
+                  <span class="hub-live"><span></span>Live logistics</span>
+                </div>
+                <div class="hub-callout">
+                  <b>Sóc Trăng 91%</b>
+                  <span>Cần điều xe sang Cà Mau trong 24h</span>
+                </div>
               </div>
               <div class="sg">
-                <div class="si"><span class="sdot on"></span><div><div class="sn">Ca Mau Central</div><div class="sv">Capacity: 78%</div></div></div>
-                <div class="si"><span class="sdot on"></span><div><div class="sn">Bac Lieu North</div><div class="sv">Capacity: 45%</div></div></div>
-                <div class="si"><span class="sdot wa"></span><div><div class="sn">Soc Trang Hub</div><div class="sv">Capacity: 91%</div></div></div>
-                <div class="si"><span class="sdot on"></span><div><div class="sn">Kien Giang</div><div class="sv">Capacity: 33%</div></div></div>
+                <div class="si"><span class="sdot on"></span><div><div class="sn">Trung tâm Cà Mau</div><div class="sv">Công suất 78% · nhận 1,2 tấn</div></div></div>
+                <div class="si"><span class="sdot on"></span><div><div class="sn">Bắc Bạc Liêu</div><div class="sv">Công suất 45% · còn 2,1 tấn</div></div></div>
+                <div class="si"><span class="sdot wa"></span><div><div class="sn">Điểm Sóc Trăng</div><div class="sv">Công suất 91% · cần điều phối</div></div></div>
+                <div class="si"><span class="sdot on"></span><div><div class="sn">Kiên Giang</div><div class="sv">Công suất 33% · sẵn sàng nhận</div></div></div>
               </div>
             </div>
           </div>
@@ -3516,6 +3581,14 @@ const STATIC_TEXT = {
   "Kien Giang Hub": "Điểm Kiên Giang",
   "Ca Mau Central": "Trung tâm Cà Mau",
   "Bac Lieu North": "Bắc Bạc Liêu",
+  "Mạng lưới thu gom ĐBSCL": "Mạng lưới thu gom ĐBSCL",
+  "4 điểm tập kết · 3 tuyến đang hoạt động · 1 điểm quá tải": "4 điểm tập kết · 3 tuyến đang hoạt động · 1 điểm quá tải",
+  "Live logistics": "Logistics trực tiếp",
+  "Cần điều xe sang Cà Mau trong 24h": "Cần điều xe sang Cà Mau trong 24h",
+  "Công suất 78% · nhận 1,2 tấn": "Công suất 78% · nhận 1,2 tấn",
+  "Công suất 45% · còn 2,1 tấn": "Công suất 45% · còn 2,1 tấn",
+  "Công suất 91% · cần điều phối": "Công suất 91% · cần điều phối",
+  "Công suất 33% · sẵn sàng nhận": "Công suất 33% · sẵn sàng nhận",
 
   // ── Collection page - Recent collections ──
   "Shrimp Sludge": "Bùn ao tôm",
