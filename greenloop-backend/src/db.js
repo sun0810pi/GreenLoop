@@ -207,7 +207,44 @@ function initSchema() {
       evidence_hash TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
       FOREIGN KEY (user_id) REFERENCES users(id)
     );
+
+    CREATE TABLE IF NOT EXISTS residues (
+      id TEXT PRIMARY KEY, owner_id TEXT NOT NULL, pickup_id TEXT, name TEXT NOT NULL,
+      residue_type TEXT NOT NULL, source_category TEXT NOT NULL, origin TEXT NOT NULL,
+      quantity REAL NOT NULL, unit TEXT NOT NULL DEFAULT 'kg', status TEXT NOT NULL DEFAULT 'registered',
+      collection_date TEXT, location TEXT NOT NULL, description TEXT, target_pathway_id TEXT,
+      created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+      FOREIGN KEY (owner_id) REFERENCES users(id), FOREIGN KEY (pickup_id) REFERENCES pickups(id)
+    );
+    CREATE TABLE IF NOT EXISTS conversion_pathways (
+      id TEXT PRIMARY KEY, input_type TEXT NOT NULL, output_name TEXT NOT NULL,
+      output_category TEXT NOT NULL, processing_level TEXT NOT NULL,
+      market_channel TEXT NOT NULL, can_return_to_field INTEGER NOT NULL DEFAULT 0,
+      process_name TEXT NOT NULL, description TEXT, created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS logistics_assignments (
+      id TEXT PRIMARY KEY, route_id TEXT NOT NULL, pickup_id TEXT, batch_id TEXT, residue_id TEXT,
+      collector_id TEXT, processor_id TEXT, pickup_location TEXT NOT NULL, delivery_location TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'waiting_collection', handoff_at TEXT, received_at TEXT,
+      evidence_hash TEXT, notes TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+      FOREIGN KEY (route_id) REFERENCES logistics_routes(id)
+    );
+    CREATE TABLE IF NOT EXISTS field_applications (
+      id TEXT PRIMARY KEY, product_id TEXT NOT NULL, user_id TEXT NOT NULL, field_location TEXT NOT NULL,
+      quantity REAL NOT NULL, unit TEXT NOT NULL DEFAULT 'kg', application_type TEXT NOT NULL,
+      expected_benefit TEXT, applied_at TEXT NOT NULL, evidence_hash TEXT NOT NULL, created_at TEXT NOT NULL,
+      FOREIGN KEY (product_id) REFERENCES products(id), FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+    CREATE TABLE IF NOT EXISTS certificates (
+      id TEXT PRIMARY KEY, certificate_no TEXT UNIQUE NOT NULL, entity_type TEXT NOT NULL,
+      entity_id TEXT NOT NULL, certificate_type TEXT NOT NULL, standard TEXT NOT NULL,
+      issuer TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'draft', scope TEXT,
+      issued_at TEXT, valid_until TEXT, evidence_hash TEXT NOT NULL,
+      blockchain_tx TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+    );
   `);
+
+  migrateSchema();
 
   // Seed demo data if empty
   const userCount = db.exec("SELECT COUNT(*) as c FROM users")[0]?.values[0][0];
@@ -218,9 +255,27 @@ function initSchema() {
   saveDb();
 }
 
+function tableColumns(table) {
+  return (db.exec(`PRAGMA table_info(${table})`)[0]?.values || []).map(row => row[1]);
+}
+
+function addColumnIfMissing(table, column, definition) {
+  if (!tableColumns(table).includes(column)) db.run(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+}
+
+function migrateSchema() {
+  addColumnIfMissing('products', 'source_residue_id', 'TEXT');
+  addColumnIfMissing('products', 'conversion_pathway_id', 'TEXT');
+  addColumnIfMissing('products', 'description', 'TEXT');
+  addColumnIfMissing('products', 'unit', "TEXT DEFAULT 'kg'");
+  addColumnIfMissing('products', 'channel', "TEXT DEFAULT 'market'");
+  addColumnIfMissing('products', 'return_to_field', 'INTEGER DEFAULT 0');
+}
+
 function seedPlatformData() {
   const { v4: uuidv4 } = require('uuid');
   const bcrypt = require('bcryptjs');
+  const crypto = require('crypto');
   const now = new Date().toISOString();
   const partnerCount = db.exec("SELECT COUNT(*) AS c FROM partners")[0]?.values[0][0] || 0;
   if (!partnerCount) {
@@ -234,7 +289,7 @@ function seedPlatformData() {
     db.run('INSERT INTO biomass_batches VALUES (?,?,?,?,?,?,?,?,?,?)', [batchId, 'GL-CM-2026-0001', 'user-demo-001', null, 'rice_straw', 1200, 'processing', 'sha256:demo-custody-chain-2026-0001', now, now]);
     db.run('INSERT INTO workflow_tasks VALUES (?,?,?,?,?,?,?,?,?)', [uuidv4(), batchId, 'Upload EBC laboratory analysis', 'partner', 'open', new Date(Date.now()+86400000*3).toISOString(), 'Required before verification', now, null]);
     db.run('INSERT INTO workflow_tasks VALUES (?,?,?,?,?,?,?,?,?)', [uuidv4(), batchId, 'Confirm route weighbridge record', 'htx', 'in_progress', new Date(Date.now()+86400000).toISOString(), 'Route CM-01', now, null]);
-    db.run('INSERT INTO products VALUES (?,?,?,?,?,?,?,?,?)', [uuidv4(), batchId, 'EBC Biochar - rice straw', 'biochar', 420, 6800, 'available', null, now]);
+    db.run('INSERT INTO products (id,batch_id,name,category,quantity_kg,unit_price_vnd,status,carbon_record_id,created_at,description,channel,return_to_field) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [uuidv4(), batchId, 'EBC Biochar - rice straw', 'biochar', 420, 6800, 'available', null, now, 'Soil amendment and carbon storage product from rice straw.', 'farm_return', 1]);
     db.run('INSERT INTO logistics_routes VALUES (?,?,?,?,?,?,?,?,?)', [uuidv4(), 'CM-01: Tran Van Thoi hub', 'ca-mau', new Date(Date.now()+86400000*2).toISOString(), 5000, 3200, 280000, 'dispatching', now]);
     db.run('INSERT INTO partner_requests VALUES (?,?,?,?,?,?,?)', [uuidv4(), 'partner-husk', 'batch_processing', JSON.stringify({ batch_code: 'GL-CM-2026-0001', requested_output: 'biochar' }), 'accepted', now, now]);
     db.run('INSERT INTO farm_ecosystem_profiles VALUES (?,?,?,?,?,?,?)', [uuidv4(), 'user-demo-001', 'brackish_transition', 'shrimp_crab_tilapia', 1.2, JSON.stringify(['low_chemical', 'water_monitoring', 'biomass_custody']), now]);
@@ -249,7 +304,100 @@ function seedPlatformData() {
     const exists = db.exec(`SELECT id FROM users WHERE id='${id}'`)[0]?.values.length;
     if (!exists) db.run('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?,?,?)', [id, name, phone, email, password, role, 'ca-mau', 0, null, now, null]);
   });
+  const soilCount = db.exec("SELECT COUNT(*) AS c FROM soil_samples WHERE user_id='user-demo-001'")[0]?.values[0][0] || 0;
+  if (!soilCount) {
+    const evidence = 'sha256:' + require('crypto').createHash('sha256').update(`soil|user-demo-001|${now}`).digest('hex');
+    const soilCols = (db.exec("PRAGMA table_info(soil_samples)")[0]?.values || []).map(row => row[1]);
+    if (soilCols.includes('created_at')) {
+      db.run('INSERT INTO soil_samples (id,user_id,ph,organic_matter_pct,moisture_pct,soil_carbon_pct,lab_name,evidence_hash,sampled_at,created_at) VALUES (?,?,?,?,?,?,?,?,?,?)', [uuidv4(), 'user-demo-001', 6.4, 2.8, 72, 1.7, 'HTX-CM-01 field kit', evidence, now, now]);
+    } else {
+      db.run('INSERT INTO soil_samples (id,user_id,ph,organic_matter_pct,moisture_pct,soil_carbon_pct,lab_name,evidence_hash,sampled_at) VALUES (?,?,?,?,?,?,?,?,?)', [uuidv4(), 'user-demo-001', 6.4, 2.8, 72, 1.7, 'HTX-CM-01 field kit', evidence, now]);
+    }
+  }
+  const envCount = db.exec("SELECT COUNT(*) AS c FROM environmental_readings WHERE user_id='user-demo-001'")[0]?.values[0][0] || 0;
+  if (!envCount) {
+    const envCols = (db.exec("PRAGMA table_info(environmental_readings)")[0]?.values || []).map(row => row[1]);
+    const envSql = envCols.includes('created_at')
+      ? 'INSERT INTO environmental_readings (id,user_id,station,province,metric,value,unit,sampled_at,source,alert,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)'
+      : 'INSERT INTO environmental_readings (id,user_id,station,province,metric,value,unit,sampled_at,source,alert) VALUES (?,?,?,?,?,?,?,?,?,?)';
+    const addEnv = (metric, station, value, unit, alert = 0) => {
+      const base = [uuidv4(), 'user-demo-001', station, 'ca-mau', metric, value, unit, now, 'iot_sensor', alert];
+      db.run(envSql, envCols.includes('created_at') ? [...base, now] : base);
+    };
+    addEnv('dissolved_oxygen', 'Pond W-01', 5.8, 'mg/L');
+    addEnv('moisture', 'Field A', 72, '%');
+  }
+  const offerCount = db.exec("SELECT COUNT(*) AS c FROM carbon_offers")[0]?.values[0][0] || 0;
+  if (!offerCount) {
+    const carbon = db.exec("SELECT id, user_id, co2e_tonnes FROM carbon_records WHERE status IN ('verified','issued') ORDER BY created_at DESC LIMIT 1")[0]?.values[0];
+    if (carbon) db.run('INSERT INTO carbon_offers VALUES (?,?,?,?,?,?,?)', [uuidv4(), carbon[0], carbon[1], Number(carbon[2]), 20, 'open', now]);
+  }
+  seedCircularDomain(now, crypto);
   saveDb();
+}
+
+function seedCircularDomain(now, crypto) {
+  const { v4: uuidv4 } = require('uuid');
+  const pathwayCount = db.exec("SELECT COUNT(*) AS c FROM conversion_pathways")[0]?.values[0][0] || 0;
+  if (!pathwayCount) {
+    const pathways = [
+      ['path-coffee-tea', 'coffee_husk', 'Coffee leaf tea', 'coffee_leaf_tea', 'market', 'market', 0, 'Drying and herbal tea blending', 'Coffee residues and leaves become a traceable beverage product.'],
+      ['path-rice-mushroom', 'rice_straw', 'Straw mushroom', 'mushroom', 'market', 'market', 0, 'Mushroom substrate incubation', 'Rice straw is used as substrate for straw mushroom production.'],
+      ['path-rice-mulch', 'rice_straw', 'Biological mulch film', 'mulch', 'bio_refinery', 'bio_refinery', 1, 'Fiber pulping and film casting', 'Rice straw fiber is converted into mulch film that can return to fields.'],
+      ['path-rice-biochar', 'rice_straw', 'Rice straw biochar', 'biochar', 'bio_refinery', 'farm_return', 1, 'Low-oxygen pyrolysis', 'Biochar stores carbon and improves soil water retention.'],
+      ['path-coconut-packaging', 'coconut_husk', 'Bio-based food packaging', 'food_packaging', 'bio_refinery', 'market', 0, 'Fiber extraction and molding', 'Coconut husk fiber becomes molded food packaging.'],
+      ['path-coconut-leather', 'coconut_husk', 'Bio-based leather sheet', 'bio_leather', 'bio_refinery', 'market', 0, 'Fiber reinforcement and bio-composite finishing', 'Coconut fiber is processed into leather-like material.'],
+      ['path-aquatic-bioproduct', 'shrimp_shells', 'Biological crop protection input', 'bio_pesticide', 'bio_refinery', 'farm_return', 1, 'Chitin extraction and microbial formulation', 'Aquatic by-products become farm inputs for lower chemical use.'],
+      ['path-eco-tourism', 'melaleuca_residue', 'Circular eco-tourism experience', 'eco_tourism', 'market', 'market', 0, 'Farm story packaging and visitor operations', 'Verified circular practices become an eco-tourism product.']
+    ];
+    pathways.forEach(p => db.run('INSERT INTO conversion_pathways VALUES (?,?,?,?,?,?,?,?,?,?)', [...p, now]));
+  }
+
+  const residueCount = db.exec("SELECT COUNT(*) AS c FROM residues")[0]?.values[0][0] || 0;
+  if (!residueCount) {
+    const residues = [
+      ['res-rice-001', 'user-demo-001', null, 'Rice straw after wet-season harvest', 'rice_straw', 'agriculture', 'Wet rice field', 1200, 'kg', 'processing', '2025-05-10T07:00:00Z', 'Khanh Binh Tay, Tran Van Thoi, Ca Mau', 'Clean straw baled at field edge.', 'path-rice-biochar'],
+      ['res-coffee-001', 'user-demo-001', null, 'Coffee residue from cooperative dryer', 'coffee_husk', 'agriculture', 'Coffee processing cooperative', 300, 'kg', 'classified', '2025-06-01T07:00:00Z', 'Lam Dong partner hub', 'Residue suitable for tea/extract pilot.', 'path-coffee-tea'],
+      ['res-coconut-001', 'user-demo-001', null, 'Coconut husk fiber lot', 'coconut_husk', 'agriculture', 'Coconut farm and processor', 650, 'kg', 'classified', '2025-06-05T07:00:00Z', 'Ben Tre partner hub', 'Long fiber residue for packaging and bio-leather.', 'path-coconut-packaging'],
+      ['res-aqua-001', 'user-demo-001', null, 'Shrimp shell by-product', 'shrimp_shells', 'aquaculture', 'Shrimp processing line', 240, 'kg', 'received', '2025-06-08T07:00:00Z', 'Ca Mau seafood processor', 'Shells reserved for chitin pathway.', 'path-aquatic-bioproduct']
+    ];
+    residues.forEach(r => db.run('INSERT INTO residues VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [...r, now, now]));
+  }
+
+  const productCount = db.exec("SELECT COUNT(*) AS c FROM products WHERE name IN ('Coffee leaf tea pilot lot','Straw mushroom substrate pack','Bio-based food packaging sheet','Bio-leather sample sheet','Biological crop protection input')")[0]?.values[0][0] || 0;
+  if (!productCount) {
+    const products = [
+      ['Coffee leaf tea pilot lot', 'coffee_leaf_tea', 80, 95000, 'ready_for_sale', 'res-coffee-001', 'path-coffee-tea', 'Herbal tea product from coffee residue pathway.', 'market', 0],
+      ['Straw mushroom substrate pack', 'mushroom', 220, 18000, 'producing', 'res-rice-001', 'path-rice-mushroom', 'Commercial mushroom product from rice straw.', 'market', 0],
+      ['Bio-based food packaging sheet', 'food_packaging', 160, 42000, 'ready_for_sale', 'res-coconut-001', 'path-coconut-packaging', 'Deep-processed food packaging material.', 'bio_refinery', 0],
+      ['Bio-leather sample sheet', 'bio_leather', 45, 180000, 'ready_for_sale', 'res-coconut-001', 'path-coconut-leather', 'Bio-composite leather-like material.', 'bio_refinery', 0],
+      ['Biological crop protection input', 'bio_pesticide', 120, 52000, 'distributed', 'res-aqua-001', 'path-aquatic-bioproduct', 'Chitin-based biological input that can return to fields.', 'farm_return', 1]
+    ];
+    products.forEach(p => db.run('INSERT INTO products (id,batch_id,name,category,quantity_kg,unit_price_vnd,status,carbon_record_id,created_at,source_residue_id,conversion_pathway_id,description,channel,return_to_field) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [uuidv4(), null, p[0], p[1], p[2], p[3], p[4], null, now, p[5], p[6], p[7], p[8], p[9]]));
+  }
+
+  const route = db.exec("SELECT id FROM logistics_routes ORDER BY created_at DESC LIMIT 1")[0]?.values[0]?.[0];
+  const assignmentCount = db.exec("SELECT COUNT(*) AS c FROM logistics_assignments")[0]?.values[0][0] || 0;
+  if (route && !assignmentCount) {
+    const evidence = 'sha256:' + crypto.createHash('sha256').update(`route|${route}|res-rice-001|${now}`).digest('hex');
+    db.run('INSERT INTO logistics_assignments VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [uuidv4(), route, null, 'batch-demo-001', 'res-rice-001', 'user-htx-001', 'partner-husk', 'Khanh Binh Tay collection point', 'Mekong Bio-refinery intake bay', 'delivered', now, now, evidence, 'Demo custody handoff for rice straw biochar.', now, now]);
+  }
+
+  const farmReturnCount = db.exec("SELECT COUNT(*) AS c FROM field_applications")[0]?.values[0][0] || 0;
+  if (!farmReturnCount) {
+    const product = db.exec("SELECT id FROM products WHERE return_to_field=1 ORDER BY created_at LIMIT 1")[0]?.values[0]?.[0];
+    if (product) {
+      const evidence = 'sha256:' + crypto.createHash('sha256').update(`field|${product}|user-demo-001|${now}`).digest('hex');
+      db.run('INSERT INTO field_applications VALUES (?,?,?,?,?,?,?,?,?,?,?)', [uuidv4(), product, 'user-demo-001', 'Field A - Khanh Binh Tay', 95, 'kg', 'soil_improvement', 'Improve water retention, soil carbon and reduce synthetic inputs.', now, evidence, now]);
+    }
+  }
+
+  const certCount = db.exec("SELECT COUNT(*) AS c FROM certificates")[0]?.values[0][0] || 0;
+  if (!certCount) {
+    const carbon = db.exec("SELECT id FROM carbon_records ORDER BY created_at DESC LIMIT 1")[0]?.values[0]?.[0] || 'demo-carbon';
+    const evidence = 'sha256:' + crypto.createHash('sha256').update(`certificate|${carbon}|${now}`).digest('hex');
+    db.run('INSERT INTO certificates VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [uuidv4(), 'GL-ESG-2026-0001', 'carbon_record', carbon, 'carbon_certificate', 'Verra VM0044 / EBC C-sink ready', 'GreenLoop MRV Desk', 'issued', 'Rice straw biochar carbon removal evidence package', now, new Date(Date.now()+86400000*365).toISOString(), evidence, 'tx-demo-greenloop-0001', now, now]);
+  }
 }
 
 function seedDemoData() {

@@ -13,6 +13,7 @@ const carbonRoutes   = require('./src/routes/carbon');
 const miscRoutes     = require('./src/routes/misc');
 const adminRoutes    = require('./src/routes/admin');
 const platformRoutes = require('./src/routes/platform');
+const circularRoutes = require('./src/routes/circular');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -44,6 +45,7 @@ app.use('/api/carbon',      carbonRoutes);
 app.use('/api',             miscRoutes);      // notifications + points
 app.use('/api/admin',       adminRoutes);
 app.use('/api/platform',    platformRoutes);
+app.use('/api/circular',    circularRoutes);
 app.use(express.static(path.join(__dirname, '..')));
 
 // ─── Health check ────────────────────────────────────────────────────────────

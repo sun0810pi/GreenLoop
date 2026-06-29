@@ -19,9 +19,11 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Lora:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap&subset=vietnamese,latin-ext" rel="stylesheet">
 <style>
 :root {
+  --font-ui: 'Be Vietnam Pro','Segoe UI',Arial,sans-serif;
+  --font-display: 'Be Vietnam Pro','Segoe UI',Arial,sans-serif;
   --fd: #0b1c12; --f: #1a3a2a; --fm: #2d5a3d; --fl: #3d6e50;
   --leaf: #4CAF50; --ll: #81C784; --lb: #a3d96a;
   --earth: #8B6F47; --el: #C4A86B;
@@ -50,7 +52,9 @@ body[data-theme="dark"] {
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-padding-top:70px}
-body{font-family:'Be Vietnam Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--tp);overflow-x:hidden;transition:background-color .2s,color .2s,border-color .2s,box-shadow .2s}
+body{font-family:var(--font-ui);font-synthesis-weight:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--tp);overflow-x:hidden;transition:background-color .2s,color .2s,border-color .2s,box-shadow .2s}
+button,input,select,textarea{font-family:var(--font-ui)}
+html[lang="vi"]{--font-ui:'Be Vietnam Pro','Segoe UI',Arial,sans-serif;--font-display:'Be Vietnam Pro','Segoe UI',Arial,sans-serif}
 button,[onclick]{touch-action:manipulation}
 
 /* Focus styles for keyboard navigation */
@@ -94,6 +98,38 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .ops-kpi b{display:block;font-size:23px;line-height:1.15;color:var(--tp);font-variant-numeric:tabular-nums}
 .ops-kpi span{display:block;font-size:11px;color:var(--tm);font-weight:700;margin-top:5px;text-transform:uppercase;letter-spacing:.4px}
 .ops-list{display:grid;gap:8px}.ops-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--borderl)}.ops-row:last-child{border-bottom:0}.ops-name{font-size:13px;font-weight:700}.ops-meta{font-size:11px;color:var(--tm);margin-top:3px}.ops-status{font-size:11px;font-weight:800;color:var(--ad);background:rgba(38,166,154,.10);padding:5px 8px;border-radius:6px;white-space:nowrap}.ops-status.warn{color:var(--warn);background:rgba(230,81,0,.1)}
+.loop-section{background:var(--bgc);border:1px solid var(--borderl);border-radius:8px;box-shadow:var(--sh-sm);padding:18px}
+.loop-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+.loop-eyebrow{font-size:11px;font-weight:900;color:var(--ad);letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
+.loop-title{font-size:20px;line-height:1.25;font-weight:900;color:var(--tp);margin:0}
+.loop-sub{font-size:12px;color:var(--ts);line-height:1.55;max-width:760px;margin-top:6px}
+.loop-metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.loop-metric{border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:11px 12px}
+.loop-metric b{display:block;font-size:20px;line-height:1.1;color:var(--tp);font-variant-numeric:tabular-nums}
+.loop-metric span{display:block;font-size:10px;color:var(--tm);font-weight:900;text-transform:uppercase;letter-spacing:.35px;margin-top:5px}
+.loop-board{display:grid;grid-template-columns:1fr 1.15fr 1.25fr 1.15fr 1fr;gap:10px;align-items:stretch}
+.loop-stage{position:relative;border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:13px;min-height:172px;cursor:pointer;transition:background .16s,border-color .16s,box-shadow .16s,transform .16s}
+.loop-stage:hover,.loop-stage:focus-visible{background:var(--bgs);border-color:var(--border);box-shadow:var(--sh-sm);transform:translateY(-1px);outline:2px solid rgba(163,217,106,.28);outline-offset:2px}
+.loop-stage:not(:last-child)::after{content:'';position:absolute;right:-10px;top:50%;width:10px;height:2px;background:var(--earth)}
+.loop-stage:not(:last-child)::before{content:'';position:absolute;right:-12px;top:calc(50% - 4px);width:8px;height:8px;border-top:2px solid var(--earth);border-right:2px solid var(--earth);transform:rotate(45deg);z-index:1}
+.loop-step{font-size:10px;font-weight:900;color:var(--tm);letter-spacing:.4px;text-transform:uppercase}
+.loop-stage-title{font-size:14px;font-weight:900;color:var(--tp);margin-top:5px}
+.loop-stage-copy{font-size:11px;color:var(--ts);line-height:1.45;margin-top:5px}
+.loop-chip-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.loop-chip{display:inline-flex;align-items:center;min-height:26px;padding:5px 8px;border:1px solid var(--borderl);border-radius:8px;background:var(--bgc);font-size:10px;font-weight:800;color:var(--ts);line-height:1.2}
+.loop-chip.good{border-color:rgba(76,175,80,.35);color:var(--ok);background:rgba(76,175,80,.08)}
+.loop-chip.warn{border-color:rgba(230,81,0,.3);color:var(--warn);background:rgba(230,81,0,.08)}
+.loop-detail{display:grid;grid-template-columns:280px minmax(0,1fr);gap:12px;margin-top:14px;border:1px solid var(--borderl);border-radius:8px;background:var(--bg);padding:13px}
+.loop-detail-title{font-size:13px;font-weight:900;color:var(--tp)}
+.loop-detail-meta{font-size:11px;color:var(--tm);line-height:1.55;margin-top:5px}
+.loop-detail-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.loop-detail-item{border:1px solid var(--borderl);border-radius:8px;background:var(--bgc);padding:9px;min-height:58px}
+.loop-detail-item b{display:block;font-size:12px;color:var(--tp);margin-bottom:4px}.loop-detail-item span{font-size:11px;color:var(--tm);line-height:1.4}
+body[data-theme="dark"] .loop-section{background:#102018}
+body[data-theme="dark"] .loop-stage,body[data-theme="dark"] .loop-metric,body[data-theme="dark"] .loop-detail{background:#0c1a12}
+body[data-theme="dark"] .loop-chip,body[data-theme="dark"] .loop-detail-item{background:#12251a}
+@media(max-width:1180px){.loop-board{grid-template-columns:1fr 1fr}.loop-stage:not(:last-child)::before,.loop-stage:not(:last-child)::after{display:none}.loop-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.loop-detail{grid-template-columns:1fr}.loop-detail-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.loop-section{padding:14px}.loop-head{flex-direction:column}.loop-board,.loop-metrics,.loop-detail-list{grid-template-columns:1fr}.loop-stage{min-height:auto}}
 .role-workspace{display:none}.role-workspace.on{display:block}#p-dashboard.role-mode>:not(#roleWorkspace){display:none}.role-eyebrow{font-size:11px;font-weight:800;color:var(--ad);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}.role-title{font-size:22px;line-height:1.25;margin-bottom:7px}.role-desc{font-size:13px;color:var(--ts);line-height:1.55;max-width:760px}.role-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.role-action{border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:9px 12px;color:var(--tp);font:700 12px inherit;cursor:pointer}.role-action.primary{background:var(--f);border-color:var(--f);color:#fff}.role-action:hover{background:var(--bgs)}.role-action.primary:hover{background:var(--fm)}
 @media(max-width:980px){.ops-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.ops-grid{grid-template-columns:1fr}.ops-row{align-items:flex-start;flex-direction:column;gap:7px}}
 
@@ -135,7 +171,7 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .l-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(163,217,106,.08);border:1px solid rgba(163,217,106,.18);padding:5px 14px;border-radius:20px;color:var(--lb);font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:26px}
 .l-tag-dot{width:5px;height:5px;background:var(--lb);border-radius:50%;animation:blink 2s ease infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.l-h1{font-family:'Lora',Georgia,serif;font-size:clamp(36px,4vw,60px);font-weight:500;color:#fff;line-height:1.1;letter-spacing:0;margin-bottom:18px}
+.l-h1{font-family:var(--font-display);font-size:clamp(36px,4vw,60px);font-weight:500;color:#fff;line-height:1.1;letter-spacing:0;margin-bottom:18px}
 .l-h1 em{font-style:italic;color:var(--lb)}
 .l-desc{font-size:15px;font-weight:400;color:rgba(255,255,255,.48);line-height:1.8;max-width:420px;margin-bottom:36px}
 .l-btns{display:flex;gap:12px;margin-bottom:52px}
@@ -148,7 +184,7 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .l-stat{flex:1;padding-right:24px;border-right:1px solid rgba(255,255,255,.06)}
 .l-stat:last-child{border-right:none;padding-right:0;padding-left:24px}
 .l-stat:not(:first-child){padding-left:24px}
-.l-stat-n{font-family:'Lora',Georgia,serif;font-size:30px;color:#fff;letter-spacing:0}
+.l-stat-n{font-family:var(--font-display);font-size:30px;color:#fff;letter-spacing:0}
 .l-stat-l{font-size:11px;color:rgba(255,255,255,.32);margin-top:4px;font-weight:500}
 
 .l-right{flex:1.15;display:flex;align-items:center;justify-content:center;position:relative}
@@ -227,9 +263,11 @@ body[data-theme="light"] .l-nav .mode-btn.active{background:var(--f);color:#fff}
 
 /* Khu nội dung chính */
 .app-main{flex:1;margin-left:252px;display:flex;flex-direction:column;min-height:100vh}
-.top-bar{background:#fff;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--borderl);position:sticky;top:0;z-index:50}
-.tb-title{font-size:18px;font-weight:700;letter-spacing:-.3px}
-.tb-sub{font-size:11px;color:var(--tm);margin-top:1px}
+.top-bar{background:#fff;padding:16px 26px;min-height:66px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--borderl);position:sticky;top:0;z-index:50;overflow:visible}
+.tb-left{min-width:0;padding-block:2px}
+.tb-title{font-size:18px;font-weight:800;letter-spacing:0;line-height:1.38}
+.tb-sub{font-size:11px;color:var(--tm);margin-top:2px;line-height:1.45}
+html[lang="vi"] .tb-title{line-height:1.45}
 .tb-right{display:flex;align-items:center;gap:10px}
 .back-landing{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:9px;border:1px solid var(--borderl);background:var(--bg);color:var(--ts);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
 .back-landing svg{width:13px;height:13px}
@@ -403,7 +441,7 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .pp-chip{position:absolute;top:62px;right:22px;width:36px;height:28px;background:linear-gradient(135deg,#c9a84c,#f0d98a,#c9a84c);border-radius:4px;opacity:.52}
 .pp-main{position:relative;z-index:1;margin-bottom:18px}
 .pp-name{font-size:19px;font-weight:700}
-.pp-id{font-size:10.5px;color:rgba(255,255,255,.32);font-family:monospace;letter-spacing:1px}
+.pp-id{font-size:10.5px;color:rgba(255,255,255,.32);font-family:var(--font-ui);letter-spacing:.4px}
 .pp-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;position:relative;z-index:1}
 .pp-sv{font-size:18px;font-weight:800;color:var(--lb);letter-spacing:-.3px}
 .pp-sl{font-size:9.5px;color:rgba(255,255,255,.32);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
@@ -563,7 +601,7 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
   .sb{display:none}
   .sb.open{transform:translateX(0);box-shadow:10px 0 40px rgba(0,0,0,.28)}
   .app-main{margin-left:0}
-  .top-bar{padding:12px 16px}
+  .top-bar{padding:14px 16px;min-height:62px}
   .tb-right{gap:8px;flex-wrap:nowrap}
   .top-bar .mode-group,
   .top-bar .season-tog{display:none}
@@ -682,7 +720,7 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
 /* ── Landing sections ── */
 .l-section{position:relative;z-index:10;padding:80px 56px}
 .l-sec-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--lb);background:rgba(163,217,106,.08);border:1px solid rgba(163,217,106,.15);padding:4px 12px;border-radius:20px;margin-bottom:18px}
-.l-sec-h2{font-family:'Lora',Georgia,serif;font-size:clamp(26px,3vw,42px);color:#fff;letter-spacing:0;margin-bottom:14px;line-height:1.15}
+.l-sec-h2{font-family:var(--font-display);font-size:clamp(26px,3vw,42px);color:#fff;letter-spacing:0;margin-bottom:14px;line-height:1.15}
 .l-sec-p{font-size:14px;color:rgba(255,255,255,.44);line-height:1.8;max-width:520px}
 .l-sec-divider{border:none;border-top:1px solid rgba(255,255,255,.06);margin:0 56px}
 .l-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
@@ -693,7 +731,7 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
 .l-card-d{font-size:12px;color:rgba(255,255,255,.38);line-height:1.65}
 .l-impact-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:36px}
 .l-istat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:22px 18px;text-align:center}
-.l-istat-n{font-family:'Lora',Georgia,serif;font-size:34px;color:#fff;letter-spacing:0;margin-bottom:4px}
+.l-istat-n{font-family:var(--font-display);font-size:34px;color:#fff;letter-spacing:0;margin-bottom:4px}
 .l-istat-l{font-size:11px;color:rgba(255,255,255,.36);font-weight:500}
 .l-partners-logos{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
 .l-plogo{padding:10px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;font-size:12px;font-weight:600;color:rgba(255,255,255,.44)}
@@ -727,7 +765,7 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
 .shortcut-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .shortcut-item{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--bg);border-radius:8px;font-size:11.5px}
 .shortcut-key{display:flex;gap:3px}
-.kbd{background:var(--bgc);border:1px solid var(--border);border-radius:5px;padding:2px 6px;font-size:10px;font-weight:700;color:var(--ts);font-family:monospace;box-shadow:0 1px 0 var(--border)}
+.kbd{background:var(--bgc);border:1px solid var(--border);border-radius:5px;padding:2px 6px;font-size:10px;font-weight:700;color:var(--ts);font-family:var(--font-ui);box-shadow:0 1px 0 var(--border)}
 
 
 .intg-item{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--borderl)}
@@ -781,7 +819,7 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
 @media(max-aspect-ratio:3/4) and (max-width:900px){
   .sb{display:none}
   .app-main{margin-left:0}
-  .top-bar{padding:12px 16px}
+  .top-bar{padding:14px 16px;min-height:62px}
   .tb-right{gap:8px;flex-wrap:nowrap}
   .top-bar .mode-group,
   .top-bar .season-tog{display:none}
@@ -826,7 +864,7 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
 .au-left{padding:20px 0}
 .au-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(163,217,106,.08);border:1px solid rgba(163,217,106,.18);padding:5px 14px;border-radius:20px;color:var(--lb);font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:22px}
 .au-tag-dot{width:5px;height:5px;background:var(--lb);border-radius:50%;animation:blink 2s ease infinite}
-.au-h1{font-family:'Lora',Georgia,serif;font-size:clamp(30px,3.4vw,46px);font-weight:500;color:#fff;line-height:1.12;letter-spacing:0;margin-bottom:18px}
+.au-h1{font-family:var(--font-display);font-size:clamp(30px,3.4vw,46px);font-weight:500;color:#fff;line-height:1.12;letter-spacing:0;margin-bottom:18px}
 .au-h1 em{font-style:italic;color:var(--lb)}
 .au-desc{font-size:14.5px;color:rgba(255,255,255,.48);line-height:1.8;max-width:440px;margin-bottom:30px}
 
@@ -852,7 +890,7 @@ body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f
 .au-form{display:none;flex-direction:column;gap:16px}
 .au-form.on{display:flex;animation:auFadeIn .26s ease}
 @keyframes auFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.au-form-h{font-family:'Lora',Georgia,serif;font-size:24px;color:#fff;margin-bottom:2px;letter-spacing:0}
+.au-form-h{font-family:var(--font-display);font-size:24px;color:#fff;margin-bottom:2px;letter-spacing:0}
 .au-form-sub{font-size:12.5px;color:rgba(255,255,255,.5);margin-bottom:14px;line-height:1.6}
 
 .au-fg{display:flex;flex-direction:column;gap:7px}
@@ -1431,7 +1469,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
   <!-- Nội dung chính -->
   <main class="app-main">
     <div class="top-bar">
-      <div>
+      <div class="tb-left">
         <div class="tb-title" id="pageTitle">Home</div>
         <div class="tb-sub" id="pageSub">Hello Mr. Thanh - Summer-Autumn rice season</div>
       </div>
@@ -1607,7 +1645,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:4px">
                 <div class="cr">
                   <div class="crv" id="calcYield">150</div>
-                  <div class="crl">kg of biochar</div>
+                  <div class="crl" id="calcYieldLabel">kg of biochar</div>
                 </div>
                 <div style="color:var(--lb)">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 19 12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -1733,10 +1771,6 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                   <select class="fs" id="bookBiomassType">
                     <option value="">Select type...</option>
                     <option value="rice_straw">Rice Straw</option>
-                    <option value="rice_husk">Rice Husk</option>
-                    <option value="shrimp_sludge">Aquaculture Pond Sludge</option>
-                    <option value="melaleuca">Melaleuca Residue</option>
-                    <option value="coconut">Coconut Shell</option>
                   </select>
                 </div>
                 <div class="g2">
@@ -2017,12 +2051,68 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
 
       <!-- Settings page -->
       <div class="page" id="p-operations">
+        <section class="loop-section mb18">
+          <div class="loop-head">
+            <div>
+              <div class="loop-eyebrow">GreenLoop Circular Model</div>
+              <h2 class="loop-title">From residue to verified value</h2>
+              <div class="loop-sub">A compact operational view of the closed loop: environmental evidence, feedstock intake, conversion pathways, commercial outputs and farm return.</div>
+            </div>
+            <button class="gl-mini-btn" type="button" onclick="renderOperations()">Refresh</button>
+          </div>
+          <div class="loop-metrics">
+            <div class="loop-metric"><b id="loopEvidenceCount">0</b><span>Evidence records</span></div>
+            <div class="loop-metric"><b id="loopFeedstockCount">0</b><span>Residue sources</span></div>
+            <div class="loop-metric"><b id="loopPathwayCount">0</b><span>Pathways</span></div>
+            <div class="loop-metric"><b id="loopProductCount">0</b><span>Outputs</span></div>
+            <div class="loop-metric"><b id="loopReturnCount">0</b><span>Field returns</span></div>
+          </div>
+          <div class="loop-board" aria-label="GreenLoop circular pathway board">
+            <button class="loop-stage" type="button" data-loop-node="evidence">
+              <div class="loop-step">01 Evidence</div>
+              <div class="loop-stage-title">IoT + Carbon MRV</div>
+              <div class="loop-stage-copy">Sensor readings, passport hashes and green certificates verify the loop.</div>
+              <div class="loop-chip-list" id="loopEvidenceChips"></div>
+            </button>
+            <button class="loop-stage" type="button" data-loop-node="feedstock">
+              <div class="loop-step">02 Collection</div>
+              <div class="loop-stage-title">By-product intake</div>
+              <div class="loop-stage-copy">Coffee, rice, cajeput, coconut and aquatic by-products are registered for logistics.</div>
+              <div class="loop-chip-list" id="loopFeedstockChips"></div>
+            </button>
+            <button class="loop-stage" type="button" data-loop-node="conversion">
+              <div class="loop-step">03 Conversion</div>
+              <div class="loop-stage-title">Processing pathways</div>
+              <div class="loop-stage-copy">Partners and bio-refinery runs transform biomass into usable products.</div>
+              <div class="loop-chip-list" id="loopPathwayChips"></div>
+            </button>
+            <button class="loop-stage" type="button" data-loop-node="outputs">
+              <div class="loop-step">04 Outputs</div>
+              <div class="loop-stage-title">Market + Bio Refinery</div>
+              <div class="loop-stage-copy">Commercial products are separated from deep-processing outputs.</div>
+              <div class="loop-chip-list" id="loopOutputChips"></div>
+            </button>
+            <button class="loop-stage" type="button" data-loop-node="return">
+              <div class="loop-step">05 Circular return</div>
+              <div class="loop-stage-title">Back to the field</div>
+              <div class="loop-stage-copy">Biochar and biological inputs return value to farms and soil systems.</div>
+              <div class="loop-chip-list" id="loopReturnChips"></div>
+            </button>
+          </div>
+          <div class="loop-detail" aria-live="polite">
+            <div>
+              <div class="loop-detail-title" id="flowPanelTitle">Circular economy overview</div>
+              <div class="loop-detail-meta" id="flowPanelMeta">Click a stage to inspect residue sources, output products, certificates or field-return evidence.</div>
+            </div>
+            <div class="loop-detail-list" id="flowPanelList"></div>
+          </div>
+        </section>
         <div class="card mb18">
           <div class="ch"><div class="ct">SIPOC Operations Control</div><span class="badge ba">Live data</span></div>
           <div class="cb">
             <div class="ops-grid" id="opsKpis"><div class="ops-kpi"><b>...</b><span>Biomass batches</span></div><div class="ops-kpi"><b>...</b><span>Open tasks</span></div><div class="ops-kpi"><b>...</b><span>Live routes</span></div><div class="ops-kpi"><b>...</b><span>MRV checks</span></div></div>
             <div class="g2">
-              <div class="card"><div class="ch"><div class="ct">Data ingestion & batch custody</div></div><div class="cb"><div class="fg"><label class="fl">Feedstock</label><select class="fs" id="opsBiomass"><option value="rice_straw">Rice straw</option><option value="pond_sludge">Shrimp pond sludge</option><option value="tram">Melaleuca</option></select></div><div class="fg"><label class="fl">Input weight (kg)</label><input class="ci" id="opsWeight" type="number" min="1" value="500"></div><button class="btn-p" type="button" onclick="createBatch()">Create traceable batch</button><div class="ops-meta" style="margin-top:10px">Batch ID, custody hash and HTX validation task are created together.</div></div></div>
+              <div class="card"><div class="ch"><div class="ct">Data ingestion & batch custody</div></div><div class="cb"><div class="fg"><label class="fl">Feedstock</label><select class="fs" id="opsBiomass"><option value="rice_straw">Rice straw</option></select></div><div class="fg"><label class="fl">Input weight (kg)</label><input class="ci" id="opsWeight" type="number" min="1" value="500"></div><button class="btn-p" type="button" onclick="createBatch()">Create traceable batch</button><div class="ops-meta" style="margin-top:10px">Batch ID, custody hash and HTX validation task are created together.</div></div></div>
               <div class="card"><div class="ch"><div class="ct">Verification & compliance</div></div><div class="cb"><div class="ops-list" id="opsCompliance"></div></div></div>
             </div>
           </div>
@@ -2033,9 +2123,12 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         </div>
         <div class="g2 mb18">
           <div class="card"><div class="ch"><div class="ct">Product catalog & traceability</div></div><div class="cb"><div class="ops-list" id="opsProducts"></div></div></div>
-          <div class="card"><div class="ch"><div class="ct">Partner portal</div></div><div class="cb"><div class="ops-list" id="opsPartners"></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">IoT / dMRV live feed</div></div><div class="cb"><div class="ops-list" id="opsIot"></div></div></div>
         </div>
-        <div class="card"><div class="ch"><div class="ct">Carbon monetization</div></div><div class="cb"><div class="ops-list" id="opsOffers"></div></div></div>
+        <div class="g2">
+          <div class="card"><div class="ch"><div class="ct">Partner portal</div></div><div class="cb"><div class="ops-list" id="opsPartners"></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">Carbon monetization</div></div><div class="cb"><div class="ops-list" id="opsOffers"></div></div></div>
+        </div>
       </div>
 
       <div class="page" id="p-settings">
@@ -2788,6 +2881,50 @@ async function apiFetch(path, opts = {}) {
 
 /* Trạng thái hiện tại */
 let season = 'rice';
+const SEASON_BIOMASS = {
+  rice: [
+    { value:'rice_straw', en:'Rice straw', vi:'Rơm rạ', output:'biochar' },
+    { value:'rice_husk', en:'Rice husk', vi:'Trấu', output:'biochar' }
+  ],
+  shrimp: [
+    { value:'pond_sludge', en:'Aquaculture pond sludge', vi:'Bùn đáy ao nuôi', output:'biochar' },
+    { value:'shrimp_shells', en:'Shrimp shells', vi:'Vỏ tôm', output:'chitin' },
+    { value:'shrimp_heads', en:'Shrimp heads', vi:'Đầu tôm', output:'protein bio-product' },
+    { value:'fish_skin_bones', en:'Fish skin and bones', vi:'Da và xương cá', output:'collagen/protein' }
+  ],
+  tram: [
+    { value:'melaleuca_leaves', en:'Melaleuca leaves', vi:'Lá tràm', output:'extract/biochar' },
+    { value:'melaleuca_branches', en:'Melaleuca small branches', vi:'Cành tràm nhỏ', output:'LCNF' },
+    { value:'melaleuca_thinning_wood', en:'Melaleuca thinning wood', vi:'Gỗ tràm tỉa thưa', output:'LCNF' },
+        { value:'melaleuca_residue', en:'Melaleuca processing residue', vi:'Bã tràm', output:'biochar/extract' },
+    { value:'coconut_husk', en:'Coconut husk', vi:'Vo dua', output:'biochar/fiber' },
+    { value:'coffee_husk', en:'Coffee husk', vi:'Vo ca phe', output:'biochar' },
+    { value:'cajeput_residue', en:'Cajeput residue', vi:'Ba tram', output:'biochar/extract' }
+  ]
+};
+
+function seasonBiomassItems(currentSeason = season) {
+  return SEASON_BIOMASS[currentSeason] || SEASON_BIOMASS.rice;
+}
+function allBiomassItems() {
+  return Object.values(SEASON_BIOMASS).flat();
+}
+
+function refreshSeasonBiomassOptions(currentSeason = season) {
+  const targets = [
+    ['calcType', false, seasonBiomassItems(currentSeason)],
+    ['bookBiomassType', true, seasonBiomassItems(currentSeason)],
+    ['opsBiomass', false, allBiomassItems()]
+  ];
+  targets.forEach(([id, includePrompt, items]) => {
+    const select = document.getElementById(id);
+    if (!select) return;
+    const current = select.value;
+    const options = items.map(item => `<option value="${item.value}" data-en="${item.en}" data-vi="${item.vi}">${lang === 'vi' ? item.vi : item.en}</option>`);
+    select.innerHTML = `${includePrompt ? `<option value="">${t('Select type...')}</option>` : ''}${options.join('')}`;
+    select.value = items.some(item => item.value === current) ? current : (includePrompt ? '' : items[0].value);
+  });
+}
 let currentPage = 'dashboard';
 let lang = readPref('greenloop-lang', 'en');
 let theme = readPref('greenloop-theme', window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
@@ -3350,6 +3487,72 @@ const ATTRIBUTE_TEXT = {
   , "Operations": "Vận hành",
   "Batch, partner, MRV, logistics and carbon marketplace control": "Quản lý lô sinh khối, đối tác, MRV, logistics và thị trường carbon",
   "SIPOC Operations Control": "Điều hành SIPOC",
+  "GreenLoop Circular Model": "Mô hình tuần hoàn GreenLoop",
+  "From residue to verified value": "Từ phụ phẩm đến giá trị đã xác minh",
+  "A compact operational view of the closed loop: environmental evidence, feedstock intake, conversion pathways, commercial outputs and farm return.": "Góc nhìn vận hành gọn về vòng tuần hoàn khép kín: bằng chứng môi trường, thu nhận nguyên liệu, dòng chuyển hóa, sản phẩm thương mại và giá trị quay lại đồng ruộng.",
+  "Evidence records": "Bằng chứng",
+  "Residue sources": "Nguồn phụ phẩm",
+  "Pathways": "Dòng chuyển hóa",
+  "Outputs": "Sản phẩm đầu ra",
+  "Field returns": "Quay lại ruộng",
+  "01 Evidence": "01 Bằng chứng",
+  "IoT + Carbon MRV": "IoT + MRV carbon",
+  "Sensor readings, passport hashes and green certificates verify the loop.": "Chỉ số cảm biến, mã hash hộ chiếu và chứng chỉ xanh xác minh toàn bộ vòng tuần hoàn.",
+  "02 Collection": "02 Thu gom",
+  "By-product intake": "Thu nhận phụ phẩm",
+  "Coffee, rice, cajeput, coconut and aquatic by-products are registered for logistics.": "Phụ phẩm cà phê, lúa, tràm, dừa và thủy sản được ghi nhận để điều phối logistics.",
+  "03 Conversion": "03 Chuyển hóa",
+  "Processing pathways": "Dòng xử lý",
+  "Partners and bio-refinery runs transform biomass into usable products.": "Đối tác và nhà máy tinh chế sinh học chuyển sinh khối thành sản phẩm có thể sử dụng.",
+  "04 Outputs": "04 Đầu ra",
+  "Market + Bio Refinery": "Thị trường + Bio Refinery",
+  "Commercial products are separated from deep-processing outputs.": "Sản phẩm thương mại được phân tách với sản phẩm chế biến sâu.",
+  "05 Circular return": "05 Quay vòng",
+  "Back to the field": "Quay lại đồng ruộng",
+  "Biochar and biological inputs return value to farms and soil systems.": "Biochar và đầu vào sinh học đưa giá trị quay lại nông trại và hệ đất.",
+  "Click a stage to inspect residue sources, output products, certificates or field-return evidence.": "Chọn một chặng để xem nguồn phụ phẩm, sản phẩm đầu ra, chứng chỉ hoặc bằng chứng quay lại đồng ruộng.",
+  "No linked records yet.": "Chưa có bản ghi liên kết.",
+  "No records": "Chưa có bản ghi",
+  "IoT readings": "chỉ số IoT",
+  "certificates": "chứng chỉ",
+  "certificate": "chứng chỉ",
+  "blockchain tx": "giao dịch blockchain",
+  "coffee": "cà phê",
+  "rice": "lúa",
+  "cajeput": "tràm",
+  "coconut": "dừa",
+  "aquatic": "thủy sản",
+  "pathways": "dòng chuyển hóa",
+  "partners": "đối tác",
+  "routes": "tuyến",
+  "market": "thị trường",
+  "bio-refinery": "tinh chế sinh học",
+  "biochar": "biochar",
+  "packaging": "bao bì",
+  "field applications": "lượt áp dụng ngoài ruộng",
+  "returnable outputs": "sản phẩm có thể quay lại ruộng",
+  "live readings": "chỉ số trực tiếp",
+  "support ESG, carbon and traceability claims.": "hỗ trợ tuyên bố ESG, carbon và truy xuất nguồn gốc.",
+  "residue lots": "lô phụ phẩm",
+  "are registered across agriculture, forestry and aquaculture sources.": "được ghi nhận từ nguồn nông nghiệp, lâm nghiệp và thủy sản.",
+  "connect feedstock to processing outcomes.": "kết nối nguyên liệu đầu vào với kết quả xử lý.",
+  "outputs are split between market, bio-refinery and farm-return channels.": "sản phẩm được phân luồng giữa thị trường, tinh chế sinh học và quay lại nông trại.",
+  "product applications close the loop through soil improvement or lower synthetic inputs.": "lượt áp dụng sản phẩm khép kín vòng tuần hoàn thông qua cải tạo đất hoặc giảm đầu vào tổng hợp.",
+  "conversion pathways": "dòng chuyển hóa",
+  "outputs": "sản phẩm đầu ra",
+  "field returns": "lượt quay lại ruộng",
+  "collection routes and traceable handoffs.": "tuyến thu gom và bàn giao có thể truy xuất.",
+  "deep-processed products": "sản phẩm chế biến sâu",
+  "market products": "sản phẩm thị trường",
+  "sensor readings": "chỉ số cảm biến",
+  "Evidence layer": "Lớp bằng chứng",
+  "By-product intake": "Thu nhận phụ phẩm",
+  "Conversion pathways": "Dòng chuyển hóa",
+  "Market and Bio Refinery outputs": "Sản phẩm thị trường và Bio Refinery",
+  "Circular economy overview": "Tổng quan kinh tế tuần hoàn",
+  "Collection + Logistics": "Thu gom + Logistics",
+  "IoT + Certificates": "IoT + Chứng chỉ",
+  "Evidence layer": "Lớp bằng chứng",
   "Live data": "Dữ liệu trực tiếp",
   "Biomass batches": "Lô sinh khối",
   "Open workflow tasks": "Công việc đang mở",
@@ -3463,10 +3666,141 @@ const ATTRIBUTE_TEXT = {
   , "No partner tasks assigned.": "Không có tác vụ đối tác nào được giao."
   , "Filter:": "Lọc:"
   , "Edit": "Chỉnh sửa"
+  , "Ecosystem Engine": "Bộ điều phối hệ sinh thái"
+  , "Rice - Aquaculture - Melaleuca": "Lúa - Thủy sản - Tràm"
+  , "Ecological zone": "Vùng sinh thái"
+  , "Aquatic species / model": "Loài/mô hình thủy sản"
+  , "Melaleuca forest area (ha)": "Diện tích rừng tràm (ha)"
+  , "Save ecosystem profile": "Lưu hồ sơ hệ sinh thái"
+  , "Ecosystem recommendation": "Khuyến nghị hệ sinh thái"
+  , "Melaleuca biomass to LCNF": "Sinh khối tràm thành LCNF"
+  , "Aquatic by-products": "Phụ phẩm thủy sản"
+  , "Environmental monitoring": "Giám sát môi trường"
+  , "Open water check": "Mở kiểm tra nước"
+  , "Measurement": "Chỉ số đo"
+  , "Water pH": "pH nước"
+  , "Dissolved oxygen (DO)": "Oxy hòa tan (DO)"
+  , "Water temperature": "Nhiệt độ nước"
+  , "Soil organic matter": "Chất hữu cơ trong đất"
+  , "Soil moisture": "Độ ẩm đất"
+  , "Value": "Giá trị"
+  , "Station / pond": "Trạm / ao"
+  , "Record measurement": "Ghi nhận chỉ số"
+  , "MRV soil baseline": "Đường cơ sở đất MRV"
+  , "Soil pH": "pH đất"
+  , "Organic matter (%)": "Chất hữu cơ (%)"
+  , "Moisture (%)": "Độ ẩm (%)"
+  , "Soil carbon (%)": "Carbon trong đất (%)"
+  , "Save MRV soil sample": "Lưu mẫu đất MRV"
+  , "Green finance readiness": "Mức sẵn sàng tài chính xanh"
+  , "Open carbon passport": "Mở Hộ chiếu Carbon"
+  , "Product": "Sản phẩm"
+  , "Green credit": "Tín dụng xanh"
+  , "Climate insurance": "Bảo hiểm khí hậu"
+  , "Requested amount (VND)": "Số tiền đề nghị (VND)"
+  , "Purpose": "Mục đích"
+  , "Submit for review": "Gửi để xét duyệt"
+  , "Bio-refinery pathways": "Quy trình tinh chế sinh học"
+  , "No environmental measurements yet.": "Chưa có chỉ số môi trường."
+  , "No refinery runs have been recorded.": "Chưa có lượt vận hành nhà máy tinh chế nào được ghi nhận."
+  , "Record a baseline soil sample for MRV.": "Hãy ghi nhận mẫu đất đường cơ sở cho MRV."
+  , "Carbon evidence": "Bằng chứng carbon"
+  , "records.": "hồ sơ."
+  , "Green credit and insurance": "Tín dụng và bảo hiểm xanh"
+  , "Submit a data-backed application for partner review.": "Gửi hồ sơ có dữ liệu chứng minh để đối tác xét duyệt."
+  , "application": "hồ sơ"
+  , "Readiness score": "Điểm sẵn sàng"
+  , "submitted": "đã gửi"
+  , "normal": "bình thường"
+  , "alert": "cảnh báo"
+  , "market": "thị trường"
+  , "bio_refinery": "tinh chế sinh học"
+  , "farm_return": "quay lại nông trại"
+  , "ready_for_sale": "sẵn sàng bán"
+  , "producing": "đang sản xuất"
+  , "distributed": "đã phân phối"
+  , "returned_to_field": "đã quay lại đồng ruộng"
+  , "biochar_processor": "đơn vị xử lý biochar"
+  , "material_buyer": "đơn vị mua vật liệu"
+  , "bio refinery": "nhà máy tinh chế sinh học"
+  , "dissolved oxygen": "oxy hòa tan"
+  , "temperature": "nhiệt độ"
+  , "organic matter": "chất hữu cơ"
+  , "moisture": "độ ẩm"
+  , "planned": "đã lên kế hoạch"
+  , "running": "đang vận hành"
+  , "completed": "đã hoàn thành"
+  , "failed": "thất bại"
+  , "No workflow tasks.": "Không có công việc nào trong quy trình."
+  , "No routes planned.": "Chưa có tuyến nào được lên kế hoạch."
+  , "No outputs listed.": "Chưa có sản phẩm đầu ra nào được niêm yết."
+  , "No partners onboarded.": "Chưa có đối tác nào được kết nối."
+  , "No credits currently offered.": "Hiện chưa có tín chỉ nào được chào bán."
+  , "Compliance checklist unavailable.": "Chưa có danh sách kiểm tra tuân thủ."
+  , "Leaf, small branch and thinning wood": "Lá, cành nhỏ và gỗ tỉa thưa"
+  , "Stable saline-tolerant forest biomass": "Sinh khối rừng ổn định, chịu mặn"
+  , "Bio-material outputs": "Sản phẩm vật liệu sinh học"
+  , "Export trays, bio-packaging, shock-absorbent sheets, agricultural mulch film and bio-composites": "Khay xuất khẩu, bao bì sinh học, tấm chống sốc, màng phủ nông nghiệp và composite sinh học"
+  , "traceable": "có thể truy xuất"
+  , "Pond W-01": "Ao W-01"
+  , "Improve pond water system": "Cải thiện hệ thống nước ao"
+  , "CO2e recorded across": "t CO2e được ghi nhận trong"
+  , "ready": "sẵn sàng"
+  , "Bio-refinery pathways": "Các quy trình tinh chế sinh học"
+  , "circular": "tuần hoàn"
+  , "input": "đầu vào"
+  , "output": "đầu ra"
+  , "Can Tho": "Cần Thơ"
+  , "Ca Mau District 1": "Huyện Cà Mau 1"
+  , "Linked to Field A": "Liên kết với Ruộng A"
+  , "Mixed": "Hỗn hợp"
+  , "Seasonal rotation": "Luân canh theo mùa"
+  , "Carbon & MRV Configuration": "Cấu hình Carbon & MRV"
+  , "Pyrolysis yield factor": "Hệ số thu hồi nhiệt phân"
+  , "Rice straw CO₂e factor": "Hệ số CO₂e của rơm rạ"
+  , "Shrimp sludge CO₂e factor": "Hệ số CO₂e của bùn ao tôm"
+  , "tCO₂e per tonne biochar": "tCO₂e trên mỗi tấn biochar"
+  , "MRV verification tier": "Cấp xác minh MRV"
+  , "Nested (via Biocare)": "Dự án lồng ghép (qua Biocare)"
+  , "Standalone project": "Dự án độc lập"
+  , "Salinity alert threshold": "Ngưỡng cảnh báo độ mặn"
+  , "Season-switch trigger": "Ngưỡng kích hoạt chuyển mùa vụ"
+  , "Shrimp DO warning threshold": "Ngưỡng cảnh báo DO cho tôm"
+  , "Pre-mortality alert": "Cảnh báo trước nguy cơ chết"
+  , "Changes to MRV factors affect credit calculations from the": "Thay đổi hệ số MRV sẽ ảnh hưởng đến tính toán tín chỉ từ"
+  , "next batch forward": "lô tiếp theo"
+  , ". Historical records remain protected in the GreenLoop audit ledger.": ". Hồ sơ lịch sử vẫn được bảo vệ trong sổ cái kiểm toán GreenLoop."
+  , "Connections": "Kết nối"
+  , "SCU trading active": "Giao dịch SCU đang hoạt động"
+  , "Pre-approval pending · 2 tCO₂e required": "Đang chờ phê duyệt trước · yêu cầu 2 tCO₂e"
+  , "Agricultural policy - 12% discount unlocked": "Bảo hiểm nông nghiệp - đã mở ưu đãi 12%"
+  , "Open data · Auto-refresh every 6 h": "Dữ liệu mở · tự làm mới mỗi 6 giờ"
+  , "Not linked - standalone registration": "Chưa liên kết - đăng ký độc lập"
+  , "Data & Privacy": "Dữ liệu & Quyền riêng tư"
+  , "~2.4 MB stored locally": "~2,4 MB đã lưu cục bộ"
+  , "Clear cache": "Xóa bộ nhớ đệm"
+  , "Browser notifications": "Thông báo trình duyệt"
+  , "Push notifications": "Thông báo đẩy"
+  , "Receive alerts when the app is in the background": "Nhận cảnh báo khi ứng dụng chạy nền"
+  , "Tap to enable": "Nhấn để bật"
+  , "Alert sound": "Âm thanh cảnh báo"
+  , "Play a sound for salinity / shrimp mortality alerts": "Phát âm khi có cảnh báo độ mặn / tôm chết"
+  , "Show unread badge": "Hiện số chưa đọc"
+  , "Show notification count on browser tab": "Hiện số thông báo trên tab trình duyệt"
+  , "Session & Storage": "Phiên & Bộ nhớ"
+  , "Auto-save form drafts": "Tự lưu nháp biểu mẫu"
+  , "Restore unfinished forms after reload": "Khôi phục biểu mẫu chưa gửi khi tải lại"
+  , "Session timeout": "Hết phiên tự động"
+  , "Sign out automatically when inactive": "Tự đăng xuất khi không hoạt động"
+  , "Remember last page": "Ghi nhớ trang cuối"
+  , "Reopen the last viewed section": "Mở lại mục đã xem lần trước"
+  , "Local storage used": "Bộ nhớ cục bộ đã dùng"
+  , "Reset all": "Đặt lại tất cả"
+  , "Keyboard shortcuts": "Phím tắt"
   , "Live routes": "Tuyến đường thực tế"
   , "Users, batches, MRV and logistics are available in Operations.": "Người dùng, lô hàng, MRV và logistics có tại trang Vận hành."
   , "Ecosystem": "Hệ sinh thái"
-  , "Ecosystem Engine": "Bộ máy hệ sinh thái"
+  , "Ecosystem Engine": "Bộ điều phối hệ sinh thái"
   , "Configure rice, aquaculture and melaleuca systems by ecological zone": "Cấu hình hệ lúa, thủy sản và tràm theo vùng sinh thái"
   , "Rice - Aquaculture - Melaleuca": "Lúa - Thủy sản - Tràm"
   , "Ecological zone": "Vùng sinh thái"
@@ -3678,7 +4012,7 @@ function applyLanguage() {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
       const parent = node.parentElement;
-      if (!parent || parent.closest('script,style')) return NodeFilter.FILTER_REJECT;
+      if (!parent || parent.closest('script,style,[data-no-i18n]')) return NodeFilter.FILTER_REJECT;
       return normalizeCopy(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
     }
   });
@@ -4021,39 +4355,194 @@ function opRows(targetId, items, render, empty) {
   target.innerHTML = items.length ? items.map(render).join('') : `<div class="gl-empty">${empty}</div>`;
 }
 
+function setLoopText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+function renderFlowPanel(title, meta, items) {
+  const titleEl = document.getElementById('flowPanelTitle');
+  const metaEl = document.getElementById('flowPanelMeta');
+  const listEl = document.getElementById('flowPanelList');
+  if (titleEl) titleEl.textContent = t(title);
+  if (metaEl) metaEl.textContent = t(meta);
+  if (listEl) listEl.innerHTML = items.length
+    ? items.slice(0, 6).map(item => `<div class="loop-detail-item"><b>${escapeHtml(t(item.title))}</b><span>${escapeHtml(t(item.meta))}</span></div>`).join('')
+    : `<div class="gl-empty">${escapeHtml(t('No linked records yet.'))}</div>`;
+}
+
+function renderLoopChips(targetId, items, emptyLabel = 'No records') {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  const rows = items.slice(0, 5);
+  target.innerHTML = rows.length
+    ? rows.map(item => `<span class="loop-chip ${item.tone || ''}">${escapeHtml(t(item.label))}</span>`).join('')
+    : `<span class="loop-chip">${escapeHtml(t(emptyLabel))}</span>`;
+}
+
+function renderCircularFlow(payload = {}) {
+  const viMode = lang === 'vi';
+  const products = payload.products || [];
+  const residues = payload.residues || [];
+  const certificates = payload.certificates || [];
+  const fieldApps = payload.fieldApps || [];
+  const partners = payload.partners || [];
+  const pathways = payload.pathways || [];
+  const iot = payload.iot || { salinity: [], environment: [] };
+  const includes = (value, tokens) => tokens.some(token => String(value || '').toLowerCase().includes(token));
+  const sourceRows = tokens => residues.filter(x => includes(x.residue_type, tokens) || includes(x.name, tokens));
+  const productRows = tokens => products.filter(x => includes(x.category, tokens) || includes(x.name, tokens) || includes(x.pathway_output, tokens));
+  const sourceMap = {
+    coffee: sourceRows(['coffee']),
+    rice: sourceRows(['rice', 'straw', 'husk']),
+    cajeput: sourceRows(['cajeput', 'melaleuca', 'tram']),
+    coconut: sourceRows(['coconut']),
+    aquatic: sourceRows(['shrimp', 'fish', 'pond', 'aquatic'])
+  };
+  const productMap = {
+    eco: productRows(['eco']),
+    plant: productRows(['plant', 'pesticide', 'protection']),
+    tea: productRows(['tea', 'coffee_leaf']),
+    mushroom: productRows(['mushroom']),
+    mulch: productRows(['mulch']),
+    packaging: productRows(['packaging']),
+    biochar: productRows(['biochar']),
+    leather: productRows(['leather'])
+  };
+  const sensorCount = Number(iot.salinity?.length || 0) + Number(iot.environment?.length || 0);
+  setLoopText('loopEvidenceCount', sensorCount + certificates.length);
+  setLoopText('loopFeedstockCount', residues.length);
+  setLoopText('loopPathwayCount', pathways.length);
+  setLoopText('loopProductCount', products.length);
+  setLoopText('loopReturnCount', fieldApps.length);
+  renderLoopChips('loopEvidenceChips', [
+    { label: viMode ? `${sensorCount} chỉ số IoT` : `${sensorCount} IoT readings`, tone: 'good' },
+    { label: viMode ? `${certificates.length} chứng chỉ` : `${certificates.length} certificates`, tone: 'good' },
+    { label: viMode ? `${certificates.filter(x => x.blockchain_tx).length} giao dịch blockchain` : `${certificates.filter(x => x.blockchain_tx).length} blockchain tx` }
+  ]);
+  renderLoopChips('loopFeedstockChips', [
+    { label: viMode ? `${sourceMap.coffee.length} cà phê` : `${sourceMap.coffee.length} coffee` },
+    { label: viMode ? `${sourceMap.rice.length} lúa` : `${sourceMap.rice.length} rice`, tone: 'good' },
+    { label: viMode ? `${sourceMap.cajeput.length} tràm` : `${sourceMap.cajeput.length} cajeput` },
+    { label: viMode ? `${sourceMap.coconut.length} dừa` : `${sourceMap.coconut.length} coconut` },
+    { label: viMode ? `${sourceMap.aquatic.length} thủy sản` : `${sourceMap.aquatic.length} aquatic`, tone: 'good' }
+  ]);
+  renderLoopChips('loopPathwayChips', [
+    { label: viMode ? `${pathways.length} dòng chuyển hóa` : `${pathways.length} pathways`, tone: 'good' },
+    { label: viMode ? `${partners.length} đối tác` : `${partners.length} partners` },
+    { label: viMode ? `${payload.routes?.length || 0} tuyến` : `${payload.routes?.length || 0} routes` }
+  ]);
+  renderLoopChips('loopOutputChips', [
+    { label: viMode ? `${products.filter(x => x.channel === 'market').length} thị trường` : `${products.filter(x => x.channel === 'market').length} market` },
+    { label: viMode ? `${products.filter(x => x.channel === 'bio_refinery').length} tinh chế sinh học` : `${products.filter(x => x.channel === 'bio_refinery').length} bio-refinery`, tone: 'good' },
+    { label: `${productMap.biochar.length} biochar` },
+    { label: viMode ? `${productMap.packaging.length} bao bì` : `${productMap.packaging.length} packaging` }
+  ]);
+  renderLoopChips('loopReturnChips', [
+    { label: viMode ? `${fieldApps.length} lượt áp dụng ngoài ruộng` : `${fieldApps.length} field applications`, tone: fieldApps.length ? 'good' : '' },
+    { label: viMode ? `${products.filter(x => Number(x.return_to_field)).length} sản phẩm quay lại ruộng` : `${products.filter(x => Number(x.return_to_field)).length} returnable outputs`, tone: 'warn' }
+  ]);
+  const panelData = {
+    evidence: {
+      title: 'Evidence layer',
+      meta: viMode ? `${sensorCount} chỉ số trực tiếp và ${certificates.length} chứng chỉ hỗ trợ xác minh ESG, carbon và truy xuất nguồn gốc.` : `${sensorCount} live readings and ${certificates.length} certificates support ESG, carbon and traceability claims.`,
+      items: [
+        ...(iot.salinity || []).map(x => ({ title: x.station, meta: viMode ? `Độ mặn ${x.value_gpl} g/L - ${x.alert ? 'cảnh báo' : 'bình thường'}` : `Salinity ${x.value_gpl} g/L - ${x.alert ? 'alert' : 'normal'}` })),
+        ...(iot.environment || []).map(x => ({ title: x.station, meta: `${t(String(x.metric || '').replaceAll('_',' '))}: ${x.value} ${x.unit}` })),
+        ...certificates.map(x => ({ title: x.certificate_no, meta: `${x.standard} - ${t(x.status)}` }))
+      ]
+    },
+    feedstock: {
+      title: 'By-product intake',
+      meta: viMode ? `${residues.length} lô phụ phẩm được ghi nhận từ nguồn nông nghiệp, lâm nghiệp và thủy sản.` : `${residues.length} residue lots are registered across agriculture, forestry and aquaculture sources.`,
+      items: residues.map(x => ({ title: x.name, meta: `${formatKg(x.quantity)} - ${labelBiomass(x.residue_type)} - ${t(x.status)}` }))
+    },
+    conversion: {
+      title: 'Conversion pathways',
+      meta: viMode ? `${pathways.length} dòng chuyển hóa và ${partners.length} đối tác kết nối nguyên liệu đầu vào với sản phẩm sau xử lý.` : `${pathways.length} pathways and ${partners.length} partners connect feedstock to processing outcomes.`,
+      items: [
+        ...pathways.map(x => ({ title: x.output_name, meta: `${labelBiomass(x.input_type)} - ${x.process_name}` })),
+        ...partners.map(x => ({ title: x.name, meta: `${t(String(x.type || '').replaceAll('_',' '))} - ${t(x.status)}` }))
+      ]
+    },
+    outputs: {
+      title: 'Market and Bio Refinery outputs',
+      meta: viMode ? `${products.length} sản phẩm đầu ra được phân luồng giữa thị trường, tinh chế sinh học và quay lại nông trại.` : `${products.length} outputs are split between market, bio-refinery and farm-return channels.`,
+      items: products.map(x => ({ title: x.name, meta: `${t(x.channel || 'market')} - ${t(x.status)} - ${formatKg(x.quantity_kg)}` }))
+    },
+    return: {
+      title: 'Back to the field',
+      meta: viMode ? `${fieldApps.length} lượt áp dụng sản phẩm khép kín vòng tuần hoàn thông qua cải tạo đất hoặc giảm đầu vào tổng hợp.` : `${fieldApps.length} product applications close the loop through soil improvement or lower synthetic inputs.`,
+      items: fieldApps.map(x => ({ title: x.product_name || x.product_id, meta: viMode ? `${formatKg(x.quantity)} đã áp dụng tại ${x.field_location}` : `${formatKg(x.quantity)} applied at ${x.field_location}` }))
+    }
+  };
+  panelData.overview = {
+    title: 'Circular economy overview',
+    meta: viMode ? `${residues.length} lô phụ phẩm, ${pathways.length} dòng chuyển hóa, ${products.length} sản phẩm đầu ra, ${fieldApps.length} lượt quay lại ruộng.` : `${residues.length} residue lots, ${pathways.length} conversion pathways, ${products.length} outputs, ${fieldApps.length} field returns.`,
+    items: [
+      { title: 'Collection + Logistics', meta: viMode ? `${payload.routes?.length || 0} tuyến thu gom và bàn giao có thể truy xuất.` : `${payload.routes?.length || 0} collection routes and traceable handoffs.` },
+      { title: 'Market + Bio Refinery', meta: viMode ? `${products.filter(x => x.channel === 'bio_refinery').length} sản phẩm chế biến sâu và ${products.filter(x => x.channel === 'market').length} sản phẩm thị trường.` : `${products.filter(x => x.channel === 'bio_refinery').length} deep-processed products and ${products.filter(x => x.channel === 'market').length} market products.` },
+      { title: 'IoT + Certificates', meta: viMode ? `${sensorCount} chỉ số cảm biến và ${certificates.length} chứng chỉ.` : `${sensorCount} sensor readings and ${certificates.length} certificates.` }
+    ]
+  };
+  document.querySelectorAll('[data-loop-node]').forEach(node => {
+    node.onclick = () => {
+      const data = panelData[node.dataset.loopNode] || panelData.overview;
+      renderFlowPanel(data.title, data.meta, data.items);
+    };
+  });
+  renderFlowPanel(panelData.overview.title, panelData.overview.meta, panelData.overview.items);
+}
+
 async function renderOperations() {
   try {
     if (currentUser?.role === 'buyer') {
-      const [products, offers, compliance] = await Promise.all([
-        apiFetch('/api/platform/products'), apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/compliance')
+      const [products, offers, compliance, residues, certificates, fieldApps, pathways, iot] = await Promise.all([
+        apiFetch('/api/platform/products'), apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/compliance'),
+        apiFetch('/api/circular/residues').catch(() => ({data:[]})),
+        apiFetch('/api/circular/certificates').catch(() => ({data:[]})),
+        apiFetch('/api/circular/field-applications').catch(() => ({data:[]})),
+        apiFetch('/api/circular/conversion-pathways').catch(() => ({data:[]})),
+        apiFetch('/api/platform/iot/live').catch(() => ({salinity:[],environment:[]}))
       ]);
+      renderCircularFlow({ products: products.data, offers: offers.data, compliance: compliance.checks, residues: residues.data, certificates: certificates.data, fieldApps: fieldApps.data, pathways: pathways.data, iot });
       const buyerKpis = document.getElementById('opsKpis');
       if (buyerKpis) buyerKpis.innerHTML = [[offers.data.length,'Open credit offers'],[products.data.length,'Traceable outputs'],['VM0044','MRV framework'],['70 / 20 / 10','Revenue split']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
-      ['opsTasks','opsRoutes','opsPartners'].forEach(id => opRows(id, [], () => '', 'This operational data is restricted to HTX, partners and administrators.'));
+      ['opsTasks','opsRoutes','opsPartners','opsIot'].forEach(id => opRows(id, [], () => '', 'This operational data is restricted to HTX, partners and administrators.'));
       opRows('opsProducts', products.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Traceable output')} · ${formatKg(x.quantity_kg)}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No traceable outputs available.');
       opRows('opsOffers', offers.data, x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">$${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No credit offers available.');
       opRows('opsCompliance', compliance.checks, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.label)}</div><div class="ops-meta">${escapeHtml(compliance.framework)}</div></div><span class="ops-status warn">${escapeHtml(x.status)}</span></div>`, 'Compliance checklist unavailable.');
+      applyLanguage();
       return;
     }
-    const [overview, tasks, routes, products, partners, offers, compliance] = await Promise.all([
+    const [overview, tasks, routes, products, partners, offers, compliance, iot, residues, certificates, fieldApps, pathways] = await Promise.all([
       apiFetch('/api/platform/overview'), apiFetch('/api/platform/tasks'), apiFetch('/api/platform/logistics/routes'),
-      apiFetch('/api/platform/products'), apiFetch('/api/platform/partners'), apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/compliance')
+      apiFetch('/api/platform/products'), apiFetch('/api/platform/partners'), apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/compliance'), apiFetch('/api/platform/iot/live'),
+      apiFetch('/api/circular/residues').catch(() => ({data:[]})),
+      apiFetch('/api/circular/certificates').catch(() => ({data:[]})),
+      apiFetch('/api/circular/field-applications').catch(() => ({data:[]})),
+      apiFetch('/api/circular/conversion-pathways').catch(() => ({data:[]}))
     ]);
+    renderCircularFlow({ products: products.data, residues: residues.data, certificates: certificates.data, fieldApps: fieldApps.data, partners: partners.data, pathways: pathways.data, iot, routes: routes.data, offers: offers.data });
     const ov = document.getElementById('opsKpis');
     if (ov) ov.innerHTML = [
       [overview.batches.count, 'Biomass batches'],
-      [overview.active_tasks, 'Open workflow tasks'],
-      [overview.live_routes, 'Live collection routes'],
-      [overview.pending_verification, 'Pending MRV checks']
+      [residues.data.length, 'Residue sources'],
+      [fieldApps.data.length, 'Returned to field'],
+      [certificates.data.length, 'Green certificates']
     ].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
     opRows('opsTasks', tasks.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Platform task')} · ${escapeHtml(x.assignee_role)}${x.due_at ? ' · due ' + escapeHtml(formatDate(x.due_at)) : ''}</div></div><span class="ops-status ${x.status === 'blocked' ? 'warn' : ''}">${escapeHtml(x.status.replace('_',' '))}</span></div>`, 'No workflow tasks.');
     opRows('opsRoutes', routes.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.route_name)}</div><div class="ops-meta">${escapeHtml(formatDate(x.scheduled_at))} · ${formatKg(x.assigned_kg)} / ${formatKg(x.capacity_kg)} · ${Number(x.cost_per_ton_vnd).toLocaleString('vi-VN')} VND/t</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No routes planned.');
-    opRows('opsProducts', products.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Unlinked batch')} · ${formatKg(x.quantity_kg)} · ${Number(x.unit_price_vnd).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No outputs listed.');
+    opRows('opsProducts', products.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Unlinked batch')} · ${formatKg(x.quantity_kg)} · ${Number(x.unit_price_vnd).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No outputs listed.');    const iotRows = [...(iot.salinity || []).map(x => ({ metric:'salinity', station:x.station, value:x.value_gpl, unit:'g/L', alert:x.alert, sampled_at:x.recorded_at })), ...(iot.environment || [])];
+    opRows('opsIot', iotRows.slice(0,6), x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(String(x.metric).replaceAll('_',' '))}: ${Number(x.value).toFixed(1)} ${escapeHtml(x.unit || '')}</div><div class="ops-meta">${escapeHtml(x.station || 'Sensor')} - ${escapeHtml(formatDate(x.sampled_at))}</div></div><span class="ops-status ${Number(x.alert) ? 'warn' : ''}">${Number(x.alert) ? 'alert' : 'live'}</span></div>`, 'No IoT readings yet.');
+    opRows('opsProducts', products.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.residue_name || x.batch_code || 'Traceable output')} - ${escapeHtml(x.pathway_output || x.category)} - ${escapeHtml(x.channel || 'market')} - ${formatKg(x.quantity_kg)} - ${Number(x.unit_price_vnd).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status ${Number(x.return_to_field) ? 'warn' : ''}">${escapeHtml(x.status)}</span></div>`, 'No outputs listed.');
     opRows('opsPartners', partners.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.type.replaceAll('_',' '))} · ${escapeHtml(x.province || 'Mekong Delta')}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No partners onboarded.');
     opRows('opsOffers', offers.data, x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">$${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e · verified credit offer</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No credits currently offered.');
     opRows('opsCompliance', compliance.checks, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.label)}</div><div class="ops-meta">${escapeHtml(compliance.framework)}</div></div><span class="ops-status warn">${escapeHtml(x.status)}</span></div>`, 'Compliance checklist unavailable.');
+    opRows('opsCompliance', [...certificates.data.slice(0,3).map(c => ({ label: c.certificate_no, framework: `${c.standard} - ${c.issuer}`, status: c.status })), ...compliance.checks], x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.label)}</div><div class="ops-meta">${escapeHtml(x.framework || compliance.framework)}</div></div><span class="ops-status warn">${escapeHtml(x.status)}</span></div>`, 'Compliance checklist unavailable.');
+    applyLanguage();
   } catch (err) {
-    ['opsTasks','opsRoutes','opsProducts','opsPartners','opsOffers','opsCompliance'].forEach(id => {
+    ['opsTasks','opsRoutes','opsProducts','opsPartners','opsOffers','opsCompliance','opsIot'].forEach(id => {
       const el = document.getElementById(id); if (el) el.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Unable to load operations data'))}</div>`;
     });
   }
@@ -4065,6 +4554,16 @@ async function createBatch() {
   if (!Number.isFinite(inputKg) || inputKg <= 0) return toast('Enter a valid biomass weight');
   try {
     const result = await apiFetch('/api/platform/batches', { method: 'POST', body: JSON.stringify({ biomass_type: biomass, input_kg: inputKg }) });
+    await apiFetch('/api/circular/residues', { method: 'POST', body: JSON.stringify({
+      name: `${labelBiomass(biomass)} residue intake`,
+      residue_type: biomass,
+      source_category: biomass.includes('shrimp') || biomass.includes('fish') || biomass.includes('pond') ? 'aquaculture' : 'agriculture',
+      origin: 'Operations batch intake',
+      quantity: inputKg,
+      unit: 'kg',
+      location: currentUser?.province || 'Mekong Delta',
+      description: `Linked to traceable batch ${result.batch_code}`
+    }) }).catch(() => null);
     toast(`Batch ${result.batch_code} created with custody tracking`); renderOperations();
   } catch (err) { toast(friendlyError(err, 'Could not create biomass batch')); }
 }
@@ -4072,6 +4571,7 @@ async function createBatch() {
 /* Đổi mùa vụ */
 function setSeason(s) {
   season = s;
+  refreshSeasonBiomassOptions(s);
   document.querySelectorAll('[data-season-control]').forEach(button => {
     button.classList.toggle('active', button.dataset.seasonControl === s);
   });
@@ -4291,11 +4791,16 @@ function calc() {
   const type = document.getElementById('calcType').value;
   const weight = parseFloat(document.getElementById('calcWeight').value) || 0;
   const rates = {
-    rice_straw:    { y:.30, co2:2.5, vnd:1250, q:'good' },
-    rice_husk:     { y:.35, co2:2.8, vnd:1400, q:'good' },
-    shrimp_sludge: { y:.18, co2:1.5, vnd:900,  q:'okay' },
-    melaleuca:     { y:.33, co2:2.9, vnd:1450, q:'very good' },
-    coconut:       { y:.32, co2:2.7, vnd:1500, q:'very good' }
+    rice_straw:             { y:.30, co2:2.5, vnd:1250, q:'good', output:'biochar' },
+    rice_husk:              { y:.35, co2:2.8, vnd:1400, q:'good', output:'biochar' },
+    pond_sludge:            { y:.18, co2:1.5, vnd:900,  q:'okay', output:'biochar' },
+    shrimp_shells:          { y:.24, co2:0,   vnd:5200, q:'very good', output:'chitin feedstock' },
+    shrimp_heads:           { y:.28, co2:0,   vnd:2600, q:'good', output:'protein feedstock' },
+    fish_skin_bones:        { y:.22, co2:0,   vnd:4800, q:'good', output:'collagen/protein feedstock' },
+    melaleuca_leaves:       { y:.18, co2:2.1, vnd:2200, q:'good', output:'extract / biochar' },
+    melaleuca_branches:     { y:.38, co2:2.9, vnd:3400, q:'very good', output:'LCNF feedstock' },
+    melaleuca_thinning_wood:{ y:.42, co2:3.1, vnd:4200, q:'very good', output:'LCNF feedstock' },
+    melaleuca_residue:      { y:.30, co2:2.8, vnd:1450, q:'very good', output:'biochar / extract' }
   };
   const r = rates[type];
   const biochar = Math.round(weight * r.y);
@@ -4305,6 +4810,8 @@ function calc() {
   const payoutFmt = payout.toLocaleString('vi-VN') + ' VND';
 
   document.getElementById('calcYield').textContent = biochar;
+  const yieldLabel = document.getElementById('calcYieldLabel');
+  if (yieldLabel) yieldLabel.textContent = `kg ${t(r.output)}`;
   document.getElementById('calcCO2').textContent = co2 + ' t';
   document.getElementById('calcConvRate').textContent = '~' + payoutFmt;
   const qEl = document.getElementById('calcQuality');
@@ -4325,10 +4832,22 @@ async function bookCollection() {
   if (weight < 500) { toast('Khối lượng tối thiểu là 500 kg'); return; }
   const typeMap = {
     'rice_straw':    'rice_straw',
-    'rice_husk':     'rice_straw',
+    'rice_husk':     'rice_husk',
+    'pond_sludge':   'pond_sludge',
     'shrimp_sludge': 'pond_sludge',
-    'melaleuca':    'tram',
-    'coconut':       'mixed'
+    'shrimp_shells': 'shrimp_shells',
+    'shrimp_heads':  'shrimp_heads',
+    'fish_skin_bones': 'fish_skin_bones',
+    'melaleuca_leaves': 'melaleuca_leaves',
+    'melaleuca_branches': 'melaleuca_branches',
+    'melaleuca_thinning_wood': 'melaleuca_thinning_wood',
+    'melaleuca_residue': 'melaleuca_residue',
+    'melaleuca':    'melaleuca_residue',
+    'tram':         'melaleuca_residue',
+    'coconut':      'coconut_husk',
+    'coconut_husk': 'coconut_husk',
+    'coffee_husk':  'coffee_husk',
+    'cajeput_residue': 'cajeput_residue'
   };
   try {
     setBusy(btn, true, 'Đang gửi...');
@@ -4412,9 +4931,19 @@ function labelBiomass(type) {
     mixed: 'Mixed Biomass',
     rice_husk: 'Rice Husk',
     shrimp_sludge: 'Shrimp Pond Sludge',
+    shrimp_shells: 'Shrimp Shells',
+    shrimp_heads: 'Shrimp Heads',
+    fish_skin_bones: 'Fish Skin & Bones',
     tram: 'Melaleuca Residue',
     melaleuca: 'Melaleuca Residue',
-    coconut: 'Coconut Shell'
+    melaleuca_leaves: 'Melaleuca Leaves',
+    melaleuca_branches: 'Melaleuca Branches',
+    melaleuca_thinning_wood: 'Melaleuca Thinning Wood',
+    melaleuca_residue: 'Melaleuca Residue',
+    coconut: 'Coconut Husk',
+    coconut_husk: 'Coconut Husk',
+    coffee_husk: 'Coffee Husk',
+    cajeput_residue: 'Cajeput Residue'
   })[type] || String(type || 'Biomass').replace(/_/g, ' ');
 }
 
@@ -4663,25 +5192,33 @@ async function renderCarbonSummary() {
 
 async function loadCarbonDetail(id) {
   try {
-    const { data } = await apiFetch('/api/carbon/' + encodeURIComponent(id));
-    const trail = Array.isArray(data.mrv_trail) && data.mrv_trail.length
-      ? data.mrv_trail.map(l => `Tier ${l.tier}: ${l.action}`).join('\n')
-      : 'Chưa có log MRV';
+    const pkg = await apiFetch('/api/carbon/' + encodeURIComponent(id) + '/evidence-package');
+    const data = pkg.record;
+    const trail = Array.isArray(pkg.mrv_trail) && pkg.mrv_trail.length
+      ? pkg.mrv_trail.map(l => `Tier ${l.tier}: ${l.action}${l.data_hash ? ' - ' + l.data_hash.slice(0, 18) + '...' : ''}`).join('\n')
+      : 'No MRV log yet';
+    const checks = Array.isArray(pkg.checks) ? pkg.checks.map(c => `${c.passed ? '[x]' : '[ ]'} ${c.label}`).join('\n') : '';
     alert([
+      'GreenLoop dMRV evidence package',
+      `Readiness: ${pkg.readiness_score}/100`,
       `Carbon record: ${data.id}`,
+      `Biomass: ${labelBiomass(data.biomass_type)} - ${formatKg(data.quantity_kg)}`,
       `Biochar: ${formatKg(data.biochar_kg)}`,
-      `CO₂e: ${formatTonnes(data.co2e_tonnes)}`,
+      `CO2e: ${formatTonnes(data.co2e_tonnes)}`,
       `Status: ${data.status}`,
-      `Passport hash: ${data.passport_hash || 'Chưa có'}`,
+      `Passport hash: ${data.passport_hash || 'Not anchored'}`,
+      `Package hash: ${pkg.package_hash}`,
+      '',
+      'Audit checks:',
+      checks,
       '',
       'MRV trail:',
       trail
     ].join('\n'));
   } catch (err) {
-    toast(friendlyError(err, 'Không tải được chi tiết carbon'));
+    toast(friendlyError(err, 'Unable to load carbon evidence package'));
   }
 }
-
 /* Thông báo nổi */
 function toast(msg) {
   const toastEl = document.getElementById('toast');

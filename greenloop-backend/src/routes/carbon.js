@@ -17,6 +17,15 @@ function toObjects(result) {
   return result[0].values.map(row => Object.fromEntries(cols.map((c, i) => [c, row[i]])));
 }
 
+function rows(db, sql, params = []) {
+  const stmt = db.prepare(sql);
+  stmt.bind(params);
+  const output = [];
+  while (stmt.step()) output.push(stmt.getAsObject());
+  stmt.free();
+  return output;
+}
+
 function makePassportHash(record) {
   const payload = JSON.stringify({ id: record.id, user_id: record.user_id, biochar_kg: record.biochar_kg, co2e_tonnes: record.co2e_tonnes, created_at: record.created_at });
   return 'sha256:' + crypto.createHash('sha256').update(payload).digest('hex');
@@ -91,6 +100,45 @@ router.get('/summary', auth, async (req, res) => {
       by_season: toObjects(bySeason),
       scu_price_usd: SCU_PRICE_USD
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/carbon/:id/evidence-package — auditable dMRV package
+ */
+router.get('/:id/evidence-package', auth, async (req, res) => {
+  try {
+    const db = await getDb();
+    const record = rows(db, `
+      SELECT cr.*, u.name as farmer_name, u.province, u.htx_code,
+             p.biomass_type, p.quantity_kg, p.location, p.scheduled_at, p.status as pickup_status
+      FROM carbon_records cr
+      JOIN users u ON cr.user_id = u.id
+      LEFT JOIN pickups p ON cr.pickup_id = p.id
+      WHERE cr.id = ?
+    `, [req.params.id])[0];
+    if (!record) return res.status(404).json({ error: 'Carbon record not found' });
+    if (req.user.role === 'farmer' && record.user_id !== req.user.id) return res.status(403).json({ error: 'Forbidden' });
+
+    const mrvTrail = rows(db, 'SELECT * FROM mrv_logs WHERE carbon_id = ? ORDER BY logged_at ASC', [req.params.id]);
+    const verification = rows(db, 'SELECT * FROM verification_cases WHERE carbon_id = ? ORDER BY created_at DESC', [req.params.id]);
+    const soil = rows(db, 'SELECT * FROM soil_samples WHERE user_id = ? ORDER BY sampled_at DESC LIMIT 3', [record.user_id]);
+    const offer = rows(db, 'SELECT * FROM carbon_offers WHERE carbon_id = ? ORDER BY created_at DESC LIMIT 1', [req.params.id])[0] || null;
+
+    const checks = [
+      { id: 'source', label: 'Farm and HTX source identified', passed: Boolean(record.user_id && record.htx_code) },
+      { id: 'mass', label: 'Biomass mass and pickup location recorded', passed: Boolean(record.quantity_kg && record.location) },
+      { id: 'process', label: 'Biochar yield converted to CO2e', passed: Number(record.biochar_kg) > 0 && Number(record.co2e_tonnes) > 0 },
+      { id: 'custody', label: 'Passport hash anchored', passed: Boolean(record.passport_hash) },
+      { id: 'mrv', label: 'MRV trail contains field or lab evidence', passed: mrvTrail.length > 0 },
+      { id: 'soil', label: 'Soil baseline available for farm', passed: soil.length > 0 },
+      { id: 'verification', label: 'Verification case or verified status exists', passed: verification.length > 0 || ['verified','issued','traded'].includes(record.status) },
+      { id: 'market', label: 'Marketplace offer or issuance status available', passed: Boolean(offer) || ['issued','traded'].includes(record.status) }
+    ];
+    const score = Math.round((checks.filter(x => x.passed).length / checks.length) * 100);
+    res.json({ record, mrv_trail: mrvTrail, verification, soil_samples: soil, marketplace_offer: offer, checks, readiness_score: score, package_hash: makePassportHash(record) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -207,6 +255,11 @@ router.post('/:id/issue', requireRole('admin'), async (req, res) => {
 
     db.run(`UPDATE carbon_records SET status='issued', scu_units=?, revenue_usd=? WHERE id=?`,
       [scu, revenue, req.params.id]);
+    const existingOffer = rows(db, 'SELECT id FROM carbon_offers WHERE carbon_id = ? AND status = ?', [req.params.id, 'open'])[0];
+    if (!existingOffer) {
+      db.run('INSERT INTO carbon_offers VALUES (?,?,?,?,?,?,?)',
+        [uuidv4(), req.params.id, record.user_id, scu, SCU_PRICE_USD, 'open', now]);
+    }
 
     db.run(`INSERT INTO mrv_logs (id,carbon_id,tier,action,operator,logged_at) VALUES (?,?,?,?,?,?)`,
       [uuidv4(), req.params.id, 3, `${scu} SCU issued for Binance Sustainability settlement @ $${SCU_PRICE_USD}/tonne`, 'GreenLoop Admin', now]);

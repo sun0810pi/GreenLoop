@@ -2,6 +2,7 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const { getDb, saveDb } = require('../db');
 const { auth, requireRole } = require('../middleware/auth');
+const { getBiomassType, isBiomassType, normalizeBiomassType } = require('../biomass');
 
 const router = express.Router();
 
@@ -20,10 +21,11 @@ router.post('/', auth, async (req, res) => {
     const db = await getDb();
     const { biomass_type, quantity_kg, location, province, scheduled_at, notes, htx_code } = req.body;
 
+    const normalizedType = normalizeBiomassType(biomass_type);
     if (!biomass_type || !quantity_kg || !location || !province || !scheduled_at)
       return res.status(400).json({ error: 'biomass_type, quantity_kg, location, province, scheduled_at required' });
-    if (!['rice_straw', 'pond_sludge', 'tram', 'mixed'].includes(biomass_type))
-      return res.status(400).json({ error: 'biomass_type must be: rice_straw | pond_sludge | tram | mixed' });
+    if (!isBiomassType(normalizedType))
+      return res.status(400).json({ error: 'Unsupported biomass_type' });
     if (quantity_kg < 500)
       return res.status(400).json({ error: 'Minimum pickup is 500 kg' });
 
@@ -32,7 +34,7 @@ router.post('/', auth, async (req, res) => {
     db.run(
       `INSERT INTO pickups (id,user_id,biomass_type,quantity_kg,location,province,scheduled_at,notes,htx_code,created_at,updated_at)
        VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
-      [id, req.user.id, biomass_type, quantity_kg, location, province, scheduled_at, notes || null, htx_code || req.user.htx_code || null, now, now]
+      [id, req.user.id, normalizedType, quantity_kg, location, province, scheduled_at, notes || null, htx_code || req.user.htx_code || null, now, now]
     );
 
     // Award points: 1 pt per kg at booking
@@ -43,11 +45,12 @@ router.post('/', auth, async (req, res) => {
     db.run(`INSERT INTO notifications (id,user_id,title,body,type,created_at) VALUES (?,?,?,?,?,?)`,
       [uuidv4(), req.user.id,
        '📦 Pickup Confirmed',
-       `Your ${biomass_type.replace('_', ' ')} pickup (${quantity_kg} kg) scheduled for ${new Date(scheduled_at).toLocaleDateString('vi-VN')}.`,
+       `Your ${normalizedType.replace('_', ' ')} pickup (${quantity_kg} kg) scheduled for ${new Date(scheduled_at).toLocaleDateString('vi-VN')}.`,
        'success', now]);
 
     saveDb();
-    res.status(201).json({ id, status: 'pending', estimated_biochar_kg: Math.round(quantity_kg * 0.35) });
+    const biomass = getBiomassType(normalizedType);
+    res.status(201).json({ id, status: 'pending', biomass_type: normalizedType, processing_output: biomass.output, mrv_pathway: biomass.mrv_pathway, estimated_biochar_kg: biomass.carbon_factor ? Math.round(quantity_kg * biomass.yield_factor) : null });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -125,13 +128,20 @@ router.patch('/:id/status', requireRole('htx', 'admin'), async (req, res) => {
     if (status === 'processed' && biochar_yield_kg) {
       const pickupRes = db.exec(`SELECT * FROM pickups WHERE id = '${req.params.id}'`);
       const pickup = toObjects(pickupRes)[0];
-      const co2e = (biochar_yield_kg * 3.12 / 1000).toFixed(4);
-      const season = pickup.biomass_type === 'rice_straw' ? 'wet_rice' : pickup.biomass_type === 'pond_sludge' ? 'dry_shrimp' : 'perennial_melaleuca';
+      const biomass = getBiomassType(pickup.biomass_type);
+      if (!biomass?.carbon_factor) {
+        saveDb();
+        return res.json({ message: 'Status updated; this bio-product requires its own MRV pathway', status });
+      }
+      const co2e = (biochar_yield_kg * biomass.carbon_factor / 1000).toFixed(4);
+      const season = biomass.season;
       const carbonId = uuidv4();
+      const passportPayload = JSON.stringify({ carbonId, pickup_id: pickup.id, user_id: pickup.user_id, biomass_type: pickup.biomass_type, biochar_yield_kg, co2e, season, processed_at: now });
+      const passportHash = 'sha256:' + require('crypto').createHash('sha256').update(passportPayload).digest('hex');
 
       db.run(
-        `INSERT INTO carbon_records (id,user_id,pickup_id,biochar_kg,co2e_tonnes,season,created_at) VALUES (?,?,?,?,?,?,?)`,
-        [carbonId, pickup.user_id, pickup.id, biochar_yield_kg, co2e, season, now]
+        `INSERT INTO carbon_records (id,user_id,pickup_id,biochar_kg,co2e_tonnes,season,passport_hash,created_at) VALUES (?,?,?,?,?,?,?,?)`,
+        [carbonId, pickup.user_id, pickup.id, biochar_yield_kg, co2e, season, passportHash, now]
       );
 
       // Notify farmer
@@ -144,6 +154,8 @@ router.patch('/:id/status', requireRole('htx', 'admin'), async (req, res) => {
       // MRV tier 1 log
       db.run(`INSERT INTO mrv_logs (id,carbon_id,tier,action,operator,logged_at) VALUES (?,?,?,?,?,?)`,
         [uuidv4(), carbonId, 1, 'Field mass verified by HTX', req.user.name, now]);
+      db.run(`INSERT INTO mrv_logs (id,carbon_id,tier,action,operator,data_hash,notes,logged_at) VALUES (?,?,?,?,?,?,?,?)`,
+        [uuidv4(), carbonId, 1, 'Chain-of-custody passport anchored', req.user.name, passportHash, biomass.mrv_pathway, now]);
     }
 
     saveDb();
