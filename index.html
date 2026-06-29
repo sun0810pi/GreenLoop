@@ -2897,9 +2897,9 @@ const SEASON_BIOMASS = {
     { value:'melaleuca_branches', en:'Melaleuca small branches', vi:'Cành tràm nhỏ', output:'LCNF' },
     { value:'melaleuca_thinning_wood', en:'Melaleuca thinning wood', vi:'Gỗ tràm tỉa thưa', output:'LCNF' },
         { value:'melaleuca_residue', en:'Melaleuca processing residue', vi:'Bã tràm', output:'biochar/extract' },
-    { value:'coconut_husk', en:'Coconut husk', vi:'Vo dua', output:'biochar/fiber' },
-    { value:'coffee_husk', en:'Coffee husk', vi:'Vo ca phe', output:'biochar' },
-    { value:'cajeput_residue', en:'Cajeput residue', vi:'Ba tram', output:'biochar/extract' }
+    { value:'coconut_husk', en:'Coconut husk', vi:'Vỏ dừa', output:'biochar/fiber' },
+    { value:'coffee_husk', en:'Coffee husk', vi:'Vỏ cà phê', output:'biochar' },
+    { value:'cajeput_residue', en:'Cajeput residue', vi:'Bã tràm', output:'biochar/extract' }
   ]
 };
 
@@ -4925,26 +4925,29 @@ async function renderCollections() {
 }
 
 function labelBiomass(type) {
-  return ({
-    rice_straw: 'Rice Straw',
-    pond_sludge: 'Shrimp Pond Sludge',
-    mixed: 'Mixed Biomass',
-    rice_husk: 'Rice Husk',
-    shrimp_sludge: 'Shrimp Pond Sludge',
-    shrimp_shells: 'Shrimp Shells',
-    shrimp_heads: 'Shrimp Heads',
-    fish_skin_bones: 'Fish Skin & Bones',
-    tram: 'Melaleuca Residue',
-    melaleuca: 'Melaleuca Residue',
-    melaleuca_leaves: 'Melaleuca Leaves',
-    melaleuca_branches: 'Melaleuca Branches',
-    melaleuca_thinning_wood: 'Melaleuca Thinning Wood',
-    melaleuca_residue: 'Melaleuca Residue',
-    coconut: 'Coconut Husk',
-    coconut_husk: 'Coconut Husk',
-    coffee_husk: 'Coffee Husk',
-    cajeput_residue: 'Cajeput Residue'
-  })[type] || String(type || 'Biomass').replace(/_/g, ' ');
+  const labels = {
+    rice_straw: { en:'Rice Straw', vi:'Rơm rạ' },
+    pond_sludge: { en:'Shrimp Pond Sludge', vi:'Bùn ao thủy sản' },
+    mixed: { en:'Mixed Biomass', vi:'Sinh khối hỗn hợp' },
+    rice_husk: { en:'Rice Husk', vi:'Vỏ trấu' },
+    shrimp_sludge: { en:'Shrimp Pond Sludge', vi:'Bùn ao thủy sản' },
+    shrimp_shells: { en:'Shrimp Shells', vi:'Vỏ tôm' },
+    shrimp_heads: { en:'Shrimp Heads', vi:'Đầu tôm' },
+    fish_skin_bones: { en:'Fish Skin & Bones', vi:'Da và xương cá' },
+    tram: { en:'Melaleuca Residue', vi:'Phụ phẩm tràm' },
+    melaleuca: { en:'Melaleuca Residue', vi:'Phụ phẩm tràm' },
+    melaleuca_leaves: { en:'Melaleuca Leaves', vi:'Lá tràm' },
+    melaleuca_branches: { en:'Melaleuca Branches', vi:'Cành tràm' },
+    melaleuca_thinning_wood: { en:'Melaleuca Thinning Wood', vi:'Gỗ tràm tỉa thưa' },
+    melaleuca_residue: { en:'Melaleuca Residue', vi:'Phụ phẩm tràm' },
+    coconut: { en:'Coconut Husk', vi:'Vỏ dừa' },
+    coconut_husk: { en:'Coconut Husk', vi:'Vỏ dừa' },
+    coffee_husk: { en:'Coffee Husk', vi:'Vỏ cà phê' },
+    cajeput_residue: { en:'Cajeput Residue', vi:'Bã tràm' }
+  };
+  const label = labels[type];
+  if (label) return lang === 'vi' ? label.vi : label.en;
+  return String(type || (lang === 'vi' ? 'Sinh khối' : 'Biomass')).replace(/_/g, ' ');
 }
 
 function renderPickupList(data) {

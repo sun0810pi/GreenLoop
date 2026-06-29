@@ -1,7 +1,7 @@
 const BIOMASS_TYPES = {
   rice_straw: {
     label: 'Rice straw',
-    vi_label: 'Rom lua',
+    vi_label: 'Rơm rạ',
     season: 'wet_rice',
     carbon_factor: 3.12,
     yield_factor: 0.35,
@@ -10,7 +10,7 @@ const BIOMASS_TYPES = {
   },
   rice_husk: {
     label: 'Rice husk',
-    vi_label: 'Vo trau',
+    vi_label: 'Vỏ trấu',
     season: 'wet_rice',
     carbon_factor: 3.12,
     yield_factor: 0.33,
@@ -19,7 +19,7 @@ const BIOMASS_TYPES = {
   },
   pond_sludge: {
     label: 'Aquaculture pond sludge',
-    vi_label: 'Bun ao thuy san',
+    vi_label: 'Bùn ao thủy sản',
     season: 'dry_aquaculture',
     carbon_factor: 2.4,
     yield_factor: 0.28,
@@ -28,7 +28,7 @@ const BIOMASS_TYPES = {
   },
   shrimp_shells: {
     label: 'Shrimp shells',
-    vi_label: 'Vo tom',
+    vi_label: 'Vỏ tôm',
     season: 'dry_aquaculture',
     carbon_factor: 0,
     yield_factor: 0,
@@ -37,7 +37,7 @@ const BIOMASS_TYPES = {
   },
   shrimp_heads: {
     label: 'Shrimp heads',
-    vi_label: 'Dau tom',
+    vi_label: 'Đầu tôm',
     season: 'dry_aquaculture',
     carbon_factor: 0,
     yield_factor: 0,
@@ -46,7 +46,7 @@ const BIOMASS_TYPES = {
   },
   fish_skin_bones: {
     label: 'Fish skin and bones',
-    vi_label: 'Da va xuong ca',
+    vi_label: 'Da và xương cá',
     season: 'dry_aquaculture',
     carbon_factor: 0,
     yield_factor: 0,
@@ -55,7 +55,7 @@ const BIOMASS_TYPES = {
   },
   melaleuca_leaves: {
     label: 'Melaleuca leaves',
-    vi_label: 'La tram',
+    vi_label: 'Lá tràm',
     season: 'perennial_melaleuca',
     carbon_factor: 2.8,
     yield_factor: 0.30,
@@ -64,7 +64,7 @@ const BIOMASS_TYPES = {
   },
   melaleuca_branches: {
     label: 'Melaleuca branches',
-    vi_label: 'Canh tram',
+    vi_label: 'Cành tràm',
     season: 'perennial_melaleuca',
     carbon_factor: 3.12,
     yield_factor: 0.32,
@@ -73,7 +73,7 @@ const BIOMASS_TYPES = {
   },
   melaleuca_thinning_wood: {
     label: 'Melaleuca thinning wood',
-    vi_label: 'Go tram tia thua',
+    vi_label: 'Gỗ tràm tỉa thưa',
     season: 'perennial_melaleuca',
     carbon_factor: 3.12,
     yield_factor: 0.34,
@@ -82,7 +82,7 @@ const BIOMASS_TYPES = {
   },
   melaleuca_residue: {
     label: 'Melaleuca residue',
-    vi_label: 'Phu pham tram',
+    vi_label: 'Phụ phẩm tràm',
     season: 'perennial_melaleuca',
     carbon_factor: 2.8,
     yield_factor: 0.30,
@@ -91,7 +91,7 @@ const BIOMASS_TYPES = {
   },
   coconut_husk: {
     label: 'Coconut husk',
-    vi_label: 'Vo dua',
+    vi_label: 'Vỏ dừa',
     season: 'perennial_biomass',
     carbon_factor: 3.0,
     yield_factor: 0.31,
@@ -100,7 +100,7 @@ const BIOMASS_TYPES = {
   },
   coffee_husk: {
     label: 'Coffee husk',
-    vi_label: 'Vo ca phe',
+    vi_label: 'Vỏ cà phê',
     season: 'perennial_biomass',
     carbon_factor: 3.0,
     yield_factor: 0.32,
@@ -109,7 +109,7 @@ const BIOMASS_TYPES = {
   },
   cajeput_residue: {
     label: 'Cajeput residue',
-    vi_label: 'Ba tram',
+    vi_label: 'Bã tràm',
     season: 'perennial_melaleuca',
     carbon_factor: 2.8,
     yield_factor: 0.30,
@@ -118,7 +118,7 @@ const BIOMASS_TYPES = {
   },
   mixed: {
     label: 'Mixed biomass',
-    vi_label: 'Sinh khoi hon hop',
+    vi_label: 'Sinh khối hỗn hợp',
     season: 'mixed',
     carbon_factor: 0,
     yield_factor: 0,
