@@ -251,6 +251,7 @@ function initSchema() {
   if (userCount === 0) seedDemoData();
 
   seedPlatformData();
+  normalizeDemoDates();
 
   saveDb();
 }
@@ -270,6 +271,28 @@ function migrateSchema() {
   addColumnIfMissing('products', 'unit', "TEXT DEFAULT 'kg'");
   addColumnIfMissing('products', 'channel', "TEXT DEFAULT 'market'");
   addColumnIfMissing('products', 'return_to_field', 'INTEGER DEFAULT 0');
+}
+
+function runUpdate(sql, params = []) {
+  try { db.run(sql, params); } catch {}
+}
+
+function normalizeDemoDates() {
+  const demoDates = {
+    ricePickup: '2026-05-10T07:00:00Z',
+    sludgePickup: '2026-05-20T07:00:00Z',
+    riceResidue: '2026-05-10T07:00:00Z',
+    coffeeResidue: '2026-06-01T07:00:00Z',
+    coconutResidue: '2026-06-05T07:00:00Z',
+    aquaResidue: '2026-06-08T07:00:00Z'
+  };
+  runUpdate("UPDATE pickups SET scheduled_at=? WHERE biomass_type='rice_straw' AND scheduled_at LIKE '2025-05-10%'", [demoDates.ricePickup]);
+  runUpdate("UPDATE pickups SET scheduled_at=? WHERE biomass_type='pond_sludge' AND scheduled_at LIKE '2025-05-20%'", [demoDates.sludgePickup]);
+  runUpdate("UPDATE residues SET collection_date=? WHERE id='res-rice-001'", [demoDates.riceResidue]);
+  runUpdate("UPDATE residues SET collection_date=? WHERE id='res-coffee-001'", [demoDates.coffeeResidue]);
+  runUpdate("UPDATE residues SET collection_date=? WHERE id='res-coconut-001'", [demoDates.coconutResidue]);
+  runUpdate("UPDATE residues SET collection_date=? WHERE id='res-aqua-001'", [demoDates.aquaResidue]);
+  runUpdate("UPDATE notifications SET body=? WHERE body='Your 1.31 SCU from May harvest has been verified under VM0044.'", ['Your 1.31 SCU from the 05/2026 harvest has been verified under VM0044.']);
 }
 
 function seedPlatformData() {
@@ -356,10 +379,10 @@ function seedCircularDomain(now, crypto) {
   const residueCount = db.exec("SELECT COUNT(*) AS c FROM residues")[0]?.values[0][0] || 0;
   if (!residueCount) {
     const residues = [
-      ['res-rice-001', 'user-demo-001', null, 'Rơm rạ sau vụ lúa', 'rice_straw', 'agriculture', 'Ruộng lúa mùa mưa', 1200, 'kg', 'processing', '2025-05-10T07:00:00Z', 'Khanh Binh Tay, Tran Van Thoi, Ca Mau', 'Rơm sạch được bó tại bờ ruộng.', 'path-rice-biochar'],
-      ['res-coffee-001', 'user-demo-001', null, 'Phụ phẩm cà phê từ cơ sở sấy HTX', 'coffee_husk', 'agriculture', 'HTX sơ chế cà phê', 300, 'kg', 'classified', '2025-06-01T07:00:00Z', 'Lam Dong partner hub', 'Phụ phẩm phù hợp cho thử nghiệm trà và chiết xuất.', 'path-coffee-tea'],
-      ['res-coconut-001', 'user-demo-001', null, 'Lô xơ vỏ dừa', 'coconut_husk', 'agriculture', 'Nông trại và cơ sở sơ chế dừa', 650, 'kg', 'classified', '2025-06-05T07:00:00Z', 'Ben Tre partner hub', 'Xơ dài phù hợp cho bao bì và da sinh học.', 'path-coconut-packaging'],
-      ['res-aqua-001', 'user-demo-001', null, 'Phụ phẩm vỏ tôm', 'shrimp_shells', 'aquaculture', 'Dây chuyền sơ chế tôm', 240, 'kg', 'received', '2025-06-08T07:00:00Z', 'Ca Mau seafood processor', 'Vỏ tôm được giữ lại cho dòng chitin.', 'path-aquatic-bioproduct']
+      ['res-rice-001', 'user-demo-001', null, 'Rơm rạ sau vụ lúa', 'rice_straw', 'agriculture', 'Ruộng lúa mùa mưa', 1200, 'kg', 'processing', '2026-05-10T07:00:00Z', 'Khanh Binh Tay, Tran Van Thoi, Ca Mau', 'Rơm sạch được bó tại bờ ruộng.', 'path-rice-biochar'],
+      ['res-coffee-001', 'user-demo-001', null, 'Phụ phẩm cà phê từ cơ sở sấy HTX', 'coffee_husk', 'agriculture', 'HTX sơ chế cà phê', 300, 'kg', 'classified', '2026-06-01T07:00:00Z', 'Lam Dong partner hub', 'Phụ phẩm phù hợp cho thử nghiệm trà và chiết xuất.', 'path-coffee-tea'],
+      ['res-coconut-001', 'user-demo-001', null, 'Lô xơ vỏ dừa', 'coconut_husk', 'agriculture', 'Nông trại và cơ sở sơ chế dừa', 650, 'kg', 'classified', '2026-06-05T07:00:00Z', 'Ben Tre partner hub', 'Xơ dài phù hợp cho bao bì và da sinh học.', 'path-coconut-packaging'],
+      ['res-aqua-001', 'user-demo-001', null, 'Phụ phẩm vỏ tôm', 'shrimp_shells', 'aquaculture', 'Dây chuyền sơ chế tôm', 240, 'kg', 'received', '2026-06-08T07:00:00Z', 'Ca Mau seafood processor', 'Vỏ tôm được giữ lại cho dòng chitin.', 'path-aquatic-bioproduct']
     ];
     residues.forEach(r => db.run('INSERT INTO residues VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [...r, now, now]));
   }
@@ -419,12 +442,12 @@ function seedDemoData() {
   const p1 = uuidv4();
   db.run(`INSERT INTO pickups (id,user_id,biomass_type,quantity_kg,location,province,scheduled_at,status,biochar_yield_kg) VALUES (?,?,?,?,?,?,?,?,?)`,
     [p1, userId, 'rice_straw', 1200, 'Xã Khánh Bình Tây, huyện Trần Văn Thời', 'ca-mau',
-     '2025-05-10T07:00:00Z', 'processed', 420]);
+     '2026-05-10T07:00:00Z', 'processed', 420]);
 
   const p2 = uuidv4();
   db.run(`INSERT INTO pickups (id,user_id,biomass_type,quantity_kg,location,province,scheduled_at,status) VALUES (?,?,?,?,?,?,?,?)`,
     [p2, userId, 'pond_sludge', 800, 'Xã Khánh Bình Tây, huyện Trần Văn Thời', 'ca-mau',
-     '2025-05-20T07:00:00Z', 'confirmed']);
+     '2026-05-20T07:00:00Z', 'confirmed']);
 
   // Demo carbon record
   const c1 = uuidv4();
@@ -462,7 +485,7 @@ function seedDemoData() {
   db.run(`INSERT INTO notifications (id,user_id,title,body,type) VALUES (?,?,?,?,?)`,
     [uuidv4(), userId, '⚠️ Salinity Alert - Sóc Trăng', 'Station Sóc Trăng reads 5.8 g/L - above 5 g/L threshold. Switch to rice season.', 'alert']);
   db.run(`INSERT INTO notifications (id,user_id,title,body,type) VALUES (?,?,?,?,?)`,
-    [uuidv4(), userId, '✅ Carbon Credit Verified', 'Your 1.31 SCU from May harvest has been verified under VM0044.', 'success']);
+    [uuidv4(), userId, '✅ Carbon Credit Verified', 'Your 1.31 SCU from the 05/2026 harvest has been verified under VM0044.', 'success']);
 
   saveDb();
 }

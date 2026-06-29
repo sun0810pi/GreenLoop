@@ -1552,7 +1552,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                 <span class="np-dot info"></span>
                 <div class="np-body">
                   <div class="np-title">Pickup confirmed</div>
-                  <div class="np-text">HTX truck comes May 16 · Ca Mau Central Hub</div>
+                  <div class="np-text">Xe HTX đến ngày 16/05 · Trung tâm Cà Mau</div>
                   <div class="np-time">2 days ago</div>
                 </div>
               </div>
@@ -1718,7 +1718,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             <div class="cb">
               <div class="mc" id="miniChart"></div>
               <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--tm)">
-                <span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span>
+                <span>T01</span><span>T03</span><span>T05</span><span>T07</span><span>T09</span><span>T11</span>
               </div>
             </div>
           </div>
@@ -1748,7 +1748,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                 <div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">What changed</div>
                 <div style="font-size:12px;color:var(--ts);line-height:1.65">After putting biochar on the field for 2 seasons, the soil holds <strong>18% more water</strong> and rice grew stronger.</div>
                 <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">
-                  HTX staff will test again: <strong style="color:var(--tp)">May 28</strong>
+                  HTX staff will test again: <strong style="color:var(--tp)">28/05</strong>
                 </div>
               </div>
             </div>
@@ -1941,8 +1941,8 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <div class="rec mb18">
           <div class="rl">Data Recommendation</div>
           <div class="rt">Optimal Season Switch Date</div>
-          <div class="rd">15 June 2026</div>
-          <div class="rx">Salinity forecast from MRC shows intrusion crossing 5 g/L threshold around June 10. Switch rice fields to shrimp-pond preparation 5 days prior for optimal transition.</div>
+          <div class="rd">15/06/2026</div>
+          <div class="rx">Salinity forecast from MRC shows intrusion crossing 5 g/L threshold around 10/06. Switch rice fields to shrimp-pond preparation 5 days prior for optimal transition.</div>
         </div>
 
         <div class="g2 mb18">
@@ -1991,7 +1991,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                 <div style="position:absolute;top:8px;right:12px;font-size:10px;color:var(--warn);font-weight:600">5 g/L threshold</div>
               </div>
               <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--tm)">
-                <span>May 4</span><span>May 6</span><span>May 8</span><span>May 10</span>
+                <span>04/05</span><span>06/05</span><span>08/05</span><span>10/05</span>
               </div>
             </div>
           </div>
@@ -2679,6 +2679,29 @@ function formatDate(value, opts) {
   return d.toLocaleDateString('vi-VN', opts || { day:'2-digit', month:'2-digit', year:'numeric' });
 }
 
+function formatShortDate(value) {
+  return formatDate(value, { day:'2-digit', month:'2-digit' });
+}
+
+function formatShortDateTime(value) {
+  return formatDate(value, { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+function formatMonthYear(value) {
+  if (!value) return '-';
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return value;
+  return `Tháng ${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+}
+
+function monthLabel(month) {
+  return `T${String(month).padStart(2, '0')}`;
+}
+
+function monthRangeLabel(start, end = start) {
+  return start === end ? monthLabel(start) : `${monthLabel(start)}-${monthLabel(end)}`;
+}
+
 function formatKg(value) {
   return (Number(value) || 0).toLocaleString('vi-VN') + ' kg';
 }
@@ -3075,14 +3098,16 @@ const STATIC_TEXT = {
   "What changed": "Có gì thay đổi",
   "After putting biochar on the field for 2 seasons, the soil holds 18% more water and rice grew stronger.": "Sau 2 vụ rải biochar, đất giữ nước nhiều hơn 18% và lúa khỏe hơn rõ.",
   "HTX staff will test again:": "HTX sẽ kiểm tra lại đất ngày:",
-  "May 28": "28/5",
+  "May 28": "28/05",
+  "28/05": "28/05",
   // ── Notifications (farmer-friendly) ──
   "Salt water near your field": "Nước mặn gần ruộng bạn",
   "Canal N-03 reads 3.8 g/L - careful with rice": "Kênh N-03 đo 3,8 g/L - cẩn thận với lúa",
   "Payment received": "Đã nhận thanh toán",
   "1,250,000 VND for batch #GL-003 - sent to Agribank": "1.250.000 VND cho lô #GL-003 - đã chuyển Agribank",
   "Pickup confirmed": "Đã xác nhận lịch thu gom",
-  "HTX truck comes May 16 · Ca Mau Central Hub": "Xe HTX đến ngày 16/5 · Trung tâm Cà Mau",
+  "HTX truck comes May 16 · Ca Mau Central Hub": "Xe HTX đến ngày 16/05 · Trung tâm Cà Mau",
+  "Xe HTX đến ngày 16/05 · Trung tâm Cà Mau": "Xe HTX đến ngày 16/05 · Trung tâm Cà Mau",
   "+480 reward points": "+480 điểm thưởng",
   "Use them for fertilizer or seeds at the HTX shop": "Dùng đổi phân bón hoặc giống ở HTX",
   "2 hours ago": "2 giờ trước",
@@ -3213,7 +3238,8 @@ const STATIC_TEXT = {
   "Gợi ý từ dữ liệu": "Gợi ý từ dữ liệu",
   "Data Recommendation": "Gợi ý từ dữ liệu",
   "Optimal Season Switch Date": "Ngày chuyển mùa phù hợp",
-  "Salinity forecast from MRC shows intrusion crossing 5 g/L threshold around June 10. Switch rice fields to shrimp-pond preparation 5 days prior for optimal transition.": "Dự báo độ mặn từ MRC cho thấy xâm nhập mặn vượt ngưỡng 5 g/L khoảng ngày 10/6. Nên chuyển ruộng lúa sang chuẩn bị ao tôm sớm 5 ngày để tối ưu.",
+  "Salinity forecast from MRC shows intrusion crossing 5 g/L threshold around June 10. Switch rice fields to shrimp-pond preparation 5 days prior for optimal transition.": "Dự báo độ mặn từ MRC cho thấy xâm nhập mặn vượt ngưỡng 5 g/L khoảng ngày 10/06. Nên chuyển ruộng lúa sang chuẩn bị ao tôm sớm 5 ngày để tối ưu.",
+  "Salinity forecast from MRC shows intrusion crossing 5 g/L threshold around 10/06. Switch rice fields to shrimp-pond preparation 5 days prior for optimal transition.": "Dự báo độ mặn từ MRC cho thấy xâm nhập mặn vượt ngưỡng 5 g/L khoảng ngày 10/06. Nên chuyển ruộng lúa sang chuẩn bị ao tôm sớm 5 ngày để tối ưu.",
   "Live Salinity Reading": "Độ mặn hiện tại",
   "Canal Intake N-03": "Cửa lấy nước N-03",
   "g/L salinity": "g/L độ mặn",
@@ -3927,7 +3953,8 @@ const ATTRIBUTE_TEXT = {
   , "Salinity Alert - Sóc Trăng": "Cảnh báo độ mặn - Sóc Trăng"
   , "Station Sóc Trăng reads 5.8 g/L - above 5 g/L threshold. Switch to rice season.": "Trạm Sóc Trăng đo được 5,8 g/L - vượt ngưỡng 5 g/L. Hãy chuyển sang vụ lúa."
   , "Carbon Credit Verified": "Đã xác minh tín chỉ carbon"
-  , "Your 1.31 SCU from May harvest has been verified under VM0044.": "1,31 SCU từ vụ thu hoạch tháng 5 của bạn đã được xác minh theo VM0044."
+  , "Your 1.31 SCU from May harvest has been verified under VM0044.": "1,31 SCU từ vụ thu hoạch tháng 05/2026 của bạn đã được xác minh theo VM0044."
+  , "Your 1.31 SCU from the 05/2026 harvest has been verified under VM0044.": "1,31 SCU từ vụ thu hoạch 05/2026 của bạn đã được xác minh theo VM0044."
   , "SIPOC Operations Control": "Điều hành SIPOC"
   , "Live data": "Dữ liệu trực tiếp"
   , "Biomass batches": "Lô sinh khối"
@@ -4338,7 +4365,7 @@ async function renderEcosystem() {
     const refinery = document.getElementById('ecoRefinery');
     if (refinery) refinery.innerHTML = catalog.refinery.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.process)}</div><div class="ops-meta">Đầu vào: ${escapeHtml(x.input)}<br>Đầu ra: ${escapeHtml(x.output)}<br>Giá trị: ${escapeHtml(x.value)}</div></div><span class="ops-status">circular</span></div>`).join('');
     const environmentTarget = document.getElementById('ecoEnvironment');
-    if (environmentTarget) environmentTarget.innerHTML = environment.data.length ? environment.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.metric.replace('_',' '))}: ${Number(x.value).toFixed(1)} ${escapeHtml(x.unit)}</div><div class="ops-meta">${escapeHtml(x.station)} · ${new Date(x.sampled_at).toLocaleDateString()}</div></div><span class="ops-status ${x.alert ? 'warn' : ''}">${x.alert ? 'alert' : 'normal'}</span></div>`).join('') : `<div class="gl-empty">No environmental measurements yet.</div>`;
+    if (environmentTarget) environmentTarget.innerHTML = environment.data.length ? environment.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.metric.replace('_',' '))}: ${Number(x.value).toFixed(1)} ${escapeHtml(x.unit)}</div><div class="ops-meta">${escapeHtml(x.station)} · ${formatDate(x.sampled_at)}</div></div><span class="ops-status ${x.alert ? 'warn' : ''}">${x.alert ? 'alert' : 'normal'}</span></div>`).join('') : `<div class="gl-empty">No environmental measurements yet.</div>`;
     const soilTarget = document.getElementById('ecoSoil');
     if (soilTarget) soilTarget.innerHTML = soil.data.length ? soil.data.slice(0,3).map(x => `<div class="ops-row"><div><div class="ops-name">pH ${x.ph ?? '—'} · organic ${x.organic_matter_pct ?? '—'}%</div><div class="ops-meta">Moisture ${x.moisture_pct ?? '—'}% · soil carbon ${x.soil_carbon_pct ?? '—'}%</div></div><span class="ops-status">MRV</span></div>`).join('') : `<div class="gl-empty">Record a baseline soil sample for MRV.</div>`;
     const financeTarget = document.getElementById('ecoFinance');
@@ -4719,7 +4746,7 @@ function setSeason(s) {
     const fcn = document.getElementById('fieldChangeNote');
     if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('What changed')}</div>
       <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('After putting biochar on the field for 2 seasons, the soil holds')} <strong>18% ${t('more water')}</strong> ${t('and rice grew stronger.')}</div>
-      <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('staff will test again')}: <strong style="color:var(--tp)">May 28</strong></div>`;
+      <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('staff will test again')}: <strong style="color:var(--tp)">28/05</strong></div>`;
 
   } else if (s === 'shrimp') {
     rb.className = 's-btn'; sb.className = 's-btn as'; if (tb) tb.className = 's-btn';
@@ -4766,7 +4793,7 @@ function setSeason(s) {
     const fcn = document.getElementById('fieldChangeNote');
     if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('Pond status')}</div>
       <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('Aquaculture is developing well. Sludge biochar from the last cycle improved pond DO by')} <strong>12%</strong>. ${t('Expected harvest in 30 days.')}</div>
-      <div style="margin-top:12px;padding:10px;background:rgba(38,166,154,.06);border:1px solid rgba(38,166,154,.14);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('will collect sludge after harvest')}: <strong style="color:var(--tp)">~Jun 15</strong></div>`;
+      <div style="margin-top:12px;padding:10px;background:rgba(38,166,154,.06);border:1px solid rgba(38,166,154,.14);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('will collect sludge after harvest')}: <strong style="color:var(--tp)">~15/06</strong></div>`;
   } else {
     rb.className = 's-btn'; sb.className = 's-btn'; if (tb) tb.className = 's-btn at';
     cb.className = 'badge be'; cb.textContent = t('Melaleuca Season');
@@ -4807,7 +4834,7 @@ function setSeason(s) {
     const fcn = document.getElementById('fieldChangeNote');
     if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('What changed')}</div>
       <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('Melaleuca stabilizes saline soil and provides renewable leaves, branches and thinning wood for LCNF materials.')}</div>
-      <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('staff will inspect the forest again')}: <strong style="color:var(--tp)">Jun 30</strong></div>`;
+      <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('staff will inspect the forest again')}: <strong style="color:var(--tp)">30/06</strong></div>`;
   }
   renderCycle();
   renderMiniChart();
@@ -4817,28 +4844,28 @@ function setSeason(s) {
 /* Theo dõi chu kỳ */
 function renderCycle() {
   const rice = [
-    { l:'Land Prep', s:'Jan', st:'done' },
-    { l:'Sowing', s:'Feb', st:'done' },
-    { l:'Growing', s:'Mar–Apr', st:'cur' },
-    { l:'Harvest', s:'May', st:'up' },
-    { l:'Residue', s:'May–Jun', st:'up' },
-    { l:'Transition', s:'Jun', st:'up' }
+    { l:'Land Prep', s:monthLabel(1), st:'done' },
+    { l:'Sowing', s:monthLabel(2), st:'done' },
+    { l:'Growing', s:monthRangeLabel(3,4), st:'cur' },
+    { l:'Harvest', s:monthLabel(5), st:'up' },
+    { l:'Residue', s:monthRangeLabel(5,6), st:'up' },
+    { l:'Transition', s:monthLabel(6), st:'up' }
   ];
   const shrimp = [
-    { l:'Pond Prep', s:'Jul', st:'done' },
-    { l:'Stocking', s:'Aug', st:'done' },
-    { l:'Grow-out', s:'Sep–Nov', st:'curs' },
-    { l:'Harvest', s:'Dec', st:'up' },
-    { l:'Sludge', s:'Dec–Jan', st:'up' },
-    { l:'Transition', s:'Jan', st:'up' }
+    { l:'Pond Prep', s:monthLabel(7), st:'done' },
+    { l:'Stocking', s:monthLabel(8), st:'done' },
+    { l:'Grow-out', s:monthRangeLabel(9,11), st:'curs' },
+    { l:'Harvest', s:monthLabel(12), st:'up' },
+    { l:'Sludge', s:`${monthLabel(12)}-${monthLabel(1)}`, st:'up' },
+    { l:'Transition', s:monthLabel(1), st:'up' }
   ];
   const tram = [
-    { l:'Forest monitoring', s:'Jan-Feb', st:'done' },
-    { l:'Leaf collection', s:'Mar-Apr', st:'done' },
-    { l:'Selective thinning', s:'May-Jun', st:'curs' },
-    { l:'LCNF processing', s:'Jul-Aug', st:'up' },
-    { l:'Soil restoration', s:'Sep-Oct', st:'up' },
-    { l:'Carbon verification', s:'Nov-Dec', st:'up' }
+    { l:'Forest monitoring', s:monthRangeLabel(1,2), st:'done' },
+    { l:'Leaf collection', s:monthRangeLabel(3,4), st:'done' },
+    { l:'Selective thinning', s:monthRangeLabel(5,6), st:'curs' },
+    { l:'LCNF processing', s:monthRangeLabel(7,8), st:'up' },
+    { l:'Soil restoration', s:monthRangeLabel(9,10), st:'up' },
+    { l:'Carbon verification', s:monthRangeLabel(11,12), st:'up' }
   ];
   const phases = season === 'rice' ? rice : season === 'tram' ? tram : shrimp;
   document.getElementById('cycleTracker').innerHTML = phases.map((p, i) => {
@@ -4986,10 +5013,10 @@ async function renderCollections() {
   } catch {
     // Fallback: data tĩnh khi offline / server chưa chạy
     const cols = [
-      { type:'Rice Straw', weight:'620 kg', date:'Feb 12, 2026', st:'Completed', bc:'bg' },
-      { type:'Coconut Shell', weight:'340 kg', date:'Jan 28, 2026', st:'Completed', bc:'bg' },
-      { type:'Shrimp Sludge', weight:'480 kg', date:'Jan 15, 2026', st:'Processing', bc:'bw' },
-      { type:'Rice Husk', weight:'750 kg', date:'Dec 20, 2025', st:'Completed', bc:'bg' }
+      { type:'Rice Straw', weight:'620 kg', date:'12/02/2026', st:'Completed', bc:'bg' },
+      { type:'Coconut Shell', weight:'340 kg', date:'28/01/2026', st:'Completed', bc:'bg' },
+      { type:'Shrimp Sludge', weight:'480 kg', date:'15/01/2026', st:'Processing', bc:'bw' },
+      { type:'Rice Husk', weight:'750 kg', date:'20/12/2025', st:'Completed', bc:'bg' }
     ];
     document.getElementById('recentCollections').innerHTML = cols.map(c => `
       <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--borderl)">
@@ -5304,7 +5331,7 @@ async function renderTimeline() {
     const html = data.length ? data.map(e => {
       const dot = (e.status === 'verified' || e.status === 'issued') ? 'g' : 'e';
       const label = e.season === 'wet_rice' ? 'Lúa' : 'Tôm';
-      const date = new Date(e.created_at).toLocaleDateString('vi-VN', { month: 'short', year: 'numeric' });
+      const date = formatMonthYear(e.created_at);
       return `
         <div class="tli" style="cursor:pointer" onclick="loadCarbonDetail('${escapeHtml(e.id)}')">
           <div class="tld ${dot}"></div>
@@ -5323,11 +5350,11 @@ async function renderTimeline() {
   } catch {
     // Fallback data tĩnh
     const events = [
-      { d:'Feb 2026', t:'Biochar Application - Paddy Field A', x:'180 kg applied, +0.42 tCO₂e', dot:'g' },
-      { d:'Dec 2025', t:'Biochar Application - Shrimp Pond B', x:'95 kg sludge-biochar, +0.18 tCO₂e', dot:'a' },
-      { d:'Oct 2025', t:'Soil Test - Annual Review', x:'Organic carbon up 0.4%, score improved to 87', dot:'e' },
-      { d:'Jun 2025', t:'Carbon Credit Issuance', x:'Batch #GL-003 - 1.2 tCO₂e verified and ready for marketplace settlement', dot:'g' },
-      { d:'Jan 2025', t:'GreenLoop Enrollment', x:'Passport created. Initial soil baseline recorded.', dot:'e' }
+      { d:'Tháng 02/2026', t:'Biochar Application - Paddy Field A', x:'180 kg applied, +0.42 tCO₂e', dot:'g' },
+      { d:'Tháng 12/2025', t:'Biochar Application - Shrimp Pond B', x:'95 kg sludge-biochar, +0.18 tCO₂e', dot:'a' },
+      { d:'Tháng 10/2025', t:'Soil Test - Annual Review', x:'Organic carbon up 0.4%, score improved to 87', dot:'e' },
+      { d:'Tháng 06/2025', t:'Carbon Credit Issuance', x:'Batch #GL-003 - 1.2 tCO₂e verified and ready for marketplace settlement', dot:'g' },
+      { d:'Tháng 01/2025', t:'GreenLoop Enrollment', x:'Passport created. Initial soil baseline recorded.', dot:'e' }
     ];
     document.getElementById('passportTimeline').innerHTML = events.map(e => `
       <div class="tli">
@@ -5466,7 +5493,7 @@ async function renderNotifications() {
           <div class="np-body">
             <div class="np-title">${escapeHtml(n.title)}</div>
             <div class="np-text">${escapeHtml(n.body)}</div>
-            <div class="np-time">${formatDate(n.created_at, { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })}</div>
+            <div class="np-time">${formatShortDateTime(n.created_at)}</div>
           </div>
         </div>`;
     }).join('');
