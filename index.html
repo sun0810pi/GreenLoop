@@ -4380,6 +4380,64 @@ function renderLoopChips(targetId, items, emptyLabel = 'No records') {
     : `<span class="loop-chip">${escapeHtml(t(emptyLabel))}</span>`;
 }
 
+const CIRCULAR_VI_TEXT = {
+  'Rice straw after wet-season harvest': 'Rơm rạ sau vụ lúa',
+  'Coffee residue from cooperative dryer': 'Phụ phẩm cà phê từ cơ sở sấy HTX',
+  'Coconut husk fiber lot': 'Lô xơ vỏ dừa',
+  'Shrimp shell by-product': 'Phụ phẩm vỏ tôm',
+  'Coffee leaf tea': 'Trà lá cà phê',
+  'Coffee leaf tea pilot lot': 'Lô thử nghiệm trà lá cà phê',
+  'Straw mushroom': 'Nấm rơm',
+  'Straw mushroom substrate pack': 'Gói giá thể nấm rơm',
+  'Biological mulch film': 'Màng phủ sinh học',
+  'Rice straw biochar': 'Biochar từ rơm rạ',
+  'EBC Biochar - rice straw': 'Biochar EBC từ rơm rạ',
+  'Bio-based food packaging': 'Bao bì thực phẩm sinh học',
+  'Bio-based food packaging sheet': 'Tấm bao bì thực phẩm sinh học',
+  'Bio-based leather sheet': 'Tấm da sinh học',
+  'Bio-leather sample sheet': 'Tấm mẫu da sinh học',
+  'Biological crop protection input': 'Đầu vào bảo vệ cây trồng sinh học',
+  'Circular eco-tourism experience': 'Trải nghiệm du lịch sinh thái tuần hoàn',
+  'Drying and herbal tea blending': 'Sấy và phối trộn trà thảo mộc',
+  'Mushroom substrate incubation': 'Ủ giá thể nấm',
+  'Fiber pulping and film casting': 'Nghiền xơ và đúc màng phủ',
+  'Low-oxygen pyrolysis': 'Nhiệt phân yếm khí',
+  'Fiber extraction and molding': 'Tách xơ và ép khuôn',
+  'Fiber reinforcement and bio-composite finishing': 'Gia cường xơ và hoàn thiện composite sinh học',
+  'Chitin extraction and microbial formulation': 'Tách chitin và phối chế vi sinh',
+  'Farm story packaging and visitor operations': 'Đóng gói câu chuyện nông trại và vận hành trải nghiệm',
+  'Coffee residues and leaves become a traceable beverage product.': 'Phụ phẩm và lá cà phê được chuyển thành sản phẩm đồ uống có thể truy xuất.',
+  'Rice straw is used as substrate for straw mushroom production.': 'Rơm rạ được dùng làm giá thể sản xuất nấm rơm.',
+  'Rice straw fiber is converted into mulch film that can return to fields.': 'Xơ rơm rạ được chuyển thành màng phủ có thể quay lại đồng ruộng.',
+  'Biochar stores carbon and improves soil water retention.': 'Biochar lưu trữ carbon và cải thiện khả năng giữ nước của đất.',
+  'Coconut husk fiber becomes molded food packaging.': 'Xơ vỏ dừa được ép khuôn thành bao bì thực phẩm.',
+  'Coconut fiber is processed into leather-like material.': 'Xơ dừa được xử lý thành vật liệu giống da.',
+  'Aquatic by-products become farm inputs for lower chemical use.': 'Phụ phẩm thủy sản trở thành đầu vào nông nghiệp giúp giảm hóa chất.',
+  'Verified circular practices become an eco-tourism product.': 'Thực hành tuần hoàn đã xác minh trở thành sản phẩm du lịch sinh thái.',
+  'Herbal tea product from coffee residue pathway.': 'Sản phẩm trà thảo mộc từ dòng phụ phẩm cà phê.',
+  'Commercial mushroom product from rice straw.': 'Sản phẩm nấm thương mại từ rơm rạ.',
+  'Deep-processed food packaging material.': 'Vật liệu bao bì thực phẩm chế biến sâu.',
+  'Bio-composite leather-like material.': 'Vật liệu composite sinh học giống da.',
+  'Chitin-based biological input that can return to fields.': 'Đầu vào sinh học từ chitin có thể quay lại đồng ruộng.',
+  'processing': 'đang xử lý',
+  'classified': 'đã phân loại',
+  'received': 'đã tiếp nhận',
+  'available': 'sẵn có',
+  'ready_for_sale': 'sẵn sàng bán',
+  'producing': 'đang sản xuất',
+  'distributed': 'đã phân phối',
+  'market': 'thị trường',
+  'bio_refinery': 'tinh chế sinh học',
+  'farm_return': 'quay lại nông trại'
+};
+
+function localizeCircularText(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+  if (lang !== 'vi') return raw;
+  return CIRCULAR_VI_TEXT[raw] || CIRCULAR_VI_TEXT[raw.toLowerCase()] || t(raw);
+}
+
 function renderCircularFlow(payload = {}) {
   const viMode = lang === 'vi';
   const products = payload.products || [];
@@ -4455,20 +4513,20 @@ function renderCircularFlow(payload = {}) {
     feedstock: {
       title: 'By-product intake',
       meta: viMode ? `${residues.length} lô phụ phẩm được ghi nhận từ nguồn nông nghiệp, lâm nghiệp và thủy sản.` : `${residues.length} residue lots are registered across agriculture, forestry and aquaculture sources.`,
-      items: residues.map(x => ({ title: x.name, meta: `${formatKg(x.quantity)} - ${labelBiomass(x.residue_type)} - ${t(x.status)}` }))
+      items: residues.map(x => ({ title: localizeCircularText(x.name), meta: `${formatKg(x.quantity)} - ${labelBiomass(x.residue_type)} - ${localizeCircularText(x.status)}` }))
     },
     conversion: {
       title: 'Conversion pathways',
       meta: viMode ? `${pathways.length} dòng chuyển hóa và ${partners.length} đối tác kết nối nguyên liệu đầu vào với sản phẩm sau xử lý.` : `${pathways.length} pathways and ${partners.length} partners connect feedstock to processing outcomes.`,
       items: [
-        ...pathways.map(x => ({ title: x.output_name, meta: `${labelBiomass(x.input_type)} - ${x.process_name}` })),
+        ...pathways.map(x => ({ title: localizeCircularText(x.output_name), meta: `${labelBiomass(x.input_type)} - ${localizeCircularText(x.process_name)}` })),
         ...partners.map(x => ({ title: x.name, meta: `${t(String(x.type || '').replaceAll('_',' '))} - ${t(x.status)}` }))
       ]
     },
     outputs: {
       title: 'Market and Bio Refinery outputs',
       meta: viMode ? `${products.length} sản phẩm đầu ra được phân luồng giữa thị trường, tinh chế sinh học và quay lại nông trại.` : `${products.length} outputs are split between market, bio-refinery and farm-return channels.`,
-      items: products.map(x => ({ title: x.name, meta: `${t(x.channel || 'market')} - ${t(x.status)} - ${formatKg(x.quantity_kg)}` }))
+      items: products.map(x => ({ title: localizeCircularText(x.name), meta: `${localizeCircularText(x.channel || 'market')} - ${localizeCircularText(x.status)} - ${formatKg(x.quantity_kg)}` }))
     },
     return: {
       title: 'Back to the field',

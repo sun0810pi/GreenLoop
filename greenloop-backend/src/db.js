@@ -341,14 +341,14 @@ function seedCircularDomain(now, crypto) {
   const pathwayCount = db.exec("SELECT COUNT(*) AS c FROM conversion_pathways")[0]?.values[0][0] || 0;
   if (!pathwayCount) {
     const pathways = [
-      ['path-coffee-tea', 'coffee_husk', 'Coffee leaf tea', 'coffee_leaf_tea', 'market', 'market', 0, 'Drying and herbal tea blending', 'Coffee residues and leaves become a traceable beverage product.'],
-      ['path-rice-mushroom', 'rice_straw', 'Straw mushroom', 'mushroom', 'market', 'market', 0, 'Mushroom substrate incubation', 'Rice straw is used as substrate for straw mushroom production.'],
-      ['path-rice-mulch', 'rice_straw', 'Biological mulch film', 'mulch', 'bio_refinery', 'bio_refinery', 1, 'Fiber pulping and film casting', 'Rice straw fiber is converted into mulch film that can return to fields.'],
-      ['path-rice-biochar', 'rice_straw', 'Rice straw biochar', 'biochar', 'bio_refinery', 'farm_return', 1, 'Low-oxygen pyrolysis', 'Biochar stores carbon and improves soil water retention.'],
-      ['path-coconut-packaging', 'coconut_husk', 'Bio-based food packaging', 'food_packaging', 'bio_refinery', 'market', 0, 'Fiber extraction and molding', 'Coconut husk fiber becomes molded food packaging.'],
-      ['path-coconut-leather', 'coconut_husk', 'Bio-based leather sheet', 'bio_leather', 'bio_refinery', 'market', 0, 'Fiber reinforcement and bio-composite finishing', 'Coconut fiber is processed into leather-like material.'],
-      ['path-aquatic-bioproduct', 'shrimp_shells', 'Biological crop protection input', 'bio_pesticide', 'bio_refinery', 'farm_return', 1, 'Chitin extraction and microbial formulation', 'Aquatic by-products become farm inputs for lower chemical use.'],
-      ['path-eco-tourism', 'melaleuca_residue', 'Circular eco-tourism experience', 'eco_tourism', 'market', 'market', 0, 'Farm story packaging and visitor operations', 'Verified circular practices become an eco-tourism product.']
+      ['path-coffee-tea', 'coffee_husk', 'Trà lá cà phê', 'coffee_leaf_tea', 'market', 'market', 0, 'Sấy và phối trộn trà thảo mộc', 'Phụ phẩm và lá cà phê được chuyển thành sản phẩm đồ uống có thể truy xuất.'],
+      ['path-rice-mushroom', 'rice_straw', 'Nấm rơm', 'mushroom', 'market', 'market', 0, 'Ủ giá thể nấm', 'Rơm rạ được dùng làm giá thể sản xuất nấm rơm.'],
+      ['path-rice-mulch', 'rice_straw', 'Màng phủ sinh học', 'mulch', 'bio_refinery', 'bio_refinery', 1, 'Nghiền xơ và đúc màng phủ', 'Xơ rơm rạ được chuyển thành màng phủ có thể quay lại đồng ruộng.'],
+      ['path-rice-biochar', 'rice_straw', 'Biochar từ rơm rạ', 'biochar', 'bio_refinery', 'farm_return', 1, 'Nhiệt phân yếm khí', 'Biochar lưu trữ carbon và cải thiện khả năng giữ nước của đất.'],
+      ['path-coconut-packaging', 'coconut_husk', 'Bao bì thực phẩm sinh học', 'food_packaging', 'bio_refinery', 'market', 0, 'Tách xơ và ép khuôn', 'Xơ vỏ dừa được ép khuôn thành bao bì thực phẩm.'],
+      ['path-coconut-leather', 'coconut_husk', 'Tấm da sinh học', 'bio_leather', 'bio_refinery', 'market', 0, 'Gia cường xơ và hoàn thiện composite sinh học', 'Xơ dừa được xử lý thành vật liệu giống da.'],
+      ['path-aquatic-bioproduct', 'shrimp_shells', 'Đầu vào bảo vệ cây trồng sinh học', 'bio_pesticide', 'bio_refinery', 'farm_return', 1, 'Tách chitin và phối chế vi sinh', 'Phụ phẩm thủy sản trở thành đầu vào nông nghiệp giúp giảm hóa chất.'],
+      ['path-eco-tourism', 'melaleuca_residue', 'Trải nghiệm du lịch sinh thái tuần hoàn', 'eco_tourism', 'market', 'market', 0, 'Đóng gói câu chuyện nông trại và vận hành trải nghiệm', 'Thực hành tuần hoàn đã xác minh trở thành sản phẩm du lịch sinh thái.']
     ];
     pathways.forEach(p => db.run('INSERT INTO conversion_pathways VALUES (?,?,?,?,?,?,?,?,?,?)', [...p, now]));
   }
@@ -356,22 +356,22 @@ function seedCircularDomain(now, crypto) {
   const residueCount = db.exec("SELECT COUNT(*) AS c FROM residues")[0]?.values[0][0] || 0;
   if (!residueCount) {
     const residues = [
-      ['res-rice-001', 'user-demo-001', null, 'Rice straw after wet-season harvest', 'rice_straw', 'agriculture', 'Wet rice field', 1200, 'kg', 'processing', '2025-05-10T07:00:00Z', 'Khanh Binh Tay, Tran Van Thoi, Ca Mau', 'Clean straw baled at field edge.', 'path-rice-biochar'],
-      ['res-coffee-001', 'user-demo-001', null, 'Coffee residue from cooperative dryer', 'coffee_husk', 'agriculture', 'Coffee processing cooperative', 300, 'kg', 'classified', '2025-06-01T07:00:00Z', 'Lam Dong partner hub', 'Residue suitable for tea/extract pilot.', 'path-coffee-tea'],
-      ['res-coconut-001', 'user-demo-001', null, 'Coconut husk fiber lot', 'coconut_husk', 'agriculture', 'Coconut farm and processor', 650, 'kg', 'classified', '2025-06-05T07:00:00Z', 'Ben Tre partner hub', 'Long fiber residue for packaging and bio-leather.', 'path-coconut-packaging'],
-      ['res-aqua-001', 'user-demo-001', null, 'Shrimp shell by-product', 'shrimp_shells', 'aquaculture', 'Shrimp processing line', 240, 'kg', 'received', '2025-06-08T07:00:00Z', 'Ca Mau seafood processor', 'Shells reserved for chitin pathway.', 'path-aquatic-bioproduct']
+      ['res-rice-001', 'user-demo-001', null, 'Rơm rạ sau vụ lúa', 'rice_straw', 'agriculture', 'Ruộng lúa mùa mưa', 1200, 'kg', 'processing', '2025-05-10T07:00:00Z', 'Khanh Binh Tay, Tran Van Thoi, Ca Mau', 'Rơm sạch được bó tại bờ ruộng.', 'path-rice-biochar'],
+      ['res-coffee-001', 'user-demo-001', null, 'Phụ phẩm cà phê từ cơ sở sấy HTX', 'coffee_husk', 'agriculture', 'HTX sơ chế cà phê', 300, 'kg', 'classified', '2025-06-01T07:00:00Z', 'Lam Dong partner hub', 'Phụ phẩm phù hợp cho thử nghiệm trà và chiết xuất.', 'path-coffee-tea'],
+      ['res-coconut-001', 'user-demo-001', null, 'Lô xơ vỏ dừa', 'coconut_husk', 'agriculture', 'Nông trại và cơ sở sơ chế dừa', 650, 'kg', 'classified', '2025-06-05T07:00:00Z', 'Ben Tre partner hub', 'Xơ dài phù hợp cho bao bì và da sinh học.', 'path-coconut-packaging'],
+      ['res-aqua-001', 'user-demo-001', null, 'Phụ phẩm vỏ tôm', 'shrimp_shells', 'aquaculture', 'Dây chuyền sơ chế tôm', 240, 'kg', 'received', '2025-06-08T07:00:00Z', 'Ca Mau seafood processor', 'Vỏ tôm được giữ lại cho dòng chitin.', 'path-aquatic-bioproduct']
     ];
     residues.forEach(r => db.run('INSERT INTO residues VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [...r, now, now]));
   }
 
-  const productCount = db.exec("SELECT COUNT(*) AS c FROM products WHERE name IN ('Coffee leaf tea pilot lot','Straw mushroom substrate pack','Bio-based food packaging sheet','Bio-leather sample sheet','Biological crop protection input')")[0]?.values[0][0] || 0;
+  const productCount = db.exec("SELECT COUNT(*) AS c FROM products WHERE source_residue_id IN ('res-coffee-001','res-rice-001','res-coconut-001','res-aqua-001')")[0]?.values[0][0] || 0;
   if (!productCount) {
     const products = [
-      ['Coffee leaf tea pilot lot', 'coffee_leaf_tea', 80, 95000, 'ready_for_sale', 'res-coffee-001', 'path-coffee-tea', 'Herbal tea product from coffee residue pathway.', 'market', 0],
-      ['Straw mushroom substrate pack', 'mushroom', 220, 18000, 'producing', 'res-rice-001', 'path-rice-mushroom', 'Commercial mushroom product from rice straw.', 'market', 0],
-      ['Bio-based food packaging sheet', 'food_packaging', 160, 42000, 'ready_for_sale', 'res-coconut-001', 'path-coconut-packaging', 'Deep-processed food packaging material.', 'bio_refinery', 0],
-      ['Bio-leather sample sheet', 'bio_leather', 45, 180000, 'ready_for_sale', 'res-coconut-001', 'path-coconut-leather', 'Bio-composite leather-like material.', 'bio_refinery', 0],
-      ['Biological crop protection input', 'bio_pesticide', 120, 52000, 'distributed', 'res-aqua-001', 'path-aquatic-bioproduct', 'Chitin-based biological input that can return to fields.', 'farm_return', 1]
+      ['Lô thử nghiệm trà lá cà phê', 'coffee_leaf_tea', 80, 95000, 'ready_for_sale', 'res-coffee-001', 'path-coffee-tea', 'Sản phẩm trà thảo mộc từ dòng phụ phẩm cà phê.', 'market', 0],
+      ['Gói giá thể nấm rơm', 'mushroom', 220, 18000, 'producing', 'res-rice-001', 'path-rice-mushroom', 'Sản phẩm nấm thương mại từ rơm rạ.', 'market', 0],
+      ['Tấm bao bì thực phẩm sinh học', 'food_packaging', 160, 42000, 'ready_for_sale', 'res-coconut-001', 'path-coconut-packaging', 'Vật liệu bao bì thực phẩm chế biến sâu.', 'bio_refinery', 0],
+      ['Tấm mẫu da sinh học', 'bio_leather', 45, 180000, 'ready_for_sale', 'res-coconut-001', 'path-coconut-leather', 'Vật liệu composite sinh học giống da.', 'bio_refinery', 0],
+      ['Đầu vào bảo vệ cây trồng sinh học', 'bio_pesticide', 120, 52000, 'distributed', 'res-aqua-001', 'path-aquatic-bioproduct', 'Đầu vào sinh học từ chitin có thể quay lại đồng ruộng.', 'farm_return', 1]
     ];
     products.forEach(p => db.run('INSERT INTO products (id,batch_id,name,category,quantity_kg,unit_price_vnd,status,carbon_record_id,created_at,source_residue_id,conversion_pathway_id,description,channel,return_to_field) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [uuidv4(), null, p[0], p[1], p[2], p[3], p[4], null, now, p[5], p[6], p[7], p[8], p[9]]));
   }
