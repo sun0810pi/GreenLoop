@@ -417,9 +417,30 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 
 /* Đồng hồ đo độ mặn */
 .gw{width:155px;height:155px;margin:0 auto;position:relative}
+.gw.live::before{content:'';position:absolute;inset:14px;border-radius:50%;background:radial-gradient(circle,rgba(38,166,154,.16),transparent 62%);animation:livePulse 2.4s ease-in-out infinite}
+.gw.live::after{content:'';position:absolute;inset:0;border-radius:50%;border:1px solid rgba(38,166,154,.18);animation:liveRing 2.4s ease-out infinite}
 .gc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
-.gv{font-size:26px;font-weight:800;line-height:1}
+.gv{font-size:26px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;transition:color .2s,transform .2s}
+.gv.tick{transform:scale(1.06);color:var(--aqua)}
 .gu{font-size:10px;color:var(--tm);font-weight:500}
+.live-meta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;font-size:10.5px;color:var(--tm)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--aqua);box-shadow:0 0 0 0 rgba(38,166,154,.55);animation:liveDot 1.4s ease-out infinite}
+.live-chart{position:relative;height:120px;background:var(--bg);border-radius:10px;overflow:hidden;padding:12px 16px}
+.live-chart::after{content:'';position:absolute;top:0;bottom:0;width:42px;left:-42px;background:linear-gradient(90deg,transparent,rgba(38,166,154,.13),transparent);animation:chartScan 3.2s linear infinite;pointer-events:none}
+#salinityTrendPath,#salinityTrendArea{transition:d .65s ease}
+#salinityPulsePoint{filter:drop-shadow(0 0 6px rgba(38,166,154,.72))}
+.si.live{position:relative;overflow:hidden;border:1px solid rgba(38,166,154,.08);transition:border-color .2s,background .2s}
+.si.live::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);transform:translateX(-100%);animation:sensorSweep 3s ease-in-out infinite}
+.sv[data-live-sensor]{font-variant-numeric:tabular-nums}
+@keyframes livePulse{0%,100%{opacity:.45;transform:scale(.96)}50%{opacity:.9;transform:scale(1.04)}}
+@keyframes liveRing{0%{opacity:.65;transform:scale(.86)}100%{opacity:0;transform:scale(1.12)}}
+@keyframes liveDot{0%{box-shadow:0 0 0 0 rgba(38,166,154,.55)}100%{box-shadow:0 0 0 8px rgba(38,166,154,0)}}
+@keyframes chartScan{to{left:100%}}
+@keyframes sensorSweep{0%,45%{transform:translateX(-100%)}70%,100%{transform:translateX(100%)}}
+@media (prefers-reduced-motion:reduce){
+  .gw.live::before,.gw.live::after,.live-dot,.live-chart::after,.si.live::after{animation:none}
+  #salinityTrendPath,#salinityTrendArea,.gv{transition:none}
+}
 
 /* Gợi ý vận hành */
 .rec{background:linear-gradient(135deg,var(--f),var(--fm));border-radius:var(--r-lg);padding:20px 22px;color:#fff;position:relative;overflow:hidden}
@@ -1929,13 +1950,14 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           <div class="card">
             <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div>Live Salinity Reading</div><span class="badge bw">Canal Intake N-03</span></div>
             <div class="cb" style="text-align:center">
-              <div class="gw">
+              <div class="gw live">
                 <svg viewBox="0 0 160 160">
                   <circle cx="80" cy="80" r="64" fill="none" stroke="var(--bgs)" stroke-width="12"/>
                   <circle cx="80" cy="80" r="64" fill="none" stroke="var(--warn)" stroke-width="12" stroke-dasharray="188 251" stroke-dashoffset="47" stroke-linecap="round" transform="rotate(-90 80 80)" id="salinityArc"/>
                 </svg>
                 <div class="gc"><div class="gv">2.3</div><div class="gu">g/L salinity</div></div>
               </div>
+              <div class="live-meta"><span class="live-dot"></span><span id="salinityLiveStamp">Live feed · updating</span></div>
               <div style="display:flex;justify-content:center;gap:18px;margin-top:14px;font-size:11px">
                 <div style="text-align:center"><div style="color:var(--ok);font-weight:700">&lt;1 g/L</div><div style="color:var(--tm)">Rice safe</div></div>
                 <div style="text-align:center"><div style="color:var(--warn);font-weight:700">1–5 g/L</div><div style="color:var(--tm)">Transition</div></div>
@@ -1956,12 +1978,13 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           <div class="card">
             <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>7-Day Salinity Trend</div><span style="font-size:11px;color:var(--tm)">MRC Open API</span></div>
             <div class="cb">
-              <div style="position:relative;height:120px;background:var(--bg);border-radius:10px;overflow:hidden;padding:12px 16px">
+              <div class="live-chart">
                 <!-- Đường xu hướng đơn giản -->
                 <svg width="100%" height="100%" viewBox="0 0 300 96" preserveAspectRatio="none">
                   <defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(38,166,154,.25)"/><stop offset="100%" stop-color="rgba(38,166,154,0)"/></linearGradient></defs>
-                  <path d="M0,72 L40,60 L80,65 L120,55 L160,48 L200,52 L240,42 L300,38" stroke="var(--aqua)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                  <path d="M0,72 L40,60 L80,65 L120,55 L160,48 L200,52 L240,42 L300,38 L300,96 L0,96Z" fill="url(#tg)"/>
+                  <path id="salinityTrendPath" d="M0,72 L40,60 L80,65 L120,55 L160,48 L200,52 L240,42 L300,38" stroke="var(--aqua)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <path id="salinityTrendArea" d="M0,72 L40,60 L80,65 L120,55 L160,48 L200,52 L240,42 L300,38 L300,96 L0,96Z" fill="url(#tg)"/>
+                  <circle id="salinityPulsePoint" cx="300" cy="38" r="3.5" fill="var(--aqua)"/>
                   <!-- Ngưỡng cảnh báo -->
                   <line x1="0" y1="30" x2="300" y2="30" stroke="rgba(230,81,0,.4)" stroke-width="1.5" stroke-dasharray="5 5"/>
                 </svg>
@@ -1978,10 +2001,10 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 7.76a6 6 0 0 0 0 8.49"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>Water Sensors (Phase 2)</div><span class="badge ba">IoT Ready</span></div>
             <div class="cb">
               <div class="sg">
-                <div class="si"><span class="sdot on"></span><div><div class="sn">Pond W-01</div><div class="sv">DO: 5.2 mg/L · pH 7.8</div></div></div>
-                <div class="si"><span class="sdot wa"></span><div><div class="sn">Canal N-03</div><div class="sv">Sal: 3.8 g/L - rising</div></div></div>
-                <div class="si"><span class="sdot on"></span><div><div class="sn">Pond W-02</div><div class="sv">Temp: 28.4°C · OK</div></div></div>
-                <div class="si"><span class="sdot on"></span><div><div class="sn">Field Gate</div><div class="sv">Sal: 0.6 g/L - safe</div></div></div>
+                <div class="si live"><span class="sdot on"></span><div><div class="sn">Pond W-01</div><div class="sv" data-live-sensor="pond-do">DO: 5.2 mg/L · pH 7.8</div></div></div>
+                <div class="si live"><span class="sdot wa"></span><div><div class="sn">Canal N-03</div><div class="sv" data-live-sensor="canal-sal">Sal: 3.8 g/L - rising</div></div></div>
+                <div class="si live"><span class="sdot on"></span><div><div class="sn">Pond W-02</div><div class="sv" data-live-sensor="pond-temp">Temp: 28.4°C · OK</div></div></div>
+                <div class="si live"><span class="sdot on"></span><div><div class="sn">Field Gate</div><div class="sv" data-live-sensor="field-sal">Sal: 0.6 g/L - safe</div></div></div>
               </div>
               <div style="margin-top:14px;padding:12px;background:linear-gradient(135deg,rgba(38,166,154,.06),rgba(0,121,107,.04));border:1px solid rgba(38,166,154,.14);border-radius:10px">
                 <div style="font-size:11.5px;font-weight:700;color:var(--ad);margin-bottom:4px">Early Warning Active</div>
@@ -5108,6 +5131,95 @@ async function updatePickupStatus(id) {
 }
 
 /* Cảnh báo độ mặn */
+let salinityRealtime = {
+  timer: null,
+  base: 3.2,
+  station: 'CM Sensor-01',
+  trend: [2.4, 2.7, 2.9, 3.1, 3.0, 3.3, 3.2, 3.4]
+};
+
+function salinityStatus(value) {
+  if (value >= 5) return { color: 'var(--danger)', label: lang === 'vi' ? 'cảnh báo' : 'alert' };
+  if (value >= 2.5) return { color: 'var(--warn)', label: lang === 'vi' ? 'đang tăng' : 'rising' };
+  return { color: 'var(--leaf)', label: lang === 'vi' ? 'an toàn' : 'safe' };
+}
+
+function setSalinityVisual(value, station = salinityRealtime.station) {
+  const gaugeValue = document.querySelector('#p-salinity .gv');
+  const gaugeUnit = document.querySelector('#p-salinity .gu');
+  const stamp = document.getElementById('salinityLiveStamp');
+  const arc = document.getElementById('salinityArc');
+  const status = salinityStatus(value);
+  if (gaugeValue) {
+    gaugeValue.textContent = value.toFixed(1);
+    gaugeValue.classList.add('tick');
+    window.setTimeout(() => gaugeValue.classList.remove('tick'), 180);
+  }
+  if (gaugeUnit) gaugeUnit.textContent = `${station || 'station'} · g/L ${lang === 'vi' ? 'độ mặn' : 'salinity'}`;
+  if (stamp) stamp.textContent = lang === 'vi'
+    ? `Dữ liệu trực tiếp · cập nhật ${new Date().toLocaleTimeString('vi-VN', { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`
+    : `Live feed · updated ${new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`;
+  if (arc) {
+    const circumference = 251;
+    const ratio = Math.max(0, Math.min(value / 8, 1));
+    arc.style.strokeDasharray = `${Math.round(circumference * ratio)} ${circumference}`;
+    arc.style.stroke = status.color;
+  }
+}
+
+function renderSalinityTrend(values = salinityRealtime.trend) {
+  const path = document.getElementById('salinityTrendPath');
+  const area = document.getElementById('salinityTrendArea');
+  const point = document.getElementById('salinityPulsePoint');
+  if (!path || !area || !values.length) return;
+  const max = 6.2;
+  const min = 0;
+  const step = 300 / Math.max(values.length - 1, 1);
+  const points = values.map((v, i) => {
+    const y = 88 - ((Math.max(min, Math.min(v, max)) - min) / (max - min)) * 70;
+    return [Math.round(i * step), Math.round(y)];
+  });
+  const d = points.map(([x, y], i) => `${i ? 'L' : 'M'}${x},${y}`).join(' ');
+  path.setAttribute('d', d);
+  area.setAttribute('d', `${d} L300,96 L0,96Z`);
+  const last = points[points.length - 1];
+  if (point && last) {
+    point.setAttribute('cx', last[0]);
+    point.setAttribute('cy', last[1]);
+  }
+}
+
+function updateWaterSensorCards(value) {
+  const status = salinityStatus(value);
+  const set = (key, text) => {
+    const el = document.querySelector(`[data-live-sensor="${key}"]`);
+    if (el) el.textContent = text;
+  };
+  const doValue = (5.1 + Math.sin(Date.now() / 2100) * .18).toFixed(1);
+  const phValue = (7.7 + Math.cos(Date.now() / 2600) * .08).toFixed(1);
+  const tempValue = (28.3 + Math.sin(Date.now() / 3100) * .35).toFixed(1);
+  const fieldValue = Math.max(.2, .6 + Math.sin(Date.now() / 2400) * .08).toFixed(1);
+  set('pond-do', `DO: ${doValue} mg/L · pH ${phValue}`);
+  set('canal-sal', `Sal: ${value.toFixed(1)} g/L - ${status.label}`);
+  set('pond-temp', `Temp: ${tempValue}°C · OK`);
+  set('field-sal', `Sal: ${fieldValue} g/L - ${lang === 'vi' ? 'an toàn' : 'safe'}`);
+}
+
+function startSalinityRealtime() {
+  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  if (salinityRealtime.timer) window.clearInterval(salinityRealtime.timer);
+  const tick = () => {
+    const t = Date.now() / 1000;
+    const liveValue = Math.max(.2, salinityRealtime.base + Math.sin(t * .85) * .18 + Math.cos(t * .37) * .08);
+    salinityRealtime.trend = [...salinityRealtime.trend.slice(1), liveValue];
+    setSalinityVisual(liveValue, salinityRealtime.station);
+    renderSalinityTrend(salinityRealtime.trend);
+    updateWaterSensorCards(liveValue);
+  };
+  tick();
+  salinityRealtime.timer = window.setInterval(tick, reduceMotion ? 5000 : 1400);
+}
+
 async function renderAlerts() {
   try {
     const { data, summary } = await apiFetch('/api/salinity');
@@ -5143,6 +5255,9 @@ async function renderAlerts() {
         <div><div class="at">${t(a.title)}</div><div class="ax">${t(a.text)}</div></div>
       </div>
     `).join('');
+    salinityRealtime.base = 3.2;
+    salinityRealtime.station = 'Canal Intake N-03';
+    startSalinityRealtime();
   }
 }
 
@@ -5151,17 +5266,13 @@ function updateSalinityGauge(data, summary) {
   const preferred = currentUser?.province ? data.find(s => s.province === currentUser.province) : null;
   const reading = preferred || data[0];
   const value = Number(reading.value_gpl) || 0;
-  const gaugeValue = document.querySelector('#p-salinity .gv');
-  const gaugeUnit = document.querySelector('#p-salinity .gu');
-  const arc = document.getElementById('salinityArc');
-  if (gaugeValue) gaugeValue.textContent = value.toFixed(1);
-  if (gaugeUnit) gaugeUnit.textContent = `${reading.station || 'station'} · g/L salinity`;
-  if (arc) {
-    const circumference = 251;
-    const ratio = Math.max(0, Math.min(value / 8, 1));
-    arc.style.strokeDasharray = `${Math.round(circumference * ratio)} ${circumference}`;
-    arc.style.stroke = value >= 5 ? 'var(--danger)' : value >= 2.5 ? 'var(--warn)' : 'var(--leaf)';
-  }
+  salinityRealtime.base = value;
+  salinityRealtime.station = reading.station || 'CM Sensor-01';
+  salinityRealtime.trend = [Math.max(.2,value-.8), Math.max(.2,value-.5), Math.max(.2,value-.35), value-.12, value+.08, value-.04, value+.15, value];
+  setSalinityVisual(value, salinityRealtime.station);
+  renderSalinityTrend(salinityRealtime.trend);
+  updateWaterSensorCards(value);
+  startSalinityRealtime();
   const rec = document.querySelector('#p-salinity .rec-card, #p-salinity .advice-card');
   if (summary?.recommendation && rec) rec.textContent = summary.recommendation;
 }
