@@ -251,6 +251,7 @@ function initSchema() {
   if (userCount === 0) seedDemoData();
 
   seedPlatformData();
+  ensureForestProductDemo();
   normalizeDemoDates();
 
   saveDb();
@@ -277,6 +278,41 @@ function runUpdate(sql, params = []) {
   try { db.run(sql, params); } catch {}
 }
 
+function hasRow(table, id) {
+  return Boolean(db.exec(`SELECT id FROM ${table} WHERE id='${id}'`)[0]?.values.length);
+}
+
+function ensureForestProductDemo() {
+  const now = new Date().toISOString();
+  const pathways = [
+    ['path-coffee-tea', 'coffee_leaves', 'Trà lá cà phê', 'coffee_leaf_tea', 'market', 'market', 0, 'Sấy và phối trộn trà thảo mộc', 'Lá cà phê được chuyển thành sản phẩm đồ uống có thể truy xuất.'],
+    ['path-coffee-stem-biochar', 'coffee_stems', 'Biochar từ thân cà phê', 'biochar', 'bio_refinery', 'farm_return', 1, 'Nhiệt phân yếm khí', 'Thân cà phê được chuyển thành biochar có truy xuất nguồn gốc.'],
+    ['path-coffee-bark-biochar', 'coffee_bark', 'Biochar từ vỏ cà phê', 'biochar', 'bio_refinery', 'farm_return', 1, 'Nhiệt phân yếm khí', 'Vỏ cà phê được chuyển thành biochar có truy xuất nguồn gốc.']
+  ];
+  pathways.forEach(p => {
+    if (!hasRow('conversion_pathways', p[0])) db.run('INSERT INTO conversion_pathways VALUES (?,?,?,?,?,?,?,?,?,?)', [...p, now]);
+  });
+  runUpdate("UPDATE conversion_pathways SET input_type='coffee_leaves', description='Lá cà phê được chuyển thành sản phẩm đồ uống có thể truy xuất.' WHERE id='path-coffee-tea'");
+
+  const residues = [
+    ['res-coffee-leaf-001', 'user-demo-001', null, 'Lá cà phê sau tỉa cành', 'coffee_leaves', 'forestry', 'Vườn cà phê liên kết HTX', 180, 'kg', 'classified', '2026-06-01T07:00:00Z', 'Lam Dong partner hub', 'Lá phù hợp cho dòng trà lá cà phê.', 'path-coffee-tea'],
+    ['res-coffee-stem-001', 'user-demo-001', null, 'Thân cà phê sau tái canh', 'coffee_stems', 'forestry', 'Vườn cà phê tái canh', 420, 'kg', 'classified', '2026-06-02T07:00:00Z', 'Lam Dong partner hub', 'Thân khô phù hợp cho nhiệt phân biochar.', 'path-coffee-stem-biochar'],
+    ['res-coffee-bark-001', 'user-demo-001', null, 'Vỏ cà phê từ cơ sở sơ chế', 'coffee_bark', 'forestry', 'HTX sơ chế cà phê', 300, 'kg', 'classified', '2026-06-03T07:00:00Z', 'Lam Dong partner hub', 'Vỏ phù hợp cho nhiệt phân biochar.', 'path-coffee-bark-biochar'],
+    ['res-coconut-water-001', 'user-demo-001', null, 'Bã dừa nước sau sơ chế', 'coconut_water_residue', 'forestry', 'Cơ sở sơ chế dừa nước', 260, 'kg', 'classified', '2026-06-06T07:00:00Z', 'Ben Tre partner hub', 'Bã dừa nước được tách riêng khỏi dòng tràm.', 'path-coconut-packaging']
+  ];
+  residues.forEach(r => {
+    if (!hasRow('residues', r[0])) db.run('INSERT INTO residues VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [...r, now, now]);
+  });
+  runUpdate("UPDATE residues SET source_category='forestry' WHERE residue_type IN ('coffee_leaves','coffee_stems','coffee_bark','coffee_husk','coconut_husk','coconut_water_residue')");
+
+  const { v4: uuidv4 } = require('uuid');
+  const productExists = db.exec("SELECT id FROM products WHERE source_residue_id='res-coffee-leaf-001'")[0]?.values.length;
+  if (!productExists) {
+    db.run('INSERT INTO products (id,batch_id,name,category,quantity_kg,unit_price_vnd,status,carbon_record_id,created_at,source_residue_id,conversion_pathway_id,description,channel,return_to_field) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+      [uuidv4(), null, 'Lô thử nghiệm trà lá cà phê', 'coffee_leaf_tea', 80, 95000, 'ready_for_sale', null, now, 'res-coffee-leaf-001', 'path-coffee-tea', 'Sản phẩm trà thảo mộc từ dòng lá cà phê.', 'market', 0]);
+  }
+}
+
 function normalizeDemoDates() {
   const demoDates = {
     ricePickup: '2026-05-10T07:00:00Z',
@@ -289,7 +325,7 @@ function normalizeDemoDates() {
   runUpdate("UPDATE pickups SET scheduled_at=? WHERE biomass_type='rice_straw' AND scheduled_at LIKE '2025-05-10%'", [demoDates.ricePickup]);
   runUpdate("UPDATE pickups SET scheduled_at=? WHERE biomass_type='pond_sludge' AND scheduled_at LIKE '2025-05-20%'", [demoDates.sludgePickup]);
   runUpdate("UPDATE residues SET collection_date=? WHERE id='res-rice-001'", [demoDates.riceResidue]);
-  runUpdate("UPDATE residues SET collection_date=? WHERE id='res-coffee-001'", [demoDates.coffeeResidue]);
+  runUpdate("UPDATE residues SET collection_date=? WHERE id IN ('res-coffee-leaf-001','res-coffee-stem-001','res-coffee-bark-001')", [demoDates.coffeeResidue]);
   runUpdate("UPDATE residues SET collection_date=? WHERE id='res-coconut-001'", [demoDates.coconutResidue]);
   runUpdate("UPDATE residues SET collection_date=? WHERE id='res-aqua-001'", [demoDates.aquaResidue]);
   runUpdate("UPDATE notifications SET body=? WHERE body='Your 1.31 SCU from May harvest has been verified under VM0044.'", ['Your 1.31 SCU from the 05/2026 harvest has been verified under VM0044.']);
@@ -364,7 +400,9 @@ function seedCircularDomain(now, crypto) {
   const pathwayCount = db.exec("SELECT COUNT(*) AS c FROM conversion_pathways")[0]?.values[0][0] || 0;
   if (!pathwayCount) {
     const pathways = [
-      ['path-coffee-tea', 'coffee_husk', 'Trà lá cà phê', 'coffee_leaf_tea', 'market', 'market', 0, 'Sấy và phối trộn trà thảo mộc', 'Phụ phẩm và lá cà phê được chuyển thành sản phẩm đồ uống có thể truy xuất.'],
+      ['path-coffee-tea', 'coffee_leaves', 'Trà lá cà phê', 'coffee_leaf_tea', 'market', 'market', 0, 'Sấy và phối trộn trà thảo mộc', 'Lá cà phê được chuyển thành sản phẩm đồ uống có thể truy xuất.'],
+      ['path-coffee-stem-biochar', 'coffee_stems', 'Biochar từ thân cà phê', 'biochar', 'bio_refinery', 'farm_return', 1, 'Nhiệt phân yếm khí', 'Thân cà phê được chuyển thành biochar có truy xuất nguồn gốc.'],
+      ['path-coffee-bark-biochar', 'coffee_bark', 'Biochar từ vỏ cà phê', 'biochar', 'bio_refinery', 'farm_return', 1, 'Nhiệt phân yếm khí', 'Vỏ cà phê được chuyển thành biochar có truy xuất nguồn gốc.'],
       ['path-rice-mushroom', 'rice_straw', 'Nấm rơm', 'mushroom', 'market', 'market', 0, 'Ủ giá thể nấm', 'Rơm rạ được dùng làm giá thể sản xuất nấm rơm.'],
       ['path-rice-mulch', 'rice_straw', 'Màng phủ sinh học', 'mulch', 'bio_refinery', 'bio_refinery', 1, 'Nghiền xơ và đúc màng phủ', 'Xơ rơm rạ được chuyển thành màng phủ có thể quay lại đồng ruộng.'],
       ['path-rice-biochar', 'rice_straw', 'Biochar từ rơm rạ', 'biochar', 'bio_refinery', 'farm_return', 1, 'Nhiệt phân yếm khí', 'Biochar lưu trữ carbon và cải thiện khả năng giữ nước của đất.'],
@@ -380,17 +418,20 @@ function seedCircularDomain(now, crypto) {
   if (!residueCount) {
     const residues = [
       ['res-rice-001', 'user-demo-001', null, 'Rơm rạ sau vụ lúa', 'rice_straw', 'agriculture', 'Ruộng lúa mùa mưa', 1200, 'kg', 'processing', '2026-05-10T07:00:00Z', 'Khanh Binh Tay, Tran Van Thoi, Ca Mau', 'Rơm sạch được bó tại bờ ruộng.', 'path-rice-biochar'],
-      ['res-coffee-001', 'user-demo-001', null, 'Phụ phẩm cà phê từ cơ sở sấy HTX', 'coffee_husk', 'agriculture', 'HTX sơ chế cà phê', 300, 'kg', 'classified', '2026-06-01T07:00:00Z', 'Lam Dong partner hub', 'Phụ phẩm phù hợp cho thử nghiệm trà và chiết xuất.', 'path-coffee-tea'],
-      ['res-coconut-001', 'user-demo-001', null, 'Lô xơ vỏ dừa', 'coconut_husk', 'agriculture', 'Nông trại và cơ sở sơ chế dừa', 650, 'kg', 'classified', '2026-06-05T07:00:00Z', 'Ben Tre partner hub', 'Xơ dài phù hợp cho bao bì và da sinh học.', 'path-coconut-packaging'],
+      ['res-coffee-leaf-001', 'user-demo-001', null, 'Lá cà phê sau tỉa cành', 'coffee_leaves', 'forestry', 'Vườn cà phê liên kết HTX', 180, 'kg', 'classified', '2026-06-01T07:00:00Z', 'Lam Dong partner hub', 'Lá phù hợp cho dòng trà lá cà phê.', 'path-coffee-tea'],
+      ['res-coffee-stem-001', 'user-demo-001', null, 'Thân cà phê sau tái canh', 'coffee_stems', 'forestry', 'Vườn cà phê tái canh', 420, 'kg', 'classified', '2026-06-02T07:00:00Z', 'Lam Dong partner hub', 'Thân khô phù hợp cho nhiệt phân biochar.', 'path-coffee-stem-biochar'],
+      ['res-coffee-bark-001', 'user-demo-001', null, 'Vỏ cà phê từ cơ sở sơ chế', 'coffee_bark', 'forestry', 'HTX sơ chế cà phê', 300, 'kg', 'classified', '2026-06-03T07:00:00Z', 'Lam Dong partner hub', 'Vỏ phù hợp cho nhiệt phân biochar.', 'path-coffee-bark-biochar'],
+      ['res-coconut-001', 'user-demo-001', null, 'Lô xơ vỏ dừa', 'coconut_husk', 'forestry', 'Nông trại và cơ sở sơ chế dừa', 650, 'kg', 'classified', '2026-06-05T07:00:00Z', 'Ben Tre partner hub', 'Xơ dài phù hợp cho bao bì và da sinh học.', 'path-coconut-packaging'],
+      ['res-coconut-water-001', 'user-demo-001', null, 'Bã dừa nước sau sơ chế', 'coconut_water_residue', 'forestry', 'Cơ sở sơ chế dừa nước', 260, 'kg', 'classified', '2026-06-06T07:00:00Z', 'Ben Tre partner hub', 'Bã dừa nước được tách riêng khỏi dòng tràm.', 'path-coconut-packaging'],
       ['res-aqua-001', 'user-demo-001', null, 'Phụ phẩm vỏ tôm', 'shrimp_shells', 'aquaculture', 'Dây chuyền sơ chế tôm', 240, 'kg', 'received', '2026-06-08T07:00:00Z', 'Ca Mau seafood processor', 'Vỏ tôm được giữ lại cho dòng chitin.', 'path-aquatic-bioproduct']
     ];
     residues.forEach(r => db.run('INSERT INTO residues VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [...r, now, now]));
   }
 
-  const productCount = db.exec("SELECT COUNT(*) AS c FROM products WHERE source_residue_id IN ('res-coffee-001','res-rice-001','res-coconut-001','res-aqua-001')")[0]?.values[0][0] || 0;
+  const productCount = db.exec("SELECT COUNT(*) AS c FROM products WHERE source_residue_id IN ('res-coffee-leaf-001','res-rice-001','res-coconut-001','res-aqua-001')")[0]?.values[0][0] || 0;
   if (!productCount) {
     const products = [
-      ['Lô thử nghiệm trà lá cà phê', 'coffee_leaf_tea', 80, 95000, 'ready_for_sale', 'res-coffee-001', 'path-coffee-tea', 'Sản phẩm trà thảo mộc từ dòng phụ phẩm cà phê.', 'market', 0],
+      ['Lô thử nghiệm trà lá cà phê', 'coffee_leaf_tea', 80, 95000, 'ready_for_sale', 'res-coffee-leaf-001', 'path-coffee-tea', 'Sản phẩm trà thảo mộc từ dòng lá cà phê.', 'market', 0],
       ['Gói giá thể nấm rơm', 'mushroom', 220, 18000, 'producing', 'res-rice-001', 'path-rice-mushroom', 'Sản phẩm nấm thương mại từ rơm rạ.', 'market', 0],
       ['Tấm bao bì thực phẩm sinh học', 'food_packaging', 160, 42000, 'ready_for_sale', 'res-coconut-001', 'path-coconut-packaging', 'Vật liệu bao bì thực phẩm chế biến sâu.', 'bio_refinery', 0],
       ['Tấm mẫu da sinh học', 'bio_leather', 45, 180000, 'ready_for_sale', 'res-coconut-001', 'path-coconut-leather', 'Vật liệu composite sinh học giống da.', 'bio_refinery', 0],

@@ -98,10 +98,46 @@ const BIOMASS_TYPES = {
     output: 'biochar_fiber',
     mrv_pathway: 'Biochar and fiber traceability'
   },
+  coconut_water_residue: {
+    label: 'Coconut water residue',
+    vi_label: 'Bã dừa nước',
+    season: 'forest_products',
+    carbon_factor: 0,
+    yield_factor: 0.22,
+    output: 'fiber_feedstock',
+    mrv_pathway: 'Bio-material traceability'
+  },
+  coffee_leaves: {
+    label: 'Coffee leaves',
+    vi_label: 'Lá cà phê',
+    season: 'forest_products',
+    carbon_factor: 0,
+    yield_factor: 0.65,
+    output: 'coffee_leaf_tea',
+    mrv_pathway: 'Tea product traceability'
+  },
+  coffee_stems: {
+    label: 'Coffee stems',
+    vi_label: 'Thân cà phê',
+    season: 'forest_products',
+    carbon_factor: 3.0,
+    yield_factor: 0.34,
+    output: 'biochar',
+    mrv_pathway: 'VM0044 biochar'
+  },
+  coffee_bark: {
+    label: 'Coffee bark',
+    vi_label: 'Vỏ cà phê',
+    season: 'forest_products',
+    carbon_factor: 3.0,
+    yield_factor: 0.32,
+    output: 'biochar',
+    mrv_pathway: 'VM0044 biochar'
+  },
   coffee_husk: {
     label: 'Coffee husk',
-    vi_label: 'Vỏ cà phê',
-    season: 'perennial_biomass',
+    vi_label: 'Vỏ quả cà phê',
+    season: 'forest_products',
     carbon_factor: 3.0,
     yield_factor: 0.32,
     output: 'biochar',
@@ -133,7 +169,10 @@ const BIOMASS_ALIASES = {
   tram: 'melaleuca_residue',
   coconut: 'coconut_husk',
   coconut_shell: 'coconut_husk',
+  coconut_water: 'coconut_water_residue',
   coffee: 'coffee_husk',
+  coffee_leaf: 'coffee_leaves',
+  coffee_stem: 'coffee_stems',
   cajeput: 'cajeput_residue'
 };
 

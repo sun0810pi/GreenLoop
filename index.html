@@ -130,7 +130,7 @@ body[data-theme="dark"] .loop-stage,body[data-theme="dark"] .loop-metric,body[da
 body[data-theme="dark"] .loop-chip,body[data-theme="dark"] .loop-detail-item{background:#12251a}
 @media(max-width:1180px){.loop-board{grid-template-columns:1fr 1fr}.loop-stage:not(:last-child)::before,.loop-stage:not(:last-child)::after{display:none}.loop-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.loop-detail{grid-template-columns:1fr}.loop-detail-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.loop-section{padding:14px}.loop-head{flex-direction:column}.loop-board,.loop-metrics,.loop-detail-list{grid-template-columns:1fr}.loop-stage{min-height:auto}}
-.role-workspace{display:none}.role-workspace.on{display:block}#p-dashboard.role-mode>:not(#roleWorkspace){display:none}.role-eyebrow{font-size:11px;font-weight:800;color:var(--ad);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}.role-title{font-size:22px;line-height:1.25;margin-bottom:7px}.role-desc{font-size:13px;color:var(--ts);line-height:1.55;max-width:760px}.role-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.role-action{border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:9px 12px;color:var(--tp);font:700 12px inherit;cursor:pointer}.role-action.primary{background:var(--f);border-color:var(--f);color:#fff}.role-action:hover{background:var(--bgs)}.role-action.primary:hover{background:var(--fm)}
+.role-identity{display:none}.role-identity.on{display:block}.role-identity-card{border:1px solid var(--borderl);background:linear-gradient(135deg,rgba(76,175,80,.10),rgba(38,166,154,.08));border-radius:8px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}.role-identity-kicker{font-size:11px;font-weight:800;color:var(--ad);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}.role-identity-title{font-size:20px;font-weight:800;color:var(--tp);line-height:1.25}.role-identity-copy{font-size:12.5px;color:var(--ts);line-height:1.5;margin-top:4px}.role-identity-pill{border:1px solid var(--border);background:var(--bgc);border-radius:999px;padding:8px 11px;color:var(--tp);font-size:11px;font-weight:800;white-space:nowrap}.role-workspace{display:none}.role-workspace.on{display:block}#p-dashboard.role-mode>:not(#roleWorkspace):not(#roleIdentity){display:none}.role-eyebrow{font-size:11px;font-weight:800;color:var(--ad);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}.role-title{font-size:22px;line-height:1.25;margin-bottom:7px}.role-desc{font-size:13px;color:var(--ts);line-height:1.55;max-width:760px}.role-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.role-action{border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:9px 12px;color:var(--tp);font:700 12px inherit;cursor:pointer}.role-action.primary{background:var(--f);border-color:var(--f);color:#fff}.role-action:hover{background:var(--bgs)}.role-action.primary:hover{background:var(--fm)}
 @media(max-width:980px){.ops-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.ops-grid{grid-template-columns:1fr}.ops-row{align-items:flex-start;flex-direction:column;gap:7px}}
 
 /* Màn hình mở đầu */
@@ -278,6 +278,7 @@ html[lang="vi"] .tb-title{line-height:1.45}
 .s-btn.ar{background:var(--leaf);color:#fff;box-shadow:0 2px 8px rgba(76,175,80,.3)}
 .s-btn.as{background:var(--ad);color:#fff;box-shadow:0 2px 8px rgba(0,121,107,.3)}
 .s-btn.at{background:var(--earth);color:#fff;box-shadow:0 2px 8px rgba(151,105,58,.3)}
+.s-btn.af{background:var(--f);color:#fff;box-shadow:0 2px 8px rgba(21,86,45,.28)}
 .mobile-season-switcher{display:none}
 .notif-b{width:36px;height:36px;background:var(--bg);border:1px solid var(--borderl);border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:all .2s;color:var(--ts)}
 .notif-b:hover{background:var(--bgs)}
@@ -646,9 +647,9 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
   .tb-right{gap:8px;flex-wrap:nowrap}
   .top-bar .mode-group,
   .top-bar .season-tog{display:none}
-  .mobile-season-switcher{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:4px;margin-bottom:14px;background:var(--bgc);border:1px solid var(--borderl);border-radius:8px}
+  .mobile-season-switcher{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:4px;margin-bottom:14px;background:var(--bgc);border:1px solid var(--borderl);border-radius:8px}
   .mobile-season-btn{min-height:34px;padding:5px 4px;border:0;border-radius:6px;background:transparent;color:var(--tm);font:700 11px inherit;cursor:pointer;white-space:nowrap}
-  .mobile-season-btn.active{background:var(--leaf);color:#fff}.mobile-season-btn[data-season-control="shrimp"].active{background:var(--ad)}.mobile-season-btn[data-season-control="tram"].active{background:var(--earth)}
+  .mobile-season-btn.active{background:var(--leaf);color:#fff}.mobile-season-btn[data-season-control="shrimp"].active{background:var(--ad)}.mobile-season-btn[data-season-control="tram"].active{background:var(--earth)}.mobile-season-btn[data-season-control="forest"].active{background:var(--f)}
   .pc{padding:16px 14px calc(92px + env(safe-area-inset-bottom,0px))}
   .g4{grid-template-columns:1fr}
   .bottnav{display:block}
@@ -1540,6 +1541,10 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21V4"/><path d="M12 10c-4 0-6-2-7-5 4 0 7 1 7 5Z"/><path d="M12 14c4 0 6-2 7-5-4 0-7 1-7 5Z"/></svg>
             Melaleuca Season
           </button>
+          <button class="s-btn" id="forestBtn" onclick="setSeason('forest')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16"/><path d="M8 20V9l4-5 4 5v11"/><path d="M10 13h4"/><path d="M10 17h4"/></svg>
+            Forest Products
+          </button>
         </div>
         <div class="notif-wrap">
           <button class="notif-b" onclick="toggleNotif()" type="button" aria-label="Notifications">
@@ -1595,10 +1600,12 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <button class="mobile-season-btn active" type="button" data-season-control="rice" onclick="setSeason('rice')">Rice Season</button>
         <button class="mobile-season-btn" type="button" data-season-control="shrimp" onclick="setSeason('shrimp')">Aquaculture Season</button>
         <button class="mobile-season-btn" type="button" data-season-control="tram" onclick="setSeason('tram')">Melaleuca Season</button>
+        <button class="mobile-season-btn" type="button" data-season-control="forest" onclick="setSeason('forest')">Forest Products</button>
       </div>
 
       <!-- Trang tổng quan -->
       <div class="page on" id="p-dashboard">
+        <div class="role-identity mb18" id="roleIdentity" aria-live="polite"></div>
         <div class="role-workspace" id="roleWorkspace" aria-live="polite"></div>
         <!-- 4 thẻ chính: cái nông dân thật sự quan tâm -->
         <div class="g4 mb18">
@@ -2827,6 +2834,68 @@ const ROLE_WORKSPACES = {
   }
 };
 
+const ROLE_IDENTITIES = {
+  farmer: {
+    roleName: 'GreenLoop Farmer',
+    kicker: 'Farmer access',
+    title: 'Welcome GreenLoop Farmer',
+    copy: 'Your dashboard focuses on pickups, field health, reward points and carbon passport progress.',
+    pill: 'Farm + carbon record'
+  },
+  htx: {
+    roleName: 'GreenLoop HTX',
+    kicker: 'HTX operations access',
+    title: 'Welcome GreenLoop HTX',
+    copy: 'Your workspace prioritizes collection dispatch, farmer support, data validation and local logistics.',
+    pill: 'Coordinator'
+  },
+  buyer: {
+    roleName: 'GreenLoop Buyer',
+    kicker: 'Buyer portal access',
+    title: 'Welcome GreenLoop Buyer',
+    copy: 'Your workspace highlights verified credit offers, traceable outputs and purchase requests.',
+    pill: 'Carbon market'
+  },
+  partner: {
+    roleName: 'GreenLoop Partner',
+    kicker: 'Partner workspace access',
+    title: 'Welcome GreenLoop Partner',
+    copy: 'Your workspace is built around processing tasks, output registration, MRV evidence and integration requests.',
+    pill: 'Processor / logistics'
+  },
+  admin: {
+    roleName: 'GreenLoop Admin',
+    kicker: 'Admin control access',
+    title: 'Welcome GreenLoop Admin',
+    copy: 'Your workspace opens system controls for users, verification, operations, logistics and marketplace oversight.',
+    pill: 'Platform control'
+  }
+};
+
+function roleIdentity(role) {
+  return ROLE_IDENTITIES[role] || ROLE_IDENTITIES.farmer;
+}
+
+function roleWelcomeMessage(user) {
+  const identity = roleIdentity(user?.role);
+  return `${t(identity.title)} - ${user?.name || 'GreenLoop'}`;
+}
+
+function renderRoleIdentity(user) {
+  const el = document.getElementById('roleIdentity');
+  if (!el || !user) return;
+  const identity = roleIdentity(user.role);
+  el.classList.add('on');
+  el.innerHTML = `<div class="role-identity-card">
+    <div>
+      <div class="role-identity-kicker">${escapeHtml(t(identity.kicker))}</div>
+      <div class="role-identity-title">${escapeHtml(t(identity.title))}</div>
+      <div class="role-identity-copy">${escapeHtml(t(identity.copy))}</div>
+    </div>
+    <div class="role-identity-pill">${escapeHtml(t(identity.pill))}</div>
+  </div>`;
+}
+
 function roleAllows(el, role) {
   const roles = String(el.dataset.roles || '').split(',').map(x => x.trim());
   return !roles.length || roles.includes(role);
@@ -2834,6 +2903,7 @@ function roleAllows(el, role) {
 
 function applyRoleWorkspace(user) {
   const role = user?.role || 'farmer';
+  renderRoleIdentity(user);
   document.body.dataset.role = role;
   document.querySelectorAll('[data-roles]').forEach(el => { el.hidden = !roleAllows(el, role); });
   const dashboard = document.getElementById('p-dashboard');
@@ -3007,10 +3077,16 @@ const SEASON_BIOMASS = {
     { value:'melaleuca_leaves', en:'Melaleuca leaves', vi:'Lá tràm', output:'extract/biochar' },
     { value:'melaleuca_branches', en:'Melaleuca small branches', vi:'Cành tràm nhỏ', output:'LCNF' },
     { value:'melaleuca_thinning_wood', en:'Melaleuca thinning wood', vi:'Gỗ tràm tỉa thưa', output:'LCNF' },
-        { value:'melaleuca_residue', en:'Melaleuca processing residue', vi:'Bã tràm', output:'biochar/extract' },
-    { value:'coconut_husk', en:'Coconut husk', vi:'Vỏ dừa', output:'biochar/fiber' },
-    { value:'coffee_husk', en:'Coffee husk', vi:'Vỏ cà phê', output:'biochar' },
+    { value:'melaleuca_residue', en:'Melaleuca processing residue', vi:'Bã tràm', output:'biochar/extract' },
     { value:'cajeput_residue', en:'Cajeput residue', vi:'Bã tràm', output:'biochar/extract' }
+  ],
+  forest: [
+    { value:'coffee_leaves', en:'Coffee leaves', vi:'Lá cà phê', output:'tea' },
+    { value:'coffee_stems', en:'Coffee stems', vi:'Thân cà phê', output:'biochar' },
+    { value:'coffee_bark', en:'Coffee bark', vi:'Vỏ cà phê', output:'biochar' },
+    { value:'coffee_husk', en:'Coffee husk', vi:'Vỏ quả cà phê', output:'biochar' },
+    { value:'coconut_husk', en:'Coconut husk', vi:'Vỏ dừa', output:'biochar/fiber' },
+    { value:'coconut_water_residue', en:'Coconut water residue', vi:'Bã dừa nước', output:'fiber/feedstock' }
   ]
 };
 
@@ -3327,7 +3403,7 @@ const STATIC_TEXT = {
   "Preferential Insurance Rate": "Mức phí bảo hiểm ưu đãi",
   "Bao Viet agricultural - 12% discount": "Bảo Việt nông nghiệp - giảm 12%",
   "Binance Sustainability Listing": "Niêm yết trên Binance Sustainability",
-  "Trade SCUs on ASEAN Interoperable Exchange": "Giao dịch SCU trên ASEAN Interoperable Exchange",
+  "Trade SCUs on CIX": "Giao dịch SCU trên CIX",
   "Sequestration History": "Lịch sử lưu giữ carbon",
   "Completed": "Hoàn tất",
   "Processing": "Đang xử lý",
@@ -3497,7 +3573,7 @@ const STATIC_TEXT = {
   // ── Landing - Solution section ──
   "End-to-end from field": "Từ đồng ruộng đến",
   "to carbon market": "thị trường carbon",
-  "GreenLoop unifies biomass logistics, partner pyrolysis, digital MRV, Soil-Water intelligence, and ASEAN carbon trading within a single farmer-facing platform.": "GreenLoop hợp nhất logistics sinh khối, nhiệt phân đối tác, MRV số, trí tuệ Đất-Nước và giao dịch carbon ASEAN trong một nền tảng cho nông hộ.",
+  "GreenLoop unifies biomass logistics, partner pyrolysis, digital MRV, Soil-Water intelligence, and CIX carbon trading within a single farmer-facing platform.": "GreenLoop hợp nhất logistics sinh khối, nhiệt phân đối tác, MRV số, trí tuệ Đất-Nước và giao dịch carbon CIX trong một nền tảng cho nông hộ.",
   "Biomass Collection": "Thu gom sinh khối",
   "HTX cooperatives serve as hub-and-spoke micro-collection points. Min 500 kg/pickup, cost kept below $12/tonne.": "HTX đóng vai trò điểm thu gom theo mô hình hub-and-spoke. Tối thiểu 500 kg/lần, chi phí dưới 12$/tấn.",
   "Partner Pyrolysis": "Nhiệt phân đối tác",
@@ -3531,6 +3607,26 @@ const STATIC_TEXT = {
   "HTX operations": "Vận hành HTX",
   "Carbon buyer portal": "Cổng đơn vị mua tín chỉ",
   "Partner workspace": "Không gian làm việc đối tác",
+  "Farmer access": "Quyền truy cập nông hộ",
+  "HTX operations access": "Quyền vận hành HTX",
+  "Buyer portal access": "Quyền cổng bên mua",
+  "Partner workspace access": "Quyền không gian đối tác",
+  "Admin control access": "Quyền quản trị hệ thống",
+  "Welcome GreenLoop Farmer": "Chào mừng GreenLoop Nông hộ",
+  "Welcome GreenLoop HTX": "Chào mừng GreenLoop HTX",
+  "Welcome GreenLoop Buyer": "Chào mừng GreenLoop Bên mua",
+  "Welcome GreenLoop Partner": "Chào mừng GreenLoop Đối tác",
+  "Welcome GreenLoop Admin": "Chào mừng GreenLoop Quản trị",
+  "Your dashboard focuses on pickups, field health, reward points and carbon passport progress.": "Dashboard của bạn tập trung vào lịch thu gom, sức khỏe ruộng/ao, điểm thưởng và tiến độ hộ chiếu carbon.",
+  "Your workspace prioritizes collection dispatch, farmer support, data validation and local logistics.": "Không gian làm việc của bạn ưu tiên điều phối thu gom, hỗ trợ nông hộ, xác thực dữ liệu và logistics địa phương.",
+  "Your workspace highlights verified credit offers, traceable outputs and purchase requests.": "Không gian của bạn làm nổi bật tín chỉ đã xác minh, đầu ra truy xuất được và yêu cầu mua.",
+  "Your workspace is built around processing tasks, output registration, MRV evidence and integration requests.": "Không gian của bạn xoay quanh tác vụ xử lý, ghi nhận đầu ra, bằng chứng MRV và yêu cầu tích hợp.",
+  "Your workspace opens system controls for users, verification, operations, logistics and marketplace oversight.": "Không gian của bạn mở các điều khiển hệ thống cho người dùng, xác minh, vận hành, logistics và marketplace.",
+  "Farm + carbon record": "Nông trại + hồ sơ carbon",
+  "Coordinator": "Điều phối",
+  "Carbon market": "Thị trường carbon",
+  "Processor / logistics": "Xử lý / logistics",
+  "Platform control": "Điều khiển nền tảng",
   "Platform administration": "Quản trị nền tảng",
   "Open operations": "Mở vận hành",
   "Browse credit offers": "Xem chào bán tín chỉ",
@@ -4096,6 +4192,36 @@ const ATTRIBUTE_TEXT = {
   , "Field C - Lua-Tom": "Ruộng C - Lúa tôm"
   , "Add new field or pond": "Thêm ruộng hoặc ao mới"
   , "Edit": "Chỉnh sửa"
+  , "Forest Products": "Lâm sản"
+  , "Hello Mr. Thanh - Forest products intake": "Chào anh Thanh - mùa thu gom lâm sản"
+  , "Coffee and coconut residues are ready": "Phụ phẩm cà phê và dừa đã sẵn sàng"
+  , "How much will my rice season earn?": "Vụ lúa của tôi sẽ mang lại bao nhiêu?"
+  , "How much will my aquaculture season earn?": "Mùa thủy sản của tôi sẽ mang lại bao nhiêu?"
+  , "How much will my melaleuca season earn?": "Mùa tràm của tôi sẽ mang lại bao nhiêu?"
+  , "How much will my forest biomass stream earn?": "Dòng sinh khối lâm sản của tôi sẽ mang lại bao nhiêu?"
+  , "Coffee leaves go to tea; stems and bark go to biochar. Coconut water residue stays in a separate feedstock stream.": "Lá cà phê đi theo dòng trà; thân và vỏ đi theo dòng biochar. Bã dừa nước được tách thành dòng nguyên liệu riêng."
+  , "Forest products are separated from melaleuca: coffee leaves become tea, coffee stems and bark become biochar, and coconut water residue stays in its own feedstock stream.": "Lâm sản được tách khỏi mùa tràm: lá cà phê làm trà, thân và vỏ cà phê làm biochar, còn bã dừa nước đi theo dòng nguyên liệu riêng."
+  , "Forest product biomass collected each month": "Sinh khối lâm sản thu gom mỗi tháng"
+  , "How much will my forest biomass earn?": "Sinh khối lâm sản của tôi sẽ mang lại bao nhiêu?"
+  , "Forest biomass ready for collection": "Sinh khối lâm sản sẵn sàng thu gom"
+  , "From coffee leaf tea": "Từ trà lá cà phê"
+  , "From biochar feedstock": "Từ nguyên liệu biochar"
+  , "Forest products hub - Coffee and coconut": "Điểm lâm sản - cà phê và dừa"
+  , "Separated ecosystem stream": "Dòng hệ sinh thái tách riêng"
+  , "Coffee leaves for tea": "Lá cà phê làm trà"
+  , "Coffee stems and bark": "Thân và vỏ cà phê"
+  , "Coconut water residue": "Bã dừa nước"
+  , "Forest products are tracked separately from melaleuca because coffee/coconut and wetland melaleuca sit in different ecosystems.": "Lâm sản được theo dõi tách khỏi tràm vì cà phê/dừa và tràm đất ngập nước thuộc hai hệ sinh thái khác nhau."
+  , "will confirm separated intake": "sẽ xác nhận dòng thu gom tách riêng"
+  , "Source separation": "Tách nguồn nguyên liệu"
+  , "Coffee leaf drying": "Sấy lá cà phê"
+  , "Stem and bark intake": "Tiếp nhận thân và vỏ"
+  , "Biochar processing": "Xử lý biochar"
+  , "Coconut residue sorting": "Phân loại phụ phẩm dừa"
+  , "Product verification": "Xác minh sản phẩm"
+  , "tea leaf feedstock": "nguyên liệu trà lá"
+  , "fiber / feedstock": "xơ / nguyên liệu"
+  , "biochar / fiber": "biochar / xơ"
 };
 
 const COPY_INDEX = {};
@@ -4215,6 +4341,7 @@ function refreshCopy() {
   renderNotifications();
   renderPoints();
   renderCarbonSummary();
+  if (currentUser) renderRoleIdentity(currentUser);
   if (currentUser?.role) renderRoleWorkspace(currentUser.role);
   calc();
   applyLanguage();
@@ -4301,7 +4428,7 @@ async function doLogin() {
     GL_TOKEN = data.token;
     try { localStorage.setItem('gl_token', GL_TOKEN); } catch (e) {}
     updateUserUI(data.user);
-    toast(`Chào ${data.user.name}!`);
+    toast(roleWelcomeMessage(data.user));
     setTimeout(showApp, 350);
   } catch (err) {
     toast(friendlyError(err, 'Đăng nhập thất bại - kiểm tra lại số điện thoại / mật khẩu'));
@@ -4331,7 +4458,7 @@ async function doRegister() {
     GL_TOKEN = data.token;
     try { localStorage.setItem('gl_token', GL_TOKEN); } catch (e) {}
     updateUserUI(data.user);
-    toast('Tài khoản đã tạo - chào mừng!');
+    toast(roleWelcomeMessage(data.user));
     setTimeout(showApp, 350);
   } catch (err) {
     toast(friendlyError(err, 'Đăng ký thất bại - số điện thoại có thể đã được dùng'));
@@ -4382,7 +4509,9 @@ function nav(page) {
     ? t('Hello Mr. Thanh - Summer-Autumn rice season')
     : season === 'tram'
       ? t('Hello Mr. Thanh - Melaleuca management season')
-      : t('Hello Mr. Thanh - Winter-Spring aquaculture season');
+      : season === 'forest'
+        ? t('Hello Mr. Thanh - Forest products intake')
+        : t('Hello Mr. Thanh - Winter-Spring aquaculture season');
   const titles = {
     dashboard: [t('Home'), dashSub],
     ecosystem: ['Ecosystem Engine', 'Configure rice, aquaculture and melaleuca systems by ecological zone'],
@@ -4738,7 +4867,7 @@ async function createBatch() {
     await apiFetch('/api/circular/residues', { method: 'POST', body: JSON.stringify({
       name: `${labelBiomass(biomass)} residue intake`,
       residue_type: biomass,
-      source_category: biomass.includes('shrimp') || biomass.includes('fish') || biomass.includes('pond') ? 'aquaculture' : 'agriculture',
+      source_category: biomass.includes('shrimp') || biomass.includes('fish') || biomass.includes('pond') ? 'aquaculture' : biomass.includes('coffee') || biomass.includes('coconut') ? 'forestry' : 'agriculture',
       origin: 'Operations batch intake',
       quantity: inputKg,
       unit: 'kg',
@@ -4750,6 +4879,29 @@ async function createBatch() {
 }
 
 /* Đổi mùa vụ */
+function updateSeasonCalculatorTitle(currentSeason = season) {
+  const titles = {
+    rice: 'How much will my rice season earn?',
+    shrimp: 'How much will my aquaculture season earn?',
+    tram: 'How much will my melaleuca season earn?',
+    forest: 'How much will my forest biomass stream earn?'
+  };
+  const cct = document.getElementById('calcCardTitle');
+  if (cct) cct.textContent = t(titles[currentSeason] || titles.rice);
+}
+
+function updateSeasonButtonState(currentSeason = season) {
+  const buttons = {
+    rice: document.getElementById('riceBtn'),
+    shrimp: document.getElementById('shrimpBtn'),
+    tram: document.getElementById('tramBtn'),
+    forest: document.getElementById('forestBtn')
+  };
+  Object.values(buttons).forEach(button => { if (button) button.className = 's-btn'; });
+  const activeClass = { rice: 'ar', shrimp: 'as', tram: 'at', forest: 'af' }[currentSeason] || 'ar';
+  if (buttons[currentSeason]) buttons[currentSeason].className = `s-btn ${activeClass}`;
+}
+
 function setSeason(s) {
   season = s;
   refreshSeasonBiomassOptions(s);
@@ -4759,6 +4911,8 @@ function setSeason(s) {
   const rb = document.getElementById('riceBtn');
   const sb = document.getElementById('shrimpBtn');
   const tb = document.getElementById('tramBtn');
+  const fb = document.getElementById('forestBtn');
+  updateSeasonButtonState(s);
   const cb = document.getElementById('cycleBadge');
   const sb2 = document.getElementById('seasonBadge');
   const pt = document.getElementById('phaseTitle');
@@ -4771,11 +4925,12 @@ function setSeason(s) {
       ? t('Hello Mr. Thanh - Summer-Autumn rice season')
       : s === 'tram'
         ? t('Hello Mr. Thanh - Melaleuca management season')
-        : t('Hello Mr. Thanh - Winter-Spring aquaculture season');
+        : s === 'forest'
+          ? t('Hello Mr. Thanh - Forest products intake')
+          : t('Hello Mr. Thanh - Winter-Spring aquaculture season');
   }
 
   if (s === 'rice') {
-    rb.className = 's-btn ar'; sb.className = 's-btn'; if (tb) tb.className = 's-btn';
     cb.className = 'badge bg'; cb.textContent = t('Rice Phase');
     pt.textContent = t('Rice growing - looks good');
     pd.textContent = t('Harvest in about 32 days. We will call you to pick up straw.');
@@ -4786,8 +4941,7 @@ function setSeason(s) {
     if (mct) mct.textContent = t('Straw collected each month');
 
     // Calculator
-    const cct = document.getElementById('calcCardTitle');
-    if (cct) cct.textContent = t('How much will my straw earn?');
+    updateSeasonCalculatorTitle(s);
     const calcType = document.getElementById('calcType');
     if (calcType) calcType.value = 'rice_straw';
 
@@ -4822,7 +4976,6 @@ function setSeason(s) {
       <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('staff will test again')}: <strong style="color:var(--tp)">28/05</strong></div>`;
 
   } else if (s === 'shrimp') {
-    rb.className = 's-btn'; sb.className = 's-btn as'; if (tb) tb.className = 's-btn';
     cb.className = 'badge ba'; cb.textContent = t('Aquaculture Phase');
     pt.textContent = t('Aquaculture system - water is healthy');
     pd.textContent = t('Pond ready to drain in about 30 days. We will collect the sludge.');
@@ -4833,8 +4986,7 @@ function setSeason(s) {
     if (mct) mct.textContent = t('Sludge collected each month');
 
     // Calculator
-    const cct = document.getElementById('calcCardTitle');
-    if (cct) cct.textContent = t('How much will my pond sludge earn?');
+    updateSeasonCalculatorTitle(s);
     const calcType = document.getElementById('calcType');
     if (calcType) calcType.value = 'shrimp_sludge';
 
@@ -4867,8 +5019,7 @@ function setSeason(s) {
     if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('Pond status')}</div>
       <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('Aquaculture is developing well. Sludge biochar from the last cycle improved pond DO by')} <strong>12%</strong>. ${t('Expected harvest in 30 days.')}</div>
       <div style="margin-top:12px;padding:10px;background:rgba(38,166,154,.06);border:1px solid rgba(38,166,154,.14);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('will collect sludge after harvest')}: <strong style="color:var(--tp)">~15/06</strong></div>`;
-  } else {
-    rb.className = 's-btn'; sb.className = 's-btn'; if (tb) tb.className = 's-btn at';
+  } else if (s === 'tram') {
     cb.className = 'badge be'; cb.textContent = t('Melaleuca Season');
     pt.textContent = t('Melaleuca management - biomass is ready');
     pd.textContent = t('Selective thinning and leaf collection are planned this month.');
@@ -4877,8 +5028,7 @@ function setSeason(s) {
     const mct = document.getElementById('miniChartTitle');
     if (mct) mct.textContent = t('Melaleuca biomass collected each month');
 
-    const cct = document.getElementById('calcCardTitle');
-    if (cct) cct.textContent = t('How much will my melaleuca biomass earn?');
+    updateSeasonCalculatorTitle(s);
     const calcType = document.getElementById('calcType');
     if (calcType) calcType.value = 'melaleuca';
 
@@ -4908,9 +5058,50 @@ function setSeason(s) {
     if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('What changed')}</div>
       <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('Melaleuca stabilizes saline soil and provides renewable leaves, branches and thinning wood for LCNF materials.')}</div>
       <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('staff will inspect the forest again')}: <strong style="color:var(--tp)">30/06</strong></div>`;
+  } else {
+    cb.className = 'badge bg'; cb.textContent = t('Forest Products');
+    pt.textContent = t('Coffee and coconut residues are ready');
+    pd.textContent = t('Forest products are separated from melaleuca: coffee leaves become tea, coffee stems and bark become biochar, and coconut water residue stays in its own feedstock stream.');
+
+    sb2.className = 'badge bg'; sb2.textContent = t('Forest Products');
+    const mct = document.getElementById('miniChartTitle');
+    if (mct) mct.textContent = t('Forest product biomass collected each month');
+
+    updateSeasonCalculatorTitle(s);
+    const calcType = document.getElementById('calcType');
+    if (calcType) calcType.value = 'coffee_leaves';
+
+    const ssl = document.getElementById('statStrawLabel');
+    if (ssl) ssl.textContent = t('Forest biomass ready for collection');
+
+    const el1 = document.getElementById('earningLabel1'); if (el1) el1.textContent = t('From coffee leaf tea');
+    const ev1 = document.getElementById('earningVal1');   if (ev1) ev1.textContent = '3.6 / 8M';
+    const eb1 = document.getElementById('earningBar1');   if (eb1) { eb1.className = 'pf g'; eb1.style.width = '45%'; }
+    const el2 = document.getElementById('earningLabel2'); if (el2) el2.textContent = t('From biochar feedstock');
+    const ev2 = document.getElementById('earningVal2');   if (ev2) ev2.textContent = '2.2 / 5M';
+    const eb2 = document.getElementById('earningBar2');   if (eb2) { eb2.className = 'pf e'; eb2.style.width = '44%'; }
+    const es = document.getElementById('earningsSummary');
+    if (es) es.innerHTML = t('You\'ve earned') + ' <strong style="color:var(--ok)">5.8 ' + t('million VND') + '</strong> ' + t('so far - about') + ' <strong style="color:var(--tp)">45%</strong> ' + t('of your goal.');
+
+    const fct = document.getElementById('fieldCardTitle'); if (fct) fct.textContent = t('Forest products hub - Coffee and coconut');
+    const fbd = document.getElementById('fieldBadge');     if (fbd) { fbd.className = 'badge bg'; fbd.textContent = t('Separated ecosystem stream'); }
+    const fhv = document.getElementById('fieldHealthVal'); if (fhv) fhv.textContent = t('Ready');
+    const fhl = document.getElementById('fieldHealthLbl'); if (fhl) fhl.textContent = t('intake');
+    const fsz = document.getElementById('fieldSize');      if (fsz) fsz.textContent = '2 hubs';
+    const fm  = document.getElementById('fieldMetrics');
+    if (fm) fm.innerHTML = `
+      <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>${t('Coffee leaves for tea')}</span><span>42% - ${t('ready')}</span></div><div class="pt"><div class="pf g" style="width:42%"></div></div></div>
+      <div style="margin-bottom:10px"><div class="pl" style="margin-bottom:3px"><span>${t('Coffee stems and bark')}</span><span>58% - biochar</span></div><div class="pt"><div class="pf e" style="width:58%"></div></div></div>
+      <div><div class="pl" style="margin-bottom:3px"><span>${t('Coconut water residue')}</span><span>36% - ${t('classified')}</span></div><div class="pt"><div class="pf a" style="width:36%"></div></div></div>`;
+    const fcn = document.getElementById('fieldChangeNote');
+    if (fcn) fcn.innerHTML = `<div style="font-size:11.5px;font-weight:700;margin-bottom:10px;color:var(--tp)">${t('What changed')}</div>
+      <div style="font-size:12px;color:var(--ts);line-height:1.65">${t('Forest products are tracked separately from melaleuca because coffee/coconut and wetland melaleuca sit in different ecosystems.')}</div>
+      <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--tm)">HTX ${t('will confirm separated intake')}: <strong style="color:var(--tp)">02/07</strong></div>`;
   }
   renderCycle();
   renderMiniChart();
+  updateSeasonButtonState(s);
+  updateSeasonCalculatorTitle(s);
   calc();
 }
 
@@ -4940,7 +5131,15 @@ function renderCycle() {
     { l:'Soil restoration', s:monthRangeLabel(9,10), st:'up' },
     { l:'Carbon verification', s:monthRangeLabel(11,12), st:'up' }
   ];
-  const phases = season === 'rice' ? rice : season === 'tram' ? tram : shrimp;
+  const forest = [
+    { l:'Source separation', s:monthLabel(1), st:'done' },
+    { l:'Coffee leaf drying', s:monthRangeLabel(2,3), st:'done' },
+    { l:'Stem and bark intake', s:monthRangeLabel(4,6), st:'curs' },
+    { l:'Biochar processing', s:monthRangeLabel(7,8), st:'up' },
+    { l:'Coconut residue sorting', s:monthRangeLabel(9,10), st:'up' },
+    { l:'Product verification', s:monthRangeLabel(11,12), st:'up' }
+  ];
+  const phases = season === 'rice' ? rice : season === 'tram' ? tram : season === 'forest' ? forest : shrimp;
   document.getElementById('cycleTracker').innerHTML = phases.map((p, i) => {
     const icon = p.st === 'done' ? ICO.check :
                  p.st === 'cur' || p.st === 'curs' ? ICO.bullet : ICO.num(i+1);
@@ -4958,9 +5157,10 @@ function renderMiniChart() {
   const rice   = [190,240,370,500,620,430,290,160,130,210,330,400];
   const shrimp = [0,0,80,220,380,480,510,390,250,420,580,180]; // sludge collection pattern
   const tram = [110,140,260,420,560,680,520,380,290,410,470,360];
-  const data = season === 'rice' ? rice : season === 'tram' ? tram : shrimp;
+  const forest = [90,130,210,280,360,440,390,310,260,330,410,290];
+  const data = season === 'rice' ? rice : season === 'tram' ? tram : season === 'forest' ? forest : shrimp;
   const max = Math.max(...data);
-  const color = season === 'rice' ? 'var(--leaf)' : season === 'tram' ? 'var(--earth)' : 'var(--aqua)';
+  const color = season === 'rice' ? 'var(--leaf)' : season === 'tram' ? 'var(--earth)' : season === 'forest' ? 'var(--f)' : 'var(--aqua)';
   document.getElementById('miniChart').innerHTML = data.map(v => {
     const h = max > 0 ? (v / max * 38) + 4 : 4;
     return `<div class="mb-bar" style="height:${h}px;background:${color};opacity:${max > 0 ? v/max*.6+.4 : .2}"></div>`;
@@ -4981,9 +5181,16 @@ function calc() {
     melaleuca_leaves:       { y:.18, co2:2.1, vnd:2200, q:'good', output:'extract / biochar' },
     melaleuca_branches:     { y:.38, co2:2.9, vnd:3400, q:'very good', output:'LCNF feedstock' },
     melaleuca_thinning_wood:{ y:.42, co2:3.1, vnd:4200, q:'very good', output:'LCNF feedstock' },
-    melaleuca_residue:      { y:.30, co2:2.8, vnd:1450, q:'very good', output:'biochar / extract' }
+    melaleuca_residue:      { y:.30, co2:2.8, vnd:1450, q:'very good', output:'biochar / extract' },
+    cajeput_residue:        { y:.30, co2:2.8, vnd:1450, q:'very good', output:'biochar / extract' },
+    coffee_leaves:          { y:.65, co2:0,   vnd:3600, q:'good', output:'tea leaf feedstock' },
+    coffee_stems:           { y:.34, co2:3.0, vnd:1650, q:'good', output:'biochar' },
+    coffee_bark:            { y:.32, co2:3.0, vnd:1500, q:'good', output:'biochar' },
+    coffee_husk:            { y:.32, co2:3.0, vnd:1500, q:'good', output:'biochar' },
+    coconut_husk:           { y:.31, co2:3.0, vnd:1550, q:'good', output:'biochar / fiber' },
+    coconut_water_residue:  { y:.22, co2:0,   vnd:900,  q:'okay', output:'fiber / feedstock' }
   };
-  const r = rates[type];
+  const r = rates[type] || rates.rice_straw;
   const biochar = Math.round(weight * r.y);
   const co2 = (biochar * r.co2 / 1000).toFixed(2);
   // Payout in VND: biochar value + small carbon-credit advance
@@ -5027,7 +5234,12 @@ async function bookCollection() {
     'tram':         'melaleuca_residue',
     'coconut':      'coconut_husk',
     'coconut_husk': 'coconut_husk',
+    'coconut_water_residue': 'coconut_water_residue',
+    'coffee_leaves': 'coffee_leaves',
+    'coffee_stems': 'coffee_stems',
+    'coffee_bark':  'coffee_bark',
     'coffee_husk':  'coffee_husk',
+    'coffee':       'coffee_husk',
     'cajeput_residue': 'cajeput_residue'
   };
   try {
@@ -5123,7 +5335,11 @@ function labelBiomass(type) {
     melaleuca_residue: { en:'Melaleuca Residue', vi:'Phụ phẩm tràm' },
     coconut: { en:'Coconut Husk', vi:'Vỏ dừa' },
     coconut_husk: { en:'Coconut Husk', vi:'Vỏ dừa' },
-    coffee_husk: { en:'Coffee Husk', vi:'Vỏ cà phê' },
+    coconut_water_residue: { en:'Coconut Water Residue', vi:'Bã dừa nước' },
+    coffee_leaves: { en:'Coffee Leaves', vi:'Lá cà phê' },
+    coffee_stems: { en:'Coffee Stems', vi:'Thân cà phê' },
+    coffee_bark: { en:'Coffee Bark', vi:'Vỏ cà phê' },
+    coffee_husk: { en:'Coffee Husk', vi:'Vỏ quả cà phê' },
     cajeput_residue: { en:'Cajeput Residue', vi:'Bã tràm' }
   };
   const label = labels[type];
