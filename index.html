@@ -82,6 +82,8 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .pk-detail-label{color:var(--tm);font-weight:500}
 .pk-detail-val{color:var(--tp);font-weight:600;text-align:right}
 .gl-empty{padding:14px 0;font-size:13px;color:var(--tm);line-height:1.5}
+.gl-empty.center{text-align:center;padding:28px 14px}
+.gl-empty strong{display:block;color:var(--tp);font-size:14px;margin-bottom:5px}
 .gl-error{padding:11px 12px;border:1px solid rgba(198,40,40,.18);background:rgba(198,40,40,.06);border-radius:10px;font-size:12px;color:var(--danger);line-height:1.5}
 .gl-row-actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-top:8px}
 .gl-mini-btn{border:1px solid var(--borderl);background:var(--bg);color:var(--ts);border-radius:8px;padding:5px 9px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer}
@@ -131,7 +133,16 @@ body[data-theme="dark"] .loop-chip,body[data-theme="dark"] .loop-detail-item{bac
 @media(max-width:1180px){.loop-board{grid-template-columns:1fr 1fr}.loop-stage:not(:last-child)::before,.loop-stage:not(:last-child)::after{display:none}.loop-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.loop-detail{grid-template-columns:1fr}.loop-detail-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.loop-section{padding:14px}.loop-head{flex-direction:column}.loop-board,.loop-metrics,.loop-detail-list{grid-template-columns:1fr}.loop-stage{min-height:auto}}
 .role-identity{display:none}.role-identity.on{display:block}.role-identity-card{border:1px solid var(--borderl);background:linear-gradient(135deg,rgba(76,175,80,.10),rgba(38,166,154,.08));border-radius:8px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}.role-identity-kicker{font-size:11px;font-weight:800;color:var(--ad);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}.role-identity-title{font-size:20px;font-weight:800;color:var(--tp);line-height:1.25}.role-identity-copy{font-size:12.5px;color:var(--ts);line-height:1.5;margin-top:4px}.role-identity-pill{border:1px solid var(--border);background:var(--bgc);border-radius:999px;padding:8px 11px;color:var(--tp);font-size:11px;font-weight:800;white-space:nowrap}.role-workspace{display:none}.role-workspace.on{display:block}#p-dashboard.role-mode>:not(#roleWorkspace):not(#roleIdentity){display:none}.role-eyebrow{font-size:11px;font-weight:800;color:var(--ad);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}.role-title{font-size:22px;line-height:1.25;margin-bottom:7px}.role-desc{font-size:13px;color:var(--ts);line-height:1.55;max-width:760px}.role-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.role-action{border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:9px 12px;color:var(--tp);font:700 12px inherit;cursor:pointer}.role-action.primary{background:var(--f);border-color:var(--f);color:#fff}.role-action:hover{background:var(--bgs)}.role-action.primary:hover{background:var(--fm)}
+.crv.tick{transform:scale(1.06);transition:transform .18s,color .18s;color:var(--leaf)}
+.next-action-grid,.onboarding-grid,.eco-preset-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.next-action,.onboarding-step,.eco-preset{border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:12px;text-align:left}
+.next-action{cursor:pointer;transition:background .16s,border-color .16s,transform .16s}
+.next-action:hover,.eco-preset:hover{background:var(--bgs);border-color:var(--border);transform:translateY(-1px)}
+.next-action b,.onboarding-step b,.eco-preset b{display:block;font-size:12.5px;color:var(--tp);margin-bottom:4px}
+.next-action span,.onboarding-step span,.eco-preset span{display:block;font-size:11px;color:var(--tm);line-height:1.45}
+body.demo-mode::after{content:'DEMO SANDBOX';position:fixed;right:16px;bottom:80px;z-index:9980;pointer-events:none;border:1px solid rgba(163,217,106,.42);background:rgba(13,38,26,.78);color:var(--lb);border-radius:999px;padding:7px 11px;font-size:10px;font-weight:900;letter-spacing:.7px;box-shadow:var(--sh-sm)}
 @media(max-width:980px){.ops-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.ops-grid{grid-template-columns:1fr}.ops-row{align-items:flex-start;flex-direction:column;gap:7px}}
+@media(max-width:720px){.next-action-grid,.onboarding-grid,.eco-preset-grid{grid-template-columns:1fr}}
 
 /* Màn hình mở đầu */
 #landing{min-height:100vh;min-height:100svh;background:var(--fd);position:relative}
@@ -430,6 +441,12 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .live-chart::after{content:'';position:absolute;top:0;bottom:0;width:42px;left:-42px;background:linear-gradient(90deg,transparent,rgba(38,166,154,.13),transparent);animation:chartScan 3.2s linear infinite;pointer-events:none}
 #salinityTrendPath,#salinityTrendArea{transition:d .65s ease}
 #salinityPulsePoint{filter:drop-shadow(0 0 6px rgba(38,166,154,.72))}
+.sal-axis{position:absolute;left:8px;top:13px;bottom:22px;display:flex;flex-direction:column;justify-content:space-between;font-size:9px;font-weight:800;color:var(--tm);pointer-events:none}
+.sal-axis-unit{position:absolute;left:8px;bottom:6px;font-size:9px;font-weight:900;color:var(--ad);pointer-events:none}
+.sal-point{cursor:pointer}
+.sal-point:hover{filter:drop-shadow(0 0 5px rgba(38,166,154,.7))}
+.sal-tooltip{position:absolute;left:50%;top:8px;transform:translateX(-50%) translateY(-4px);background:var(--bgc);border:1px solid var(--borderl);border-radius:8px;padding:6px 9px;font-size:10.5px;font-weight:800;color:var(--tp);box-shadow:var(--sh-sm);opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;white-space:nowrap}
+.sal-tooltip.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .si.live{position:relative;overflow:hidden;border:1px solid rgba(38,166,154,.08);transition:border-color .2s,background .2s}
 .si.live::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);transform:translateX(-100%);animation:sensorSweep 3s ease-in-out infinite}
 .sv[data-live-sensor]{font-variant-numeric:tabular-nums}
@@ -546,7 +563,7 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 
 /* Thanh tab dưới cho mobile */
 .bottnav{display:none;position:fixed;left:0;right:0;bottom:0;height:calc(62px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bgc);border-top:1px solid var(--borderl);box-shadow:0 -8px 24px rgba(26,58,42,.1);z-index:120}
-.bn-in{height:62px;display:grid;grid-template-columns:repeat(6,1fr)}
+.bn-in{height:62px;display:grid;grid-template-columns:repeat(7,1fr)}
 .bn-t{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;background:transparent;color:var(--tm);font-family:inherit;cursor:pointer;transition:color .18s}
 .bn-t::before{content:'';position:absolute;top:0;left:50%;width:28px;height:3px;border-radius:0 0 3px 3px;background:transparent;transform:translateX(-50%)}
 .bn-t.active{color:var(--leaf)}
@@ -554,6 +571,7 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .bn-t svg{width:20px;height:20px;stroke:currentColor}
 .bn-t span{font-size:10px;font-weight:700;line-height:1;white-space:nowrap}
 body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--borderl);box-shadow:0 -10px 28px rgba(0,0,0,.32)}
+@media(max-width:420px){.bn-t span{font-size:9px}.bn-t svg{width:18px;height:18px}}
 
 /* Hiệu ứng chung */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
@@ -728,6 +746,9 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
 
 /* ── Settings page ── */
 .sett-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:18px;margin-bottom:18px}
+.settings-jump{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;position:sticky;top:0;z-index:5;background:var(--bgc);padding:8px 0}
+.settings-jump button{border:1px solid var(--borderl);background:var(--bg);color:var(--ts);border-radius:8px;padding:7px 10px;font:800 11px inherit;cursor:pointer}
+.settings-jump button:hover{background:var(--bgs);color:var(--tp)}
 .avatar-init{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--leaf),var(--ad));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex-shrink:0;margin-bottom:14px}
 .tog-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--borderl)}
 .tog-row:last-child{border-bottom:none}
@@ -1121,14 +1142,14 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
       <div class="l-btns a4">
         <button class="l-btn-p" onclick="enterApp()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 19 12"/><polyline points="12 5 19 12 12 19"/></svg>
-          Open Dashboard
+          Sign in to Dashboard
         </button>
         <button class="l-btn-s" onclick="lScroll('l-solution',event)">Learn More</button>
       </div>
       <div class="l-stats a5">
         <div class="l-stat"><div class="l-stat-n">8,000</div><div class="l-stat-l">tCO₂e locked by Year 3</div></div>
-        <div class="l-stat"><div class="l-stat-n">2,000</div><div class="l-stat-l">Households targeted</div></div>
-        <div class="l-stat"><div class="l-stat-n">+18%</div><div class="l-stat-l">Farmer income increase</div></div>
+        <div class="l-stat"><div class="l-stat-n">2,000</div><div class="l-stat-l">Pilot households targeted</div></div>
+        <div class="l-stat"><div class="l-stat-n">+18%</div><div class="l-stat-l">Target farmer income uplift</div></div>
       </div>
     </div>
 
@@ -1368,7 +1389,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           </div>
 
           <div class="au-demo-banner">
-            <div class="au-demo-banner-t"><strong>Hackathon judge?</strong> Skip auth and explore the dashboard directly.</div>
+            <div class="au-demo-banner-t"><strong>Demo sandbox</strong> Explore sample data without using a production account.</div>
             <button class="au-demo-btn" type="button" onclick="skipAuth()">Demo</button>
           </div>
         </div>
@@ -1607,6 +1628,14 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
       <div class="page on" id="p-dashboard">
         <div class="role-identity mb18" id="roleIdentity" aria-live="polite"></div>
         <div class="role-workspace" id="roleWorkspace" aria-live="polite"></div>
+        <div class="card mb18" id="onboardingPanel" style="display:none">
+          <div class="ch"><div class="ct">Start GreenLoop in 3 steps</div><button class="gl-mini-btn" type="button" onclick="dismissOnboarding()">Done</button></div>
+          <div class="cb"><div class="onboarding-grid"><div class="onboarding-step"><b>1. Confirm profile</b><span>Set province, role and primary biomass stream.</span></div><div class="onboarding-step"><b>2. Book first pickup</b><span>Create the first traceable biomass collection record.</span></div><div class="onboarding-step"><b>3. Open Carbon Passport</b><span>Review evidence, benefits and shareable credential.</span></div></div></div>
+        </div>
+        <div class="card mb18">
+          <div class="ch"><div class="ct">Next action</div><span class="badge ba">Recommended</span></div>
+          <div class="cb"><div class="next-action-grid"><button class="next-action" type="button" onclick="nav('collection')"><b>Book biomass pickup</b><span>Schedule rice, aquatic, melaleuca or forest product collection.</span></button><button class="next-action" type="button" onclick="nav('salinity')"><b>Check salinity risk</b><span>See the live water trend before switching season.</span></button><button class="next-action" type="button" onclick="nav('passport')"><b>Review carbon record</b><span>Open verified evidence, benefits and export actions.</span></button></div></div>
+        </div>
         <!-- 4 thẻ chính: cái nông dân thật sự quan tâm -->
         <div class="g4 mb18">
           <div class="sc ani">
@@ -1785,13 +1814,18 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
 
       <div class="page" id="p-ecosystem">
         <div class="card mb18"><div class="ch"><div class="ct">Ecosystem Engine</div><span class="badge ba">Rice - Aquaculture - Melaleuca</span></div><div class="cb">
+          <div class="eco-preset-grid mb14">
+            <button class="eco-preset" type="button" onclick="applyEcosystemPreset('rice_shrimp')"><b>Rice + aquaculture</b><span>Salinity-managed rice, pond sludge and aquatic by-products.</span></button>
+            <button class="eco-preset" type="button" onclick="applyEcosystemPreset('melaleuca')"><b>Melaleuca wetland</b><span>Leaves, branches and thinning wood for LCNF and biochar.</span></button>
+            <button class="eco-preset" type="button" onclick="setSeason('forest'); nav('dashboard')"><b>Forest products</b><span>Coffee leaves for tea; coffee stems, bark and coconut streams stay separate from melaleuca.</span></button>
+          </div>
           <div class="g2">
             <div><div class="fg"><label class="fl">Ecological zone</label><select class="fs" id="ecoZone"></select></div><div class="fg"><label class="fl">Aquatic species / model</label><select class="fs" id="ecoSpecies"></select></div><div class="fg"><label class="fl">Melaleuca forest area (ha)</label><input class="ci" id="ecoForestHa" type="number" min="0" step="0.1"></div><button class="btn btn-p" type="button" onclick="saveEcosystemProfile()">Save ecosystem profile</button></div>
             <div class="card"><div class="ch"><div class="ct">Ecosystem recommendation</div></div><div class="cb" id="ecoRecommendation"><div class="gl-empty">Loading ecosystem profile...</div></div></div>
           </div>
         </div></div>
         <div class="g2 mb18">
-          <div class="card"><div class="ch"><div class="ct">Melaleuca biomass to LCNF</div></div><div class="cb"><div class="ops-list"><div class="ops-row"><div><div class="ops-name">Leaf, small branch and thinning wood</div><div class="ops-meta">Stable saline-tolerant forest biomass</div></div><span class="ops-status">LCNF</span></div><div class="ops-row"><div><div class="ops-name">Bio-material outputs</div><div class="ops-meta">Export trays, bio-packaging, shock-absorbent sheets, agricultural mulch film and bio-composites</div></div><span class="ops-status">traceable</span></div></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">Melaleuca biomass to LCNF</div></div><div class="cb"><div class="ops-list"><div class="ops-row"><div><div class="ops-name">Melaleuca is its own wetland ecosystem</div><div class="ops-meta">Different from forest products: saline wetland cajeput/melaleuca residue is tracked as leaf, small branch and thinning wood.</div></div><span class="ops-status">separate</span></div><div class="ops-row"><div><div class="ops-name">Leaf, small branch and thinning wood</div><div class="ops-meta">Leaf extract and biomass, LCNF fiber input, biochar feedstock and certified field-return material.</div></div><span class="ops-status">LCNF</span></div><div class="ops-row"><div><div class="ops-name">Bio-material outputs</div><div class="ops-meta">Export trays, bio-packaging, shock-absorbent sheets, agricultural mulch film and bio-composites</div></div><span class="ops-status">traceable</span></div></div></div></div>
           <div class="card"><div class="ch"><div class="ct">Aquatic by-products</div></div><div class="cb" id="ecoSpeciesDetail"><div class="gl-empty">Select an aquatic species to view residues.</div></div></div>
         </div>
         <div class="g2 mb18">
@@ -2056,10 +2090,14 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                   <defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(38,166,154,.25)"/><stop offset="100%" stop-color="rgba(38,166,154,0)"/></linearGradient></defs>
                   <path id="salinityTrendPath" d="M0,72 L40,60 L80,65 L120,55 L160,48 L200,52 L240,42 L300,38" stroke="var(--aqua)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
                   <path id="salinityTrendArea" d="M0,72 L40,60 L80,65 L120,55 L160,48 L200,52 L240,42 L300,38 L300,96 L0,96Z" fill="url(#tg)"/>
+                  <g id="salinityTrendPoints"></g>
                   <circle id="salinityPulsePoint" cx="300" cy="38" r="3.5" fill="var(--aqua)"/>
                   <!-- Ngưỡng cảnh báo -->
                   <line x1="0" y1="30" x2="300" y2="30" stroke="rgba(230,81,0,.4)" stroke-width="1.5" stroke-dasharray="5 5"/>
                 </svg>
+                <div class="sal-axis"><span>6</span><span>3</span><span>0</span></div>
+                <div class="sal-axis-unit">g/L</div>
+                <div class="sal-tooltip" id="salinityTooltip">2.3 g/L</div>
                 <div style="position:absolute;top:8px;right:12px;font-size:10px;color:var(--warn);font-weight:600">5 g/L threshold</div>
               </div>
               <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--tm)">
@@ -2110,6 +2148,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                 <div><div class="pp-sv">1,420</div><div class="pp-sl">kg Biochar</div></div>
                 <div><div class="pp-sv">87</div><div class="pp-sl">Soil Score</div></div>
               </div>
+              <button class="btn btn-p btn-bl" style="position:relative;z-index:1;margin-top:18px" type="button" onclick="downloadCarbonEvidence()">Download evidence PDF</button>
             </div>
 
             <!-- Thông tin đi kèm hồ sơ -->
@@ -2227,9 +2266,16 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
       </div>
 
       <div class="page" id="p-settings">
+        <div class="settings-jump" aria-label="Settings sections">
+          <button type="button" onclick="scrollSetting('settingsProfile')">Profile</button>
+          <button type="button" onclick="scrollSetting('settingsFarm')">Farm</button>
+          <button type="button" onclick="scrollSetting('settingsCarbon')">Carbon</button>
+          <button type="button" onclick="scrollSetting('settingsIntegrations')">Integrations</button>
+          <button type="button" onclick="scrollSetting('settingsApp')">App</button>
+        </div>
         <div class="sett-grid">
           <!-- Card 1: Farmer Profile -->
-          <div class="card">
+          <div class="card" id="settingsProfile">
             <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>Farmer Profile</div></div>
             <div class="cb">
               <div class="avatar-init" id="settAvatar">NT</div>
@@ -2296,7 +2342,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         </div>
 
         <!-- Card 3: Notification Settings -->
-        <div class="card">
+          <div class="card">
           <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>Notification Settings</div></div>
           <div class="cb">
             <div class="notif-sett-grid">
@@ -2329,7 +2375,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         </div>
 
         <!-- Card 4: Farm & Field Management -->
-        <div class="card mb18">
+        <div class="card mb18" id="settingsFarm">
           <div class="ch">
             <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>Farm & Field Management</div>
             <button class="btn btn-o" style="font-size:11px;padding:5px 12px" onclick="toast('Field added')">+ Add field</button>
@@ -2410,7 +2456,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
 
         <div class="g2 mb18">
           <!-- Card 6: Integrations -->
-          <div class="card">
+          <div class="card" id="settingsIntegrations">
             <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>Integrations</div></div>
             <div class="cb">
               <div class="intg-item">
@@ -2457,7 +2503,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           </div>
 
           <!-- Card 7: Data & Privacy -->
-          <div class="card">
+          <div class="card" id="settingsCarbon">
             <div class="ch"><div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>Data & Privacy</div></div>
             <div class="cb">
               <div class="data-action">
@@ -2497,7 +2543,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         </div>
 
         <!-- Card 8: Web & App Settings -->
-        <div class="card mb18">
+        <div class="card mb18" id="settingsApp">
           <div class="ch">
             <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>Web & App</div>
             <span class="web-badge info" id="pwaStatus">PWA Ready</span>
@@ -2673,6 +2719,10 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
         <span>Water</span>
       </button>
+      <button class="bn-t" type="button" data-page="ecosystem" data-roles="farmer,htx,admin" onclick="nav('ecosystem')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg>
+        <span>Eco</span>
+      </button>
       <button class="bn-t" type="button" data-page="passport" data-roles="farmer,htx,buyer,admin" onclick="nav('passport')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg>
         <span>Record</span>
@@ -2719,6 +2769,7 @@ function clearSession(showMessage = true) {
   GL_TOKEN = null;
   currentUser = null;
   isAuthed = false;
+  document.body.classList.remove('demo-mode');
   try { localStorage.removeItem('gl_token'); } catch (e) {}
   if (showMessage) toast('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
 }
@@ -3007,6 +3058,7 @@ async function setAdminUserRole(id) {
 
 function showApp() {
   isAuthed = true;
+  document.body.classList.remove('demo-mode');
   document.getElementById('auth')?.classList.remove('on');
   const landing = document.getElementById('landing');
   if (landing) landing.style.display = 'none';
@@ -3058,6 +3110,14 @@ async function apiFetch(path, opts = {}) {
   if (res.status === 403) throw payload || { error: 'Tài khoản chưa có quyền thực hiện thao tác này' };
   if (!res.ok) throw payload || { error: `API error ${res.status}` };
   return payload;
+}
+
+function withTimeout(promise, ms = 5000, label = 'Request timed out') {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject({ error: label }), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
 /* Trạng thái hiện tại */
@@ -4456,7 +4516,7 @@ async function doRegister() {
       body: JSON.stringify({ name, phone, password: pw, role, province })
     });
     GL_TOKEN = data.token;
-    try { localStorage.setItem('gl_token', GL_TOKEN); } catch (e) {}
+    try { localStorage.setItem('gl_token', GL_TOKEN); localStorage.setItem('gl_onboarding', '1'); } catch (e) {}
     updateUserUI(data.user);
     toast(roleWelcomeMessage(data.user));
     setTimeout(showApp, 350);
@@ -4468,8 +4528,11 @@ async function doRegister() {
 }
 
 function skipAuth() {
-  // For hackathon judges - bypass login completely
+  // Demo sandbox with sample farmer data.
   isAuthed = true;
+  document.body.classList.add('demo-mode');
+  currentUser = { id:'demo-user', name:'Demo Farmer', role:'farmer', province:'ca-mau', farm_ha:3.2 };
+  updateUserUI(currentUser);
   document.getElementById('auth').classList.remove('on');
   document.getElementById('landing').style.display = 'none';
   const app = document.getElementById('app');
@@ -4578,6 +4641,24 @@ async function renderEcosystem() {
     applyLanguage();
   } catch (err) { if (recommendation) recommendation.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Unable to load ecosystem profile'))}</div>`; }
 }
+
+function applyEcosystemPreset(preset) {
+  const zone = document.getElementById('ecoZone');
+  const species = document.getElementById('ecoSpecies');
+  const forest = document.getElementById('ecoForestHa');
+  if (preset === 'rice_shrimp') {
+    if (zone) zone.value = 'brackish_transition';
+    if (species) species.value = 'crab';
+    if (forest) forest.value = 0.4;
+    toast('Preset applied: rice + aquaculture');
+  } else {
+    if (zone) zone.value = 'saline_forest';
+    if (species) species.value = 'shrimp';
+    if (forest) forest.value = 1.5;
+    toast('Preset applied: melaleuca wetland');
+  }
+}
+
 async function saveEcosystemProfile() {
   const zone_code = document.getElementById('ecoZone')?.value;
   const aquatic_system = document.getElementById('ecoSpecies')?.value;
@@ -4690,15 +4771,55 @@ function localizeCircularText(value) {
   return CIRCULAR_VI_TEXT[raw] || CIRCULAR_VI_TEXT[raw.toLowerCase()] || t(raw);
 }
 
+function circularDemoPayload() {
+  return {
+    residues: [
+      { name:'Rice straw batch', residue_type:'rice_straw', quantity:850, status:'ready' },
+      { name:'Pond sludge batch', residue_type:'pond_sludge', quantity:420, status:'validated' },
+      { name:'Melaleuca thinning wood', residue_type:'melaleuca_thinning_wood', quantity:610, status:'ready' },
+      { name:'Coffee leaves', residue_type:'coffee_leaves', quantity:160, status:'tea grade' },
+      { name:'Coffee stems and bark', residue_type:'coffee_stems', quantity:380, status:'biochar feedstock' },
+      { name:'Coconut water residue', residue_type:'coconut_water_residue', quantity:240, status:'classified' }
+    ],
+    products: [
+      { name:'Soil biochar', category:'biochar', channel:'market', quantity_kg:520, unit_price_vnd:1800, status:'traceable', return_to_field:1 },
+      { name:'Coffee leaf tea', category:'tea', channel:'market', quantity_kg:95, unit_price_vnd:3600, status:'pilot' },
+      { name:'Melaleuca LCNF fiber', category:'bio_material', channel:'bio_refinery', quantity_kg:140, unit_price_vnd:4200, status:'pilot' },
+      { name:'Bio-packaging sheet', category:'packaging', channel:'bio_refinery', quantity_kg:70, unit_price_vnd:5200, status:'sample' }
+    ],
+    certificates: [
+      { certificate_no:'GL-CERT-DEMO-01', standard:'VM0044', issuer:'GreenLoop MRV', status:'verified', blockchain_tx:'0x-demo' },
+      { certificate_no:'GL-CERT-DEMO-02', standard:'Internal custody', issuer:'HTX', status:'signed' }
+    ],
+    fieldApps: [
+      { product_name:'Biochar field return', quantity:210, field_location:'Plot A' },
+      { product_name:'Pond soil improvement', quantity:90, field_location:'Pond B' }
+    ],
+    partners: [
+      { name:'Ca Mau HTX', type:'cooperative', province:'Ca Mau', status:'active' },
+      { name:'Bio-refinery partner', type:'processor', province:'Can Tho', status:'pilot' }
+    ],
+    pathways: [
+      { input_type:'rice_straw', output_name:'Biochar', process_name:'Pyrolysis' },
+      { input_type:'coffee_leaves', output_name:'Coffee leaf tea', process_name:'Drying and tea grading' },
+      { input_type:'melaleuca_thinning_wood', output_name:'LCNF fiber', process_name:'Bio-refinery pulping' }
+    ],
+    iot: { salinity:[{ station:'Canal N-03', value_gpl:2.8, alert:0 }], environment:[{ station:'Pond W-01', metric:'dissolved_oxygen', value:5.2, unit:'mg/L' }] },
+    routes: [{ route_name:'Demo route' }]
+  };
+}
+
 function renderCircularFlow(payload = {}) {
   const viMode = lang === 'vi';
-  const products = payload.products || [];
-  const residues = payload.residues || [];
-  const certificates = payload.certificates || [];
-  const fieldApps = payload.fieldApps || [];
-  const partners = payload.partners || [];
-  const pathways = payload.pathways || [];
-  const iot = payload.iot || { salinity: [], environment: [] };
+  const hasCoreData = ['products','residues','certificates','fieldApps','pathways'].some(key => (payload[key] || []).length);
+  const source = hasCoreData ? payload : { ...circularDemoPayload(), ...payload };
+  const products = source.products || [];
+  const residues = source.residues || [];
+  const certificates = source.certificates || [];
+  const fieldApps = source.fieldApps || [];
+  const partners = source.partners || [];
+  const pathways = source.pathways || [];
+  const iot = source.iot || { salinity: [], environment: [] };
   const includes = (value, tokens) => tokens.some(token => String(value || '').toLowerCase().includes(token));
   const sourceRows = tokens => residues.filter(x => includes(x.residue_type, tokens) || includes(x.name, tokens));
   const productRows = tokens => products.filter(x => includes(x.category, tokens) || includes(x.name, tokens) || includes(x.pathway_output, tokens));
@@ -4740,7 +4861,7 @@ function renderCircularFlow(payload = {}) {
   renderLoopChips('loopPathwayChips', [
     { label: viMode ? `${pathways.length} dòng chuyển hóa` : `${pathways.length} pathways`, tone: 'good' },
     { label: viMode ? `${partners.length} đối tác` : `${partners.length} partners` },
-    { label: viMode ? `${payload.routes?.length || 0} tuyến` : `${payload.routes?.length || 0} routes` }
+    { label: viMode ? `${source.routes?.length || 0} tuyến` : `${source.routes?.length || 0} routes` }
   ]);
   renderLoopChips('loopOutputChips', [
     { label: viMode ? `${products.filter(x => x.channel === 'market').length} thị trường` : `${products.filter(x => x.channel === 'market').length} market` },
@@ -4790,7 +4911,7 @@ function renderCircularFlow(payload = {}) {
     title: 'Circular economy overview',
     meta: viMode ? `${residues.length} lô phụ phẩm, ${pathways.length} dòng chuyển hóa, ${products.length} sản phẩm đầu ra, ${fieldApps.length} lượt quay lại ruộng.` : `${residues.length} residue lots, ${pathways.length} conversion pathways, ${products.length} outputs, ${fieldApps.length} field returns.`,
     items: [
-      { title: 'Collection + Logistics', meta: viMode ? `${payload.routes?.length || 0} tuyến thu gom và bàn giao có thể truy xuất.` : `${payload.routes?.length || 0} collection routes and traceable handoffs.` },
+      { title: 'Collection + Logistics', meta: viMode ? `${source.routes?.length || 0} tuyến thu gom và bàn giao có thể truy xuất.` : `${source.routes?.length || 0} collection routes and traceable handoffs.` },
       { title: 'Market + Bio Refinery', meta: viMode ? `${products.filter(x => x.channel === 'bio_refinery').length} sản phẩm chế biến sâu và ${products.filter(x => x.channel === 'market').length} sản phẩm thị trường.` : `${products.filter(x => x.channel === 'bio_refinery').length} deep-processed products and ${products.filter(x => x.channel === 'market').length} market products.` },
       { title: 'IoT + Certificates', meta: viMode ? `${sensorCount} chỉ số cảm biến và ${certificates.length} chứng chỉ.` : `${sensorCount} sensor readings and ${certificates.length} certificates.` }
     ]
@@ -4852,6 +4973,10 @@ async function renderOperations() {
     opRows('opsCompliance', [...certificates.data.slice(0,3).map(c => ({ label: c.certificate_no, framework: `${c.standard} - ${c.issuer}`, status: c.status })), ...compliance.checks], x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.label)}</div><div class="ops-meta">${escapeHtml(x.framework || compliance.framework)}</div></div><span class="ops-status warn">${escapeHtml(x.status)}</span></div>`, 'Compliance checklist unavailable.');
     applyLanguage();
   } catch (err) {
+    const demo = circularDemoPayload();
+    renderCircularFlow(demo);
+    const ov = document.getElementById('opsKpis');
+    if (ov) ov.innerHTML = [[demo.residues.length,'Biomass batches'],[3,'Open tasks'],[demo.routes.length,'Live routes'],[demo.certificates.length,'MRV checks']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
     ['opsTasks','opsRoutes','opsProducts','opsPartners','opsOffers','opsCompliance','opsIot'].forEach(id => {
       const el = document.getElementById(id); if (el) el.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Unable to load operations data'))}</div>`;
     });
@@ -5206,6 +5331,14 @@ function calc() {
   const qLabels = { 'very good': t('Looks great ✓'), 'good': t('Looks good ✓'), 'okay': t('Acceptable') };
   qEl.textContent = qLabels[r.q] || t('Looks good ✓');
   qEl.style.color = r.q === 'very good' ? 'var(--leaf)' : r.q === 'good' ? 'var(--ok)' : 'var(--warn)';
+  ['calcYield','calcCO2','calcConvRate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('tick');
+    void el.offsetWidth;
+    el.classList.add('tick');
+    window.setTimeout(() => el.classList.remove('tick'), 220);
+  });
 }
 
 /* Đặt lịch thu gom */
@@ -5216,7 +5349,7 @@ async function bookCollection() {
   const date   = document.getElementById('bookDate').value;
   const notes  = document.getElementById('bookNotes')?.value || '';
   const hub    = document.getElementById('bookHub')?.value || 'Chưa chọn điểm tập kết';
-  if (!type || !weight || !date) { toast(t('Please fill in all required fields')); return; }
+  if (!type || !weight || !date || !document.getElementById('bookHub')?.value) { toast(t('Please fill in all required fields')); return; }
   if (weight < 500) { toast('Khối lượng tối thiểu là 500 kg'); return; }
   const typeMap = {
     'rice_straw':    'rice_straw',
@@ -5256,7 +5389,8 @@ async function bookCollection() {
         notes
       })
     });
-    document.getElementById('bookingRef').textContent = 'GL-' + data.id.slice(0, 8).toUpperCase();
+    const refSeed = data.id ? String(data.id).slice(0, 8).toUpperCase() : String(Math.floor(1000 + Math.random() * 9000));
+    document.getElementById('bookingRef').textContent = 'GL-' + refSeed;
     document.getElementById('bookingForm').style.display = 'none';
     document.getElementById('bookingSuccess').classList.add('on');
     toast(t('Collection booked successfully!'));
@@ -5282,7 +5416,7 @@ async function renderCollections() {
   const stMap = { pending:'Pending', confirmed:'Confirmed', collected:'Processing', processed:'Completed', cancelled:'Cancelled' };
   const bcMap = { processed:'bg', confirmed:'bw', pending:'bw', collected:'bw', cancelled:'bd' };
   try {
-    const { data } = await apiFetch('/api/pickups?limit=20');
+    const { data } = await withTimeout(apiFetch('/api/pickups?limit=20'), 5000, 'Pickup list timed out');
     const recentHtml = data.length ? data.slice(0, 4).map(c => `
       <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--borderl)">
         <div>
@@ -5312,9 +5446,14 @@ async function renderCollections() {
         <span class="badge ${c.bc}">${t(c.st)}</span>
       </div>
     `).join('');
-    const list = document.getElementById('pickupsList');
+    renderPickupList([]);
+    const list = null;
     if (list) list.innerHTML = '<div class="gl-error">Không tải được danh sách từ Railway API. Đang hiển thị dữ liệu demo ở thẻ gần đây.</div>';
   }
+}
+
+function pickupEmptyState() {
+  return `<div class="gl-empty center"><strong>Chua co lich thu gom nao</strong><span>Dat lich dau tien de tao ma lo sinh khoi va theo doi tien trinh HTX.</span><div style="margin-top:12px"><button class="gl-mini-btn" type="button" onclick="nav('collection')">Dat lich ngay</button></div></div>`;
 }
 
 function labelBiomass(type) {
@@ -5353,6 +5492,8 @@ function renderPickupList(data) {
   if (!list) return;
   if (count) count.textContent = `${data.length} lịch`;
   if (!data.length) {
+    list.innerHTML = pickupEmptyState();
+    return;
     list.innerHTML = '<div class="gl-empty">Chưa có lịch thu gom. Hãy đặt lịch đầu tiên ở form bên trái.</div>';
     return;
   }
@@ -5487,6 +5628,8 @@ function renderSalinityTrend(values = salinityRealtime.trend) {
   const path = document.getElementById('salinityTrendPath');
   const area = document.getElementById('salinityTrendArea');
   const point = document.getElementById('salinityPulsePoint');
+  const pointGroup = document.getElementById('salinityTrendPoints');
+  const tooltip = document.getElementById('salinityTooltip');
   if (!path || !area || !values.length) return;
   const max = 6.2;
   const min = 0;
@@ -5503,6 +5646,24 @@ function renderSalinityTrend(values = salinityRealtime.trend) {
     point.setAttribute('cx', last[0]);
     point.setAttribute('cy', last[1]);
   }
+  if (pointGroup) {
+    pointGroup.innerHTML = points.map(([x, y], i) => {
+      const value = Number(values[i] || 0).toFixed(1);
+      return `<circle class="sal-point" cx="${x}" cy="${y}" r="3" fill="var(--aqua)" opacity=".88" onmouseenter="showSalinityTooltip('${value} g/L',${x})" onmouseleave="hideSalinityTooltip()"><title>Day ${i + 1}: ${value} g/L</title></circle>`;
+    }).join('');
+  }
+}
+
+function showSalinityTooltip(text, x) {
+  const tooltip = document.getElementById('salinityTooltip');
+  if (!tooltip) return;
+  tooltip.textContent = text;
+  tooltip.style.left = `${Math.max(42, Math.min(258, Number(x) + 16))}px`;
+  tooltip.classList.add('on');
+}
+
+function hideSalinityTooltip() {
+  document.getElementById('salinityTooltip')?.classList.remove('on');
 }
 
 function updateWaterSensorCards(value) {
@@ -5534,6 +5695,20 @@ function startSalinityRealtime() {
   };
   tick();
   salinityRealtime.timer = window.setInterval(tick, reduceMotion ? 5000 : 1400);
+}
+
+function renderOnboarding() {
+  const panel = document.getElementById('onboardingPanel');
+  if (!panel) return;
+  let show = false;
+  try { show = localStorage.getItem('gl_onboarding') === '1'; } catch (e) {}
+  panel.style.display = show ? 'block' : 'none';
+}
+
+function dismissOnboarding() {
+  try { localStorage.removeItem('gl_onboarding'); } catch (e) {}
+  renderOnboarding();
+  toast('Onboarding checklist completed');
 }
 
 async function renderAlerts() {
@@ -5725,6 +5900,7 @@ function initApp() {
   renderTimeline();
   renderNotifications();
   renderPoints();
+  renderOnboarding();
   calc();
   updateCalcOptionsLang();
   applyLanguage();
@@ -5742,6 +5918,10 @@ function lScroll(id, e) {
   if (e) e.preventDefault();
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+function scrollSetting(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
 /* ── Notification bell ── */
