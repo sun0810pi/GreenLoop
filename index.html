@@ -4560,6 +4560,7 @@ async function skipAuth() {
   }
   isAuthed = true;
   document.body.classList.add('demo-mode');
+  currentPage = 'dashboard';
   document.getElementById('auth').classList.remove('on');
   document.getElementById('landing').style.display = 'none';
   const app = document.getElementById('app');
@@ -4952,6 +4953,30 @@ function renderCircularFlow(payload = {}) {
   renderFlowPanel(panelData.overview.title, panelData.overview.meta, panelData.overview.items);
 }
 
+function renderOperationsDemoFallback() {
+  const demo = circularDemoPayload();
+  renderCircularFlow(demo);
+  const ov = document.getElementById('opsKpis');
+  if (ov) ov.innerHTML = [[demo.residues.length,'Biomass batches'],[3,'Open tasks'],[demo.routes.length,'Live routes'],[demo.certificates.length,'MRV checks']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
+  const tasks = [
+    { title:'Validate Nguyen Van Thanh residue batch', batch_code:'GL-DEMO-2486', assignee_role:'htx', status:'open' },
+    { title:'Attach MRV evidence package', batch_code:'GL-CERT-DEMO-01', assignee_role:'admin', status:'in_progress' },
+    { title:'Schedule biochar field return', batch_code:'FIELD-A', assignee_role:'partner', status:'ready' }
+  ];
+  const iotRows = [
+    { metric:'salinity', station:'Canal N-03', value:2.8, unit:'g/L', alert:0, sampled_at:new Date().toISOString() },
+    { metric:'dissolved oxygen', station:'Pond W-01', value:5.2, unit:'mg/L', alert:0, sampled_at:new Date().toISOString() }
+  ];
+  opRows('opsTasks', tasks, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code)} - ${escapeHtml(x.assignee_role)}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No workflow tasks.');
+  opRows('opsRoutes', [{ route_name:'Ca Mau HTX demo route', scheduled_at:new Date().toISOString(), assigned_kg:850, capacity_kg:1200, cost_per_ton_vnd:280000, status:'ready' }], x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.route_name)}</div><div class="ops-meta">${formatDate(x.scheduled_at)} - ${formatKg(x.assigned_kg)} / ${formatKg(x.capacity_kg)} - ${Number(x.cost_per_ton_vnd).toLocaleString('vi-VN')} VND/t</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No routes planned.');
+  opRows('opsProducts', demo.products, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.category || 'Traceable output')} - ${escapeHtml(x.channel || 'market')} - ${formatKg(x.quantity_kg)} - ${Number(x.unit_price_vnd || 0).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status ${Number(x.return_to_field) ? 'warn' : ''}">${escapeHtml(x.status)}</span></div>`, 'No outputs listed.');
+  opRows('opsPartners', demo.partners, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(String(x.type || '').replaceAll('_',' '))} - ${escapeHtml(x.province || 'Mekong Delta')}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No partners onboarded.');
+  opRows('opsOffers', [{ tonnes:1.31, seller_name:'Nguyen Van Thanh', price_per_tonne_usd:20, status:'open' }], x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e - ${escapeHtml(x.seller_name)}</div><div class="ops-meta">$${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e - demo verified credit offer</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No credits currently offered.');
+  opRows('opsCompliance', demo.certificates, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.certificate_no)}</div><div class="ops-meta">${escapeHtml(x.standard)} - ${escapeHtml(x.issuer)}</div></div><span class="ops-status warn">${escapeHtml(x.status)}</span></div>`, 'Compliance checklist unavailable.');
+  opRows('opsIot', iotRows, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.metric)}: ${Number(x.value).toFixed(1)} ${escapeHtml(x.unit || '')}</div><div class="ops-meta">${escapeHtml(x.station)} - ${formatDate(x.sampled_at)}</div></div><span class="ops-status ${Number(x.alert) ? 'warn' : ''}">${Number(x.alert) ? 'alert' : 'live'}</span></div>`, 'No IoT readings yet.');
+  applyLanguage();
+}
+
 async function renderOperations() {
   try {
     if (currentUser?.role === 'buyer') {
@@ -5000,13 +5025,7 @@ async function renderOperations() {
     opRows('opsCompliance', [...certificates.data.slice(0,3).map(c => ({ label: c.certificate_no, framework: `${c.standard} - ${c.issuer}`, status: c.status })), ...compliance.checks], x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.label)}</div><div class="ops-meta">${escapeHtml(x.framework || compliance.framework)}</div></div><span class="ops-status warn">${escapeHtml(x.status)}</span></div>`, 'Compliance checklist unavailable.');
     applyLanguage();
   } catch (err) {
-    const demo = circularDemoPayload();
-    renderCircularFlow(demo);
-    const ov = document.getElementById('opsKpis');
-    if (ov) ov.innerHTML = [[demo.residues.length,'Biomass batches'],[3,'Open tasks'],[demo.routes.length,'Live routes'],[demo.certificates.length,'MRV checks']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
-    ['opsTasks','opsRoutes','opsProducts','opsPartners','opsOffers','opsCompliance','opsIot'].forEach(id => {
-      const el = document.getElementById(id); if (el) el.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Unable to load operations data'))}</div>`;
-    });
+    renderOperationsDemoFallback();
   }
 }
 
