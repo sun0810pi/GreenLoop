@@ -4527,18 +4527,44 @@ async function doRegister() {
   }
 }
 
-function skipAuth() {
-  // Demo sandbox with sample farmer data.
+async function skipAuth() {
+  // Demo sandbox opens the seeded Nguyen Van Thanh account so token-gated data loads.
+  const btn = window.event?.currentTarget;
+  const fallbackUser = {
+    id:'user-demo-001',
+    name:'Nguyen Van Thanh',
+    phone:'0901234567',
+    email:'thanh@greenloop.vn',
+    role:'farmer',
+    province:'ca-mau',
+    farm_ha:3.5,
+    htx_code:'HTX-CM-01'
+  };
+  try {
+    setBusy(btn, true, 'Opening demo...');
+    const data = await apiFetch('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ phone: '0901234567', password: 'demo1234' })
+    });
+    GL_TOKEN = data.token;
+    try { localStorage.setItem('gl_token', GL_TOKEN); } catch (e) {}
+    updateUserUI(data.user || fallbackUser);
+  } catch (err) {
+    GL_TOKEN = null;
+    try { localStorage.removeItem('gl_token'); } catch (e) {}
+    updateUserUI(fallbackUser);
+    toast(friendlyError(err, 'Demo API offline - showing local Nguyen Van Thanh profile'));
+  } finally {
+    setBusy(btn, false);
+  }
   isAuthed = true;
   document.body.classList.add('demo-mode');
-  currentUser = { id:'demo-user', name:'Demo Farmer', role:'farmer', province:'ca-mau', farm_ha:3.2 };
-  updateUserUI(currentUser);
   document.getElementById('auth').classList.remove('on');
   document.getElementById('landing').style.display = 'none';
   const app = document.getElementById('app');
   app.classList.add('on');
   initApp();
-  toast('Demo mode - exploring as guest');
+  toast('Demo mode - Nguyen Van Thanh account');
 }
 
 function returnLanding() {
