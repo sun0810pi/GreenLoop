@@ -1147,8 +1147,8 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <button class="l-btn-s" onclick="lScroll('l-solution',event)">Learn More</button>
       </div>
       <div class="l-stats a5">
-        <div class="l-stat"><div class="l-stat-n">8,000</div><div class="l-stat-l">tCO₂e locked by Year 3</div></div>
-        <div class="l-stat"><div class="l-stat-n">2,000</div><div class="l-stat-l">Pilot households targeted</div></div>
+        <div class="l-stat"><div class="l-stat-n">8,000</div><div class="l-stat-l">Year 3 target tCO2e locked</div></div>
+        <div class="l-stat"><div class="l-stat-n">2,000</div><div class="l-stat-l">Year 3 target households</div></div>
         <div class="l-stat"><div class="l-stat-n">+18%</div><div class="l-stat-l">Target farmer income uplift</div></div>
       </div>
     </div>
@@ -1887,7 +1887,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <div class="bsuc" id="bookingSuccess">
                 <div class="bsuc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
                 <h3>Collection Booked</h3>
-                <p>Reference: <strong id="bookingRef">GL-2026-XXXX</strong></p>
+                <p>Reference: <strong id="bookingRef">GL-DEMO-2486</strong></p>
                 <button class="btn btn-o" onclick="resetBooking()">Book another</button>
               </div>
             </div>
@@ -2019,12 +2019,13 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6" stroke-width="2.5"/><line x1="3" y1="12" x2="3.01" y2="12" stroke-width="2.5"/><line x1="3" y1="18" x2="3.01" y2="18" stroke-width="2.5"/></svg></div>
               Danh sách lịch thu gom
             </div>
-            <span class="badge bw" id="pickupCount">Loading...</span>
+            <span class="badge bw" id="pickupCount">0 lich</span>
           </div>
           <div class="cb" id="pickupsList" style="padding-top:8px">
             <div style="text-align:center;padding:32px;color:var(--tm)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32" style="margin-bottom:8px;opacity:.4"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg>
-              <div style="font-size:13px">Đang tải...</div>
+              <div style="font-size:13px">Chua co lich thu gom nao</div>
+              <button class="gl-mini-btn" type="button" style="margin-top:12px" onclick="nav('collection')">Dat lich ngay</button>
             </div>
           </div>
         </div>
@@ -2195,11 +2196,11 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             <button class="gl-mini-btn" type="button" onclick="renderOperations()">Refresh</button>
           </div>
           <div class="loop-metrics">
-            <div class="loop-metric"><b id="loopEvidenceCount">0</b><span>Evidence records</span></div>
-            <div class="loop-metric"><b id="loopFeedstockCount">0</b><span>Residue sources</span></div>
-            <div class="loop-metric"><b id="loopPathwayCount">0</b><span>Pathways</span></div>
-            <div class="loop-metric"><b id="loopProductCount">0</b><span>Outputs</span></div>
-            <div class="loop-metric"><b id="loopReturnCount">0</b><span>Field returns</span></div>
+            <div class="loop-metric"><b id="loopEvidenceCount">4</b><span>Evidence records</span></div>
+            <div class="loop-metric"><b id="loopFeedstockCount">6</b><span>Residue sources</span></div>
+            <div class="loop-metric"><b id="loopPathwayCount">3</b><span>Pathways</span></div>
+            <div class="loop-metric"><b id="loopProductCount">4</b><span>Outputs</span></div>
+            <div class="loop-metric"><b id="loopReturnCount">2</b><span>Field returns</span></div>
           </div>
           <div class="loop-board" aria-label="GreenLoop circular pathway board">
             <button class="loop-stage" type="button" data-loop-node="evidence">
@@ -2244,7 +2245,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <div class="card mb18">
           <div class="ch"><div class="ct">SIPOC Operations Control</div><span class="badge ba">Live data</span></div>
           <div class="cb">
-            <div class="ops-grid" id="opsKpis"><div class="ops-kpi"><b>...</b><span>Biomass batches</span></div><div class="ops-kpi"><b>...</b><span>Open tasks</span></div><div class="ops-kpi"><b>...</b><span>Live routes</span></div><div class="ops-kpi"><b>...</b><span>MRV checks</span></div></div>
+            <div class="ops-grid" id="opsKpis"><div class="ops-kpi"><b>6</b><span>Biomass batches</span></div><div class="ops-kpi"><b>3</b><span>Open tasks</span></div><div class="ops-kpi"><b>1</b><span>Live routes</span></div><div class="ops-kpi"><b>2</b><span>MRV checks</span></div></div>
             <div class="g2">
               <div class="card"><div class="ch"><div class="ct">Data ingestion & batch custody</div></div><div class="cb"><div class="fg"><label class="fl">Feedstock</label><select class="fs" id="opsBiomass"><option value="rice_straw">Rice straw</option></select></div><div class="fg"><label class="fl">Input weight (kg)</label><input class="ci" id="opsWeight" type="number" min="1" value="500"></div><button class="btn-p" type="button" onclick="createBatch()">Create traceable batch</button><div class="ops-meta" style="margin-top:10px">Batch ID, custody hash and HTX validation task are created together.</div></div></div>
               <div class="card"><div class="ch"><div class="ct">Verification & compliance</div></div><div class="cb"><div class="ops-list" id="opsCompliance"></div></div></div>
@@ -2721,7 +2722,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
       </button>
       <button class="bn-t" type="button" data-page="ecosystem" data-roles="farmer,htx,admin" onclick="nav('ecosystem')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg>
-        <span>Eco</span>
+        <span>Ecosystem</span>
       </button>
       <button class="bn-t" type="button" data-page="passport" data-roles="farmer,htx,buyer,admin" onclick="nav('passport')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg>
