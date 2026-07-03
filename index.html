@@ -1632,6 +1632,10 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg></span>
         <span>My Carbon Record</span>
       </div>
+      <div class="sb-item" data-roles="farmer,htx,buyer,partner,admin" onclick="nav('market')">
+        <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16l-1.5 7h-13z"/><path d="M6 7V4h12v3"/><circle cx="9" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg></span>
+        <span>Market</span>
+      </div>
       <div class="sb-sec">Operations</div>
       <div class="sb-item" data-roles="farmer,htx,buyer,partner,admin" onclick="nav('operations')">
         <span class="sb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17h7M17.5 13.5v7"/></svg></span>
@@ -1971,6 +1975,36 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page" id="p-market">
+        <div class="card mb18">
+          <div class="ch">
+            <div class="ct">Market</div>
+            <span class="badge ba">By-products and outputs</span>
+          </div>
+          <div class="cb">
+            <div class="market-panel-head">
+              <div>
+                <div class="market-panel-title">What the market includes</div>
+                <div class="market-panel-copy">This page shows the main by-product streams GreenLoop can market: rice straw, aquaculture by-products, melaleuca residue and coconut by-products. Each card shows a visual cue, sale channel, reference price and traceability state.</div>
+              </div>
+              <div class="market-legend">
+                <span class="ops-status">Traceable</span>
+                <span class="ops-status warn">Pilot</span>
+                <span class="ops-status">Ready</span>
+              </div>
+            </div>
+            <div class="market-summary">
+              <div class="ops-kpi"><b>4</b><span>Market streams</span></div>
+              <div class="ops-kpi"><b>2</b><span>Bio-refinery outputs</span></div>
+              <div class="ops-kpi"><b>1</b><span>Field return route</span></div>
+              <div class="ops-kpi"><b>1</b><span>Carbon offer lane</span></div>
+            </div>
+            <div class="market-showcase">${marketFeatureCards(MARKET_SHOWCASE)}</div>
+            <div class="market-note">Use this tab as the market introduction in the pitch: it is a visual catalog of outputs first, not a complex transaction screen.</div>
           </div>
         </div>
       </div>
@@ -3718,6 +3752,7 @@ const STATIC_TEXT = {
   "Soil & water check": "Kiểm tra đất & nước",
   "Track water salinity and soil indicators for installed fields": "Theo dõi độ mặn nước và chỉ số đất theo thửa đã lắp IoT",
   "My Carbon Record": "Sổ Carbon của tôi",
+  "Market": "Thị trường",
   "Pickup": "Thu gom",
   "Record": "Sổ",
   "Hello Mr. Thanh - Summer-Autumn rice season": "Chào anh Thanh - vụ lúa Hè Thu",
@@ -5101,6 +5136,7 @@ const LANGUAGE_FIXES = {
   , "Your workspace highlights verified credit offers, traceable outputs and purchase requests.": "Không gian này làm nổi bật đề nghị tín chỉ đã xác minh, đầu ra truy xuất được và yêu cầu mua."
   , "Market shelf": "Quầy thị trường"
   , "What the market includes": "Thị trường này gồm những gì"
+  , "Browse traceable by-products and outputs": "Xem các phụ phẩm và đầu ra có thể truy xuất"
   , "Bio-refinery outputs": "Đầu ra tinh chế sinh học"
   , "Field return": "Trả về ruộng"
   , "Carbon offers": "Chào bán carbon"
@@ -5759,6 +5795,7 @@ function nav(page) {
         : t('Hello Mr. Thanh - Winter-Spring aquaculture season');
   const titles = {
     dashboard: [t('Home'), dashSub],
+    market: [t('Market'), t('Browse traceable by-products and outputs')],
     ecosystem: [t('Ecosystem Engine'), t('Configure rice, aquaculture and melaleuca systems by ecological zone')],
     collection: [t('Book a pickup'), t('Schedule HTX truck to collect your straw')],
     salinity: [t('Soil & water check'), t('Track water salinity and soil indicators for installed fields')],
