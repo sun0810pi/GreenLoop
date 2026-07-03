@@ -1985,27 +1985,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
             <div class="ct">Market</div>
             <span class="badge ba">By-products and outputs</span>
           </div>
-          <div class="cb">
-            <div class="market-panel-head">
-              <div>
-                <div class="market-panel-title">What the market includes</div>
-                <div class="market-panel-copy">This page shows the main by-product streams GreenLoop can market: rice straw, aquaculture by-products, melaleuca residue and coconut by-products. Each card shows a visual cue, sale channel, reference price and traceability state.</div>
-              </div>
-              <div class="market-legend">
-                <span class="ops-status">Traceable</span>
-                <span class="ops-status warn">Pilot</span>
-                <span class="ops-status">Ready</span>
-              </div>
-            </div>
-            <div class="market-summary">
-              <div class="ops-kpi"><b>4</b><span>Market streams</span></div>
-              <div class="ops-kpi"><b>2</b><span>Bio-refinery outputs</span></div>
-              <div class="ops-kpi"><b>1</b><span>Field return route</span></div>
-              <div class="ops-kpi"><b>1</b><span>Carbon offer lane</span></div>
-            </div>
-            <div class="market-showcase">${marketFeatureCards(MARKET_SHOWCASE)}</div>
-            <div class="market-note">Use this tab as the market introduction in the pitch: it is a visual catalog of outputs first, not a complex transaction screen.</div>
-          </div>
+          <div class="cb" id="marketConsole"><div class="gl-empty">Loading market...</div></div>
         </div>
       </div>
 
@@ -3364,6 +3344,14 @@ async function renderRoleWorkspace(role) {
     } else if (role === 'partner') {
       const [tasks, products, partners] = await Promise.all([apiFetch('/api/platform/tasks'), apiFetch('/api/platform/products'), apiFetch('/api/platform/partners')]);
       consoleEl.innerHTML = `<div class="ops-grid mb18">${[[tasks.data.length,'Assigned processing tasks'],[products.data.length,'Output products'],[partners.data.filter(x=>x.status==='active').length,'Active partners'],['MRV','Evidence workflow']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}</div>
+      <div class="g2 mb18"><div class="card"><div class="ch"><div class="ct">Processing workbench</div></div><div class="cb"><div class="ops-list">${tasks.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Platform task')} Â· ${escapeHtml(x.notes || 'Processing evidence required')}</div></div><div class="role-actions"><span class="ops-status">${escapeHtml(t(x.status))}</span>${x.status === 'open' ? `<button class="role-action" type="button" onclick="setWorkspaceTaskStatus('${escapeHtml(x.id)}','in_progress')">Start</button>` : ''}${x.status !== 'done' ? `<button class="role-action primary" type="button" onclick="setWorkspaceTaskStatus('${escapeHtml(x.id)}','done')">Complete</button>` : ''}</div></div>`).join('') || `<div class="gl-empty">No partner tasks assigned.</div>`}</div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Register processing output</div></div><div class="cb"><div class="fg"><label class="fl" for="partnerProductName">Output name</label><input class="ci" id="partnerProductName" value="Processed biochar batch"></div><div class="g2"><div class="fg"><label class="fl" for="partnerProductKg">Quantity (kg)</label><input class="ci" id="partnerProductKg" type="number" min="1" value="250"></div><div class="fg"><label class="fl" for="partnerProductPrice">Unit price (VND)</label><input class="ci" id="partnerProductPrice" type="number" min="0" value="6800"></div></div><button class="role-action primary" type="button" onclick="createPartnerOutput()">Register output</button></div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Available outputs</div></div><div class="cb"><div class="ops-list">${products.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${formatKg(x.quantity_kg)} Â· ${Number(x.unit_price_vnd).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No outputs registered.</div>`}</div></div></div></div>`;
+    } else if (role === 'market') {
+      await renderMarketWorkspace();
+    } else if (role === 'partner') {
+      const [tasks, products, partners] = await Promise.all([apiFetch('/api/platform/tasks'), apiFetch('/api/platform/products'), apiFetch('/api/platform/partners')]);
+      consoleEl.innerHTML = `<div class="ops-grid mb18">${[[tasks.data.length,'Assigned processing tasks'],[products.data.length,'Output products'],[partners.data.filter(x=>x.status==='active').length,'Active partners'],['MRV','Evidence workflow']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}</div>
       <div class="g2 mb18"><div class="card"><div class="ch"><div class="ct">Processing workbench</div></div><div class="cb"><div class="ops-list">${tasks.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Platform task')} · ${escapeHtml(x.notes || 'Processing evidence required')}</div></div><div class="role-actions"><span class="ops-status">${escapeHtml(t(x.status))}</span>${x.status === 'open' ? `<button class="role-action" type="button" onclick="setWorkspaceTaskStatus('${escapeHtml(x.id)}','in_progress')">Start</button>` : ''}${x.status !== 'done' ? `<button class="role-action primary" type="button" onclick="setWorkspaceTaskStatus('${escapeHtml(x.id)}','done')">Complete</button>` : ''}</div></div>`).join('') || `<div class="gl-empty">No partner tasks assigned.</div>`}</div></div></div>
       <div class="card"><div class="ch"><div class="ct">Register processing output</div></div><div class="cb"><div class="fg"><label class="fl" for="partnerProductName">Output name</label><input class="ci" id="partnerProductName" value="Processed biochar batch"></div><div class="g2"><div class="fg"><label class="fl" for="partnerProductKg">Quantity (kg)</label><input class="ci" id="partnerProductKg" type="number" min="1" value="250"></div><div class="fg"><label class="fl" for="partnerProductPrice">Unit price (VND)</label><input class="ci" id="partnerProductPrice" type="number" min="0" value="6800"></div></div><button class="role-action primary" type="button" onclick="createPartnerOutput()">Register output</button></div></div></div>
       <div class="card"><div class="ch"><div class="ct">Available outputs</div></div><div class="cb"><div class="ops-list">${products.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${formatKg(x.quantity_kg)} · ${Number(x.unit_price_vnd).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No outputs registered.</div>`}</div></div></div>`;
@@ -3392,6 +3380,49 @@ async function renderRoleWorkspace(role) {
 async function setWorkspaceTaskStatus(id, status) {
   try { await apiFetch(`/api/platform/tasks/${id}`, { method:'PATCH', body:JSON.stringify({ status }) }); toast('Task updated'); renderRoleWorkspace(currentUser.role); }
   catch (err) { toast(friendlyError(err, 'Could not update task')); }
+}
+
+async function renderMarketWorkspace() {
+  const consoleEl = document.getElementById('marketConsole');
+  if (!consoleEl) return;
+  const [products, offers] = await Promise.all([
+    apiFetch('/api/platform/products').catch(() => ({ data: [] })),
+    apiFetch('/api/platform/credits/offers').catch(() => ({ data: [] }))
+  ]);
+  const productSource = Array.isArray(products.data) && products.data.length ? products.data : MARKET_SHOWCASE.map(x => ({
+    name: localizedText(x.title),
+    batch_code: localizedText(x.subtitle),
+    quantity_kg: 0,
+    unit_price_vnd: 0,
+    status: localizedText(x.status),
+    channel: localizedText(x.channel),
+    return_to_field: 0,
+    kind: x.kind,
+    subtitle: x.subtitle,
+    residue: x.residue,
+    tag: x.tag,
+    price: x.price,
+    tone: x.tone
+  }));
+  const cards = marketFeatureCards(productSource.map(x => ({
+    kind: x.kind || (String(x.name).toLowerCase().includes('shrimp') ? 'shrimp' : String(x.name).toLowerCase().includes('melaleuca') ? 'melaleuca' : String(x.name).toLowerCase().includes('coconut') ? 'coconut' : 'rice'),
+    title: x.name || x.title,
+    subtitle: x.subtitle || x.batch_code || '',
+    tag: x.tag || (Number(x.return_to_field) ? { en:'field return', vi:'trả về ruộng' } : { en:'market', vi:'thị trường' }),
+    residue: x.residue || x.batch_code || '',
+    price: x.price || (Number(x.unit_price_vnd || 0) ? `${Number(x.unit_price_vnd).toLocaleString('vi-VN')} VND/kg` : '—'),
+    channel: x.channel || 'market',
+    status: x.status || 'traceable',
+    tone: x.tone || (Number(x.return_to_field) ? 'good' : 'pilot')
+  }));
+  consoleEl.innerHTML = `
+    <div class="market-summary">
+      <div class="ops-kpi"><b>${escapeHtml(productSource.length)}</b><span>${escapeHtml(lang === 'vi' ? 'Mặt hàng' : 'Items')}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(products.data.filter(x => x.channel === 'market').length || 0)}</b><span>${escapeHtml(t('market products'))}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(products.data.filter(x => x.channel === 'bio_refinery').length || 0)}</b><span>${escapeHtml(lang === 'vi' ? 'Sản phẩm tinh chế' : 'Bio-refinery outputs')}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(offers.data.length)}</b><span>${escapeHtml(lang === 'vi' ? 'Chào bán carbon' : 'Carbon offers')}</span></div>
+    </div>
+    <div class="market-showcase">${cards}</div>`;
 }
 
 function renderAdminIotQueue() {
@@ -5810,6 +5841,7 @@ function nav(page) {
   }
   if (page === 'operations') renderOperations();
   if (page === 'ecosystem') renderEcosystem();
+  if (page === 'market') renderMarketWorkspace();
   if (page === 'collection') resizeHubNetworkMap();
 }
 
