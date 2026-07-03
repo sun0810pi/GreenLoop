@@ -6,6 +6,13 @@
 <meta name="description" content="GreenLoop – Biochar and carbon credit platform for Mekong Delta rice-shrimp farmers. Track biochar production, earn Verra VM0044 credits, monitor water salinity.">
 <meta name="theme-color" content="#0b1c12">
 <meta name="color-scheme" content="light dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="GreenLoop">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/pwa-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/pwa-icon.svg">
 <title>GreenLoop - Biochar & Carbon Platform</title>
 <!-- Prevent theme flash: apply saved theme before first paint -->
 <script>
@@ -9100,6 +9107,13 @@ let rafId = requestAnimationFrame(frame);
     attach();
   }
 })();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/service-worker.js').catch(function () {});
+  });
+}
 </script>
 </body>
 </html>
