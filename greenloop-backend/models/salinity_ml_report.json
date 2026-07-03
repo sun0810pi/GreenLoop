@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-07-03T16:46:55.988007Z",
+  "model_path": "C:\\Users\\dangt\\Downloads\\GreenLoop-main\\greenloop-backend\\models\\salinity_ml_model.json",
+  "train_metrics": {
+    "mae": 1.4615,
+    "rmse": 1.8026,
+    "r2": 0.9433,
+    "count": 156
+  },
+  "test_metrics": {
+    "mae": 7.2523,
+    "rmse": 7.8481,
+    "r2": -0.5086,
+    "count": 39
+  },
+  "alpha": 25.0,
+  "training_rows": 156,
+  "test_rows": 39
+}

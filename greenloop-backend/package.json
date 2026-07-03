@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ml:build-dataset": "python scripts/build_salinity_training_dataset.py",
+    "ml:train": "python scripts/train_salinity_model.py"
   },
   "keywords": [],
   "author": "",

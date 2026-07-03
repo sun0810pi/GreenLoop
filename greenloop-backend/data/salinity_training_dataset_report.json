@@ -1,0 +1,176 @@
+{
+  "generated_at": "2026-07-03T16:45:02.646775Z",
+  "input_label_rows": 210,
+  "output_feature_rows": 195,
+  "window_days": 7,
+  "stations": [
+    {
+      "province": "bac-lieu",
+      "station": "Ganh Hao",
+      "latitude": "9.2512",
+      "longitude": "105.7144",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "soc-trang",
+      "station": "Dai Ngai",
+      "latitude": "9.6583",
+      "longitude": "106.0642",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "soc-trang",
+      "station": "Tran De",
+      "latitude": "9.4741",
+      "longitude": "106.2056",
+      "label_rows": 15,
+      "feature_rows": 0,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "tra-vinh",
+      "station": "Ben Trai",
+      "latitude": "9.8451",
+      "longitude": "106.3622",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "kien-giang",
+      "station": "Cai Lon",
+      "latitude": "9.8824",
+      "longitude": "105.1852",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "vinh-long",
+      "station": "Vung Liem",
+      "latitude": "10.1145",
+      "longitude": "106.1834",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "ben-tre",
+      "station": "Son Doc",
+      "latitude": "10.1256",
+      "longitude": "106.4121",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "ben-tre",
+      "station": "An Thuan",
+      "latitude": "10.0654",
+      "longitude": "106.5876",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "ben-tre",
+      "station": "Binh Dai",
+      "latitude": "10.1823",
+      "longitude": "106.6743",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "bac-lieu",
+      "station": "Hoa Binh",
+      "latitude": "9.1824",
+      "longitude": "105.6215",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "tra-vinh",
+      "station": "Cau Quan",
+      "latitude": "9.7542",
+      "longitude": "106.2114",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "soc-trang",
+      "station": "Long Phu",
+      "latitude": "9.6124",
+      "longitude": "106.1245",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "tien-giang",
+      "station": "Go Cong",
+      "latitude": "10.3541",
+      "longitude": "106.6924",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    },
+    {
+      "province": "tien-giang",
+      "station": "Xuan Hoa",
+      "latitude": "10.3125",
+      "longitude": "106.4912",
+      "label_rows": 15,
+      "feature_rows": 15,
+      "date_range": [
+        "2024-01-15",
+        "2024-04-30"
+      ]
+    }
+  ]
+}

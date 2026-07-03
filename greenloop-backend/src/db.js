@@ -79,6 +79,19 @@ function initSchema() {
       created_at  TEXT DEFAULT (datetime('now'))
     );
 
+    CREATE TABLE IF NOT EXISTS salinity_labels (
+      id            TEXT PRIMARY KEY,
+      station       TEXT NOT NULL,
+      province      TEXT NOT NULL,
+      latitude      REAL,
+      longitude     REAL,
+      recorded_date TEXT NOT NULL,
+      salinity_gpl  REAL NOT NULL,
+      source        TEXT DEFAULT 'historical_station_dataset',
+      created_at    TEXT DEFAULT (datetime('now')),
+      UNIQUE(station, province, recorded_date)
+    );
+
     CREATE TABLE IF NOT EXISTS carbon_records (
       id              TEXT PRIMARY KEY,
       user_id         TEXT NOT NULL,
@@ -261,6 +274,7 @@ function initSchema() {
   `);
 
   migrateSchema();
+  importSalinityLabels();
 
   saveDb();
 }
@@ -311,6 +325,70 @@ function migrateSchema() {
   addColumnIfMissing('products', 'unit', "TEXT DEFAULT 'kg'");
   addColumnIfMissing('products', 'channel', "TEXT DEFAULT 'market'");
   addColumnIfMissing('products', 'return_to_field', 'INTEGER DEFAULT 0');
+}
+
+function parseCsvLine(line) {
+  const cells = [];
+  let current = '';
+  let quoted = false;
+  for (let i = 0; i < line.length; i += 1) {
+    const char = line[i];
+    const next = line[i + 1];
+    if (char === '"' && quoted && next === '"') {
+      current += '"';
+      i += 1;
+    } else if (char === '"') {
+      quoted = !quoted;
+    } else if (char === ',' && !quoted) {
+      cells.push(current);
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  cells.push(current);
+  return cells.map(value => value.trim());
+}
+
+function importSalinityLabels() {
+  const file = path.join(__dirname, '..', 'data', 'salinity_labels.csv');
+  if (!fs.existsSync(file)) return;
+  const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean);
+  if (lines.length <= 1) return;
+  const headers = parseCsvLine(lines[0]);
+  const index = Object.fromEntries(headers.map((name, i) => [name, i]));
+  const required = ['station', 'province', 'latitude', 'longitude', 'recorded_date', 'salinity_gpl'];
+  if (!required.every(name => Number.isInteger(index[name]))) return;
+
+  let imported = 0;
+  for (const line of lines.slice(1)) {
+    const row = parseCsvLine(line);
+    const station = row[index.station];
+    const province = row[index.province];
+    const recordedDate = row[index.recorded_date];
+    const latitude = Number(row[index.latitude]);
+    const longitude = Number(row[index.longitude]);
+    const salinity = Number(row[index.salinity_gpl]);
+    if (!station || !province || !recordedDate || !Number.isFinite(salinity)) continue;
+    const id = `salinity-label-${station}-${province}-${recordedDate}`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    db.run(
+      `INSERT OR IGNORE INTO salinity_labels
+       (id, station, province, latitude, longitude, recorded_date, salinity_gpl, source)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        id,
+        station,
+        province,
+        Number.isFinite(latitude) ? latitude : null,
+        Number.isFinite(longitude) ? longitude : null,
+        recordedDate,
+        salinity,
+        'historical_station_dataset'
+      ]
+    );
+    imported += 1;
+  }
+  if (imported > 0) saveDb();
 }
 
 function runUpdate(sql, params = []) {

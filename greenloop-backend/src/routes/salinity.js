@@ -2,10 +2,15 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const { getDb, saveDb } = require('../db');
 const { auth, requireRole } = require('../middleware/auth');
+const { loadSalinityModel, predictWithSalinityModel, buildLatestMlFeatureContext } = require('../salinity-ml');
 
 const router = express.Router();
-// Initial business decision tiers for demo v1. These thresholds must be validated with agronomists
-// and local salinity station history before production use.
+// Current limitation: Open-Meteo river discharge and NASA POWER rainfall are usable input
+// features with historical coverage, but they are not the salinity label. To train or
+// calibrate a real model, GreenLoop still needs historical field salinity measurements
+// by station/time from local hydromet centers, MRC datasets, or published research.
+// Without those labels, this remains a rule-based proxy: the app runs, but the risk is
+// recommendation accuracy rather than application stability.
 const SALINITY_DECISION_TIERS = [
   { key: 'rice', min: 0, max: 2, advice: 'Lúa thường vẫn an toàn, tiếp tục mùa vụ hiện tại' },
   { key: 'rice_st25', min: 2, max: 4, advice: 'Chuyển sang giống lúa chịu mặn ST25 ngay vụ tới' },
@@ -13,7 +18,7 @@ const SALINITY_DECISION_TIERS = [
   { key: 'tram_shrimp', min: 6, max: Infinity, advice: 'Chuyển hẳn sang tràm + nuôi tôm nước lợ, ngừng vụ lúa' }
 ];
 const SENSOR_ALERT_GPL = 5.0; // field sensor alert threshold; separate from the decision tiers above
-const ML_ROADMAP = 'Mô hình ML huấn luyện trên dữ liệu lịch sử MRC + vệ tinh — giai đoạn pilot kế tiếp';
+const ML_ROADMAP = 'Bước ML tiếp theo: dùng Open-Meteo + NASA POWER làm features, ghép với nhãn đo mặn thật từ trạm/MRC/báo cáo nghiên cứu để train và hiệu chỉnh mô hình';
 const SALINITY_PROXY_DISCLAIMER = 'Ước tính proxy từ dữ liệu thủy văn công khai, không thay thế đo mặn tại hiện trường';
 const PROXY_LOCATIONS = {
   'ca-mau': {
@@ -49,11 +54,49 @@ const PROXY_LOCATIONS = {
     coastalBaseGpl: 3.6
   }
 };
+// Compact copy of the ecosystem catalog used for salinity-driven recommendations.
+// Scores are rule-based v1 for demo decisions, not a trained model.
+const CULTIVATION_CATALOG = {
+  zones: [
+    { id: 'fresh_stable', min: 0, max: 1, name: 'Vùng ngọt ổn định', model: 'Lúa + thủy sản nước ngọt tuần hoàn', crops: ['Lúa thường'], species: ['pangasius', 'tilapia', 'eel', 'snakehead'] },
+    { id: 'fresh_brackish', min: 1, max: 4, name: 'Vùng lợ ngọt linh hoạt', model: 'ST25 + thủy sản nước ngọt/lợ nhẹ', crops: ['ST25', 'lúa chịu mặn'], species: ['giant_freshwater_prawn', 'tilapia', 'red_tilapia'] },
+    { id: 'brackish_transition', min: 4, max: 6, name: 'Vùng mặn lợ chuyển tiếp', model: 'ST25 + tràm ven kênh + thủy sản lợ', crops: ['ST25', 'tràm khu vực trũng/ven kênh'], species: ['shrimp', 'crab', 'mudskipper', 'mullet', 'blood_cockle'] },
+    { id: 'saline_stable', min: 6, max: Infinity, name: 'Vùng mặn ổn định', model: 'Tràm + tôm nước lợ/mặn, ngừng vụ lúa', crops: ['tràm', 'cây ven biển chịu mặn'], species: ['shrimp', 'crab', 'clam', 'oyster', 'seaweed'] }
+  ],
+  species: {
+    shrimp: { name: 'Tôm sú/tôm thẻ', range: [4, 25], residue: 'Vỏ, đầu và bùn hữu cơ', reason: 'Phù hợp nước lợ/mặn; giá trị thương mại cao nhưng cần quản lý pH, DO và độ mặn ổn định.' },
+    crab: { name: 'Cua biển', range: [4, 20], residue: 'Vỏ cua và bùn ao', reason: 'Hợp vùng lợ, có thể nuôi xen trong mô hình lúa - thủy sản - tràm.' },
+    mudskipper: { name: 'Cá kèo', range: [3, 18], residue: 'Bùn hữu cơ ao nuôi', reason: 'Chịu mặn tốt, phù hợp ao chuyển đổi và vùng ven kênh.' },
+    mullet: { name: 'Cá đối mục', range: [4, 20], residue: 'Bùn hữu cơ và phụ phẩm cá', reason: 'Tận dụng thức ăn tự nhiên, hỗ trợ làm sạch ao trong vùng lợ.' },
+    blood_cockle: { name: 'Sò huyết', range: [8, 25], residue: 'Vỏ nhuyễn thể', reason: 'Phù hợp vùng bãi bồi/mặn hơn; nên xem như lựa chọn sau khi độ mặn ổn định.' },
+    clam: { name: 'Nghêu', range: [10, 30], residue: 'Vỏ nhuyễn thể', reason: 'Phù hợp vùng triều/cửa sông mặn ổn định, chi phí thức ăn thấp.' },
+    oyster: { name: 'Hàu', range: [10, 30], residue: 'Vỏ hàu', reason: 'Hỗ trợ lọc nước, phù hợp cửa sông khi độ mặn cao và ổn định.' },
+    seaweed: { name: 'Rong biển', range: [12, 35], residue: 'Sinh khối rong', reason: 'Phù hợp vùng mặn ổn định, bổ sung dòng sinh khối phi động vật.' },
+    giant_freshwater_prawn: { name: 'Tôm càng xanh', range: [0, 4], residue: 'Vỏ và bùn hữu cơ', reason: 'Hợp vùng ngọt/lợ nhẹ, đi tốt với lúa chịu mặn như ST25.' },
+    tilapia: { name: 'Cá rô phi', range: [0, 8], residue: 'Bùn hữu cơ và phụ phẩm cá', reason: 'Dễ nuôi, chịu biến động môi trường tốt, phù hợp giai đoạn thích ứng.' },
+    red_tilapia: { name: 'Cá điêu hồng', range: [0, 6], residue: 'Bùn hữu cơ và phụ phẩm cá', reason: 'Phù hợp vùng ngọt/lợ nhẹ, thị trường quen thuộc.' },
+    pangasius: { name: 'Cá tra', range: [0, 2], residue: 'Bùn hữu cơ và phụ phẩm cá', reason: 'Phù hợp vùng nước ngọt ổn định, không nên ưu tiên khi mặn tăng.' },
+    eel: { name: 'Lươn', range: [0, 2], residue: 'Bùn hữu cơ nhẹ', reason: 'Giá trị cao, phù hợp diện tích nhỏ và nước ngọt ổn định.' },
+    snakehead: { name: 'Cá lóc', range: [0, 3], residue: 'Phụ phẩm cá', reason: 'Phù hợp nông hộ vùng ngọt/lợ rất nhẹ.' }
+  }
+};
 
 function toObjects(result) {
   if (!result.length) return [];
   const cols = result[0].columns;
   return result[0].values.map(row => Object.fromEntries(cols.map((c, i) => [c, row[i]])));
+}
+
+function queryObjects(db, sql, params = []) {
+  const stmt = db.prepare(sql);
+  try {
+    stmt.bind(params);
+    const rows = [];
+    while (stmt.step()) rows.push(stmt.getAsObject());
+    return rows;
+  } finally {
+    stmt.free();
+  }
 }
 
 function normalizeProvince(value) {
@@ -72,6 +115,117 @@ function recentDateRange(days = 7) {
 function average(values) {
   const nums = values.map(Number).filter(Number.isFinite);
   return nums.length ? nums.reduce((sum, value) => sum + value, 0) / nums.length : null;
+}
+
+function salinityLabelSummary(db, province) {
+  const where = province ? 'WHERE province = ?' : '';
+  const params = province ? [province] : [];
+  const summary = queryObjects(db, `
+    SELECT
+      COUNT(*) AS labels,
+      COUNT(DISTINCT station) AS stations,
+      MIN(recorded_date) AS first_date,
+      MAX(recorded_date) AS last_date,
+      ROUND(AVG(salinity_gpl), 2) AS avg_salinity_gpl,
+      ROUND(MAX(salinity_gpl), 2) AS max_salinity_gpl
+    FROM salinity_labels
+    ${where}
+  `, params)[0] || {};
+  const byStation = queryObjects(db, `
+    SELECT
+      station,
+      province,
+      ROUND(AVG(latitude), 5) AS latitude,
+      ROUND(AVG(longitude), 5) AS longitude,
+      COUNT(*) AS labels,
+      MIN(recorded_date) AS first_date,
+      MAX(recorded_date) AS last_date,
+      ROUND(AVG(salinity_gpl), 2) AS avg_salinity_gpl,
+      ROUND(MAX(salinity_gpl), 2) AS max_salinity_gpl
+    FROM salinity_labels
+    ${where}
+    GROUP BY station, province
+    ORDER BY province, station
+  `, params);
+  return {
+    ...summary,
+    source: 'historical_station_dataset',
+    stations_detail: byStation
+  };
+}
+
+function resolveMlLocation(db, province, station) {
+  const provinceKey = normalizeProvince(province || 'ca-mau');
+  if (station) {
+    const exact = queryObjects(
+      db,
+      `SELECT station, province, latitude, longitude
+       FROM salinity_labels
+       WHERE province = ? AND LOWER(station) = LOWER(?)
+       LIMIT 1`,
+      [provinceKey, station]
+    )[0];
+    if (exact) {
+      return {
+        name: exact.station,
+        province: exact.province,
+        latitude: Number(exact.latitude),
+        longitude: Number(exact.longitude)
+      };
+    }
+  }
+  const provincePoint = queryObjects(
+    db,
+    `SELECT province, ROUND(AVG(latitude), 6) AS latitude, ROUND(AVG(longitude), 6) AS longitude
+     FROM salinity_labels
+     WHERE province = ?
+     GROUP BY province`,
+    [provinceKey]
+  )[0];
+  if (provincePoint) {
+    return {
+      name: provinceKey,
+      province: provinceKey,
+      latitude: Number(provincePoint.latitude),
+      longitude: Number(provincePoint.longitude)
+    };
+  }
+  const fallback = PROXY_LOCATIONS[provinceKey] || PROXY_LOCATIONS['ca-mau'];
+  return {
+    name: fallback.name,
+    province: provinceKey,
+    latitude: Number(fallback.latitude),
+    longitude: Number(fallback.longitude)
+  };
+}
+
+function interpolateDailyLabels(rows) {
+  if (rows.length === 0) return [];
+  const sorted = [...rows].sort((a, b) => new Date(a.recorded_date) - new Date(b.recorded_date));
+  const output = [];
+  for (let i = 0; i < sorted.length - 1; i += 1) {
+    const current = sorted[i];
+    const next = sorted[i + 1];
+    const start = new Date(`${current.recorded_date}T00:00:00Z`);
+    const end = new Date(`${next.recorded_date}T00:00:00Z`);
+    const spanDays = Math.max(Math.round((end - start) / 86400000), 1);
+    for (let d = 0; d < spanDays; d += 1) {
+      const date = new Date(start.getTime() + d * 86400000);
+      const ratio = d / spanDays;
+      const value = Number(current.salinity_gpl) + (Number(next.salinity_gpl) - Number(current.salinity_gpl)) * ratio;
+      output.push({
+        station: current.station,
+        province: current.province,
+        latitude: current.latitude,
+        longitude: current.longitude,
+        recorded_date: date.toISOString().slice(0, 10),
+        salinity_gpl: Number(value.toFixed(3)),
+        interpolated: d !== 0
+      });
+    }
+  }
+  output.push({ ...sorted[sorted.length - 1], interpolated: false });
+  return output;
 }
 
 async function fetchOpenMeteoFlood(location) {
@@ -132,6 +286,9 @@ function estimateProxySalinityGpl(discharge, rain, location) {
   const flow = Number(discharge.latest_m3s);
   const rainTotal = Number(rain.total_rain_mm || 0);
   const dryDays = Number(rain.dry_days || 0);
+  // Proxy formula v1: coefficients below are operational starting points for hackathon demo.
+  // Open-Meteo/NASA provide features; real salinity measurements are the missing labels
+  // needed to fit these coefficients instead of hand-tuning them.
   const lowFlowPenalty = Number.isFinite(flow)
     ? Math.max(-0.5, Math.min(1.8, ((location.lowDischargeM3s - flow) / Math.max(location.lowDischargeM3s, 0.1)) * 1.6))
     : 0.4;
@@ -154,6 +311,46 @@ function decisionFromSalinity(value) {
     recommended_season: tier.key,
     advice: tier.advice,
     threshold_tier: tier.max === Infinity ? `>${tier.min} g/L` : `${tier.min}-${tier.max} g/L`
+  };
+}
+
+function cultivationRecommendations(value, season) {
+  const numeric = Number(value);
+  const safeValue = Number.isFinite(numeric) ? numeric : 0;
+  const zone = CULTIVATION_CATALOG.zones.find(item => safeValue >= item.min && safeValue < item.max) ||
+    CULTIVATION_CATALOG.zones[CULTIVATION_CATALOG.zones.length - 1];
+  const recommendedSpecies = zone.species
+    .map(id => {
+      const item = CULTIVATION_CATALOG.species[id];
+      if (!item) return null;
+      const [min, max] = item.range;
+      const inRange = safeValue >= min && safeValue <= max;
+      const distance = inRange ? 0 : Math.min(Math.abs(safeValue - min), Math.abs(safeValue - max));
+      const score = Math.max(52, Math.round(96 - distance * 12 - (inRange ? 0 : 14)));
+      const fit = inRange ? 'high' : 'watch';
+      return {
+        id,
+        name: item.name,
+        score,
+        fit,
+        salinity_range_gpl: `${min}-${max} g/L`,
+        residue: item.residue,
+        reason: item.reason
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 4);
+  return {
+    zone_id: zone.id,
+    zone_name: zone.name,
+    model: zone.model,
+    crop_options: zone.crops,
+    recommended_species: recommendedSpecies,
+    primary_species: recommendedSpecies[0] || null,
+    rationale: `Độ mặn/proxy ${safeValue.toFixed(1)} g/L nằm trong ${zone.name}; hệ thống ưu tiên mô hình ${zone.model}.`,
+    engine: 'rule_based_v1',
+    note: 'Khuyến nghị ban đầu theo ngưỡng độ mặn; cần HTX/nông học xác nhận theo ao, đất, nước và thị trường địa phương.'
   };
 }
 
@@ -270,6 +467,169 @@ router.get('/provinces', auth, async (req, res) => {
 });
 
 /**
+ * GET /api/salinity/ml/dataset-summary
+ * Shows the real salinity labels available for calibration/training.
+ */
+router.get('/ml/dataset-summary', auth, async (req, res) => {
+  try {
+    const db = await getDb();
+    const province = req.query.province ? normalizeProvince(req.query.province) : null;
+    res.json({
+      label_dataset: salinityLabelSummary(db, province),
+      label_meaning: 'Historical station salinity measurements. This is the ML label/answer, not an IoT live reading.',
+      feature_sources: ['open-meteo:river_discharge', 'nasa-power:PRECTOTCORR'],
+      preprocessing_plan: [
+        'Group labels by station and date.',
+        'Resample sparse station measurements to daily rows.',
+        'Apply linear interpolation only between known station measurements.',
+        'Join daily Open-Meteo river discharge and NASA POWER rainfall by date/location.',
+        'Train/calibrate after enough station labels are available; rule_based_v1 remains the production decision engine for this demo.'
+      ],
+      model_status: 'labels_available_for_calibration',
+      engine_in_use: 'rule_based_v1'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/salinity/ml/training-set
+ * Returns label rows, optionally daily-interpolated, ready to join with NASA/Open-Meteo features.
+ */
+router.get('/ml/training-set', auth, async (req, res) => {
+  try {
+    const db = await getDb();
+    const province = req.query.province ? normalizeProvince(req.query.province) : null;
+    const station = req.query.station ? String(req.query.station).trim() : null;
+    const params = [];
+    const where = [];
+    if (province) {
+      where.push('province = ?');
+      params.push(province);
+    }
+    if (station) {
+      where.push('LOWER(station) = LOWER(?)');
+      params.push(station);
+    }
+    const clause = where.length ? `WHERE ${where.join(' AND ')}` : '';
+    const rows = queryObjects(db, `
+      SELECT station, province, latitude, longitude, recorded_date, salinity_gpl, source
+      FROM salinity_labels
+      ${clause}
+      ORDER BY station, recorded_date
+    `, params);
+    const interpolate = String(req.query.interpolate || '').toLowerCase() === 'true';
+    const grouped = rows.reduce((acc, row) => {
+      const key = `${row.province}|${row.station}`;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(row);
+      return acc;
+    }, {});
+    const data = interpolate
+      ? Object.values(grouped).flatMap(group => interpolateDailyLabels(group))
+      : rows;
+    res.json({
+      data,
+      count: data.length,
+      raw_label_count: rows.length,
+      interpolation: interpolate ? 'linear_daily_between_station_measurements' : 'none',
+      join_keys_for_features: ['province', 'station', 'latitude', 'longitude', 'recorded_date'],
+      label_column: 'salinity_gpl',
+      feature_sources_to_join: ['open-meteo:river_discharge', 'nasa-power:PRECTOTCORR'],
+      warning: 'Interpolated labels are for model preprocessing/calibration only, not direct field measurements.'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get('/ml/model', auth, async (_req, res) => {
+  try {
+    const model = loadSalinityModel();
+    if (!model) return res.status(404).json({ error: 'ML model artifact not found. Train the model first.' });
+    res.json({
+      model_type: model.model_type,
+      trained_at: model.trained_at,
+      feature_names: model.feature_names,
+      alpha: model.alpha,
+      train_metrics: model.train_metrics,
+      test_metrics: model.test_metrics,
+      training_rows: model.training_rows,
+      test_rows: model.test_rows,
+      feature_sources: model.feature_sources,
+      label_source: model.label_source
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get('/ml-predict', auth, async (req, res) => {
+  try {
+    const db = await getDb();
+    const province = req.query.province || req.user.province;
+    if (!province) return res.status(400).json({ error: 'province required' });
+    const model = loadSalinityModel();
+    if (!model) return res.status(404).json({ error: 'ML model artifact not found. Train the model first.' });
+    const location = resolveMlLocation(db, province, req.query.station || null);
+    const labelDataset = salinityLabelSummary(db, normalizeProvince(province));
+    const globalLabelDataset = salinityLabelSummary(db, null);
+    const baselineFallback = Number(labelDataset.avg_salinity_gpl || globalLabelDataset.avg_salinity_gpl || 0);
+    const stationAverage = req.query.station
+      ? queryObjects(
+          db,
+          `SELECT ROUND(AVG(salinity_gpl), 4) AS avg_salinity_gpl
+           FROM salinity_labels
+           WHERE province = ? AND LOWER(station) = LOWER(?)`,
+          [normalizeProvince(province), req.query.station]
+        )[0]?.avg_salinity_gpl
+      : null;
+    const baselines = {
+      province_label_avg_salinity: baselineFallback,
+      station_label_avg_salinity: Number(stationAverage || baselineFallback)
+    };
+    const featureContext = await buildLatestMlFeatureContext(location, baselines, new Date());
+    const predictedSalinity = predictWithSalinityModel(model, featureContext.featureMap);
+    const decision = decisionFromSalinity(predictedSalinity);
+    const cultivation = cultivationRecommendations(predictedSalinity, decision.recommended_season);
+    res.json({
+      province: normalizeProvince(province),
+      station: req.query.station || null,
+      location,
+      engine: model.model_type,
+      predicted_salinity_gpl: predictedSalinity,
+      recommended_season: decision.recommended_season,
+      advice: decision.advice,
+      threshold_tier: decision.threshold_tier,
+      cultivation_recommendations: cultivation,
+      top_species: cultivation.recommended_species,
+      target_date: featureContext.target_date,
+      features_used: featureContext.featureMap,
+      sources: featureContext.sources,
+      data_basis: 'ml_prediction',
+      model_metrics: {
+        train: model.train_metrics,
+        test: model.test_metrics
+      },
+      label_dataset: {
+        source: labelDataset.source,
+        labels: labelDataset.labels,
+        stations: labelDataset.stations,
+        first_date: labelDataset.first_date,
+        last_date: labelDataset.last_date
+      },
+      warning: Number(labelDataset.labels) > 0
+        ? null
+        : 'Province has no direct salinity labels in the current training set; prediction uses regional open-data features plus global historical baseline.',
+      disclaimer: 'ML baseline du doan do man tu du lieu mo va nhan tram lich su; can tiep tuc hieu chinh khi co them label hien truong.'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
  * GET /api/salinity/risk-proxy
  * Public hydrology proxy: Open-Meteo river discharge + NASA POWER rainfall.
  * This does not pretend to be a field salinity sensor.
@@ -359,10 +719,14 @@ router.get('/season-advice', auth, async (req, res) => {
     try {
       const proxy = await buildOpenDataRiskProxy(provinceKey);
       const decision = decisionFromSalinity(proxy.estimated_salinity_gpl);
+      const cultivation = cultivationRecommendations(proxy.estimated_salinity_gpl, decision.recommended_season);
+      const labelDataset = salinityLabelSummary(db, provinceKey);
       return res.json({
         province: proxy.key,
         recommended_season: decision.recommended_season,
         advice: decision.advice,
+        cultivation_recommendations: cultivation,
+        top_species: cultivation.recommended_species,
         avg_gpl_or_proxy_value: proxy.estimated_salinity_gpl,
         threshold_tier: decision.threshold_tier,
         engine: 'rule_based_v1',
@@ -374,6 +738,14 @@ router.get('/season-advice', auth, async (req, res) => {
           rainfall_7d_mm: proxy.rain.total_rain_mm,
           dry_days_7d: proxy.rain.dry_days
         },
+        label_dataset: {
+          source: labelDataset.source,
+          labels: labelDataset.labels,
+          stations: labelDataset.stations,
+          first_date: labelDataset.first_date,
+          last_date: labelDataset.last_date
+        },
+        ml_status: Number(labelDataset.labels) > 0 ? 'labels_available_for_calibration' : 'labels_needed',
         disclaimer: SALINITY_PROXY_DISCLAIMER
       });
     } catch (proxyErr) {
@@ -389,17 +761,29 @@ router.get('/season-advice', auth, async (req, res) => {
     const readings = result.length ? result[0].values.map(r => Number(r[0])).filter(Number.isFinite) : [];
     const avgRecent = readings.length ? readings.reduce((a, b) => a + b, 0) / readings.length : null;
     const decision = decisionFromSalinity(avgRecent);
+    const cultivation = cultivationRecommendations(avgRecent, decision.recommended_season);
+    const labelDataset = salinityLabelSummary(db, provinceKey);
     res.json({
       province: provinceKey,
       recommended_season: decision.recommended_season,
       advice: decision.advice,
+      cultivation_recommendations: cultivation,
+      top_species: cultivation.recommended_species,
       avg_gpl_or_proxy_value: avgRecent,
       threshold_tier: decision.threshold_tier,
       engine: 'rule_based_v1',
       ml_roadmap: ML_ROADMAP,
       data_basis: 'seed_demo',
       sources: ['salinity_readings:seed_demo'],
-      based_on_readings: readings.length
+      based_on_readings: readings.length,
+      label_dataset: {
+        source: labelDataset.source,
+        labels: labelDataset.labels,
+        stations: labelDataset.stations,
+        first_date: labelDataset.first_date,
+        last_date: labelDataset.last_date
+      },
+      ml_status: Number(labelDataset.labels) > 0 ? 'labels_available_for_calibration' : 'labels_needed'
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

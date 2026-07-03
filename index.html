@@ -2907,10 +2907,11 @@ function sourcePill(kind) {
   const labels = {
     real: lang === 'vi' ? 'API thật' : 'Real API',
     proxy: lang === 'vi' ? 'Proxy từ dữ liệu mở' : 'Open-data proxy',
+    ml: lang === 'vi' ? 'ML baseline' : 'ML baseline',
     sim: lang === 'vi' ? 'Mô phỏng - chờ pilot cảm biến' : 'Simulated - sensor pilot pending',
     pilot: lang === 'vi' ? 'Pilot - chưa tích hợp' : 'Pilot - not integrated'
   };
-  const cls = ['real', 'proxy', 'sim', 'pilot'].includes(kind) ? kind : 'pilot';
+  const cls = ['real', 'proxy', 'ml', 'sim', 'pilot'].includes(kind) ? kind : 'pilot';
   return `<span class="source-pill ${cls}">${escapeHtml(labels[cls])}</span>`;
 }
 
@@ -2952,6 +2953,46 @@ function clientSeasonDecisionFromValue(value) {
   };
 }
 
+function clientCultivationRecommendations(value) {
+  const numeric = Number(value);
+  if (numeric < 2) return {
+    model: lang === 'vi' ? 'Lúa + thủy sản nước ngọt tuần hoàn' : 'Rice plus freshwater aquaculture',
+    crop_options: lang === 'vi' ? ['Lúa thường'] : ['Regular rice'],
+    recommended_species: [
+      { name: lang === 'vi' ? 'Cá tra' : 'Pangasius', score: 92, salinity_range_gpl: '0-2 g/L', reason: lang === 'vi' ? 'Hợp nước ngọt ổn định.' : 'Fits stable freshwater.' },
+      { name: lang === 'vi' ? 'Cá rô phi' : 'Tilapia', score: 88, salinity_range_gpl: '0-8 g/L', reason: lang === 'vi' ? 'Dễ nuôi, chịu biến động tốt.' : 'Hardy and easy to raise.' },
+      { name: lang === 'vi' ? 'Lươn' : 'Eel', score: 82, salinity_range_gpl: '0-2 g/L', reason: lang === 'vi' ? 'Giá trị cao, hợp diện tích nhỏ.' : 'High value for small ponds.' }
+    ]
+  };
+  if (numeric < 4) return {
+    model: lang === 'vi' ? 'ST25 + thủy sản nước ngọt/lợ nhẹ' : 'ST25 plus light-brackish aquaculture',
+    crop_options: ['ST25'],
+    recommended_species: [
+      { name: lang === 'vi' ? 'Tôm càng xanh' : 'Giant freshwater prawn', score: 94, salinity_range_gpl: '0-4 g/L', reason: lang === 'vi' ? 'Đi tốt với lúa chịu mặn ST25.' : 'Pairs well with ST25.' },
+      { name: lang === 'vi' ? 'Cá rô phi' : 'Tilapia', score: 88, salinity_range_gpl: '0-8 g/L', reason: lang === 'vi' ? 'Chịu môi trường biến động.' : 'Tolerates variable water.' },
+      { name: lang === 'vi' ? 'Cá điêu hồng' : 'Red tilapia', score: 84, salinity_range_gpl: '0-6 g/L', reason: lang === 'vi' ? 'Thị trường quen thuộc.' : 'Familiar market.' }
+    ]
+  };
+  if (numeric < 6) return {
+    model: lang === 'vi' ? 'ST25 + tràm ven kênh + thủy sản lợ' : 'ST25 plus canal-side melaleuca and brackish aquaculture',
+    crop_options: ['ST25', lang === 'vi' ? 'Tràm ven kênh' : 'Canal-side melaleuca'],
+    recommended_species: [
+      { name: lang === 'vi' ? 'Cua biển' : 'Mud crab', score: 94, salinity_range_gpl: '4-20 g/L', reason: lang === 'vi' ? 'Hợp vùng lợ, có thể nuôi xen.' : 'Fits brackish mixed systems.' },
+      { name: lang === 'vi' ? 'Tôm sú/tôm thẻ' : 'Shrimp', score: 90, salinity_range_gpl: '4-25 g/L', reason: lang === 'vi' ? 'Giá trị cao, cần quản lý pH/DO.' : 'High value, needs pH/DO control.' },
+      { name: lang === 'vi' ? 'Cá kèo' : 'Mudskipper', score: 86, salinity_range_gpl: '3-18 g/L', reason: lang === 'vi' ? 'Chịu mặn tốt cho ao chuyển đổi.' : 'Good for transition ponds.' }
+    ]
+  };
+  return {
+    model: lang === 'vi' ? 'Tràm + tôm nước lợ/mặn' : 'Melaleuca plus brackish shrimp',
+    crop_options: [lang === 'vi' ? 'Tràm' : 'Melaleuca'],
+    recommended_species: [
+      { name: lang === 'vi' ? 'Tôm sú/tôm thẻ' : 'Shrimp', score: 95, salinity_range_gpl: '4-25 g/L', reason: lang === 'vi' ? 'Phù hợp vùng mặn ổn định.' : 'Fits stable brackish/saline water.' },
+      { name: lang === 'vi' ? 'Nghêu' : 'Clam', score: 88, salinity_range_gpl: '10-30 g/L', reason: lang === 'vi' ? 'Hợp bãi triều/cửa sông.' : 'Fits tidal flats and river mouths.' },
+      { name: lang === 'vi' ? 'Hàu' : 'Oyster', score: 84, salinity_range_gpl: '10-30 g/L', reason: lang === 'vi' ? 'Lọc nước, hợp cửa sông.' : 'Filters water near estuaries.' }
+    ]
+  };
+}
+
 async function getSeasonDecisionAdvice(province = currentUser?.province || 'ca-mau') {
   const decision = await apiFetch('/api/salinity/season-advice?province=' + encodeURIComponent(province)).catch(() => null);
   if (decision?.engine === 'rule_based_v1' && Number.isFinite(Number(decision.avg_gpl_or_proxy_value))) return decision;
@@ -2962,13 +3003,24 @@ async function getSeasonDecisionAdvice(province = currentUser?.province || 'ca-m
     ...tier,
     province: proxy?.province || province,
     avg_gpl_or_proxy_value: value,
+    cultivation_recommendations: proxy?.cultivation_recommendations || clientCultivationRecommendations(value),
+    top_species: proxy?.top_species || clientCultivationRecommendations(value).recommended_species,
     engine: 'rule_based_v1',
     ml_roadmap: lang === 'vi'
-      ? 'Mô hình ML huấn luyện trên dữ liệu lịch sử MRC + vệ tinh — giai đoạn pilot kế tiếp'
-      : 'ML trained on historical MRC + satellite data - next pilot phase',
+      ? 'Bước ML tiếp theo: dùng Open-Meteo + NASA POWER làm features, ghép với nhãn đo mặn thật từ trạm/MRC/báo cáo nghiên cứu để train và hiệu chỉnh mô hình'
+      : 'Next ML step: use Open-Meteo + NASA POWER as features, then join real station/MRC/research salinity labels to train and calibrate the model',
     data_basis: proxy ? 'open_data_proxy' : 'local_demo_fallback',
     sources: proxy?.basis || ['frontend:rule_based_demo_fallback']
   };
+}
+
+async function getMlSeasonPrediction(province = currentUser?.province || 'ca-mau', station = null) {
+  const qs = new URLSearchParams();
+  qs.set('province', province);
+  if (station) qs.set('station', station);
+  const ml = await apiFetch('/api/salinity/ml-predict?' + qs.toString()).catch(() => null);
+  if (ml?.engine === 'ridge_regression_v1' && Number.isFinite(Number(ml.predicted_salinity_gpl))) return ml;
+  return null;
 }
 
 function updateUserUI(user) {
@@ -7036,28 +7088,92 @@ async function renderDecisionMoment() {
   if (!target) return;
   try {
     const advice = await getSeasonDecisionAdvice(currentUser?.province || 'ca-mau');
+    const ml = await getMlSeasonPrediction(currentUser?.province || 'ca-mau').catch(() => null);
     const value = Number(advice.avg_gpl_or_proxy_value || 0);
     const sourceBadge = advice.data_basis === 'open_data_proxy' ? sourcePill('proxy') : sourcePill('sim');
     const basis = Array.isArray(advice.sources) ? advice.sources.join(' · ') : '';
+    const cultivation = advice.cultivation_recommendations || clientCultivationRecommendations(value);
+    const species = (advice.top_species || cultivation.recommended_species || []).slice(0, 3);
+    const speciesHtml = species.length ? `
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px">
+        ${species.map(item => `
+          <div style="border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:9px">
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
+              <strong style="font-size:12.5px;color:var(--tp)">${escapeHtml(item.name || '')}</strong>
+              <span class="badge ba">${escapeHtml(String(item.score || ''))}</span>
+            </div>
+            <div style="font-size:10.5px;color:var(--tm);margin-top:4px">${escapeHtml(item.salinity_range_gpl || '')}</div>
+            <div style="font-size:10.5px;color:var(--ts);line-height:1.45;margin-top:5px">${escapeHtml(item.reason || '')}</div>
+          </div>`).join('')}
+      </div>` : '';
     const title = lang === 'vi' ? 'Quyết định mùa vụ từ dữ liệu' : 'Data-backed season decision';
     const valueLabel = lang === 'vi' ? `Độ mặn proxy ${value.toFixed(1)} g/L` : `Proxy salinity ${value.toFixed(1)} g/L`;
+    const mlValue = ml ? Number(ml.predicted_salinity_gpl || 0) : null;
+    const mlDecision = ml ? clientSeasonDecisionFromValue(mlValue) : null;
+    const mlSpecies = ml?.top_species || ml?.cultivation_recommendations?.recommended_species || [];
+    const mlSpeciesHtml = mlSpecies.length ? `
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px">
+        ${mlSpecies.slice(0, 3).map(item => `
+          <div style="border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:9px">
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
+              <strong style="font-size:12.5px;color:var(--tp)">${escapeHtml(item.name || '')}</strong>
+              <span class="badge ba">${escapeHtml(String(item.score || ''))}</span>
+            </div>
+            <div style="font-size:10.5px;color:var(--tm);margin-top:4px">${escapeHtml(item.salinity_range_gpl || '')}</div>
+          </div>`).join('')}
+      </div>` : '';
+    const mlCard = ml ? `
+      <div style="border:1px solid rgba(38,166,154,.22);background:linear-gradient(135deg,rgba(38,166,154,.10),rgba(163,217,106,.06));border-radius:8px;padding:14px">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
+          <div>
+            <div style="font-size:11px;color:var(--tm);font-weight:800;text-transform:uppercase">${escapeHtml(lang === 'vi' ? 'ML baseline' : 'ML baseline')}</div>
+            <div style="font-size:20px;font-weight:900;color:var(--tp);line-height:1.35;margin-top:6px">${escapeHtml(lang === 'vi' ? 'Dự đoán từ model đã train' : 'Prediction from trained baseline model')}</div>
+          </div>
+          ${sourcePill('ml')}
+        </div>
+        <div style="font-size:30px;font-weight:900;color:var(--ad);line-height:1.1;margin-top:7px">${mlValue.toFixed(1)} g/L</div>
+        <div style="font-size:12px;color:var(--ts);margin-top:5px">${escapeHtml(mlDecision?.threshold_tier || '')}</div>
+        <div style="font-size:20px;font-weight:900;color:var(--tp);line-height:1.35;margin-top:8px">${escapeHtml(ml.predicted_salinity_gpl >= 6 ? (lang === 'vi' ? 'Tràm + tôm nước lợ' : 'Melaleuca + brackish shrimp') : ml.predicted_salinity_gpl >= 4 ? (lang === 'vi' ? 'ST25 + tràm khu vực trũng' : 'ST25 + melaleuca in low areas') : ml.predicted_salinity_gpl >= 2 ? (lang === 'vi' ? 'Lúa ST25 vụ tới' : 'ST25 rice next season') : (lang === 'vi' ? 'Lúa thường vẫn an toàn' : 'Regular rice remains safe'))}</div>
+        <div style="font-size:12px;color:var(--ad);font-weight:800;line-height:1.45;margin-top:8px">${escapeHtml(ml?.advice || '')}</div>
+        ${mlSpeciesHtml}
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+          <button class="gl-mini-btn" type="button" onclick="refreshDecisionMoment('ml')">${escapeHtml(lang === 'vi' ? 'Làm mới ML' : 'Refresh ML')}</button>
+          <span class="source-pill proxy">${escapeHtml(lang === 'vi' ? 'Dùng NASA + Open-Meteo + label trạm thật' : 'Uses NASA + Open-Meteo + real station labels')}</span>
+        </div>
+      </div>` : `
+      <div style="border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:14px">
+        <div style="font-size:11px;color:var(--tm);font-weight:800;text-transform:uppercase">${escapeHtml(lang === 'vi' ? 'ML baseline' : 'ML baseline')}</div>
+        <div style="font-size:18px;font-weight:900;color:var(--tp);line-height:1.35;margin-top:6px">${escapeHtml(lang === 'vi' ? 'Model đang chờ artifact' : 'Model artifact is not ready')}</div>
+        <div style="font-size:12px;color:var(--ts);margin-top:6px">${escapeHtml(lang === 'vi' ? 'Bấm Refresh sau khi train xong model.' : 'Press refresh after the model is trained.')}</div>
+      </div>`;
     target.innerHTML = `
-      <div style="display:grid;grid-template-columns:minmax(160px,.8fr) auto minmax(220px,1.2fr);gap:14px;align-items:center">
+      <div style="display:grid;grid-template-columns:minmax(160px,.75fr) auto minmax(220px,1.25fr);gap:14px;align-items:start">
         <div style="border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:14px">
           <div style="font-size:11px;color:var(--tm);font-weight:800;text-transform:uppercase">${escapeHtml(title)}</div>
           <div style="font-size:30px;font-weight:900;color:var(--ad);line-height:1.1;margin-top:7px">${value.toFixed(1)} g/L</div>
           <div style="font-size:12px;color:var(--ts);margin-top:5px">${escapeHtml(valueLabel)} ${sourceBadge}</div>
         </div>
         <div style="font-size:28px;font-weight:900;color:var(--lb)">→</div>
+        <div style="display:grid;gap:10px">
         <div style="border:1px solid rgba(163,217,106,.22);background:linear-gradient(135deg,rgba(76,175,80,.10),rgba(38,166,154,.07));border-radius:8px;padding:14px">
           <div style="font-size:12px;color:var(--tm);font-weight:800">${escapeHtml(advice.threshold_tier || '')} ${decisionEngineBadge()}</div>
           <div style="font-size:20px;font-weight:900;color:var(--tp);line-height:1.35;margin-top:8px">${escapeHtml(advice.advice || '')}</div>
+          <div style="font-size:12px;color:var(--ad);font-weight:800;line-height:1.45;margin-top:8px">${escapeHtml(cultivation.model || '')}</div>
+          ${speciesHtml}
           <div style="font-size:11px;color:var(--tm);line-height:1.5;margin-top:8px">${escapeHtml(basis)} · ${escapeHtml(advice.ml_roadmap || '')}</div>
+        </div>
+        ${mlCard}
         </div>
       </div>`;
   } catch {
     target.innerHTML = `<div class="gl-error">${escapeHtml(t('Không tải được khuyến nghị mùa vụ.'))}</div>`;
   }
+}
+
+async function refreshDecisionMoment(mode = 'both') {
+  const target = document.getElementById('decisionMoment');
+  if (target) target.innerHTML = `<div class="gl-empty">${escapeHtml(lang === 'vi' ? 'Đang làm mới...' : 'Refreshing...')}</div>`;
+  await renderDecisionMoment();
 }
 
 async function bookCollection() {
