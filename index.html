@@ -3414,7 +3414,7 @@ async function renderMarketWorkspace() {
     channel: x.channel || 'market',
     status: x.status || 'traceable',
     tone: x.tone || (Number(x.return_to_field) ? 'good' : 'pilot')
-  }));
+  })));
   consoleEl.innerHTML = `
     <div class="market-summary">
       <div class="ops-kpi"><b>${escapeHtml(productSource.length)}</b><span>${escapeHtml(lang === 'vi' ? 'Mặt hàng' : 'Items')}</span></div>
