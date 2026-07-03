@@ -134,9 +134,27 @@ router.post('/demo', async (_req, res) => {
     const pickupId = 'pickup-demo-ready-001';
     if (!queryRows(db, 'SELECT id FROM pickups WHERE id = ?', [pickupId]).length) {
       db.run(
-        `INSERT INTO pickups (id,user_id,biomass_type,quantity_kg,location,province,scheduled_at,status,biochar_yield_kg,created_at,updated_at)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
-        [pickupId, demoUserId, 'rice_straw', 1250, 'Mảnh lúa xác minh A - Cà Mau', 'ca-mau', now, 'processed', 375, now, now]
+        `INSERT INTO pickups
+         (id,user_id,biomass_type,quantity_kg,location,province,scheduled_at,status,biochar_yield_kg,created_at,updated_at,
+          sale_price_vnd,buyer_name,payment_status,farmer_share_vnd,htx_share_vnd,platform_share_vnd,advance_vnd,payment_evidence_hash,buyer_paid_at)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+        [pickupId, demoUserId, 'rice_straw', 1250, 'Mảnh lúa xác minh A - Cà Mau', 'ca-mau', now, 'processed', 375, now, now,
+         1800000, 'Mekong Biochar Buyer', 'buyer_paid', 1260000, 360000, 180000, 500000, 'sha256:demo-biomass-sale-ledger', now]
+      );
+    } else {
+      db.run(
+        `UPDATE pickups
+         SET sale_price_vnd=COALESCE(NULLIF(sale_price_vnd,0),?),
+             buyer_name=COALESCE(buyer_name,?),
+             payment_status=CASE WHEN payment_status IS NULL OR payment_status='pending' THEN 'buyer_paid' ELSE payment_status END,
+             farmer_share_vnd=COALESCE(NULLIF(farmer_share_vnd,0),?),
+             htx_share_vnd=COALESCE(NULLIF(htx_share_vnd,0),?),
+             platform_share_vnd=COALESCE(NULLIF(platform_share_vnd,0),?),
+             advance_vnd=COALESCE(NULLIF(advance_vnd,0),?),
+             payment_evidence_hash=COALESCE(payment_evidence_hash,?),
+             buyer_paid_at=COALESCE(buyer_paid_at,?)
+         WHERE id=?`,
+        [1800000, 'Mekong Biochar Buyer', 1260000, 360000, 180000, 500000, 'sha256:demo-biomass-sale-ledger', now, pickupId]
       );
     }
 

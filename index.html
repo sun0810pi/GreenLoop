@@ -92,9 +92,9 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .pk-detail-row:last-child{border-bottom:none}
 .pk-detail-label{color:var(--tm);font-weight:500}
 .pk-detail-val{color:var(--tp);font-weight:600;text-align:right}
-.gl-empty{padding:14px 0;font-size:13px;color:var(--tm);line-height:1.5}
+.gl-empty{padding:14px 0;font-size:14px;color:var(--tm);line-height:1.6}
 .gl-empty.center{text-align:center;padding:28px 14px}
-.gl-empty strong{display:block;color:var(--tp);font-size:14px;margin-bottom:5px}
+.gl-empty strong{display:block;color:var(--tp);font-size:15px;margin-bottom:5px}
 .gl-error{padding:11px 12px;border:1px solid rgba(198,40,40,.18);background:rgba(198,40,40,.06);border-radius:10px;font-size:12px;color:var(--danger);line-height:1.5}
 .gl-row-actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-top:8px}
 .gl-mini-btn{border:1px solid var(--borderl);background:var(--bg);color:var(--ts);border-radius:8px;padding:5px 9px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer}
@@ -110,7 +110,7 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .ops-kpi{padding:15px;border:1px solid var(--borderl);background:var(--bg);border-radius:8px}
 .ops-kpi b{display:block;font-size:23px;line-height:1.15;color:var(--tp);font-variant-numeric:tabular-nums}
 .ops-kpi span{display:block;font-size:11px;color:var(--tm);font-weight:700;margin-top:5px;text-transform:uppercase;letter-spacing:.4px}
-.ops-list{display:grid;gap:8px}.ops-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--borderl)}.ops-row:last-child{border-bottom:0}.ops-name{font-size:13px;font-weight:700}.ops-meta{font-size:11px;color:var(--tm);margin-top:3px}.ops-status{font-size:11px;font-weight:800;color:var(--ad);background:rgba(38,166,154,.10);padding:5px 8px;border-radius:6px;white-space:nowrap}.ops-status.warn{color:var(--warn);background:rgba(230,81,0,.1)}
+.ops-list{display:grid;gap:8px}.ops-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--borderl)}.ops-row:last-child{border-bottom:0}.ops-name{font-size:14px;font-weight:700;line-height:1.35}.ops-meta{font-size:12.2px;color:var(--tm);margin-top:4px;line-height:1.5}.ops-status{font-size:11.5px;font-weight:800;color:var(--ad);background:rgba(38,166,154,.10);padding:6px 9px;border-radius:6px;white-space:nowrap}.ops-status.warn{color:var(--warn);background:rgba(230,81,0,.1)}
 .loop-section{background:var(--bgc);border:1px solid var(--borderl);border-radius:8px;box-shadow:var(--sh-sm);padding:18px}
 .loop-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
 .loop-eyebrow{font-size:11px;font-weight:900;color:var(--ad);letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
@@ -358,7 +358,7 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .trend.up{color:var(--ok);background:rgba(46,125,50,.08)}
 .trend.dn{color:var(--danger);background:rgba(198,40,40,.08)}
 .sc-val{font-size:24px;font-weight:800;letter-spacing:-.5px;line-height:1.1}
-.sc-lab{font-size:11px;color:var(--tm);margin-top:3px;font-weight:500}
+.sc-lab{font-size:12px;color:var(--tm);margin-top:4px;font-weight:600;line-height:1.35}
 
 /* Lưới bố cục */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -379,13 +379,18 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .pl span:last-child{color:var(--tp);font-weight:700}
 
 /* Nhãn trạng thái */
-.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:10.5px;font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:20px;font-size:11.5px;font-weight:800;line-height:1.2}
 .badge svg{width:9px;height:9px}
 .bg{background:rgba(76,175,80,.1);color:var(--ok)}
 .ba{background:rgba(38,166,154,.1);color:var(--ad)}
 .bw{background:rgba(230,81,0,.1);color:var(--warn)}
 .bd{background:rgba(198,40,40,.1);color:var(--danger)}
 .be{background:rgba(139,111,71,.1);color:var(--earth)}
+.source-pill{display:inline-flex;align-items:center;gap:4px;margin-left:6px;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:800;line-height:1.35;vertical-align:middle;white-space:nowrap}
+.source-pill.real{background:rgba(76,175,80,.13);color:var(--ok);border:1px solid rgba(76,175,80,.2)}
+.source-pill.proxy{background:rgba(38,166,154,.13);color:var(--ad);border:1px solid rgba(38,166,154,.22)}
+.source-pill.sim{background:rgba(230,81,0,.12);color:var(--warn);border:1px solid rgba(230,81,0,.22)}
+.source-pill.pilot{background:rgba(139,111,71,.13);color:var(--earth);border:1px solid rgba(139,111,71,.22)}
 
 /* Theo dõi mùa vụ */
 .cyc{display:flex;padding:8px 0}
@@ -406,7 +411,7 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .mb-bar{flex:1;border-radius:3px 3px 0 0;min-width:5px}
 
 /* Bộ tính nhanh */
-.ci{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:13.5px;font-family:inherit;font-weight:600;color:var(--tp);background:var(--bg);transition:all .2s}
+.ci{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:14.5px;font-family:inherit;font-weight:600;color:var(--tp);background:var(--bg);transition:all .2s}
 .ci:focus{outline:none;border-color:var(--leaf);box-shadow:0 0 0 3px rgba(76,175,80,.1)}
 .cr{background:linear-gradient(135deg,rgba(76,175,80,.06),rgba(163,217,106,.06));border:1px solid rgba(76,175,80,.14);border-radius:var(--r-md);padding:14px;text-align:center}
 .crv{font-size:28px;font-weight:800;color:var(--tp);letter-spacing:-.5px}
@@ -414,13 +419,13 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 
 /* Mẫu nhập liệu */
 .fg{margin-bottom:14px}
-.fl{display:block;font-size:12.5px;font-weight:600;color:var(--tp);margin-bottom:5px}
+.fl{display:block;font-size:13.5px;font-weight:700;color:var(--tp);margin-bottom:6px;line-height:1.35}
 .fi,.fs{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:13.5px;font-family:inherit;color:var(--tp);background:#fff;transition:all .2s}
 .fi:focus,.fs:focus{outline:none;border-color:var(--leaf);box-shadow:0 0 0 3px rgba(76,175,80,.1)}
 .fs{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237a8e7a' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-color:#fff;padding-right:34px}
 
 /* Nút bấm */
-.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--r-sm);font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .2s}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--r-sm);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;border:none;transition:all .2s}
 .btn svg{width:14px;height:14px}
 .btn-p{background:var(--f);color:#fff}
 .btn-p:not(.btn){display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 13px;border:0;border-radius:8px;font:700 12px inherit;cursor:pointer}
@@ -448,10 +453,10 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .gw{width:155px;height:155px;margin:0 auto;position:relative}
 .gw.live::before{content:'';position:absolute;inset:14px;border-radius:50%;background:radial-gradient(circle,rgba(38,166,154,.16),transparent 62%);animation:livePulse 2.4s ease-in-out infinite}
 .gw.live::after{content:'';position:absolute;inset:0;border-radius:50%;border:1px solid rgba(38,166,154,.18);animation:liveRing 2.4s ease-out infinite}
-.gc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.gc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:82px}
 .gv{font-size:26px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;transition:color .2s,transform .2s}
 .gv.tick{transform:scale(1.06);color:var(--aqua)}
-.gu{font-size:10px;color:var(--tm);font-weight:500}
+.gu{font-size:9.5px;color:var(--tm);font-weight:500;line-height:1.2}
 .live-meta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;font-size:10.5px;color:var(--tm)}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--aqua);box-shadow:0 0 0 0 rgba(38,166,154,.55);animation:liveDot 1.4s ease-out infinite}
 .live-chart{position:relative;height:120px;background:var(--bg);border-radius:10px;overflow:hidden;padding:12px 16px}
@@ -522,11 +527,13 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .mi svg{width:100%;height:100%}
 .mt{font-size:12.5px;font-weight:700;position:relative;z-index:1}
 .ms{font-size:10.5px;color:var(--tm);position:relative;z-index:1}
-.hub-map{height:235px;border-radius:var(--r-md);position:relative;overflow:hidden;background:var(--bg);border:1px solid rgba(38,166,154,.28);box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}
-.hub-map::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,70,54,.95),rgba(7,17,12,.98)),linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:auto,34px 34px,34px 34px;z-index:0}
+.hub-map{height:285px;border-radius:var(--r-md);position:relative;overflow:hidden;background:var(--bg);border:1px solid rgba(38,166,154,.28);box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}
+.hub-map::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,70,54,.28),rgba(7,17,12,.12));z-index:0;pointer-events:none}
 #hubLeafletMap{position:absolute;inset:0;width:100%;height:100%;z-index:1}
 .hub-map .leaflet-container{background:var(--bg)}
+.hub-map .leaflet-tile-pane{filter:saturate(.9) contrast(.95) brightness(.9);transition:opacity .28s ease}
 .hub-map .leaflet-control-attribution{font-size:8px;background:rgba(255,255,255,.72)}
+.hub-map .leaflet-overlay-pane,.hub-map .leaflet-marker-pane,.hub-map .leaflet-tooltip-pane,.hub-map .leaflet-popup-pane{z-index:420}
 .hub-map svg{position:absolute;inset:0;width:100%;height:100%}
 .map-river{fill:none;stroke:rgba(128,203,196,.28);stroke-width:8;stroke-linecap:round}
 .hub-route{fill:none;stroke:var(--aqua);stroke-width:3;stroke-linecap:round;stroke-dasharray:8 8;filter:drop-shadow(0 0 5px rgba(38,166,154,.5));animation:routeFlow 9s linear infinite}
@@ -534,22 +541,22 @@ body[data-theme="dark"] .pp{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .hub-route.muted{stroke:rgba(163,217,106,.55);stroke-width:2;opacity:.75}
 .hub-dot{fill:var(--c);filter:url(#hubGlow)}
 .hub-pulse{fill:var(--c);opacity:.2;animation:hubPulse 2.2s ease-out infinite}
-.hub-label{fill:rgba(237,247,236,.9);font:800 10.5px var(--font-ui);paint-order:stroke;stroke:rgba(7,17,12,.86);stroke-width:4px}
+.hub-label{fill:rgba(237,247,236,.95);font:800 12px var(--font-ui);paint-order:stroke;stroke:rgba(7,17,12,.86);stroke-width:4px}
 .hub-map-head{position:absolute;left:14px;right:14px;top:13px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .hub-map-title{font-size:13px;font-weight:800;color:#fff}
-.hub-map-sub{font-size:10.5px;color:rgba(237,247,236,.58);margin-top:3px}
-.hub-live{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;background:rgba(38,166,154,.12);border:1px solid rgba(38,166,154,.25);color:var(--al);font-size:10px;font-weight:800;white-space:nowrap}
+.hub-map-sub{font-size:12px;color:rgba(237,247,236,.68);margin-top:3px;line-height:1.35}
+.hub-live{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;background:rgba(38,166,154,.12);border:1px solid rgba(38,166,154,.25);color:var(--al);font-size:11px;font-weight:800;white-space:nowrap}
 .hub-live span{width:6px;height:6px;border-radius:50%;background:var(--aqua);box-shadow:0 0 0 0 rgba(54,193,180,.55);animation:liveDot 1.4s ease-out infinite}
 .hub-callout{position:absolute;left:14px;bottom:13px;width:min(220px,calc(100% - 28px));padding:9px 10px;border-radius:10px;background:rgba(7,17,12,.78);border:1px solid rgba(230,81,0,.32);box-shadow:0 10px 30px rgba(0,0,0,.24);z-index:2}
 .hub-callout b{display:block;color:var(--warn);font-size:12px;margin-bottom:2px}
-.hub-callout span{display:block;color:rgba(237,247,236,.7);font-size:10.5px;line-height:1.45}
+.hub-callout span{display:block;color:rgba(237,247,236,.76);font-size:11.5px;line-height:1.5}
 .hub-leaflet-pin span{display:block}
 .hub-map-legend{position:absolute;left:10px;top:10px;z-index:450;display:flex;gap:6px;flex-wrap:wrap;padding:7px 8px;border-radius:10px;background:rgba(7,17,12,.78);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(6px)}
-.hub-map-legend span{display:inline-flex;align-items:center;gap:5px;color:#edf7ec;font-size:9.5px;font-weight:800;white-space:nowrap}
+.hub-map-legend span{display:inline-flex;align-items:center;gap:5px;color:#edf7ec;font-size:10.5px;font-weight:800;white-space:nowrap}
 .hub-map-legend i{width:8px;height:8px;border-radius:50%;display:inline-block;box-shadow:0 0 0 2px rgba(255,255,255,.18)}
 .hub-arrow{width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:12px solid #36c1b4;filter:drop-shadow(0 0 5px rgba(54,193,180,.5))}
 .hub-arrow.warn{border-left-color:#ffb74d;filter:drop-shadow(0 0 5px rgba(255,183,77,.5))}
-.hub-label-map{background:rgba(7,17,12,.84);border:1px solid rgba(255,255,255,.2);color:#edf7ec;border-radius:999px;padding:4px 8px;font-size:10.5px;font-weight:900;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.26)}
+.hub-label-map{background:rgba(7,17,12,.88);border:1px solid rgba(255,255,255,.24);color:#edf7ec;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:900;white-space:nowrap;box-shadow:0 8px 22px rgba(0,0,0,.30)}
 @keyframes routeFlow{to{stroke-dashoffset:-96}}
 @keyframes hubPulse{0%{transform:scale(.6);opacity:.35;transform-origin:center}100%{transform:scale(1.9);opacity:0;transform-origin:center}}
 
@@ -645,6 +652,12 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
   .l-sec-p{font-size:13.5px}
   .l-card-grid{grid-template-columns:1fr;gap:12px;margin-top:24px}
   .l-card{padding:18px}
+  .l-flow-static{padding:16px;margin-top:24px}
+  .l-flow-top{align-items:flex-start;flex-direction:column}
+  .l-flow-note{text-align:left;max-width:100%}
+  .l-flow-rail{grid-template-columns:1fr;gap:10px}
+  .l-flow-node{min-height:auto}
+  .l-flow-node:not(:last-child)::before,.l-flow-node:not(:last-child)::after{display:none}
   .l-impact-nums{grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
   .l-istat{padding:18px 12px}
   .l-istat-n{font-size:26px}
@@ -820,6 +833,22 @@ body[data-theme="dark"] .bottnav{background:var(--bgc);border-color:var(--border
 .l-card-ico svg{width:20px;height:20px}
 .l-card-t{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
 .l-card-d{font-size:12px;color:rgba(255,255,255,.38);line-height:1.65}
+.l-flow-static{margin-top:34px;border:1px solid rgba(163,217,106,.18);border-radius:12px;background:linear-gradient(135deg,rgba(18,57,37,.72),rgba(7,17,12,.72));padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.18)}
+.l-flow-top{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:18px}
+.l-flow-kicker{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;color:var(--aqua)}
+.l-flow-title{font-family:var(--font-display);font-size:22px;font-weight:900;color:#fff;margin-top:5px;line-height:1.2}
+.l-flow-note{max-width:420px;color:rgba(255,255,255,.58);font-size:12.5px;line-height:1.65;text-align:right}
+.l-flow-rail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.l-flow-node{position:relative;min-height:154px;border:1px solid rgba(255,255,255,.10);border-radius:10px;background:rgba(4,14,9,.58);padding:15px 14px;display:flex;flex-direction:column;gap:8px}
+.l-flow-node:not(:last-child)::after{content:'';position:absolute;right:-13px;top:50%;width:12px;height:2px;background:rgba(230,192,98,.9)}
+.l-flow-node:not(:last-child)::before{content:'';position:absolute;right:-16px;top:calc(50% - 5px);width:9px;height:9px;border-top:2px solid rgba(230,192,98,.95);border-right:2px solid rgba(230,192,98,.95);transform:rotate(45deg);z-index:1}
+.l-flow-step{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;color:rgba(163,217,106,.72)}
+.l-flow-node-title{font-size:15px;font-weight:900;color:#fff;line-height:1.25}
+.l-flow-node-copy{font-size:12px;line-height:1.55;color:rgba(237,247,236,.68)}
+.l-flow-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.l-flow-chip{border:1px solid rgba(95,200,103,.28);background:rgba(95,200,103,.08);border-radius:999px;padding:5px 7px;color:#a6f18a;font-size:10.5px;font-weight:900;white-space:nowrap}
+.l-flow-chip.money{border-color:rgba(230,192,98,.35);background:rgba(230,192,98,.09);color:#f3d37a}
+.l-flow-chip.warn{border-color:rgba(255,183,77,.35);background:rgba(255,183,77,.08);color:#ffca7a}
 .l-impact-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:36px}
 .l-istat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:22px 18px;text-align:center}
 .l-istat-n{font-family:var(--font-display);font-size:34px;color:#fff;letter-spacing:0;margin-bottom:4px}
@@ -830,6 +859,10 @@ body[data-theme="light"] .l-section{background:transparent}
 body[data-theme="light"] .l-sec-h2,body[data-theme="light"] .l-card-t,body[data-theme="light"] .l-istat-n{color:var(--tp)}
 body[data-theme="light"] .l-sec-p,body[data-theme="light"] .l-card-d,body[data-theme="light"] .l-istat-l{color:var(--tm)}
 body[data-theme="light"] .l-card,body[data-theme="light"] .l-istat{background:rgba(255,255,255,.72);border-color:var(--borderl)}
+body[data-theme="light"] .l-flow-static{background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(236,245,228,.88));border-color:rgba(76,175,80,.22)}
+body[data-theme="light"] .l-flow-title,body[data-theme="light"] .l-flow-node-title{color:var(--tp)}
+body[data-theme="light"] .l-flow-note,body[data-theme="light"] .l-flow-node-copy{color:var(--ts)}
+body[data-theme="light"] .l-flow-node{background:rgba(255,255,255,.7);border-color:rgba(26,58,42,.12)}
 body[data-theme="light"] .l-sec-divider{border-color:var(--borderl)}
 body[data-theme="light"] .l-plogo{background:var(--bg);border-color:var(--borderl);color:var(--ts)}
 body[data-theme="light"] .help-contact{background:linear-gradient(135deg,var(--f),var(--fm))}
@@ -1198,6 +1231,47 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
     <div class="l-sec-tag">How it works</div>
     <h2 class="l-sec-h2">From residue intake<br>to verified value</h2>
     <p class="l-sec-p">Every lot moves through a visible chain: farmer onboarding, biomass validation, collection dispatch, processing, MRV verification, product traceability and carbon revenue sharing.</p>
+    <div class="l-flow-static" aria-label="GreenLoop biomass and payout model">
+      <div class="l-flow-top">
+        <div>
+          <div class="l-flow-kicker">GreenLoop Biomass MRV Model</div>
+          <div class="l-flow-title">Nông hộ giao phụ phẩm, HTX gom lô, tiền quay lại minh bạch</div>
+        </div>
+        <div class="l-flow-note">Một sơ đồ đơn giản cho người dùng thấy GreenLoop theo dõi cả phụ phẩm, logistics, bên mua, thanh toán và bằng chứng carbon.</div>
+      </div>
+      <div class="l-flow-rail">
+        <div class="l-flow-node">
+          <div class="l-flow-step">01 Farmer intake</div>
+          <div class="l-flow-node-title">Nông hộ giao phụ phẩm</div>
+          <div class="l-flow-node-copy">Rơm rạ, bùn ao, phụ phẩm dừa, tràm hoặc sinh khối cao nguyên được cân và ghi nguồn gốc.</div>
+          <div class="l-flow-chips"><span class="l-flow-chip">kg verified</span><span class="l-flow-chip">field ID</span></div>
+        </div>
+        <div class="l-flow-node">
+          <div class="l-flow-step">02 HTX logistics</div>
+          <div class="l-flow-node-title">HTX gom và tạo lô</div>
+          <div class="l-flow-node-copy">HTX gom nhiều nông hộ thành lô đủ lớn, điều phối tuyến xe và giữ chuỗi bàn giao.</div>
+          <div class="l-flow-chips"><span class="l-flow-chip">hub</span><span class="l-flow-chip">custody hash</span></div>
+        </div>
+        <div class="l-flow-node">
+          <div class="l-flow-step">03 Buyer sale</div>
+          <div class="l-flow-node-title">Bên thứ ba trả tiền</div>
+          <div class="l-flow-node-copy">Nhà máy biochar hoặc bio-refinery xác nhận khối lượng, giá lô và chuyển tiền cho HTX.</div>
+          <div class="l-flow-chips"><span class="l-flow-chip money">buyer paid</span><span class="l-flow-chip">invoice</span></div>
+        </div>
+        <div class="l-flow-node">
+          <div class="l-flow-step">04 Payout ledger</div>
+          <div class="l-flow-node-title">Chia tiền theo đóng góp</div>
+          <div class="l-flow-node-copy">GreenLoop ghi sổ phần nông hộ, HTX và nền tảng; có thể trừ khoản ứng trước nếu đã chi.</div>
+          <div class="l-flow-chips"><span class="l-flow-chip money">70/20/10</span><span class="l-flow-chip warn">advance</span></div>
+        </div>
+        <div class="l-flow-node">
+          <div class="l-flow-step">05 MRV value</div>
+          <div class="l-flow-node-title">Carbon và giá trị quay lại ruộng</div>
+          <div class="l-flow-node-copy">Biochar, sản phẩm sinh học và hồ sơ carbon được gắn bằng chứng để tạo giá trị dài hạn.</div>
+          <div class="l-flow-chips"><span class="l-flow-chip">MRV</span><span class="l-flow-chip">carbon passport</span></div>
+        </div>
+      </div>
+    </div>
     <div class="l-card-grid">
       <div class="l-card">
         <div class="l-card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="21" r="1.5"/><circle cx="20" cy="21" r="1.5"/></svg></div>
@@ -1692,6 +1766,15 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           <div class="cb"><div class="next-action-grid"><button class="next-action" type="button" onclick="nav('collection')"><b>Book biomass pickup</b><span>Schedule rice, aquatic, melaleuca or forest product collection.</span></button><button class="next-action" type="button" onclick="nav('salinity')"><b>Check salinity risk</b><span>See the live water trend before switching season.</span></button><button class="next-action" type="button" onclick="nav('passport')"><b>Review carbon record</b><span>Open verified evidence, benefits and export actions.</span></button></div></div>
         </div>
         <!-- 4 thẻ chính: cái nông dân thật sự quan tâm -->
+        <div class="card mb18" id="decisionMomentCard">
+          <div class="ch">
+            <div class="ct">Season decision moment</div>
+            <span id="decisionEngineBadgeSlot"></span>
+          </div>
+          <div class="cb" id="decisionMoment">
+            <div class="gl-empty">Loading rule-based decision...</div>
+          </div>
+        </div>
         <div class="g4 mb18">
           <div class="sc ani">
             <div class="sc-top">
@@ -1964,7 +2047,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <div class="g2">
           <div class="card">
             <div class="ch">
-              <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>Hub Network</div>
+              <div class="ct"><div class="ct-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>Hub Network <span class="source-pill sim" data-source-badge="sim">Mô phỏng - chờ pilot cảm biến</span></div>
             </div>
             <div class="cb">
               <div class="hub-map" aria-label="Bản đồ Leaflet mạng lưới thu gom ĐBSCL">
@@ -2087,7 +2170,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
               <div class="gw live">
                 <svg viewBox="0 0 160 160">
                   <circle cx="80" cy="80" r="64" fill="none" stroke="var(--bgs)" stroke-width="12"/>
-                  <circle cx="80" cy="80" r="64" fill="none" stroke="var(--warn)" stroke-width="12" stroke-dasharray="0 251" stroke-dashoffset="47" stroke-linecap="round" transform="rotate(-90 80 80)" id="salinityArc"/>
+                  <circle cx="80" cy="80" r="64" fill="none" stroke="var(--warn)" stroke-width="12" stroke-dasharray="0 402" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 80 80)" id="salinityArc"/>
                 </svg>
                 <div class="gc"><div class="gv">0.0</div><div class="gu">Chưa có dữ liệu độ mặn</div></div>
               </div>
@@ -2219,62 +2302,6 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
 
       <!-- Settings page -->
       <div class="page" id="p-operations">
-        <section class="loop-section mb18">
-          <div class="loop-head">
-            <div>
-              <div class="loop-eyebrow">GreenLoop Biomass MRV Model</div>
-              <h2 class="loop-title">From residue to verified value</h2>
-              <div class="loop-sub">A compact operational view of regional biomass: environmental evidence, feedstock intake, conversion pathways, commercial outputs and farm return.</div>
-            </div>
-            <button class="gl-mini-btn" type="button" onclick="renderOperations()">Refresh</button>
-          </div>
-          <div class="loop-metrics">
-            <div class="loop-metric"><b id="loopEvidenceCount">4</b><span>Evidence records</span></div>
-            <div class="loop-metric"><b id="loopFeedstockCount">6</b><span>Residue sources</span></div>
-            <div class="loop-metric"><b id="loopPathwayCount">3</b><span>Pathways</span></div>
-            <div class="loop-metric"><b id="loopProductCount">4</b><span>Outputs</span></div>
-            <div class="loop-metric"><b id="loopReturnCount">2</b><span>Field returns</span></div>
-          </div>
-          <div class="loop-board" aria-label="GreenLoop biomass pathway board">
-            <button class="loop-stage" type="button" data-loop-node="evidence">
-              <div class="loop-step">01 Evidence</div>
-              <div class="loop-stage-title">IoT + Carbon MRV</div>
-              <div class="loop-stage-copy">Sensor readings, passport hashes and green certificates verify the operating record.</div>
-              <div class="loop-chip-list" id="loopEvidenceChips"></div>
-            </button>
-            <button class="loop-stage" type="button" data-loop-node="feedstock">
-              <div class="loop-step">02 Collection</div>
-              <div class="loop-stage-title">By-product intake</div>
-              <div class="loop-stage-copy">Delta and Highland by-products are registered by stream for logistics.</div>
-              <div class="loop-chip-list" id="loopFeedstockChips"></div>
-            </button>
-            <button class="loop-stage" type="button" data-loop-node="conversion">
-              <div class="loop-step">03 Conversion</div>
-              <div class="loop-stage-title">Processing pathways</div>
-              <div class="loop-stage-copy">Partners and bio-refinery runs transform biomass into usable products.</div>
-              <div class="loop-chip-list" id="loopPathwayChips"></div>
-            </button>
-            <button class="loop-stage" type="button" data-loop-node="outputs">
-              <div class="loop-step">04 Outputs</div>
-              <div class="loop-stage-title">Market + Bio Refinery</div>
-              <div class="loop-stage-copy">Commercial products are separated from deep-processing outputs.</div>
-              <div class="loop-chip-list" id="loopOutputChips"></div>
-            </button>
-            <button class="loop-stage" type="button" data-loop-node="return">
-              <div class="loop-step">05 Farm return</div>
-              <div class="loop-stage-title">Back to the field</div>
-              <div class="loop-stage-copy">Biochar and biological inputs return value to farms and soil systems.</div>
-              <div class="loop-chip-list" id="loopReturnChips"></div>
-            </button>
-          </div>
-          <div class="loop-detail" aria-live="polite">
-            <div>
-              <div class="loop-detail-title" id="flowPanelTitle">Biomass value overview</div>
-              <div class="loop-detail-meta" id="flowPanelMeta">Click a stage to inspect residue sources, output products, certificates or field-return evidence.</div>
-            </div>
-            <div class="loop-detail-list" id="flowPanelList"></div>
-          </div>
-        </section>
         <div class="card mb18">
           <div class="ch"><div class="ct">Operations Control</div><span class="badge ba">Live data</span></div>
           <div class="cb">
@@ -2806,7 +2833,7 @@ function clearSession(showMessage = true) {
   currentUser = null;
   isAuthed = false;
   document.body.classList.remove('demo-mode');
-  try { localStorage.removeItem('gl_token'); } catch (e) {}
+  try { localStorage.removeItem('gl_token'); localStorage.removeItem('gl_sample_flow'); } catch (e) {}
   if (showMessage) toast('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
 }
 
@@ -2850,6 +2877,7 @@ function formatMonthYear(value) {
   if (!value) return '-';
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return value;
+  if (lang === 'en') return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
   return `Tháng ${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
 }
 
@@ -2873,6 +2901,74 @@ function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, ch => ({
     '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
   }[ch]));
+}
+
+function sourcePill(kind) {
+  const labels = {
+    real: lang === 'vi' ? 'API thật' : 'Real API',
+    proxy: lang === 'vi' ? 'Proxy từ dữ liệu mở' : 'Open-data proxy',
+    sim: lang === 'vi' ? 'Mô phỏng - chờ pilot cảm biến' : 'Simulated - sensor pilot pending',
+    pilot: lang === 'vi' ? 'Pilot - chưa tích hợp' : 'Pilot - not integrated'
+  };
+  const cls = ['real', 'proxy', 'sim', 'pilot'].includes(kind) ? kind : 'pilot';
+  return `<span class="source-pill ${cls}">${escapeHtml(labels[cls])}</span>`;
+}
+
+function decisionEngineBadge() {
+  const label = lang === 'vi'
+    ? '⚙ Ngưỡng cố định (rule-based) · ML: roadmap'
+    : '⚙ Fixed thresholds (rule-based) · ML: roadmap';
+  return `<span class="source-pill proxy">${escapeHtml(label)}</span>`;
+}
+
+function clientSeasonDecisionFromValue(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) {
+    return {
+      recommended_season: 'unknown',
+      advice: lang === 'vi' ? 'Chưa đủ dữ liệu để ra quyết định mùa vụ' : 'Not enough data for a season decision',
+      threshold_tier: 'unknown'
+    };
+  }
+  if (numeric < 2) return {
+    recommended_season: 'rice',
+    advice: lang === 'vi' ? 'Lúa thường vẫn an toàn, tiếp tục mùa vụ hiện tại' : 'Regular rice remains safe; continue the current season',
+    threshold_tier: '<2 g/L'
+  };
+  if (numeric < 4) return {
+    recommended_season: 'rice_st25',
+    advice: lang === 'vi' ? 'Chuyển sang giống lúa chịu mặn ST25 ngay vụ tới' : 'Switch to salt-tolerant ST25 rice next season',
+    threshold_tier: '2-4 g/L'
+  };
+  if (numeric < 6) return {
+    recommended_season: 'transition',
+    advice: lang === 'vi' ? 'Vùng chuyển tiếp: ST25 + bắt đầu trồng xen tràm ở khu vực trũng/ven kênh' : 'Transition zone: ST25 plus melaleuca in low/canal-side areas',
+    threshold_tier: '4-6 g/L'
+  };
+  return {
+    recommended_season: 'tram_shrimp',
+    advice: lang === 'vi' ? 'Chuyển hẳn sang tràm + nuôi tôm nước lợ, ngừng vụ lúa' : 'Shift to melaleuca plus brackish shrimp; stop the rice season',
+    threshold_tier: '>6 g/L'
+  };
+}
+
+async function getSeasonDecisionAdvice(province = currentUser?.province || 'ca-mau') {
+  const decision = await apiFetch('/api/salinity/season-advice?province=' + encodeURIComponent(province)).catch(() => null);
+  if (decision?.engine === 'rule_based_v1' && Number.isFinite(Number(decision.avg_gpl_or_proxy_value))) return decision;
+  const proxy = await apiFetch('/api/salinity/risk-proxy?province=' + encodeURIComponent(province)).catch(() => null);
+  const value = Number(proxy?.estimated_salinity_gpl ?? 4.3);
+  const tier = clientSeasonDecisionFromValue(value);
+  return {
+    ...tier,
+    province: proxy?.province || province,
+    avg_gpl_or_proxy_value: value,
+    engine: 'rule_based_v1',
+    ml_roadmap: lang === 'vi'
+      ? 'Mô hình ML huấn luyện trên dữ liệu lịch sử MRC + vệ tinh — giai đoạn pilot kế tiếp'
+      : 'ML trained on historical MRC + satellite data - next pilot phase',
+    data_basis: proxy ? 'open_data_proxy' : 'local_demo_fallback',
+    sources: proxy?.basis || ['frontend:rule_based_demo_fallback']
+  };
 }
 
 function updateUserUI(user) {
@@ -3143,7 +3239,7 @@ async function setAdminUserRole(id) {
 
 function showApp() {
   isAuthed = true;
-  document.body.classList.remove('demo-mode');
+  document.body.classList.toggle('demo-mode', isSampleDataMode());
   document.getElementById('auth')?.classList.remove('on');
   const landing = document.getElementById('landing');
   if (landing) landing.style.display = 'none';
@@ -4989,6 +5085,141 @@ const LANGUAGE_FIXES = {
   , "Could not create biomass batch": "Không thể tạo lô sinh khối"
   , "Unable to load carbon evidence package": "Không tải được bộ bằng chứng carbon"
   , "All notifications marked as read": "Đã đánh dấu tất cả thông báo là đã đọc"
+  , "Suitable salinity:": "Độ mặn phù hợp:"
+  , "Selected species:": "Loài đang chọn:"
+  , "Recommended practice: reduce chemical use, monitor pH - salinity - DO, and log the full biomass stream.": "Thực hành khuyến nghị: giảm hóa chất, theo dõi pH - độ mặn - DO, và ghi nhận toàn bộ dòng sinh khối."
+  , "By-product:": "Phụ phẩm:"
+  , "Input:": "Đầu vào:"
+  , "Output:": "Đầu ra:"
+  , "Value:": "Giá trị:"
+  , "kg trong tháng này": "kg this month"
+  , "lượt thu gom hoàn tất": "completed pickups"
+  , "chi phí vận chuyển / tấn": "transport cost / tonne"
+  , "tỷ lệ đúng hẹn": "on-time rate"
+  , "Tất cả": "All"
+  , "Danh sách lịch thu gom": "Pickup list"
+  , "Chi tiết lịch thu gom": "Pickup detail"
+  , "Đóng": "Close"
+  , "Gợi ý từ dữ liệu": "Data recommendation"
+  , "Ngày chuyển mùa phù hợp": "Optimal season switch date"
+  , "Đang chờ dữ liệu cảm biến": "Waiting for sensor data"
+  , "Theo dõi thửa ruộng": "Track field plot"
+  , "Chưa có thửa ruộng đã lắp IoT": "No IoT-installed field yet"
+  , "Làm mới": "Refresh"
+  , "Độ mặn hiện tại": "Live salinity reading"
+  , "Chưa có cảm biến": "No sensor yet"
+  , "Chưa có dữ liệu độ mặn": "No salinity data yet"
+  , "Đang chờ dữ liệu IoT": "Waiting for IoT data"
+  , "An toàn cho lúa": "Rice safe"
+  , "Vùng chuyển tiếp": "Transition zone"
+  , "Phù hợp cho tôm": "Shrimp suitable"
+  , "Cảnh báo độ mặn": "Salinity alerts"
+  , "Xu hướng độ mặn 7 ngày": "7-day salinity trend"
+  , "Theo thửa đã chọn": "Selected field"
+  , "ngưỡng 5 g/L": "5 g/L threshold"
+  , "Cảm biến nước": "Water sensors"
+  , "Sẵn sàng IoT": "IoT ready"
+  , "Chưa có dữ liệu cảm biến nước": "No water sensor data yet"
+  , "Chọn thửa đã lắp IoT hoặc nhập dữ liệu cảm biến để bắt đầu theo dõi.": "Select an IoT-installed field or enter sensor data to start tracking."
+  , "Chọn thửa đã lắp IoT hoặc nhập dữ liệu cảm biến.": "Select an IoT-installed field or enter sensor data."
+  , "Bối cảnh dữ liệu thật": "Real data context"
+  , "Đang tải dữ liệu thời tiết NASA POWER...": "Loading NASA POWER weather data..."
+  , "Chỉ số đất": "Soil indicators"
+  , "Chưa có dữ liệu đất": "No soil data yet"
+  , "Chọn thửa đã lắp IoT để xem độ ẩm, pH, hữu cơ và carbon đất.": "Select an IoT-installed field to view moisture, pH, organic matter and soil carbon."
+  , "Độ ẩm đất": "Soil moisture"
+  , "pH đất": "Soil pH"
+  , "Chất hữu cơ": "Organic matter"
+  , "Carbon đất": "Soil carbon"
+  , "tốt": "good"
+  , "theo dõi": "monitor"
+  , "khô": "dry"
+  , "cân bằng": "balanced"
+  , "cần theo dõi": "needs monitoring"
+  , "thấp": "low"
+  , "Độ mặn vượt ngưỡng": "Salinity above threshold"
+  , "Vùng chuyển tiếp độ mặn": "Salinity transition zone"
+  , "Độ mặn an toàn": "Salinity safe"
+  , "Nên chuẩn bị chuyển sang mô hình tôm hoặc khóa nước mặn.": "Prepare to switch to shrimp mode or close saline water intake."
+  , "Không còn là vùng an toàn cho lúa; cần theo dõi trước khi chuyển mùa.": "No longer rice-safe; monitor before switching season."
+  , "Phù hợp cho giai đoạn lúa hiện tại.": "Suitable for the current rice stage."
+  , "Dữ liệu IoT": "IoT data"
+  , "cập nhật": "updated"
+  , "Loại": "Type"
+  , "Trạng thái": "Status"
+  , "Khối lượng": "Weight"
+  , "Ngày hẹn": "Scheduled date"
+  , "Chưa gán": "Unassigned"
+  , "Địa điểm": "Location"
+  , "Ghi chú": "Notes"
+  , "Không có": "None"
+  , "Nông hộ": "Farmer"
+  , "Đang tải chi tiết...": "Loading detail..."
+  , "Không tải được chi tiết lịch thu gom": "Unable to load pickup detail"
+  , "Đã tải bối cảnh thời tiết": "Weather context loaded"
+  , "Cần theo dõi khô hạn": "Drought monitoring needed"
+  , "Hiện chưa tải được bối cảnh thời tiết NASA POWER.": "NASA POWER weather context is currently unavailable."
+  , "Không có khuyến nghị": "No recommendation"
+  , "Khuyến nghị mùa vụ": "Season recommendation"
+  , "Lúa": "Rice"
+  , "Tôm": "Shrimp"
+  , "Hãy lắp IoT cho thửa ruộng hoặc nhập dữ liệu cảm biến.": "Install IoT for the field or enter sensor data."
+  , "pH nước": "Water pH"
+  , "Độ mặn": "Salinity"
+  , "Cảm biến": "Sensor"
+  , "Khu vực canh tác của tôi": "My farm operating area"
+  , "Đã lắp IoT": "IoT installed"
+  , "Đang chờ duyệt": "Waiting for approval"
+  , "Chưa có yêu cầu": "No request yet"
+  , "Độ mặn nước": "Water salinity"
+  , "Chưa có dữ liệu IoT.": "No IoT data yet."
+  , "Chờ duyệt": "Pending"
+  , "Đã duyệt": "Approved"
+  , "Đã lắp": "Installed"
+  , "Từ chối": "Rejected"
+  , "Chưa gửi": "Not sent"
+  , "Tới ruộng": "Go to field"
+  , "mảnh ruộng đã định vị": "mapped field plots"
+  , "Vệ tinh": "Satellite"
+  , "Bản đồ nhanh": "Fast map"
+  , "Thửa ruộng đã xác minh": "Verified field plot"
+  , "Nông hộ liên hệ GreenLoop/HTX để xác định ranh giới ruộng và lắp IoT trước. Sau khi duyệt xong, app chỉ hiển thị thửa ruộng đã xác minh và chỉ số cảm biến tương ứng.": "Farmers contact GreenLoop/HTX to verify field boundaries and install IoT first. After approval, the app only shows verified field plots and their matching sensor readings."
+  , "đa giác đang chọn": "selected polygon"
+  , "Chưa có mảnh ruộng.": "No field plots yet."
+  , "Tìm mảnh ruộng": "Find field plot"
+  , "Nhập tên hoặc tỉnh": "Enter name or province"
+  , "Mô phỏng chỉ số IoT": "Simulate IoT readings"
+  , "HTX đầu tư cảm biến theo cụm; nông hộ dùng chung qua voucher hoặc trợ giá, không phải tự mua thiết bị.": "HTX invests in clustered sensors; farmers use shared access through vouchers or subsidies instead of buying devices themselves."
+  , "NDVI vệ tinh — giai đoạn pilot, chưa tích hợp.": "Satellite NDVI - pilot phase, not integrated yet."
+  , "Chỉ số IoT theo thửa": "Plot-level IoT readings"
+  , "Không tải được": "Unable to load"
+  , "Không tải được khu vực canh tác.": "Unable to load farm operating area."
+  , "Nhiệt phân yếm khí": "Low-oxygen pyrolysis"
+  , "Tách cellulose và định hình LCNF": "Cellulose extraction and LCNF forming"
+  , "Tách chitin và xử lý vi sinh": "Chitin extraction and microbial processing"
+  , "Rơm rạ, bùn ao và sinh khối hữu cơ": "Rice straw, pond sludge and organic biomass"
+  , "Biochar, khí và dầu sinh học": "Biochar, syngas and bio-oil"
+  , "Cải tạo đất, lưu trữ carbon": "Soil improvement, carbon storage"
+  , "Lá tràm, cành nhỏ, gỗ tỉa thưa": "Melaleuca leaves, small branches, thinning wood"
+  , "Khay xuất khẩu, bao bì sinh học, tấm chống sốc, màng phủ, composite": "Export trays, bio-packaging, shock-absorbent sheets, mulch film, composites"
+  , "Thay thế vật liệu không bền vững": "Replace unsustainable materials"
+  , "Vỏ, đầu và phụ phẩm cơ thể thủy sản": "Shells, heads and aquatic body by-products"
+  , "Chitin/chitosan, compost và nguyên liệu sinh học": "Chitin/chitosan, compost and biological inputs"
+  , "Tận dụng dinh dưỡng, giảm chất thải": "Recover nutrients, reduce waste"
+  , "Sổ cái thanh toán phụ phẩm": "Biomass payment ledger"
+  , "Bên mua": "Buyer"
+  , "Giá bán lô": "Lot sale price"
+  , "Nông hộ nhận": "Farmer receives"
+  , "HTX giữ": "HTX keeps"
+  , "Nền tảng": "Platform"
+  , "Ứng trước": "Advance"
+  , "Bằng chứng thanh toán": "Payment evidence"
+  , "Buyer paid HTX": "Bên mua đã trả HTX"
+  , "Farmer paid": "Đã trả nông hộ"
+  , "Payment pending": "Chờ thanh toán"
+  , "Sold to buyer": "Đã bán cho bên mua"
+  , "Buyer payment received": "Đã nhận tiền từ bên mua"
+  , "Farmer payout completed": "Đã chi trả cho nông hộ"
 };
 
 Object.entries(LANGUAGE_FIXES).forEach(([en, vi]) => {
@@ -5013,10 +5244,16 @@ function t(text) {
   if (lang !== 'vi') return text;
   // API responses often combine labels (for example "partner · due 24/06") into one text node.
   // Translate known fragments as a fallback so asynchronous content follows the selected language too.
+  // IMPORTANT: only replace whole-word matches (word-boundary safe). Naive substring replacement
+  // previously mangled words like "forestry" -> "forest" + "ry" -> "rừng" + "ry" = "rừngry".
   const fragments = [...new Map(Object.values(COPY_INDEX).map(entry => [entry.en, entry])).values()];
   return fragments
     .sort((a, b) => b.en.length - a.en.length)
-    .reduce((translated, entry) => translated.split(entry.en).join(entry.vi), String(text));
+    .reduce((translated, entry) => {
+      const escaped = entry.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const pattern = new RegExp(`(^|[^\\p{L}\\p{N}])${escaped}($|[^\\p{L}\\p{N}])`, 'gu');
+      return translated.replace(pattern, (match, before, after) => `${before}${entry.vi}${after}`);
+    }, String(text));
 }
 
 function keepEdgeSpace(original, nextText) {
@@ -5245,7 +5482,7 @@ async function startSampleFlow() {
     setBusy(btn, true, 'Đang mở demo...');
     const data = await apiFetch('/api/auth/demo', { method: 'POST', body: JSON.stringify({}) });
     GL_TOKEN = data.token;
-    try { localStorage.setItem('gl_token', GL_TOKEN); localStorage.removeItem('gl_onboarding'); } catch (e) {}
+    try { localStorage.setItem('gl_token', GL_TOKEN); localStorage.setItem('gl_sample_flow', '1'); localStorage.removeItem('gl_onboarding'); } catch (e) {}
     updateUserUI(data.user);
     document.body.classList.add('demo-mode');
     toast('Đã mở flow có dữ liệu sẵn');
@@ -5258,7 +5495,7 @@ async function startSampleFlow() {
 }
 
 function startBlankFlow() {
-  try { localStorage.removeItem('gl_token'); localStorage.setItem('gl_onboarding', '1'); } catch (e) {}
+  try { localStorage.removeItem('gl_token'); localStorage.removeItem('gl_sample_flow'); localStorage.setItem('gl_onboarding', '1'); } catch (e) {}
   GL_TOKEN = null;
   isAuthed = false;
   currentUser = null;
@@ -5270,7 +5507,7 @@ function startBlankFlow() {
 async function skipAuth() {
   GL_TOKEN = null;
   isAuthed = false;
-  try { localStorage.removeItem('gl_token'); } catch (e) {}
+  try { localStorage.removeItem('gl_token'); localStorage.removeItem('gl_sample_flow'); } catch (e) {}
   document.body.classList.remove('demo-mode');
   switchAuth('register');
   toast('Create a real account to start from an empty workspace');
@@ -5314,7 +5551,7 @@ function nav(page) {
         : t('Hello Mr. Thanh - Winter-Spring aquaculture season');
   const titles = {
     dashboard: [t('Home'), dashSub],
-    ecosystem: ['Ecosystem Engine', 'Configure rice, aquaculture and melaleuca systems by ecological zone'],
+    ecosystem: [t('Ecosystem Engine'), t('Configure rice, aquaculture and melaleuca systems by ecological zone')],
     collection: [t('Book a pickup'), t('Schedule HTX truck to collect your straw')],
     salinity: [t('Soil & water check'), t('Track water salinity and soil indicators for installed fields')],
     passport: [t('My Carbon Record'), t('Your earnings history & green credentials')],
@@ -5328,6 +5565,7 @@ function nav(page) {
   }
   if (page === 'operations') renderOperations();
   if (page === 'ecosystem') renderEcosystem();
+  if (page === 'collection') resizeHubNetworkMap();
 }
 
 let ecosystemCatalog = null;
@@ -5361,11 +5599,11 @@ async function renderEcosystem() {
     if (forest) forest.value = current.melaleuca_ha;
     const selectedZone = catalog.zones.find(x => x.id === current.zone_code) || catalog.zones[0];
     const selectedSpecies = catalog.species.find(x => x.id === current.aquatic_system) || catalog.species[0];
-    if (recommendation) recommendation.innerHTML = `<div class="ops-name">${escapeHtml(selectedZone.model)}</div><div class="ops-meta" style="margin-top:7px">Độ mặn phù hợp: ${escapeHtml(selectedZone.salinity)}. Loài đang chọn: ${escapeHtml(selectedSpecies.name)}.</div><div class="ops-meta" style="margin-top:7px">Thực hành khuyến nghị: giảm hóa chất, theo dõi pH - độ mặn - DO, và ghi nhận toàn bộ dòng sinh khối.</div>`;
+    if (recommendation) recommendation.innerHTML = `<div class="ops-name">${escapeHtml(selectedZone.model)}</div><div class="ops-meta" style="margin-top:7px">${escapeHtml(t('Suitable salinity:'))} ${escapeHtml(selectedZone.salinity)}. ${escapeHtml(t('Selected species:'))} ${escapeHtml(selectedSpecies.name)}.</div><div class="ops-meta" style="margin-top:7px">${escapeHtml(t('Recommended practice: reduce chemical use, monitor pH - salinity - DO, and log the full biomass stream.'))}</div>`;
     const detail = document.getElementById('ecoSpeciesDetail');
-    if (detail) detail.innerHTML = `<div class="ops-name">${escapeHtml(selectedSpecies.name)}</div><div class="ops-meta" style="margin-top:7px">Phụ phẩm: ${escapeHtml(selectedSpecies.residue)}</div><div class="ops-meta" style="margin-top:7px">${escapeHtml(selectedSpecies.note)}</div>`;
+    if (detail) detail.innerHTML = `<div class="ops-name">${escapeHtml(selectedSpecies.name)}</div><div class="ops-meta" style="margin-top:7px">${escapeHtml(t('By-product:'))} ${escapeHtml(selectedSpecies.residue)}</div><div class="ops-meta" style="margin-top:7px">${escapeHtml(selectedSpecies.note)}</div>`;
     const refinery = document.getElementById('ecoRefinery');
-    if (refinery) refinery.innerHTML = catalog.refinery.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.process)}</div><div class="ops-meta">Đầu vào: ${escapeHtml(x.input)}<br>Đầu ra: ${escapeHtml(x.output)}<br>Giá trị: ${escapeHtml(x.value)}</div></div><span class="ops-status">biomass</span></div>`).join('');
+    if (refinery) refinery.innerHTML = catalog.refinery.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(t(x.process))}</div><div class="ops-meta">${escapeHtml(t('Input:'))} ${escapeHtml(t(x.input))}<br>${escapeHtml(t('Output:'))} ${escapeHtml(t(x.output))}<br>${escapeHtml(t('Value:'))} ${escapeHtml(t(x.value))}</div></div><span class="ops-status">biomass</span></div>`).join('');
     const environmentTarget = document.getElementById('ecoEnvironment');
     if (environmentTarget) environmentTarget.innerHTML = environment.data.length ? environment.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.metric.replace('_',' '))}: ${Number(x.value).toFixed(1)} ${escapeHtml(x.unit)}</div><div class="ops-meta">${escapeHtml(x.station)} · ${formatDate(x.sampled_at)}</div></div><span class="ops-status ${x.alert ? 'warn' : ''}">${x.alert ? 'alert' : 'normal'}</span></div>`).join('') : `<div class="gl-empty">No environmental measurements yet.</div>`;
     const soilTarget = document.getElementById('ecoSoil');
@@ -5389,7 +5627,7 @@ function applyEcosystemPreset(preset) {
     if (forest) forest.value = 0.4;
     toast('Preset applied: rice + aquaculture');
   } else {
-    if (zone) zone.value = 'saline_forest';
+    if (zone) zone.value = 'saline_stable';
     if (species) species.value = 'shrimp';
     if (forest) forest.value = 1.5;
     toast('Preset applied: melaleuca wetland');
@@ -5664,7 +5902,6 @@ function renderCircularFlow(payload = {}) {
 
 function renderOperationsDemoFallback() {
   const demo = circularDemoPayload();
-  renderCircularFlow(demo);
   const ov = document.getElementById('opsKpis');
   if (ov) ov.innerHTML = [[demo.residues.length,'Biomass batches'],[3,'Open tasks'],[demo.routes.length,'Live routes'],[demo.certificates.length,'MRV checks']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
   const tasks = [
@@ -5688,6 +5925,10 @@ function renderOperationsDemoFallback() {
 
 async function renderOperations() {
   try {
+    if (isSampleDataMode() && currentUser?.role !== 'buyer') {
+      renderOperationsDemoFallback();
+      return;
+    }
     if (currentUser?.role === 'buyer') {
       const [products, offers, compliance, residues, certificates, fieldApps, pathways, iot] = await Promise.all([
         apiFetch('/api/platform/products'), apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/compliance'),
@@ -5697,7 +5938,6 @@ async function renderOperations() {
         apiFetch('/api/circular/conversion-pathways').catch(() => ({data:[]})),
         apiFetch('/api/platform/iot/live').catch(() => ({salinity:[],environment:[]}))
       ]);
-      renderCircularFlow({ products: products.data, offers: offers.data, compliance: compliance.checks, residues: residues.data, certificates: certificates.data, fieldApps: fieldApps.data, pathways: pathways.data, iot });
       const buyerKpis = document.getElementById('opsKpis');
       if (buyerKpis) buyerKpis.innerHTML = [[offers.data.length,'Open credit offers'],[products.data.length,'Traceable outputs'],['VM0044','MRV framework'],['70 / 20 / 10','Revenue split']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
       ['opsTasks','opsRoutes','opsPartners','opsIot'].forEach(id => opRows(id, [], () => '', 'This operational data is restricted to HTX, partners and administrators.'));
@@ -5715,7 +5955,14 @@ async function renderOperations() {
       apiFetch('/api/circular/field-applications').catch(() => ({data:[]})),
       apiFetch('/api/circular/conversion-pathways').catch(() => ({data:[]}))
     ]);
-    renderCircularFlow({ products: products.data, residues: residues.data, certificates: certificates.data, fieldApps: fieldApps.data, partners: partners.data, pathways: pathways.data, iot, routes: routes.data, offers: offers.data });
+    const hasOpsData = [tasks.data, routes.data, products.data, partners.data, offers.data, residues.data, certificates.data, fieldApps.data, pathways.data]
+      .some(list => Array.isArray(list) && list.length) ||
+      (Array.isArray(iot.salinity) && iot.salinity.length) ||
+      (Array.isArray(iot.environment) && iot.environment.length);
+    if (!hasOpsData) {
+      renderOperationsDemoFallback();
+      return;
+    }
     const ov = document.getElementById('opsKpis');
     if (ov) ov.innerHTML = [
       [overview.batches.count, 'Biomass batches'],
@@ -5825,6 +6072,27 @@ function setHighlandStream(stream = 'forest') {
   activeHighlandStream = stream;
   syncRegionUI('highland', true);
   setSeason('forest');
+}
+
+function isSampleDataMode() {
+  try {
+    if (localStorage.getItem('gl_sample_flow') === '1') return true;
+  } catch (e) {}
+  return document.body.classList.contains('demo-mode') ||
+    currentUser?.id === 'user-demo-ready-001' ||
+    currentUser?.phone === '0901234567';
+}
+
+function demoDashboardSnapshot() {
+  return {
+    revenueVnd: 470000,
+    pendingVnd: 470000,
+    waitingKg: 850,
+    daysToHarvest: 32,
+    pickupCount: 1,
+    carbonCount: 1,
+    monthly: [0, 0, 1250, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  };
 }
 
 function earningsSummaryHtml(amountVnd = 0, pickupCount = 0, carbonCount = 0) {
@@ -6101,6 +6369,7 @@ let farmSensorMarker = null;
 let farmMapTileLayers = null;
 let farmPlotLayers = {};
 let hubNetworkMap = null;
+let hubNetworkResizeObserver = null;
 
 function getFieldOpsState() {
   try {
@@ -6188,16 +6457,33 @@ function addFastMapTiles(map) {
 
 function addHubFastTiles(map) {
   if (!window.L || !map) return null;
-  const layer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  const primary = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     minZoom: 6,
-    crossOrigin: true,
-    updateWhenIdle: false,
+    updateWhenIdle: true,
     updateWhenZooming: false,
-    keepBuffer: 1,
+    keepBuffer: 2,
+    opacity: 0.82,
     attribution: '&copy; OpenStreetMap'
   }).addTo(map);
-  return { layer };
+
+  let fallback = null;
+  let tileErrors = 0;
+  primary.on('tileerror', () => {
+    tileErrors += 1;
+    if (tileErrors < 3 || fallback) return;
+    fallback = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 18,
+      minZoom: 6,
+      updateWhenIdle: true,
+      keepBuffer: 2,
+      opacity: 0.88,
+      attribution: '&copy; CARTO'
+    }).addTo(map);
+    if (map.hasLayer(primary)) map.removeLayer(primary);
+  });
+
+  return { layer: primary, fallback: () => fallback };
 }
 
 function useFastFarmMap() {
@@ -6246,9 +6532,23 @@ function stabilizeLeafletMap(map) {
   [80, 260, 700, 1400].forEach(delay => setTimeout(() => map?.invalidateSize?.(), delay));
 }
 
+function resizeHubNetworkMap() {
+  if (!hubNetworkMap) return;
+  const resize = () => {
+    hubNetworkMap?.invalidateSize?.(false);
+    if (hubNetworkMap?._hubBounds) hubNetworkMap.fitBounds(hubNetworkMap._hubBounds, { padding: [34, 34], maxZoom: 8 });
+  };
+  window.requestAnimationFrame(resize);
+  [120, 360, 900].forEach(delay => window.setTimeout(resize, delay));
+}
+
 function initHubNetworkMap() {
   const el = document.getElementById('hubLeafletMap');
   if (!el || !window.L) return;
+  if (hubNetworkResizeObserver) {
+    hubNetworkResizeObserver.disconnect();
+    hubNetworkResizeObserver = null;
+  }
   if (hubNetworkMap) {
     hubNetworkMap.remove();
     hubNetworkMap = null;
@@ -6267,8 +6567,17 @@ function initHubNetworkMap() {
     zoomAnimation: false,
     markerZoomAnimation: false
   }).setView([9.45, 105.55], 8);
+  hubNetworkMap.invalidateSize(false);
   addHubFastTiles(hubNetworkMap);
   const center = hubs[0];
+  const hubLayers = L.layerGroup().addTo(hubNetworkMap);
+  const routeLayers = L.layerGroup().addTo(hubNetworkMap);
+  const bounds = L.latLngBounds(hubs.map(h => [h.lat, h.lng]));
+  hubNetworkMap._hubBounds = bounds;
+  const fitHubBounds = () => {
+    hubNetworkMap?.invalidateSize?.(false);
+    hubNetworkMap?.fitBounds?.(bounds, { padding: [34, 34], maxZoom: 8 });
+  };
   const bearing = (from, to) => {
     const y = Math.sin((to.lng - from.lng) * Math.PI / 180) * Math.cos(to.lat * Math.PI / 180);
     const x = Math.cos(from.lat * Math.PI / 180) * Math.sin(to.lat * Math.PI / 180) -
@@ -6284,7 +6593,7 @@ function initHubNetworkMap() {
       fillColor: color,
       fillOpacity: 0.12,
       opacity: 0.65
-    }).addTo(hubNetworkMap);
+    }).addTo(hubLayers);
     L.circleMarker([hub.lat, hub.lng], {
       radius: hub.state === 'overload' ? 11 : 9,
       color: '#ffffff',
@@ -6292,7 +6601,7 @@ function initHubNetworkMap() {
       fillColor: color,
       fillOpacity: 1,
       pane: 'markerPane'
-    }).addTo(hubNetworkMap)
+    }).addTo(hubLayers)
       .bindPopup(`<strong>${escapeHtml(hub.name)}</strong><br>Công suất ${hub.load}%<br>${escapeHtml(hub.status)}`);
     L.marker([hub.lat, hub.lng], {
       icon: L.divIcon({
@@ -6302,14 +6611,14 @@ function initHubNetworkMap() {
         iconAnchor: [-8, 24]
       }),
       interactive: false
-    }).addTo(hubNetworkMap);
+    }).addTo(hubLayers);
     if (hub !== center) {
       L.polyline([[hub.lat, hub.lng], [center.lat, center.lng]], {
         color,
         weight: hub.state === 'overload' ? 4.5 : 3.5,
         opacity: 0.92,
         dashArray: '8 8'
-      }).addTo(hubNetworkMap);
+      }).addTo(routeLayers);
       const mid = [(hub.lat + center.lat) / 2, (hub.lng + center.lng) / 2];
       const angle = bearing(hub, center) - 90;
       L.marker(mid, {
@@ -6320,10 +6629,15 @@ function initHubNetworkMap() {
           iconAnchor: [9, 9]
         }),
         interactive: false
-      }).addTo(hubNetworkMap);
+      }).addTo(routeLayers);
     }
   });
-  hubNetworkMap.setView([9.36, 105.55], 8);
+  fitHubBounds();
+  if ('ResizeObserver' in window) {
+    hubNetworkResizeObserver = new ResizeObserver(() => resizeHubNetworkMap());
+    hubNetworkResizeObserver.observe(el.parentElement || el);
+  }
+  [0, 120, 360, 900, 1600].forEach(delay => window.setTimeout(fitHubBounds, delay));
   stabilizeLeafletMap(hubNetworkMap);
 }
 
@@ -6339,7 +6653,7 @@ function setPlotDraftFromPolygon(latLngs) {
   if (lat && center) lat.value = center.lat.toFixed(6);
   if (lng && center) lng.value = center.lng.toFixed(6);
   const info = document.getElementById('plotMapInfo');
-  if (info) info.innerHTML = `<strong>${formatPlotArea(areaHa)} ha</strong><br><span>đa giác đang chọn</span>`;
+  if (info) info.innerHTML = `<strong>${formatPlotArea(areaHa)} ha</strong><br><span>${escapeHtml(t('đa giác đang chọn'))}</span>`;
 }
 
 function initFarmPolygonMap(plots = [], selected = []) {
@@ -6387,7 +6701,7 @@ async function renderFieldOps() {
   const body = document.getElementById('fieldCardBody');
   if (!body) return;
   const state = getFieldOpsState();
-  if (title) title.textContent = 'Khu vực canh tác của tôi';
+  if (title) title.textContent = t('Khu vực canh tác của tôi');
   body.className = '';
   try {
     const [plotsRes, requestsRes] = await Promise.all([
@@ -6400,20 +6714,20 @@ async function renderFieldOps() {
     const pending = requests.some(x => x.status === 'pending' || x.status === 'approved');
     if (badge) {
       badge.className = installed ? 'badge bg' : pending ? 'badge ba' : 'badge bw';
-      badge.textContent = installed ? 'Đã lắp IoT' : pending ? 'Đang chờ duyệt' : 'Chưa có yêu cầu';
+      badge.textContent = installed ? t('Đã lắp IoT') : pending ? t('Đang chờ duyệt') : t('Chưa có yêu cầu');
     }
     const selected = Array.isArray(state.selectedPlots) ? state.selectedPlots : [];
     const activePlotId = selected[0] || requests.find(x => x.status === 'installed')?.plot_id || '';
     const telemetry = installed ? (getPlotTelemetry(activePlotId) || state.telemetry || null) : null;
     const metrics = telemetry ? [
-      fieldMetricRow('Độ ẩm đất', `${telemetry.moisture}%`, telemetry.moisture, 'a'),
-      fieldMetricRow('Độ mặn nước', `${telemetry.salinity} g/L`, Math.min((Number(telemetry.salinity || 0) / 6) * 100, 100), 'g'),
+      fieldMetricRow(t('Độ ẩm đất'), `${telemetry.moisture}%`, telemetry.moisture, 'a'),
+      fieldMetricRow(t('Độ mặn nước'), `${telemetry.salinity} g/L`, Math.min((Number(telemetry.salinity || 0) / 6) * 100, 100), 'g'),
       fieldMetricRow('pH', `${telemetry.ph}`, Math.min((Number(telemetry.ph || 0) / 10) * 100, 100), 'e')
-    ].join('') : `<div class="gl-empty">Chưa có dữ liệu IoT.</div>`;
+    ].join('') : `<div class="gl-empty">${escapeHtml(t('Chưa có dữ liệu IoT.'))}</div>`;
     const plotCards = plots.map(plot => {
       const req = requests.find(x => x.plot_id === plot.id);
       const checked = selected.includes(plot.id) ? 'checked' : '';
-      const status = req ? ({ pending:'Chờ duyệt', approved:'Đã duyệt', installed:'Đã lắp', rejected:'Từ chối' }[req.status] || req.status) : 'Chưa gửi';
+      const status = req ? ({ pending:t('Chờ duyệt'), approved:t('Đã duyệt'), installed:t('Đã lắp'), rejected:t('Từ chối') }[req.status] || t(req.status)) : t('Chưa gửi');
       const color = req?.status === 'installed' ? 'bg' : req?.status === 'approved' ? 'ba' : req?.status === 'pending' ? 'bw' : req?.status === 'rejected' ? 'bd' : 'bw';
       return `<label data-plot-card data-plot-search="${escapeHtml(`${plot.name} ${plot.province || ''}`)}" style="display:block;border:1px solid var(--borderl);border-radius:8px;background:var(--bg);padding:10px;cursor:pointer">
         <div style="display:flex;align-items:center;gap:9px;justify-content:space-between">
@@ -6421,43 +6735,46 @@ async function renderFieldOps() {
           <span class="badge ${color}">${escapeHtml(status)}</span>
         </div>
         <div style="font-size:11px;color:var(--tm);margin-top:6px">${Number(plot.area_ha || 0).toLocaleString('vi-VN')} ha · ${escapeHtml(plot.province || '')}${plot.lat && plot.lng ? ` · ${Number(plot.lat).toFixed(5)}, ${Number(plot.lng).toFixed(5)}` : ''}</div>
-        <div style="margin-top:8px"><button class="gl-mini-btn" type="button" onclick="event.preventDefault();event.stopPropagation();focusFarmPlot('${escapeHtml(plot.id)}')">Tới ruộng</button></div>
+        <div style="margin-top:8px"><button class="gl-mini-btn" type="button" onclick="event.preventDefault();event.stopPropagation();focusFarmPlot('${escapeHtml(plot.id)}')">${escapeHtml(t('Tới ruộng'))}</button></div>
       </label>`;
     }).join('');
     body.innerHTML = `
       <div class="field-ops-layout" style="display:grid;grid-template-columns:1.05fr .95fr;gap:14px;align-items:stretch">
         <div class="farm-map-wrap">
           <div id="farmPolygonMap"></div>
-          <div class="farm-map-badge" id="plotMapInfo"><strong>${plots.length}</strong><br><span>mảnh ruộng đã định vị</span></div>
+          <div class="farm-map-badge" id="plotMapInfo"><strong>${plots.length}</strong><br><span>${escapeHtml(t('mảnh ruộng đã định vị'))}</span></div>
           <div style="position:absolute;right:12px;top:12px;z-index:450;display:flex;gap:6px">
-            <button class="gl-mini-btn" type="button" onclick="useSatelliteFarmMap()">Vệ tinh</button>
-            <button class="gl-mini-btn" type="button" onclick="useFastFarmMap()">Bản đồ nhanh</button>
+            <button class="gl-mini-btn" type="button" onclick="useSatelliteFarmMap()">${escapeHtml(t('Vệ tinh'))}</button>
+            <button class="gl-mini-btn" type="button" onclick="useFastFarmMap()">${escapeHtml(t('Bản đồ nhanh'))}</button>
           </div>
         </div>
         <div style="position:relative;min-height:260px;border:1px solid var(--borderl);border-radius:8px;background:linear-gradient(135deg,rgba(76,175,80,.10),rgba(38,166,154,.08)),repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 44px),repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 44px);overflow:hidden">
           ${plots.map((plot, i) => `<div style="position:absolute;left:${8 + (i % 3) * 24}%;top:${14 + (i % 2) * 34}%;width:${22 + (i % 2) * 8}%;height:26%;border:2px solid ${selected.includes(plot.id) ? 'var(--leaf)' : 'rgba(128,203,196,.55)'};border-radius:12px;background:rgba(76,175,80,.10)"></div>`).join('')}
           <div style="position:absolute;left:18%;top:42%;width:16px;height:16px;border-radius:50%;background:var(--lb);box-shadow:0 0 0 8px rgba(163,217,106,.18)"></div>
           <div style="position:absolute;left:14px;bottom:14px;padding:8px 10px;border-radius:8px;background:rgba(7,17,12,.74);border:1px solid rgba(163,217,106,.25);font-size:11px;color:#dff5dc">
-            <strong>${plots.length}</strong><br><span>mảnh ruộng đã định vị</span>
+             <strong>${plots.length}</strong><br><span>${escapeHtml(t('mảnh ruộng đã định vị'))}</span>
           </div>
         </div>
         <div style="display:grid;gap:10px">
           <div style="border:1px solid var(--borderl);border-radius:8px;background:var(--bg);padding:12px">
-            <div style="font-size:12px;font-weight:800;color:var(--tp);margin-bottom:6px">Thửa ruộng đã xác minh</div>
-            <div style="font-size:12px;color:var(--ts);line-height:1.6">Nông hộ liên hệ GreenLoop/HTX để xác định ranh giới ruộng và lắp IoT trước. Sau khi duyệt xong, app chỉ hiển thị thửa ruộng đã xác minh và chỉ số cảm biến tương ứng.</div>
+            <div style="font-size:12px;font-weight:800;color:var(--tp);margin-bottom:6px">${escapeHtml(t('Thửa ruộng đã xác minh'))}</div>
+            <div style="font-size:12px;color:var(--ts);line-height:1.6">${escapeHtml(t('Nông hộ liên hệ GreenLoop/HTX để xác định ranh giới ruộng và lắp IoT trước. Sau khi duyệt xong, app chỉ hiển thị thửa ruộng đã xác minh và chỉ số cảm biến tương ứng.'))}</div>
+            <div style="font-size:11px;color:var(--tm);line-height:1.55;margin-top:8px">${escapeHtml(t('HTX đầu tư cảm biến theo cụm; nông hộ dùng chung qua voucher hoặc trợ giá, không phải tự mua thiết bị.'))} ${sourcePill('pilot')}</div>
+            <div style="font-size:11px;color:var(--tm);line-height:1.55;margin-top:4px">${escapeHtml(t('NDVI vệ tinh — giai đoạn pilot, chưa tích hợp.'))} ${sourcePill('pilot')}</div>
           </div>
-          <div style="display:grid;gap:8px">${plotCards || `<div class="gl-empty">Chưa có mảnh ruộng.</div>`}</div>
-          <div class="fg"><label class="fl" for="plotSearch">Tìm mảnh ruộng</label><input class="ci" id="plotSearch" placeholder="Nhập tên hoặc tỉnh" oninput="filterFarmPlots()"></div>
+          <div style="display:grid;gap:8px">${plotCards || `<div class="gl-empty">${escapeHtml(t('Chưa có mảnh ruộng.'))}</div>`}</div>
+          <div class="fg"><label class="fl" for="plotSearch">${escapeHtml(t('Tìm mảnh ruộng'))}</label><input class="ci" id="plotSearch" placeholder="${escapeHtml(t('Nhập tên hoặc tỉnh'))}" oninput="filterFarmPlots()"></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-o" type="button" onclick="simulateIotInstalled()">Mô phỏng chỉ số IoT</button>
+            <button class="btn btn-o" type="button" onclick="simulateIotInstalled()">${escapeHtml(t('Mô phỏng chỉ số IoT'))}</button>
           </div>
+          <div style="font-size:11px;color:var(--tm);font-weight:800">${escapeHtml(t('Chỉ số IoT theo thửa'))} ${sourcePill('sim')}</div>
           <div id="fieldMetrics" style="display:grid;gap:8px">${metrics}</div>
         </div>
       </div>`;
     initFarmPolygonMap(plots, selected);
   } catch (err) {
-    if (badge) badge.textContent = 'Không tải được';
-    body.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Không tải được khu vực canh tác.'))}</div>`;
+    if (badge) badge.textContent = t('Không tải được');
+    body.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, t('Không tải được khu vực canh tác.')))}</div>`;
   }
 }
 
@@ -6516,20 +6833,6 @@ async function requestIotInstall() {
     renderFieldOps();
     toast('Đã gửi yêu cầu lắp IoT');
   } catch (err) { toast(friendlyError(err, 'Không gửi được yêu cầu IoT')); }
-}
-
-async function simulateIotInstalled() {
-  const requests = await apiFetch('/api/platform/iot/install-requests').catch(() => ({ data: [] }));
-  if (!requests.data.some(x => x.status === 'installed')) return toast('Admin cần đánh dấu đã lắp IoT');
-  const context = await apiFetch('/api/platform/water/context?province=' + encodeURIComponent(currentUser?.province || 'ca-mau')).catch(() => null);
-  const rain = Number(context?.summary?.total_rain_mm || 0);
-  const temp = Number(context?.summary?.avg_temperature_c || 28);
-  const moisture = Math.max(35, Math.min(92, Math.round(48 + rain * 0.55)));
-  const salinityValue = Number(Math.max(0.4, Math.min(5.8, 3.2 - rain * 0.03 + (temp - 28) * 0.08)).toFixed(1));
-  const ph = Number(Math.max(5.8, Math.min(8.3, 6.6 + (rain > 30 ? 0.2 : 0))).toFixed(1));
-  setFieldOpsState({ telemetry: { moisture, salinity: salinityValue, ph } });
-  renderFieldOps();
-  toast('Đã mô phỏng chỉ số IoT');
 }
 
 async function simulateIotInstalled() {
@@ -6670,20 +6973,39 @@ function calc() {
 
 async function renderDashboardData() {
   try {
+    renderDecisionMoment();
     const [carbon, pickups] = await Promise.all([
       apiFetch('/api/carbon/summary').catch(() => null),
       apiFetch('/api/pickups?limit=100').catch(() => ({ data: [] }))
     ]);
     const records = Array.isArray(pickups.data) ? pickups.data : [];
     const processedKg = records.filter(x => x.status === 'processed').reduce((sum, x) => sum + Number(x.quantity_kg || 0), 0);
-    const waitingKg = records.filter(x => ['pending','confirmed','collected'].includes(x.status)).reduce((sum, x) => sum + Number(x.quantity_kg || 0), 0);
-    const pendingPayment = Number(carbon?.total_revenue_usd || 0) * 25000;
+    let waitingKg = records.filter(x => ['pending','confirmed','collected'].includes(x.status)).reduce((sum, x) => sum + Number(x.quantity_kg || 0), 0);
+    const biomassPayout = records.reduce((sum, x) => sum + (['buyer_paid','farmer_paid'].includes(x.payment_status) ? pickupFarmerNet(x) : 0), 0);
+    let pendingPayment = biomassPayout + Number(carbon?.total_revenue_usd || 0) * 25000;
+    let pickupCount = records.length;
+    let carbonCount = Number(carbon?.record_count || 0);
+    let daysToHarvest = 0;
+    const demoSnapshot = isSampleDataMode() ? demoDashboardSnapshot() : null;
+    if (demoSnapshot) {
+      pendingPayment = pendingPayment || demoSnapshot.pendingVnd;
+      waitingKg = waitingKg || demoSnapshot.waitingKg;
+      pickupCount = pickupCount || demoSnapshot.pickupCount;
+      carbonCount = carbonCount || demoSnapshot.carbonCount;
+      daysToHarvest = demoSnapshot.daysToHarvest;
+    }
     const vals = document.querySelectorAll('#p-dashboard .sc-val');
     if (vals[0]) vals[0].textContent = `${Math.round(pendingPayment).toLocaleString('vi-VN')} VND`;
     if (vals[1]) vals[1].textContent = `${Math.round(pendingPayment).toLocaleString('vi-VN')} VND`;
     if (vals[2]) vals[2].textContent = `${Math.round(waitingKg).toLocaleString('vi-VN')} kg`;
-    if (vals[3]) vals[3].innerHTML = `<span>0</span> <span data-i18n>days</span>`;
-    window.greenloopMonthlyCollections = Array(12).fill(0);
+    if (vals[3]) vals[3].innerHTML = `<span>${daysToHarvest}</span> <span data-i18n>days</span>`;
+    const dashLabels = document.querySelectorAll('#p-dashboard .sc-lab');
+    const dashSource = isSampleDataMode() ? sourcePill('sim') : sourcePill('pilot');
+    if (dashLabels[0]) dashLabels[0].innerHTML = `${escapeHtml(t('Earned this month (VND)'))} ${dashSource}`;
+    if (dashLabels[1]) dashLabels[1].innerHTML = `${escapeHtml(t('Pending payment (VND)'))} ${dashSource}`;
+    if (dashLabels[2]) dashLabels[2].innerHTML = `${escapeHtml(t('Straw waiting for pickup'))} ${dashSource}`;
+    if (dashLabels[3]) dashLabels[3].innerHTML = `${escapeHtml(t('Until next harvest'))} ${dashSource}`;
+    window.greenloopMonthlyCollections = demoSnapshot && !records.length ? [...demoSnapshot.monthly] : Array(12).fill(0);
     records.forEach(x => {
       const date = new Date(x.scheduled_at || x.created_at || Date.now());
       const month = Number.isFinite(date.getMonth()) ? date.getMonth() : 0;
@@ -6691,19 +7013,53 @@ async function renderDashboardData() {
     });
     renderMiniChart();
     const summary = document.getElementById('earningsSummary');
-    if (summary) summary.innerHTML = earningsSummaryHtml(pendingPayment, records.length, Number(carbon?.record_count || 0));
+    if (summary) summary.innerHTML = earningsSummaryHtml(pendingPayment, pickupCount, carbonCount);
+    const trendLabels = document.querySelectorAll('#p-dashboard .sc .trend span');
+    if (trendLabels[0]) trendLabels[0].textContent = lang === 'vi' ? `${carbonCount} hồ sơ` : `${carbonCount} ${carbonCount === 1 ? 'record' : 'records'}`;
+    if (trendLabels[1]) trendLabels[1].textContent = lang === 'vi' ? `${pickupCount} lô` : `${pickupCount} ${pickupCount === 1 ? 'batch' : 'batches'}`;
     const phaseTitle = document.getElementById('phaseTitle');
     const phaseDesc = document.getElementById('phaseDesc');
     if (phaseTitle && phaseDesc) {
-      phaseTitle.textContent = records.length ? t('Operating record started') : t('No farm cycle recorded yet');
-      phaseDesc.textContent = records.length
-        ? (lang === 'vi' ? `${records.length} lịch thu gom đã được đưa vào hồ sơ MRV.` : `${records.length} pickup record(s) are now part of your MRV trail.`)
+      phaseTitle.textContent = pickupCount ? t('Operating record started') : t('No farm cycle recorded yet');
+      phaseDesc.textContent = pickupCount
+        ? (lang === 'vi' ? `${pickupCount} lịch thu gom đã được đưa vào hồ sơ MRV.` : `${pickupCount} pickup record(s) are now part of your MRV trail.`)
         : t('Book your first biomass pickup to start the operating record.');
     }
   } catch {}
 }
 
 /* Đặt lịch thu gom */
+async function renderDecisionMoment() {
+  const target = document.getElementById('decisionMoment');
+  const badge = document.getElementById('decisionEngineBadgeSlot');
+  if (badge) badge.innerHTML = decisionEngineBadge();
+  if (!target) return;
+  try {
+    const advice = await getSeasonDecisionAdvice(currentUser?.province || 'ca-mau');
+    const value = Number(advice.avg_gpl_or_proxy_value || 0);
+    const sourceBadge = advice.data_basis === 'open_data_proxy' ? sourcePill('proxy') : sourcePill('sim');
+    const basis = Array.isArray(advice.sources) ? advice.sources.join(' · ') : '';
+    const title = lang === 'vi' ? 'Quyết định mùa vụ từ dữ liệu' : 'Data-backed season decision';
+    const valueLabel = lang === 'vi' ? `Độ mặn proxy ${value.toFixed(1)} g/L` : `Proxy salinity ${value.toFixed(1)} g/L`;
+    target.innerHTML = `
+      <div style="display:grid;grid-template-columns:minmax(160px,.8fr) auto minmax(220px,1.2fr);gap:14px;align-items:center">
+        <div style="border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:14px">
+          <div style="font-size:11px;color:var(--tm);font-weight:800;text-transform:uppercase">${escapeHtml(title)}</div>
+          <div style="font-size:30px;font-weight:900;color:var(--ad);line-height:1.1;margin-top:7px">${value.toFixed(1)} g/L</div>
+          <div style="font-size:12px;color:var(--ts);margin-top:5px">${escapeHtml(valueLabel)} ${sourceBadge}</div>
+        </div>
+        <div style="font-size:28px;font-weight:900;color:var(--lb)">→</div>
+        <div style="border:1px solid rgba(163,217,106,.22);background:linear-gradient(135deg,rgba(76,175,80,.10),rgba(38,166,154,.07));border-radius:8px;padding:14px">
+          <div style="font-size:12px;color:var(--tm);font-weight:800">${escapeHtml(advice.threshold_tier || '')} ${decisionEngineBadge()}</div>
+          <div style="font-size:20px;font-weight:900;color:var(--tp);line-height:1.35;margin-top:8px">${escapeHtml(advice.advice || '')}</div>
+          <div style="font-size:11px;color:var(--tm);line-height:1.5;margin-top:8px">${escapeHtml(basis)} · ${escapeHtml(advice.ml_roadmap || '')}</div>
+        </div>
+      </div>`;
+  } catch {
+    target.innerHTML = `<div class="gl-error">${escapeHtml(t('Không tải được khuyến nghị mùa vụ.'))}</div>`;
+  }
+}
+
 async function bookCollection() {
   const btn = window.event?.currentTarget;
   const type   = document.getElementById('bookBiomassType').value;
@@ -6777,6 +7133,7 @@ function resetBooking() {
 /* Lịch sử thu gom gần đây */
 async function renderCollections() {
   initHubNetworkMap();
+  document.querySelectorAll('[data-source-badge="sim"]').forEach(el => { el.textContent = lang === 'vi' ? 'Mô phỏng - chờ pilot cảm biến' : 'Simulated - sensor pilot pending'; });
   const stMap = { pending:'Pending', confirmed:'Confirmed', collected:'Processing', processed:'Completed', cancelled:'Cancelled' };
   const bcMap = { processed:'bg', confirmed:'bw', pending:'bw', collected:'bw', cancelled:'bd' };
   try {
@@ -6832,10 +7189,14 @@ function renderCollectionStats(data = []) {
   const completed = data.filter(x => x.status === 'processed' || x.status === 'collected').length;
   const tracked = data.filter(x => ['confirmed', 'collected', 'processed'].includes(x.status));
   const onTimeRate = tracked.length ? 100 : 0;
+  const paidSales = data.filter(x => ['buyer_paid', 'farmer_paid'].includes(x.payment_status));
+  const avgCost = paidSales.length
+    ? Math.round(paidSales.reduce((sum, x) => sum + (Number(x.sale_price_vnd) || 0), 0) / Math.max(1, paidSales.reduce((sum, x) => sum + (Number(x.quantity_kg) || 0), 0)) * 1000)
+    : 0;
   const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
   set('collectionKgThisMonth', Math.round(kg).toLocaleString('vi-VN'));
   set('collectionCompletedCount', completed.toLocaleString('vi-VN'));
-  set('collectionAvgCost', '0');
+  set('collectionAvgCost', avgCost ? avgCost.toLocaleString('vi-VN') : '0');
   set('collectionOnTimeRate', `${onTimeRate}%`);
 }
 
@@ -6871,6 +7232,25 @@ function labelBiomass(type) {
   const label = labels[type];
   if (label) return lang === 'vi' ? label.vi : label.en;
   return String(type || (lang === 'vi' ? 'Sinh khối' : 'Biomass')).replace(/_/g, ' ');
+}
+
+function moneyVnd(value) {
+  return `${Math.round(Number(value) || 0).toLocaleString('vi-VN')} VND`;
+}
+
+function pickupPaymentLabel(status) {
+  const labels = {
+    pending: { en:'Payment pending', vi:'Chờ thanh toán' },
+    sold_to_buyer: { en:'Sold to buyer', vi:'Đã bán cho bên mua' },
+    buyer_paid: { en:'Buyer paid HTX', vi:'Bên mua đã trả HTX' },
+    farmer_paid: { en:'Farmer paid', vi:'Đã trả nông hộ' }
+  };
+  const label = labels[status || 'pending'] || labels.pending;
+  return lang === 'vi' ? label.vi : label.en;
+}
+
+function pickupFarmerNet(pickup) {
+  return Math.max(0, Number(pickup?.farmer_share_vnd || 0) - Number(pickup?.advance_vnd || 0));
 }
 
 function renderPickupList(data) {
@@ -6909,6 +7289,8 @@ function renderPickupList(data) {
         <div class="pk-right">
           <span class="badge ${bcMap[c.status] || 'bw'}">${t(stMap[c.status] || c.status)}</span>
           <div class="pk-kg">${formatKg(c.biochar_yield_kg || Math.round((Number(c.quantity_kg) || 0) * .35))} biochar</div>
+          <div class="pk-kg">${escapeHtml(pickupPaymentLabel(c.payment_status))}</div>
+          ${Number(c.farmer_share_vnd || 0) ? `<div class="pk-kg">${moneyVnd(pickupFarmerNet(c))}</div>` : ''}
         </div>
       </div>`;
   }).join('');
@@ -6919,24 +7301,45 @@ async function loadPickupDetail(id) {
   const body = document.getElementById('pickupDetailBody');
   if (!box || !body) return;
   box.style.display = 'block';
-  body.innerHTML = '<div class="gl-empty">Đang tải chi tiết...</div>';
+  body.innerHTML = `<div class="gl-empty">${escapeHtml(t('Đang tải chi tiết...'))}</div>`;
   try {
     const { data } = await apiFetch('/api/pickups/' + encodeURIComponent(id));
+    const canManagePayment = currentUser && ['htx','admin'].includes(currentUser.role);
+    const paymentActionHtml = canManagePayment ? `
+      <div class="gl-row-actions" style="margin-top:12px">
+        <button class="gl-mini-btn" type="button" onclick="markPickupBuyerPaid('${escapeHtml(data.id)}')">${escapeHtml(t('Buyer paid HTX'))}</button>
+        <button class="gl-mini-btn" type="button" onclick="markPickupFarmerPaid('${escapeHtml(data.id)}')">${escapeHtml(t('Farmer paid'))}</button>
+      </div>` : '';
     body.innerHTML = `
       <div class="gl-detail-grid">
-        <div class="gl-detail-cell"><div class="gl-detail-k">Loại</div><div class="gl-detail-v">${escapeHtml(labelBiomass(data.biomass_type))}</div></div>
-        <div class="gl-detail-cell"><div class="gl-detail-k">Trạng thái</div><div class="gl-detail-v">${escapeHtml(data.status)}</div></div>
-        <div class="gl-detail-cell"><div class="gl-detail-k">Khối lượng</div><div class="gl-detail-v">${formatKg(data.quantity_kg)}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('Loại'))}</div><div class="gl-detail-v">${escapeHtml(labelBiomass(data.biomass_type))}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('Trạng thái'))}</div><div class="gl-detail-v">${escapeHtml(t(data.status))}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('Khối lượng'))}</div><div class="gl-detail-v">${formatKg(data.quantity_kg)}</div></div>
         <div class="gl-detail-cell"><div class="gl-detail-k">Biochar</div><div class="gl-detail-v">${formatKg(data.biochar_yield_kg || Math.round((Number(data.quantity_kg) || 0) * .35))}</div></div>
-        <div class="gl-detail-cell"><div class="gl-detail-k">Ngày hẹn</div><div class="gl-detail-v">${formatDate(data.scheduled_at)}</div></div>
-        <div class="gl-detail-cell"><div class="gl-detail-k">HTX</div><div class="gl-detail-v">${escapeHtml(data.htx_code || 'Chưa gán')}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('Ngày hẹn'))}</div><div class="gl-detail-v">${formatDate(data.scheduled_at)}</div></div>
+        <div class="gl-detail-cell"><div class="gl-detail-k">HTX</div><div class="gl-detail-v">${escapeHtml(data.htx_code || t('Chưa gán'))}</div></div>
       </div>
-      <div class="pk-detail-row"><span class="pk-detail-label">Địa điểm</span><span class="pk-detail-val">${escapeHtml(data.location)}</span></div>
-      <div class="pk-detail-row"><span class="pk-detail-label">Ghi chú</span><span class="pk-detail-val">${escapeHtml(data.notes || 'Không có')}</span></div>
-      ${data.farmer_name ? `<div class="pk-detail-row"><span class="pk-detail-label">Nông hộ</span><span class="pk-detail-val">${escapeHtml(data.farmer_name)}</span></div>` : ''}
+      <div class="pk-detail-row"><span class="pk-detail-label">${escapeHtml(t('Địa điểm'))}</span><span class="pk-detail-val">${escapeHtml(data.location)}</span></div>
+      <div class="pk-detail-row"><span class="pk-detail-label">${escapeHtml(t('Ghi chú'))}</span><span class="pk-detail-val">${escapeHtml(data.notes || t('Không có'))}</span></div>
+      ${data.farmer_name ? `<div class="pk-detail-row"><span class="pk-detail-label">${escapeHtml(t('Nông hộ'))}</span><span class="pk-detail-val">${escapeHtml(data.farmer_name)}</span></div>` : ''}
+      <div class="card" style="margin-top:14px">
+        <div class="ch"><div class="ct">${escapeHtml(t('Sổ cái thanh toán phụ phẩm'))}</div><span class="badge ba">${escapeHtml(pickupPaymentLabel(data.payment_status))}</span></div>
+        <div class="cb">
+          <div class="gl-detail-grid">
+            <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('Bên mua'))}</div><div class="gl-detail-v">${escapeHtml(data.buyer_name || t('Chưa gán'))}</div></div>
+            <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('Giá bán lô'))}</div><div class="gl-detail-v">${moneyVnd(data.sale_price_vnd)}</div></div>
+            <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('Nông hộ nhận'))}</div><div class="gl-detail-v">${moneyVnd(pickupFarmerNet(data))}</div></div>
+            <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('HTX giữ'))}</div><div class="gl-detail-v">${moneyVnd(data.htx_share_vnd)}</div></div>
+            <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('Nền tảng'))}</div><div class="gl-detail-v">${moneyVnd(data.platform_share_vnd)}</div></div>
+            <div class="gl-detail-cell"><div class="gl-detail-k">${escapeHtml(t('Ứng trước'))}</div><div class="gl-detail-v">${moneyVnd(data.advance_vnd)}</div></div>
+          </div>
+          <div class="pk-detail-row"><span class="pk-detail-label">${escapeHtml(t('Bằng chứng thanh toán'))}</span><span class="pk-detail-val">${escapeHtml(data.payment_evidence_hash || t('Chưa có'))}</span></div>
+          ${paymentActionHtml}
+        </div>
+      </div>
     `;
   } catch (err) {
-    body.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, 'Không tải được chi tiết lịch thu gom'))}</div>`;
+    body.innerHTML = `<div class="gl-error">${escapeHtml(friendlyError(err, t('Không tải được chi tiết lịch thu gom')))}</div>`;
   }
 }
 
@@ -6976,6 +7379,41 @@ async function updatePickupStatus(id) {
   }
 }
 
+async function markPickupBuyerPaid(id) {
+  const sale = prompt(lang === 'vi' ? 'Giá bên mua trả cho HTX (VND):' : 'Buyer payment to HTX (VND):', '1800000');
+  if (!sale) return;
+  const buyer = prompt(lang === 'vi' ? 'Tên bên mua:' : 'Buyer name:', 'Mekong Biochar Buyer') || 'Mekong Biochar Buyer';
+  const advance = prompt(lang === 'vi' ? 'Số tiền đã ứng trước cho nông hộ (VND):' : 'Advance already paid to farmer (VND):', '0') || '0';
+  try {
+    await apiFetch('/api/pickups/' + encodeURIComponent(id) + '/payment', {
+      method: 'PATCH',
+      body: JSON.stringify({ action: 'buyer_paid', sale_price_vnd: Number(sale), buyer_name: buyer, advance_vnd: Number(advance) })
+    });
+    toast(lang === 'vi' ? 'Đã ghi nhận bên mua trả tiền cho HTX' : 'Buyer payment recorded');
+    await loadPickupDetail(id);
+    renderCollections();
+    renderNotifications();
+  } catch (err) {
+    toast(friendlyError(err, lang === 'vi' ? 'Không ghi được thanh toán' : 'Unable to record payment'));
+  }
+}
+
+async function markPickupFarmerPaid(id) {
+  if (!confirm(lang === 'vi' ? 'Xác nhận HTX đã trả phần tiền cho nông hộ?' : 'Confirm HTX paid the farmer payout?')) return;
+  try {
+    await apiFetch('/api/pickups/' + encodeURIComponent(id) + '/payment', {
+      method: 'PATCH',
+      body: JSON.stringify({ action: 'farmer_paid' })
+    });
+    toast(lang === 'vi' ? 'Đã đóng vòng thanh toán cho nông hộ' : 'Farmer payout completed');
+    await loadPickupDetail(id);
+    renderCollections();
+    renderNotifications();
+  } catch (err) {
+    toast(friendlyError(err, lang === 'vi' ? 'Không thể xác nhận chi trả' : 'Unable to confirm farmer payout'));
+  }
+}
+
 /* Cảnh báo độ mặn */
 let salinityRealtime = {
   timer: null,
@@ -6986,6 +7424,7 @@ let salinityRealtime = {
 };
 
 let waterPlotReadings = [];
+let latestSalinityRiskProxy = null;
 
 function salinityStatus(value) {
   if (value >= 5) return { color: 'var(--danger)', label: lang === 'vi' ? 'cảnh báo' : 'alert' };
@@ -6994,9 +7433,9 @@ function salinityStatus(value) {
 }
 
 function salinityRisk(value) {
-  if (value >= 5) return { color: 'var(--danger)', label: 'cảnh báo', level: 'danger' };
-  if (value >= 1) return { color: 'var(--warn)', label: 'vùng chuyển tiếp', level: 'warn' };
-  return { color: 'var(--leaf)', label: 'an toàn cho lúa', level: 'ok' };
+  if (value >= 5) return { color: 'var(--danger)', label: lang === 'vi' ? 'cảnh báo' : 'alert', level: 'danger' };
+  if (value >= 1) return { color: 'var(--warn)', label: lang === 'vi' ? 'vùng chuyển tiếp' : 'transition', level: 'warn' };
+  return { color: 'var(--leaf)', label: lang === 'vi' ? 'an toàn cho lúa' : 'rice safe', level: 'ok' };
 }
 
 function stablePlotOffset(id = '') {
@@ -7019,8 +7458,8 @@ function estimateWaterReadingForPlot(plot, context) {
   const trend = Array.from({ length: 7 }, (_, i) => Number(Math.max(0.1, Math.min(7.5, salinity + Math.sin((i + 1) * 0.9 + offset) * 0.22 + (i - 3) * 0.04)).toFixed(1)));
   return {
     plot_id: plot.plot_id,
-    plot_name: plot.plot_name || plot.name || 'Thửa ruộng',
-    station: `${plot.plot_name || plot.name || 'Thửa ruộng'} - cảm biến nước`,
+    plot_name: plot.plot_name || plot.name || (lang === 'vi' ? 'Thửa ruộng' : 'Field plot'),
+    station: `${plot.plot_name || plot.name || (lang === 'vi' ? 'Thửa ruộng' : 'Field plot')} - ${lang === 'vi' ? 'cảm biến nước' : 'water sensor'}`,
     salinity,
     ph,
     moisture,
@@ -7049,21 +7488,22 @@ function setSalinityVisual(value, station = salinityRealtime.station) {
     gaugeValue.classList.add('tick');
     window.setTimeout(() => gaugeValue.classList.remove('tick'), 180);
   }
-  if (gaugeUnit) gaugeUnit.textContent = `${station || 'station'} · g/L ${lang === 'vi' ? 'độ mặn' : 'salinity'}`;
+  if (gaugeUnit) gaugeUnit.textContent = lang === 'vi' ? 'g/L độ mặn' : 'g/L salinity';
   if (stamp) stamp.textContent = lang === 'vi'
     ? `Dữ liệu trực tiếp · cập nhật ${new Date().toLocaleTimeString('vi-VN', { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`
     : `Live feed · updated ${new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`;
   if (arc) {
-    const circumference = 251;
+    const circumference = 402;
     const ratio = Math.max(0, Math.min(value / 8, 1));
     arc.style.strokeDasharray = `${Math.round(circumference * ratio)} ${circumference}`;
+    arc.style.strokeDashoffset = '0';
     arc.style.stroke = status.color;
   }
   const badge = document.getElementById('salinityStationBadge');
-  if (badge) badge.textContent = station || 'No sensor yet';
-  if (gaugeUnit) gaugeUnit.textContent = `${station || 'Chưa chọn thửa'} · g/L độ mặn`;
-  if (stamp) stamp.textContent = `Dữ liệu IoT · cập nhật ${new Date().toLocaleTimeString('vi-VN', { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`;
-  if (badge) badge.textContent = station || 'Chưa có cảm biến';
+  if (badge) {
+    badge.textContent = value > 0 ? (lang === 'vi' ? 'Mô phỏng pilot' : 'Pilot simulation') : t('Chưa có cảm biến');
+    badge.title = station || '';
+  }
 }
 
 function renderSalinityTrend(values = salinityRealtime.trend) {
@@ -7139,7 +7579,7 @@ function renderWaterPlotSelector(readings = waterPlotReadings) {
   const select = document.getElementById('waterPlotSelect');
   if (!select) return;
   if (!readings.length) {
-    select.innerHTML = '<option value="">Chưa có thửa ruộng đã lắp IoT</option>';
+    select.innerHTML = `<option value="">${escapeHtml(t('Chưa có thửa ruộng đã lắp IoT'))}</option>`;
     salinityRealtime.selectedPlotId = '';
     return;
   }
@@ -7160,7 +7600,7 @@ function renderSelectedWaterPlot() {
     renderSalinityTrend([]);
     renderWaterSensors({ salinity: [], environment: [] });
     renderSoilIndicators(null);
-    if (container) container.innerHTML = `<div class="gl-empty center"><strong>Chưa có dữ liệu độ mặn</strong><span>Hãy lắp IoT cho thửa ruộng hoặc nhập dữ liệu cảm biến.</span></div>`;
+    if (container) container.innerHTML = `<div class="gl-empty center"><strong>${escapeHtml(t('Chưa có dữ liệu độ mặn'))}</strong><span>${escapeHtml(t('Hãy lắp IoT cho thửa ruộng hoặc nhập dữ liệu cảm biến.'))}</span></div>`;
     return;
   }
   salinityRealtime.base = reading.salinity;
@@ -7171,17 +7611,17 @@ function renderSelectedWaterPlot() {
   renderWaterSensors({
     salinity: [{ station: reading.station, value_gpl: reading.salinity, alert: reading.alert ? 1 : 0, recorded_at: reading.sampled_at }],
     environment: [
-      { station: reading.station, metric: 'pH nước', value: reading.ph, unit: '', alert: reading.ph < 6 || reading.ph > 8.5, sampled_at: reading.sampled_at },
-      { station: reading.station, metric: 'Độ ẩm đất', value: reading.moisture, unit: '%', alert: reading.moisture < 35, sampled_at: reading.sampled_at }
+      { station: reading.station, metric: t('pH nước'), value: reading.ph, unit: '', alert: reading.ph < 6 || reading.ph > 8.5, sampled_at: reading.sampled_at },
+      { station: reading.station, metric: t('Độ ẩm đất'), value: reading.moisture, unit: '%', alert: reading.moisture < 35, sampled_at: reading.sampled_at }
     ]
   });
   renderSoilIndicators(reading);
   if (container) {
     const risk = salinityRisk(reading.salinity);
     const cls = risk.level;
-    const title = risk.level === 'danger' ? 'Độ mặn vượt ngưỡng' : risk.level === 'warn' ? 'Vùng chuyển tiếp độ mặn' : 'Độ mặn an toàn';
-    const text = risk.level === 'danger' ? 'Nên chuẩn bị chuyển sang mô hình tôm hoặc khóa nước mặn.' : risk.level === 'warn' ? 'Không còn là vùng an toàn cho lúa; cần theo dõi trước khi chuyển mùa.' : 'Phù hợp cho giai đoạn lúa hiện tại.';
-    container.innerHTML = `<div class="ab ${cls}"><div class="ai">${risk.level === 'danger' ? ICO.danger : risk.level === 'warn' ? ICO.warn : ICO.check}</div><div><div class="at">${title} · ${escapeHtml(reading.plot_name)}</div><div class="ax">${reading.salinity.toFixed(1)} g/L. ${text}</div></div></div>`;
+    const title = risk.level === 'danger' ? t('Độ mặn vượt ngưỡng') : risk.level === 'warn' ? t('Vùng chuyển tiếp độ mặn') : t('Độ mặn an toàn');
+    const text = risk.level === 'danger' ? t('Nên chuẩn bị chuyển sang mô hình tôm hoặc khóa nước mặn.') : risk.level === 'warn' ? t('Không còn là vùng an toàn cho lúa; cần theo dõi trước khi chuyển mùa.') : t('Phù hợp cho giai đoạn lúa hiện tại.');
+    container.innerHTML = `<div class="ab ${cls}"><div class="ai">${risk.level === 'danger' ? ICO.danger : risk.level === 'warn' ? ICO.warn : ICO.check}</div><div><div class="at">${title} · ${escapeHtml(reading.plot_name)} ${sourcePill('sim')}</div><div class="ax">${reading.salinity.toFixed(1)} g/L. ${text}</div></div></div>`;
   }
 }
 
@@ -7189,20 +7629,20 @@ function renderSoilIndicators(reading) {
   const target = document.getElementById('soilIndicatorCards');
   if (!target) return;
   if (!reading) {
-    target.innerHTML = `<div class="gl-empty center"><strong>Chưa có dữ liệu đất</strong><span>Chọn thửa đã lắp IoT để xem độ ẩm, pH, hữu cơ và carbon đất.</span></div>`;
+    target.innerHTML = `<div class="gl-empty center"><strong>${escapeHtml(t('Chưa có dữ liệu đất'))}</strong><span>${escapeHtml(t('Chọn thửa đã lắp IoT để xem độ ẩm, pH, hữu cơ và carbon đất.'))}</span></div>`;
     return;
   }
   const soilRows = [
-    { label: 'Độ ẩm đất', value: `${reading.moisture}%`, pct: reading.moisture, tone: 'a', note: reading.moisture >= 60 ? 'tốt' : reading.moisture >= 40 ? 'theo dõi' : 'khô' },
-    { label: 'pH đất', value: `${reading.soil_ph}`, pct: Math.min(100, Number(reading.soil_ph || 0) / 8 * 100), tone: 'e', note: reading.soil_ph >= 5.8 && reading.soil_ph <= 7.2 ? 'cân bằng' : 'cần theo dõi' },
-    { label: 'Chất hữu cơ', value: `${reading.organic_matter}%`, pct: Math.min(100, Number(reading.organic_matter || 0) / 5 * 100), tone: 'g', note: reading.organic_matter >= 2.5 ? 'tốt' : 'thấp' },
-    { label: 'Carbon đất', value: `${reading.soil_carbon}%`, pct: Math.min(100, Number(reading.soil_carbon || 0) / 3.5 * 100), tone: 'g', note: 'MRV' }
+    { label: t('Độ ẩm đất'), value: `${reading.moisture}%`, pct: reading.moisture, tone: 'a', note: t(reading.moisture >= 60 ? 'tốt' : reading.moisture >= 40 ? 'theo dõi' : 'khô') },
+    { label: t('pH đất'), value: `${reading.soil_ph}`, pct: Math.min(100, Number(reading.soil_ph || 0) / 8 * 100), tone: 'e', note: t(reading.soil_ph >= 5.8 && reading.soil_ph <= 7.2 ? 'cân bằng' : 'cần theo dõi') },
+    { label: t('Chất hữu cơ'), value: `${reading.organic_matter}%`, pct: Math.min(100, Number(reading.organic_matter || 0) / 5 * 100), tone: 'g', note: t(reading.organic_matter >= 2.5 ? 'tốt' : 'thấp') },
+    { label: t('Carbon đất'), value: `${reading.soil_carbon}%`, pct: Math.min(100, Number(reading.soil_carbon || 0) / 3.5 * 100), tone: 'g', note: 'MRV' }
   ];
   target.innerHTML = soilRows.map(x => `
     <div class="sc">
       <div style="font-size:11px;color:var(--tm);font-weight:700">${escapeHtml(x.label)}</div>
       <div style="font-size:24px;font-weight:900;margin-top:8px;color:var(--tp)">${escapeHtml(x.value)}</div>
-      <div style="font-size:11px;color:var(--tm);margin-top:2px">${escapeHtml(x.note)}</div>
+      <div style="font-size:11px;color:var(--tm);margin-top:2px">${escapeHtml(x.note)} ${sourcePill('sim')}</div>
       <div class="pt" style="margin-top:11px"><div class="pf ${x.tone}" style="width:${Math.max(4, Math.min(100, x.pct))}%"></div></div>
     </div>
   `).join('');
@@ -7212,17 +7652,17 @@ function renderWaterSensors(iot = {}) {
   const grid = document.querySelector('#p-salinity .sg');
   if (!grid) return;
   const rows = [
-    ...(iot.salinity || []).map(x => ({ metric: 'Độ mặn', station: x.station, value: Number(x.value_gpl), unit: 'g/L', alert: Number(x.alert) === 1, sampled_at: x.recorded_at })),
+    ...(iot.salinity || []).map(x => ({ metric: t('Độ mặn'), station: x.station, value: Number(x.value_gpl), unit: 'g/L', alert: Number(x.alert) === 1, sampled_at: x.recorded_at })),
     ...(iot.environment || []).map(x => ({ metric: x.metric, station: x.station, value: Number(x.value), unit: x.unit || '', alert: Number(x.alert) === 1, sampled_at: x.sampled_at }))
   ];
   if (!rows.length) {
-    grid.innerHTML = `<div class="gl-empty center" id="waterSensorEmpty"><strong>Chưa có dữ liệu cảm biến nước</strong><span>Chọn thửa đã lắp IoT hoặc nhập dữ liệu cảm biến.</span></div>`;
+    grid.innerHTML = `<div class="gl-empty center" id="waterSensorEmpty"><strong>${escapeHtml(t('Chưa có dữ liệu cảm biến nước'))}</strong><span>${escapeHtml(t('Chọn thửa đã lắp IoT hoặc nhập dữ liệu cảm biến.'))}</span></div>`;
     return;
   }
   grid.innerHTML = rows.map(x => {
     const dot = x.alert ? 'wa' : 'on';
     const label = `${String(x.metric).replace(/_/g, ' ')}: ${x.value.toFixed(1)} ${x.unit}`.trim();
-    return `<div class="si live"><span class="sdot ${dot}"></span><div><div class="sn">${escapeHtml(x.station || 'Cảm biến')}</div><div class="sv">${escapeHtml(label)} · ${escapeHtml(formatDate(x.sampled_at))}</div></div></div>`;
+    return `<div class="si live"><span class="sdot ${dot}"></span><div><div class="sn">${escapeHtml(x.station || t('Cảm biến'))}</div><div class="sv">${escapeHtml(label)} · ${escapeHtml(formatDate(x.sampled_at))} ${sourcePill('sim')}</div></div></div>`;
   }).join('');
 }
 
@@ -7248,47 +7688,6 @@ function dismissOnboarding() {
 }
 
 async function renderAlerts() {
-  await renderWaterContext();
-  try {
-    const { data, summary } = await apiFetch('/api/salinity');
-    updateSalinityGauge(data, summary);
-    const live = await apiFetch('/api/platform/iot/live').catch(() => ({ salinity: data || [], environment: [] }));
-    renderWaterSensors(live);
-    const container = document.getElementById('alertsContainer');
-    if (!container) return;
-    if (!Array.isArray(data) || !data.length) {
-      container.innerHTML = `<div class="gl-empty center"><strong>No salinity readings yet</strong>Connect an IoT device or import authorized station data to generate water alerts.</div>`;
-      return;
-    }
-    container.innerHTML = data.map(s => {
-      const type = s.alert ? 'danger' : s.value_gpl > 2.5 ? 'warn' : 'ok';
-      const icon = s.alert ? ICO.danger : s.value_gpl > 2.5 ? ICO.warn : ICO.check;
-      const msg  = s.alert
-        ? `Vượt ngưỡng 5 g/L — nên chuyển sang mùa tôm`
-        : s.value_gpl > 2.5
-          ? `Gần ngưỡng — theo dõi thêm 72h`
-          : `Trong giới hạn an toàn cho lúa`;
-      return `
-        <div class="ab ${type}">
-          <div class="ai">${icon}</div>
-          <div>
-            <div class="at">${s.station} — ${s.value_gpl} g/L</div>
-            <div class="ax">${s.river || s.province} · ${msg}</div>
-          </div>
-        </div>`;
-    }).join('');
-    renderSalinityAdvice();
-  } catch {
-    const container = document.getElementById('alertsContainer');
-    if (container) container.innerHTML = `<div class="gl-error">Unable to load water readings. No demo fallback is shown, so judges only see real ingested data.</div>`;
-    salinityRealtime.base = 0;
-    salinityRealtime.station = '';
-    salinityRealtime.trend = [];
-    startSalinityRealtime();
-  }
-}
-
-async function renderAlerts() {
   const context = await renderWaterContext();
   try {
     const requests = await apiFetch('/api/platform/iot/install-requests').catch(() => ({ data: [] }));
@@ -7296,6 +7695,7 @@ async function renderAlerts() {
     waterPlotReadings = installed.map(plot => estimateWaterReadingForPlot(plot, context));
     renderWaterPlotSelector(waterPlotReadings);
     renderSelectedWaterPlot();
+    await renderSalinityAdvice();
   } catch (err) {
     const container = document.getElementById('alertsContainer');
     if (container) container.innerHTML = `<div class="gl-error">Không tải được dữ liệu nước theo thửa ruộng.</div>`;
@@ -7311,15 +7711,26 @@ async function renderWaterContext() {
   const recDate = document.querySelector('#p-salinity .rd');
   const recCopy = document.querySelector('#p-salinity .rx');
   try {
-    const context = await apiFetch('/api/platform/water/context?province=' + encodeURIComponent(currentUser?.province || 'ca-mau'));
+    const province = currentUser?.province || 'ca-mau';
+    const context = await apiFetch('/api/platform/water/context?province=' + encodeURIComponent(province));
+    latestSalinityRiskProxy = await apiFetch('/api/salinity/risk-proxy?province=' + encodeURIComponent(province)).catch(() => null);
     const s = context.summary || {};
-    if (note) note.textContent = `NASA POWER: last 7 days near ${context.location?.name || context.province}: ${Number(s.total_rain_mm || 0).toFixed(1)} mm rain, avg ${s.avg_temperature_c ?? 'n/a'}°C, ${s.dry_days || 0} dry days.`;
-    if (note) note.textContent = `NASA POWER: 7 ngày gần ${context.location?.name || context.province}: mưa ${Number(s.total_rain_mm || 0).toFixed(1)} mm, nhiệt độ TB ${s.avg_temperature_c ?? 'n/a'}°C, ${s.dry_days || 0} ngày khô.`;
-    if (recDate) recDate.textContent = s.dry_days >= 4 ? 'Cần theo dõi khô hạn' : 'Đã tải bối cảnh thời tiết';
-    if (recCopy) recCopy.textContent = `Nguồn: ${context.source?.name}. Độ mặn bên dưới được theo dõi theo thửa ruộng đã lắp IoT.`;
+    const proxy = latestSalinityRiskProxy;
+    const nasaLine = lang === 'vi'
+      ? `NASA POWER: 7 ngày gần ${context.location?.name || context.province}: mưa ${Number(s.total_rain_mm || 0).toFixed(1)} mm, nhiệt độ TB ${s.avg_temperature_c ?? 'n/a'}°C, ${s.dry_days || 0} ngày khô.`
+      : `NASA POWER: last 7 days near ${context.location?.name || context.province}: ${Number(s.total_rain_mm || 0).toFixed(1)} mm rain, avg ${s.avg_temperature_c ?? 'n/a'}°C, ${s.dry_days || 0} dry days.`;
+    const proxyLine = proxy ? (lang === 'vi'
+      ? ` Open-Meteo Flood: lưu lượng sông ${Number(proxy.river_discharge_m3s || 0).toFixed(1)} m³/s, mức rủi ro ${escapeHtml(proxy.risk_label_vi || proxy.risk_level)}.`
+      : ` Open-Meteo Flood: river discharge ${Number(proxy.river_discharge_m3s || 0).toFixed(1)} m³/s, ${escapeHtml(proxy.risk_label_en || proxy.risk_level)}.`) : '';
+    if (note) note.innerHTML = `${escapeHtml(nasaLine)} ${sourcePill('real')}${proxyLine ? `<br>${proxyLine} ${sourcePill('proxy')}` : ''}`;
+    if (recDate) recDate.textContent = proxy ? (lang === 'vi' ? (proxy.risk_label_vi || 'Đã tải proxy xâm nhập mặn') : (proxy.risk_label_en || 'Salinity proxy loaded')) : (s.dry_days >= 4 ? t('Cần theo dõi khô hạn') : t('Đã tải bối cảnh thời tiết'));
+    if (recCopy) recCopy.innerHTML = lang === 'vi'
+      ? `Nguồn thời tiết: ${escapeHtml(context.source?.name || 'NASA POWER')} ${sourcePill('real')} · Cảnh báo mùa vụ dùng proxy thủy văn mở ${sourcePill('proxy')} · Chỉ số IoT/đất đang là mô phỏng pilot ${sourcePill('sim')}`
+      : `Weather source: ${escapeHtml(context.source?.name || 'NASA POWER')} ${sourcePill('real')} · Season alert uses open hydrology proxy ${sourcePill('proxy')} · IoT/soil readings are pilot simulations ${sourcePill('sim')}`;
     return context;
   } catch {
-    if (note) note.textContent = 'Hiện chưa tải được bối cảnh thời tiết NASA POWER.';
+    if (note) note.textContent = t('Hiện chưa tải được bối cảnh thời tiết NASA POWER.');
+    latestSalinityRiskProxy = null;
     return null;
   }
 }
@@ -7348,17 +7759,23 @@ function updateSalinityGauge(data, summary) {
 async function renderSalinityAdvice() {
   const province = currentUser?.province || 'ca-mau';
   try {
-    const advice = await apiFetch('/api/salinity/season-advice?province=' + encodeURIComponent(province));
+    const advice = await getSeasonDecisionAdvice(province);
     const container = document.getElementById('alertsContainer');
     if (!container) return;
-    const klass = advice.recommended_season === 'shrimp' ? 'danger' : advice.recommended_season === 'transition' ? 'warn' : 'ok';
-    const icon = advice.recommended_season === 'shrimp' ? ICO.danger : advice.recommended_season === 'transition' ? ICO.warn : ICO.check;
+    const klass = ['tram_shrimp'].includes(advice.recommended_season) ? 'danger' : ['transition', 'rice_st25'].includes(advice.recommended_season) ? 'warn' : 'ok';
+    const icon = klass === 'danger' ? ICO.danger : klass === 'warn' ? ICO.warn : ICO.check;
+    const title = lang === 'vi'
+      ? `Khuyến nghị mùa vụ - ${province}`
+      : `Season recommendation - ${province}`;
+    const body = lang === 'vi'
+      ? `${Number(advice.avg_gpl_or_proxy_value || 0).toFixed(1)} g/L · ${advice.advice || ''}`
+      : `${Number(advice.avg_gpl_or_proxy_value || 0).toFixed(1)} g/L · ${advice.advice || ''}`;
     container.insertAdjacentHTML('afterbegin', `
       <div class="ab ${klass}">
         <div class="ai">${icon}</div>
         <div>
-          <div class="at">Khuyến nghị mùa vụ - ${escapeHtml(province)}</div>
-          <div class="ax">${escapeHtml(advice.advice || 'Không có khuyến nghị')}</div>
+          <div class="at">${escapeHtml(title)} ${decisionEngineBadge()}</div>
+          <div class="ax">${escapeHtml(body)} ${advice.data_basis === 'open_data_proxy' ? sourcePill('proxy') : sourcePill('sim')}</div>
         </div>
       </div>`);
   } catch {}
@@ -7371,31 +7788,37 @@ async function renderTimeline() {
     const { data } = await apiFetch('/api/carbon?limit=7');
     const html = data.length ? data.map(e => {
       const dot = (e.status === 'verified' || e.status === 'issued') ? 'g' : 'e';
-      const label = e.season === 'wet_rice' ? 'Lúa' : 'Tôm';
+      const label = e.season === 'wet_rice' ? t('Lúa') : t('Tôm');
       const date = formatMonthYear(e.created_at);
       return `
         <div class="tli" style="cursor:pointer" onclick="loadCarbonDetail('${escapeHtml(e.id)}')">
           <div class="tld ${dot}"></div>
           <div class="tl-date">${date}</div>
-          <div class="tl-title">Carbon ${label} - ${escapeHtml(e.status)}</div>
+          <div class="tl-title">Carbon ${escapeHtml(label)} - ${escapeHtml(t(e.status))}</div>
           <div class="tl-detail">${formatKg(e.biochar_kg)} biochar · ${formatTonnes(e.co2e_tonnes)}CO₂e · ${(Number(e.scu_units) || 0).toFixed(2)} SCU</div>
         </div>`;
     }).join('') : `
       <div class="tli">
         <div class="tld e"></div>
-        <div class="tl-date">Hôm nay</div>
-        <div class="tl-title">Đăng ký GreenLoop</div>
-        <div class="tl-detail">Carbon passport đã tạo. Bắt đầu đặt lịch thu gom để tích lũy tín chỉ.</div>
+        <div class="tl-date">${lang === 'vi' ? 'Hôm nay' : 'Today'}</div>
+        <div class="tl-title">${lang === 'vi' ? 'Đăng ký GreenLoop' : 'GreenLoop enrollment'}</div>
+        <div class="tl-detail">${lang === 'vi' ? 'Carbon passport đã tạo. Bắt đầu đặt lịch thu gom để tích lũy tín chỉ.' : 'Carbon passport created. Book a pickup to start earning credits.'}</div>
       </div>`;
     document.getElementById('passportTimeline').innerHTML = html;
   } catch {
     // Fallback data tĩnh
-    const events = [
-      { d:'Tháng 02/2026', t:'Biochar Application - Paddy Field A', x:'180 kg applied, +0.42 tCO₂e', dot:'g' },
-      { d:'Tháng 12/2025', t:'Biochar Application - Shrimp Pond B', x:'95 kg sludge-biochar, +0.18 tCO₂e', dot:'a' },
-      { d:'Tháng 10/2025', t:'Soil Test - Annual Review', x:'Organic carbon up 0.4%, score improved to 87', dot:'e' },
-      { d:'Tháng 06/2025', t:'Carbon Credit Issuance', x:'Batch #GL-003 - 1.2 tCO₂e verified and ready for marketplace settlement', dot:'g' },
-      { d:'Tháng 01/2025', t:'GreenLoop Enrollment', x:'Passport created. Initial soil baseline recorded.', dot:'e' }
+    const events = lang === 'vi' ? [
+      { d:'Tháng 02/2026', t:'Ứng dụng biochar - Ruộng lúa A', x:'Đã bón 180 kg, +0,42 tCO₂e', dot:'g' },
+      { d:'Tháng 12/2025', t:'Ứng dụng biochar - Ao tôm B', x:'95 kg biochar bùn ao, +0,18 tCO₂e', dot:'a' },
+      { d:'Tháng 10/2025', t:'Kiểm tra đất - đánh giá năm', x:'Carbon hữu cơ tăng 0,4%, điểm cải thiện lên 87', dot:'e' },
+      { d:'Tháng 06/2025', t:'Phát hành tín chỉ carbon', x:'Lô #GL-003 - 1,2 tCO₂e đã xác minh và sẵn sàng giao dịch', dot:'g' },
+      { d:'Tháng 01/2025', t:'Đăng ký GreenLoop', x:'Đã tạo hộ chiếu. Đã ghi nhận nền đất ban đầu.', dot:'e' }
+    ] : [
+      { d:'Feb 2026', t:'Biochar Application - Paddy Field A', x:'180 kg applied, +0.42 tCO₂e', dot:'g' },
+      { d:'Dec 2025', t:'Biochar Application - Shrimp Pond B', x:'95 kg sludge-biochar, +0.18 tCO₂e', dot:'a' },
+      { d:'Oct 2025', t:'Soil Test - Annual Review', x:'Organic carbon up 0.4%, score improved to 87', dot:'e' },
+      { d:'Jun 2025', t:'Carbon Credit Issuance', x:'Batch #GL-003 - 1.2 tCO₂e verified and ready for marketplace settlement', dot:'g' },
+      { d:'Jan 2025', t:'GreenLoop Enrollment', x:'Passport created. Initial soil baseline recorded.', dot:'e' }
     ];
     document.getElementById('passportTimeline').innerHTML = events.map(e => `
       <div class="tli">

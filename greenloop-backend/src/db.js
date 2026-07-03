@@ -74,7 +74,7 @@ function initSchema() {
       river       TEXT,
       value_gpl   REAL NOT NULL,     -- g/L
       recorded_at TEXT NOT NULL,
-      source      TEXT DEFAULT 'mrc_api',
+      source      TEXT DEFAULT 'seed_demo',
       alert       INTEGER DEFAULT 0, -- 1 if > 5 g/L threshold
       created_at  TEXT DEFAULT (datetime('now'))
     );
@@ -274,6 +274,37 @@ function addColumnIfMissing(table, column, definition) {
 }
 
 function migrateSchema() {
+  addColumnIfMissing('pickups', 'sale_price_vnd', 'REAL DEFAULT 0');
+  addColumnIfMissing('pickups', 'buyer_name', 'TEXT');
+  addColumnIfMissing('pickups', 'payment_status', "TEXT DEFAULT 'pending'");
+  addColumnIfMissing('pickups', 'farmer_share_vnd', 'REAL DEFAULT 0');
+  addColumnIfMissing('pickups', 'htx_share_vnd', 'REAL DEFAULT 0');
+  addColumnIfMissing('pickups', 'platform_share_vnd', 'REAL DEFAULT 0');
+  addColumnIfMissing('pickups', 'advance_vnd', 'REAL DEFAULT 0');
+  addColumnIfMissing('pickups', 'payment_evidence_hash', 'TEXT');
+  addColumnIfMissing('pickups', 'buyer_paid_at', 'TEXT');
+  addColumnIfMissing('pickups', 'farmer_paid_at', 'TEXT');
+  try {
+    db.run(
+      `UPDATE pickups
+       SET sale_price_vnd=1800000, buyer_name='Mekong Biochar Buyer', payment_status='buyer_paid',
+           farmer_share_vnd=1260000, htx_share_vnd=360000, platform_share_vnd=180000,
+           advance_vnd=500000, payment_evidence_hash='sha256:demo-biomass-sale-ledger',
+           buyer_paid_at=COALESCE(buyer_paid_at, datetime('now'))
+       WHERE id IN ('pickup-demo-ready-001') AND COALESCE(sale_price_vnd,0)=0`
+    );
+    db.run(
+      `UPDATE pickups
+       SET sale_price_vnd=1850000, buyer_name='HUSK Vietnam', payment_status='buyer_paid',
+           farmer_share_vnd=1295000, htx_share_vnd=370000, platform_share_vnd=185000,
+           payment_evidence_hash='sha256:demo-pickup-sale-ledger',
+           buyer_paid_at=COALESCE(buyer_paid_at, datetime('now'))
+       WHERE biomass_type='rice_straw' AND status='processed' AND COALESCE(sale_price_vnd,0)=0`
+    );
+  } catch {}
+  try {
+    db.run(`UPDATE salinity_readings SET source='seed_demo' WHERE source IS NULL OR source='mrc_api'`);
+  } catch {}
   addColumnIfMissing('products', 'source_residue_id', 'TEXT');
   addColumnIfMissing('products', 'conversion_pathway_id', 'TEXT');
   addColumnIfMissing('products', 'description', 'TEXT');
@@ -525,9 +556,9 @@ function seedDemoData() {
     { station: 'Trạm Kiên Giang', province: 'kien-giang', river: 'Sông Cái Lớn', value: 1.2 },
   ];
   for (const s of stations) {
-    db.run(`INSERT INTO salinity_readings (id,station,province,river,value_gpl,recorded_at,alert) VALUES (?,?,?,?,?,?,?)`,
+    db.run(`INSERT INTO salinity_readings (id,station,province,river,value_gpl,recorded_at,source,alert) VALUES (?,?,?,?,?,?,?,?)`,
       [uuidv4(), s.station, s.province, s.river, s.value,
-       new Date().toISOString(), s.value >= 5 ? 1 : 0]);
+       new Date().toISOString(), 'seed_demo', s.value >= 5 ? 1 : 0]);
   }
 
   // Notifications
