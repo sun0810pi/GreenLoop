@@ -111,6 +111,28 @@ body.high-contrast .sb-item,body.high-contrast .card{border:1px solid var(--bord
 .ops-kpi b{display:block;font-size:23px;line-height:1.15;color:var(--tp);font-variant-numeric:tabular-nums}
 .ops-kpi span{display:block;font-size:11px;color:var(--tm);font-weight:700;margin-top:5px;text-transform:uppercase;letter-spacing:.4px}
 .ops-list{display:grid;gap:8px}.ops-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--borderl)}.ops-row:last-child{border-bottom:0}.ops-name{font-size:14px;font-weight:700;line-height:1.35}.ops-meta{font-size:12.2px;color:var(--tm);margin-top:4px;line-height:1.5}.ops-status{font-size:11.5px;font-weight:800;color:var(--ad);background:rgba(38,166,154,.10);padding:6px 9px;border-radius:6px;white-space:nowrap}.ops-status.warn{color:var(--warn);background:rgba(230,81,0,.1)}
+.market-card{display:grid;grid-template-columns:112px minmax(0,1fr);gap:12px;align-items:stretch;padding:12px;border:1px solid var(--borderl);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.00));border-radius:10px}
+.market-thumb{width:112px;height:100%;min-height:112px;object-fit:cover;border-radius:8px;background:var(--bg)}
+.market-body{display:grid;gap:10px}
+.market-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.market-title{font-size:14px;font-weight:800;line-height:1.3;color:var(--tp)}
+.market-sub{font-size:11.5px;color:var(--tm);line-height:1.45;margin-top:3px}
+.market-meta{font-size:12px;color:var(--ts);line-height:1.5}
+.market-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.market-grid div{border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:8px 9px}
+.market-k{display:block;font-size:10px;color:var(--tm);font-weight:700;text-transform:uppercase;letter-spacing:.2px;margin-bottom:4px}
+.market-grid b{display:block;font-size:12px;color:var(--tp);line-height:1.35}
+.market-showcase{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.market-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.market-legend .ops-status{font-size:10px;padding:5px 8px}
+.market-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.market-panel-title{font-size:16px;font-weight:900;color:var(--tp);line-height:1.25}
+.market-panel-copy{font-size:12px;color:var(--ts);line-height:1.55;margin-top:4px;max-width:720px}
+.market-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.market-summary .ops-kpi{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));}
+.market-note{padding:11px 12px;border:1px solid var(--borderl);border-radius:8px;background:var(--bg);font-size:12px;color:var(--ts);line-height:1.55}
+@media(max-width:980px){.market-showcase,.market-summary{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.market-card{grid-template-columns:1fr}.market-thumb{width:100%;min-height:160px}.market-grid,.market-showcase,.market-summary{grid-template-columns:1fr}}
 .loop-section{background:var(--bgc);border:1px solid var(--borderl);border-radius:8px;box-shadow:var(--sh-sm);padding:18px}
 .loop-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
 .loop-eyebrow{font-size:11px;font-weight:900;color:var(--ad);letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
@@ -2915,6 +2937,53 @@ function sourcePill(kind) {
   return `<span class="source-pill ${cls}">${escapeHtml(labels[cls])}</span>`;
 }
 
+function svgDataUri(svg) {
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function localizedText(value) {
+  if (value && typeof value === 'object') {
+    return lang === 'vi' ? (value.vi || value.en || '') : (value.en || value.vi || '');
+  }
+  return t(value);
+}
+
+function marketThumbnail(kind) {
+  const art = {
+    rice: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#264f2c"/><stop offset="1" stop-color="#78c94d"/></linearGradient></defs><rect width="180" height="120" rx="18" fill="#101c14"/><circle cx="140" cy="28" r="32" fill="#204d2f" opacity=".55"/><path d="M28 88c14-20 27-28 43-28 10 0 21 3 31 9 13-17 27-24 42-24 10 0 20 2 28 7v26H28z" fill="url(#g)"/><path d="M56 18c10 15 14 31 12 48M82 14c9 16 13 33 10 52M108 16c8 15 11 29 9 44" stroke="#c7f28a" stroke-width="4" stroke-linecap="round"/><path d="M45 86c11-10 19-15 30-15 9 0 18 3 25 9" stroke="#dff6b1" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+    shrimp: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><rect width="180" height="120" rx="18" fill="#101c14"/><circle cx="142" cy="30" r="30" fill="#17413f" opacity=".55"/><path d="M38 77c17-18 33-27 51-27 22 0 37 12 44 29-10-4-18-5-25-5-10 0-19 4-27 12-15 0-29-3-43-9z" fill="#ffb36b"/><path d="M85 51c22-8 43-8 57 2" stroke="#ffc88e" stroke-width="4" stroke-linecap="round"/><path d="M127 32c13 2 22 8 28 17" stroke="#ffd8aa" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M46 86c11 4 22 6 34 6" stroke="#ffcf9e" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+    melaleuca: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><rect width="180" height="120" rx="18" fill="#101c14"/><circle cx="141" cy="28" r="30" fill="#1c4830" opacity=".55"/><path d="M35 92c13-25 27-41 42-48 16-7 33-7 52 0 14 5 24 13 30 24-15-2-29-1-43 3-15 4-28 12-39 23-14 0-28-1-42-2z" fill="#6fbc5a"/><path d="M68 71c10-22 22-36 36-43" stroke="#b4e89b" stroke-width="4" stroke-linecap="round"/><path d="M93 39c10 7 17 16 22 28" stroke="#8dd07a" stroke-width="4" stroke-linecap="round"/><path d="M108 64c9 2 17 6 23 12" stroke="#d9f2ba" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+    coconut: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><rect width="180" height="120" rx="18" fill="#101c14"/><circle cx="140" cy="28" r="30" fill="#543f26" opacity=".5"/><path d="M35 74c12-17 25-26 39-26 10 0 20 3 29 9 12-10 24-15 36-15 12 0 23 4 32 11v29H35z" fill="#c89a64"/><path d="M50 39c18 5 34 16 48 33" stroke="#f0d7b1" stroke-width="5" stroke-linecap="round"/><path d="M79 31c12 8 24 20 34 36" stroke="#ad7c46" stroke-width="4" stroke-linecap="round"/><path d="M106 24c10 10 18 23 24 38" stroke="#e8c995" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`
+  };
+  const key = ['rice', 'shrimp', 'melaleuca', 'coconut'].includes(kind) ? kind : 'rice';
+  return svgDataUri(art[key]);
+}
+
+function marketFeatureCards(items) {
+  return items.map(item => {
+    const img = marketThumbnail(item.kind);
+    return `
+      <div class="market-card">
+        <img class="market-thumb" src="${img}" alt="${escapeHtml(localizedText(item.title))}">
+        <div class="market-body">
+          <div class="market-top">
+            <div>
+              <div class="market-title">${escapeHtml(localizedText(item.title))}</div>
+              <div class="market-sub">${escapeHtml(localizedText(item.subtitle))}</div>
+            </div>
+            <span class="source-pill ${item.tone || 'pilot'}">${escapeHtml(localizedText(item.tag))}</span>
+          </div>
+          <div class="market-meta">${escapeHtml(localizedText(item.residue))}</div>
+          <div class="market-grid">
+            <div><span class="market-k">${escapeHtml(localizedText({ en:'Reference price', vi:'Giá tham chiếu' }))}</span><b>${escapeHtml(item.price)}</b></div>
+            <div><span class="market-k">${escapeHtml(localizedText({ en:'Channel', vi:'Kênh' }))}</span><b>${escapeHtml(localizedText(item.channel))}</b></div>
+            <div><span class="market-k">${escapeHtml(localizedText({ en:'Status', vi:'Trạng thái' }))}</span><b>${escapeHtml(localizedText(item.status))}</b></div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
 function decisionEngineBadge() {
   const label = lang === 'vi'
     ? '⚙ Ngưỡng cố định (rule-based) · ML: roadmap'
@@ -2992,6 +3061,53 @@ function clientCultivationRecommendations(value) {
     ]
   };
 }
+
+const MARKET_SHOWCASE = [
+  {
+    kind: 'rice',
+    title: { en: 'Rice straw', vi: 'Rơm lúa' },
+    subtitle: { en: 'Biochar, mulch, field return', vi: 'Biochar, vật phủ và trả về ruộng' },
+    tag: { en: 'market', vi: 'thị trường' },
+    residue: { en: 'Traceable straw lots become biochar feedstock and can also return to field as soil cover.', vi: 'Các lô rơm có truy xuất trở thành đầu vào biochar và cũng có thể quay lại ruộng làm vật phủ đất.' },
+    price: '1,250 VND/kg',
+    channel: { en: 'market', vi: 'thị trường' },
+    status: { en: 'traceable', vi: 'truy xuất' },
+    tone: 'good'
+  },
+  {
+    kind: 'shrimp',
+    title: { en: 'Aquaculture by-products', vi: 'Phụ phẩm thủy sản' },
+    subtitle: { en: 'Pond sludge, shells, heads → biochar + fertilizer', vi: 'Bùn ao, vỏ, đầu tôm → biochar + phân bón' },
+    tag: { en: 'market', vi: 'thị trường' },
+    residue: { en: 'Pond sludge and shell waste are graded for processing, carbon accounting and farm inputs.', vi: 'Bùn ao và phụ phẩm vỏ được phân hạng để xử lý, tính carbon và làm đầu vào nông nghiệp.' },
+    price: '900 VND/kg',
+    channel: { en: 'bio_refinery', vi: 'tinh chế sinh học' },
+    status: { en: 'ready', vi: 'sẵn sàng' },
+    tone: 'proxy'
+  },
+  {
+    kind: 'melaleuca',
+    title: { en: 'Melaleuca residue', vi: 'Phụ phẩm tràm' },
+    subtitle: { en: 'Leaves, branches, thinning wood → LCNF, biochar', vi: 'Lá, cành, gỗ tỉa thưa → LCNF, biochar' },
+    tag: { en: 'bio_refinery', vi: 'tinh chế sinh học' },
+    residue: { en: 'Wetland melaleuca streams stay separate and are routed to fibre, extract and return-to-field outputs.', vi: 'Dòng tràm ngập nước được tách riêng và đưa sang xơ, chiết xuất hoặc đầu ra trả về ruộng.' },
+    price: '4,200 VND/kg',
+    channel: { en: 'bio_refinery', vi: 'tinh chế sinh học' },
+    status: { en: 'pilot', vi: 'thí điểm' },
+    tone: 'pilot'
+  },
+  {
+    kind: 'coconut',
+    title: { en: 'Coconut by-products', vi: 'Phụ phẩm dừa' },
+    subtitle: { en: 'Coconut husk, coir, residue → fiber, packaging, biochar', vi: 'Sơ dừa, xơ dừa, bã dừa → xơ, bao bì, biochar' },
+    tag: { en: 'market', vi: 'thị trường' },
+    residue: { en: 'Coconut husk and residue feed packaging, fibre and bio-material products for the Delta market.', vi: 'Sơ dừa và bã dừa đi vào bao bì, xơ và vật liệu sinh học cho thị trường Đồng bằng.' },
+    price: '1,800 VND/kg',
+    channel: { en: 'market', vi: 'thị trường' },
+    status: { en: 'classified', vi: 'phân loại' },
+    tone: 'ml'
+  }
+];
 
 async function getSeasonDecisionAdvice(province = currentUser?.province || 'ca-mau') {
   const decision = await apiFetch('/api/salinity/season-advice?province=' + encodeURIComponent(province)).catch(() => null);
@@ -3172,10 +3288,45 @@ async function renderRoleWorkspace(role) {
       <div class="card"><div class="ch"><div class="ct">Live collection routes</div></div><div class="cb"><div class="ops-list">${routes.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.route_name)}</div><div class="ops-meta">${escapeHtml(formatDate(x.scheduled_at))} · ${formatKg(x.assigned_kg)} / ${formatKg(x.capacity_kg)} · ${Number(x.cost_per_ton_vnd).toLocaleString('vi-VN')} VND/t</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No routes planned.</div>`}</div></div></div>`;
     } else if (role === 'buyer') {
       const [offers, products, interests] = await Promise.all([apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/products'), apiFetch('/api/platform/credits/interests')]);
-      consoleEl.innerHTML = `<div class="ops-grid mb18">${[[offers.data.length,'Open credit offers'],[products.data.length,'Traceable products'],[interests.data.filter(x=>x.status==='pending').length,'Pending purchase requests'],['VM0044','MRV framework']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}</div>
-      <div class="card mb18"><div class="ch"><div class="ct">Verified carbon marketplace</div></div><div class="cb"><div class="ops-list">${offers.data.map(x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">$${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e · ${escapeHtml(x.carbon_id)}</div></div><button class="role-action primary" type="button" onclick="submitCreditInterest('${escapeHtml(x.id)}',${Number(x.tonnes)})">Send purchase request</button></div>`).join('') || `<div class="gl-empty">No verified credit offers available.</div>`}</div></div></div>
-      <div class="g2"><div class="card"><div class="ch"><div class="ct">My purchase requests</div></div><div class="cb"><div class="ops-list">${interests.data.map(x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">${escapeHtml(x.message || 'No message')} · $${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No purchase requests yet.</div>`}</div></div></div>
-      <div class="card"><div class="ch"><div class="ct">Traceable outputs</div></div><div class="cb"><div class="ops-list">${products.data.slice(0,5).map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Traceable output')} · ${formatKg(x.quantity_kg)}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No output products available.</div>`}</div></div></div></div>`;
+      const marketCards = marketFeatureCards(MARKET_SHOWCASE);
+      consoleEl.innerHTML = `
+        <div class="ops-grid mb18">
+          ${[[offers.data.length, 'Open credit offers'], [products.data.length, 'Traceable products'], [interests.data.filter(x=>x.status==='pending').length, 'Pending purchase requests'], ['VM0044', 'MRV framework']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}
+        </div>
+        <div class="card mb18">
+          <div class="ch"><div class="ct">${escapeHtml(t('Market shelf'))}</div></div>
+          <div class="cb">
+            <div class="market-panel-head">
+              <div>
+                <div class="market-panel-title">${escapeHtml(t('What the market includes'))}</div>
+                <div class="market-panel-copy">${escapeHtml(lang === 'vi' ? 'Quầy market này gom các dòng sinh khối chính: rơm lúa, phụ phẩm thủy sản, phụ phẩm tràm và phụ phẩm dừa. Mỗi dòng có ảnh minh hoạ, kênh bán, giá tham chiếu và trạng thái truy xuất.' : 'This market shelf groups the main biomass streams: rice straw, aquaculture by-products, melaleuca residue and coconut by-products. Each stream shows an image, sales channel, reference price and traceability status.')}</div>
+              </div>
+              <div class="market-legend">
+                <span class="ops-status">Traceable</span>
+                <span class="ops-status warn">Pilot</span>
+                <span class="ops-status">Ready</span>
+              </div>
+            </div>
+            <div class="market-summary">
+              <div class="ops-kpi"><b>${escapeHtml(products.data.filter(x => x.channel === 'market').length)}</b><span>${escapeHtml(t('market products'))}</span></div>
+              <div class="ops-kpi"><b>${escapeHtml(products.data.filter(x => x.channel === 'bio_refinery').length)}</b><span>${escapeHtml(lang === 'vi' ? 'Sản phẩm tinh chế' : 'Bio-refinery outputs')}</span></div>
+              <div class="ops-kpi"><b>${escapeHtml(products.data.filter(x => Number(x.return_to_field)).length)}</b><span>${escapeHtml(lang === 'vi' ? 'Trả về ruộng' : 'Field return')}</span></div>
+              <div class="ops-kpi"><b>${escapeHtml(offers.data.length)}</b><span>${escapeHtml(lang === 'vi' ? 'Chào bán carbon' : 'Carbon offers')}</span></div>
+            </div>
+            <div class="market-showcase">${marketCards}</div>
+            <div class="market-note">${escapeHtml(lang === 'vi' ? 'Điểm này có thể dùng làm trang giới thiệu market: người xem thấy ngay phụ phẩm nào đang được gom, hình ảnh minh hoạ là gì, và nó đi vào kênh thị trường hay bio-refinery nào.' : 'This block can serve as the market intro: viewers immediately see which by-products are collected, what the visual identity is, and whether they flow to market or bio-refinery channels.')}</div>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><div class="ct">${escapeHtml(t('My purchase requests'))}</div></div>
+            <div class="cb"><div class="ops-list">${interests.data.map(x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">${escapeHtml(x.message || 'No message')} · $${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No purchase requests yet.</div>`}</div></div>
+          </div>
+          <div class="card">
+            <div class="ch"><div class="ct">${escapeHtml(t('Traceable outputs'))}</div></div>
+            <div class="cb"><div class="ops-list">${products.data.slice(0,5).map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Traceable output')} · ${formatKg(x.quantity_kg)}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No output products available.</div>`}</div></div>
+          </div>
+        </div>`;
     } else if (role === 'partner') {
       const [tasks, products, partners] = await Promise.all([apiFetch('/api/platform/tasks'), apiFetch('/api/platform/products'), apiFetch('/api/platform/partners')]);
       consoleEl.innerHTML = `<div class="ops-grid mb18">${[[tasks.data.length,'Assigned processing tasks'],[products.data.length,'Output products'],[partners.data.filter(x=>x.status==='active').length,'Active partners'],['MRV','Evidence workflow']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}</div>
@@ -4948,6 +5099,11 @@ const LANGUAGE_FIXES = {
   , "Buyer portal access": "Quyền cổng người mua"
   , "Welcome GreenLoop Buyer": "Chào mừng người mua GreenLoop"
   , "Your workspace highlights verified credit offers, traceable outputs and purchase requests.": "Không gian này làm nổi bật đề nghị tín chỉ đã xác minh, đầu ra truy xuất được và yêu cầu mua."
+  , "Market shelf": "Quầy thị trường"
+  , "What the market includes": "Thị trường này gồm những gì"
+  , "Bio-refinery outputs": "Đầu ra tinh chế sinh học"
+  , "Field return": "Trả về ruộng"
+  , "Carbon offers": "Chào bán carbon"
   , "Carbon market": "Thị trường carbon"
   , "Partner workspace access": "Quyền không gian đối tác"
   , "Welcome GreenLoop Partner": "Chào mừng đối tác GreenLoop"
