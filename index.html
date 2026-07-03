@@ -2349,8 +2349,12 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
           </div>
         </div>
         <div class="g2 mb18">
-          <div class="card"><div class="ch"><div class="ct">Workflow pipeline</div><button class="gl-mini-btn" type="button" onclick="renderOperations()">Refresh</button></div><div class="cb"><div class="ops-list" id="opsTasks"></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">HTX pickup approvals</div><button class="gl-mini-btn" type="button" onclick="renderOperations()">Refresh</button></div><div class="cb"><div class="ops-list" id="opsPickupApprovals"></div></div></div>
           <div class="card"><div class="ch"><div class="ct">Logistics control tower</div></div><div class="cb"><div class="ops-list" id="opsRoutes"></div></div></div>
+        </div>
+        <div class="g2 mb18">
+          <div class="card"><div class="ch"><div class="ct">Workflow pipeline</div><button class="gl-mini-btn" type="button" onclick="renderOperations()">Refresh</button></div><div class="cb"><div class="ops-list" id="opsTasks"></div></div></div>
+          <div class="card"><div class="ch"><div class="ct">Collection decision note</div></div><div class="cb"><div class="market-note">HTX confirms farmer bookings, groups nearby requests into larger routes, then updates pickup status after collection.</div></div></div>
         </div>
         <div class="g2 mb18">
           <div class="card"><div class="ch"><div class="ct">Product catalog & traceability</div></div><div class="cb"><div class="ops-list" id="opsProducts"></div></div></div>
@@ -5940,6 +5944,41 @@ function opRows(targetId, items, render, empty) {
   target.innerHTML = items.length ? items.map(render).join('') : `<div class="gl-empty">${escapeHtml(t(empty))}</div>`;
 }
 
+function renderPickupApprovals(pickups = []) {
+  const statusLabel = {
+    pending: 'Waiting for HTX approval',
+    confirmed: 'Approved by HTX',
+    collected: 'Collected',
+    processed: 'Processed',
+    cancelled: 'Cancelled'
+  };
+  const queue = (pickups || [])
+    .filter(x => ['pending', 'confirmed', 'collected'].includes(String(x.status || 'pending')))
+    .slice(0, 6);
+  opRows('opsPickupApprovals', queue, x => {
+    const status = String(x.status || 'pending');
+    const farmer = x.farmer_name || 'Farmer';
+    const location = x.location || x.province || 'Collection point';
+    const primaryAction = status === 'pending'
+      ? `<button class="gl-mini-btn" type="button" onclick="setPickupStatusDirect('${escapeHtml(x.id)}','confirmed')">Approve</button>`
+      : status === 'confirmed'
+        ? `<button class="gl-mini-btn" type="button" onclick="setPickupStatusDirect('${escapeHtml(x.id)}','collected')">Mark collected</button>`
+        : '';
+    return `<div class="ops-row">
+      <div>
+        <div class="ops-name">${escapeHtml(farmer)} - ${escapeHtml(labelBiomass(x.biomass_type))}</div>
+        <div class="ops-meta">${formatKg(x.quantity_kg)} - ${escapeHtml(formatDate(x.scheduled_at))} - ${escapeHtml(location)}</div>
+        <div class="ops-meta">HTX approves booking, then route planning groups nearby pickups.</div>
+      </div>
+      <div class="role-action">
+        <span class="ops-status ${status === 'pending' ? 'warn' : ''}">${escapeHtml(statusLabel[status] || status)}</span>
+        ${primaryAction}
+        ${status !== 'cancelled' ? `<button class="gl-mini-btn danger" type="button" onclick="setPickupStatusDirect('${escapeHtml(x.id)}','cancelled')">Reject</button>` : ''}
+      </div>
+    </div>`;
+  }, 'No pickup bookings waiting for HTX approval.');
+}
+
 function setLoopText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
@@ -6190,6 +6229,9 @@ function renderOperationsDemoFallback() {
     { metric:'salinity', station:'Canal N-03', value:2.8, unit:'g/L', alert:0, sampled_at:new Date().toISOString() },
     { metric:'dissolved oxygen', station:'Pond W-01', value:5.2, unit:'mg/L', alert:0, sampled_at:new Date().toISOString() }
   ];
+  renderPickupApprovals([
+    { id:'demo-pickup-approval', farmer_name:'Nguyen Van Thanh', biomass_type:'rice_straw', quantity_kg:850, scheduled_at:new Date().toISOString(), location:'Manh lua xac minh A - Ca Mau', status:'pending' }
+  ]);
   opRows('opsTasks', tasks, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code)} - ${escapeHtml(x.assignee_role)}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No workflow tasks.');
   opRows('opsRoutes', [{ route_name:'Ca Mau HTX demo route', scheduled_at:new Date().toISOString(), assigned_kg:850, capacity_kg:1200, cost_per_ton_vnd:280000, status:'ready' }], x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.route_name)}</div><div class="ops-meta">${formatDate(x.scheduled_at)} - ${formatKg(x.assigned_kg)} / ${formatKg(x.capacity_kg)} - ${Number(x.cost_per_ton_vnd).toLocaleString('vi-VN')} VND/t</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No routes planned.');
   opRows('opsProducts', demo.products, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.category || 'Traceable output')} - ${escapeHtml(x.channel || 'market')} - ${formatKg(x.quantity_kg)} - ${Number(x.unit_price_vnd || 0).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status ${Number(x.return_to_field) ? 'warn' : ''}">${escapeHtml(x.status)}</span></div>`, 'No outputs listed.');
@@ -6217,23 +6259,25 @@ async function renderOperations() {
       ]);
       const buyerKpis = document.getElementById('opsKpis');
       if (buyerKpis) buyerKpis.innerHTML = [[offers.data.length,'Open credit offers'],[products.data.length,'Traceable outputs'],['VM0044','MRV framework'],['70 / 20 / 10','Revenue split']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
-      ['opsTasks','opsRoutes','opsPartners','opsIot'].forEach(id => opRows(id, [], () => '', 'This operational data is restricted to HTX, partners and administrators.'));
+      ['opsPickupApprovals','opsTasks','opsRoutes','opsPartners','opsIot'].forEach(id => opRows(id, [], () => '', 'This operational data is restricted to HTX, partners and administrators.'));
       opRows('opsProducts', products.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Traceable output')} · ${formatKg(x.quantity_kg)}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No traceable outputs available.');
       opRows('opsOffers', offers.data, x => `<div class="ops-row"><div><div class="ops-name">${Number(x.tonnes).toFixed(2)} tCO2e · ${escapeHtml(x.seller_name)}</div><div class="ops-meta">$${Number(x.price_per_tonne_usd).toFixed(2)} / tCO2e</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No credit offers available.');
       opRows('opsCompliance', compliance.checks, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.label)}</div><div class="ops-meta">${escapeHtml(compliance.framework)}</div></div><span class="ops-status warn">${escapeHtml(x.status)}</span></div>`, 'Compliance checklist unavailable.');
       applyLanguage();
       return;
     }
-    const [overview, tasks, routes, products, partners, offers, compliance, iot, residues, certificates, fieldApps, pathways] = await Promise.all([
+    const [overview, tasks, routes, products, partners, offers, compliance, iot, residues, certificates, fieldApps, pathways, pickups] = await Promise.all([
       apiFetch('/api/platform/overview'), apiFetch('/api/platform/tasks'), apiFetch('/api/platform/logistics/routes'),
       apiFetch('/api/platform/products'), apiFetch('/api/platform/partners'), apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/compliance'), apiFetch('/api/platform/iot/live'),
       apiFetch('/api/circular/residues').catch(() => ({data:[]})),
       apiFetch('/api/circular/certificates').catch(() => ({data:[]})),
       apiFetch('/api/circular/field-applications').catch(() => ({data:[]})),
-      apiFetch('/api/circular/conversion-pathways').catch(() => ({data:[]}))
+      apiFetch('/api/circular/conversion-pathways').catch(() => ({data:[]})),
+      apiFetch('/api/pickups?limit=20').catch(() => ({data:[]}))
     ]);
     const hasOpsData = [tasks.data, routes.data, products.data, partners.data, offers.data, residues.data, certificates.data, fieldApps.data, pathways.data]
       .some(list => Array.isArray(list) && list.length) ||
+      (Array.isArray(pickups.data) && pickups.data.length) ||
       (Array.isArray(iot.salinity) && iot.salinity.length) ||
       (Array.isArray(iot.environment) && iot.environment.length);
     if (!hasOpsData) {
@@ -6248,6 +6292,7 @@ async function renderOperations() {
       [certificates.data.length, 'Green certificates']
     ].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
     opRows('opsTasks', tasks.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Platform task')} · ${escapeHtml(x.assignee_role)}${x.due_at ? ' · due ' + escapeHtml(formatDate(x.due_at)) : ''}</div></div><span class="ops-status ${x.status === 'blocked' ? 'warn' : ''}">${escapeHtml(x.status.replace('_',' '))}</span></div>`, 'No workflow tasks.');
+    renderPickupApprovals(pickups.data || []);
     opRows('opsRoutes', routes.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.route_name)}</div><div class="ops-meta">${escapeHtml(formatDate(x.scheduled_at))} · ${formatKg(x.assigned_kg)} / ${formatKg(x.capacity_kg)} · ${Number(x.cost_per_ton_vnd).toLocaleString('vi-VN')} VND/t</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No routes planned.');
     opRows('opsProducts', products.data, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.name)}</div><div class="ops-meta">${escapeHtml(x.batch_code || 'Unlinked batch')} · ${formatKg(x.quantity_kg)} · ${Number(x.unit_price_vnd).toLocaleString('vi-VN')} VND/kg</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No outputs listed.');    const iotRows = [...(iot.salinity || []).map(x => ({ metric:'salinity', station:x.station, value:x.value_gpl, unit:'g/L', alert:x.alert, sampled_at:x.recorded_at })), ...(iot.environment || [])];
     opRows('opsIot', iotRows.slice(0,6), x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(String(x.metric).replaceAll('_',' '))}: ${Number(x.value).toFixed(1)} ${escapeHtml(x.unit || '')}</div><div class="ops-meta">${escapeHtml(x.station || 'Sensor')} - ${escapeHtml(formatDate(x.sampled_at))}</div></div><span class="ops-status ${Number(x.alert) ? 'warn' : ''}">${Number(x.alert) ? 'alert' : 'live'}</span></div>`, 'No IoT readings yet.');
@@ -7717,6 +7762,27 @@ async function updatePickupStatus(id) {
     renderCarbonSummary();
   } catch (err) {
     toast(friendlyError(err, 'Không thể cập nhật trạng thái'));
+  }
+}
+
+async function setPickupStatusDirect(id, status) {
+  if (id === 'demo-pickup-approval') {
+    toast(status === 'confirmed' ? 'HTX approved the demo pickup' : 'Demo pickup status updated');
+    return;
+  }
+  try {
+    await apiFetch('/api/pickups/' + encodeURIComponent(id) + '/status', {
+      method:'PATCH',
+      body: JSON.stringify({ status })
+    });
+    toast(status === 'confirmed' ? 'HTX approved pickup booking' : 'Pickup status updated');
+    renderOperations();
+    renderCollections();
+    renderDashboardData();
+    renderTimeline();
+    renderCarbonSummary();
+  } catch (err) {
+    toast(friendlyError(err, 'Could not update pickup status'));
   }
 }
 
