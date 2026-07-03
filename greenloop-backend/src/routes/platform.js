@@ -26,6 +26,48 @@ function requireOperationalAccess(req, res, next) {
   next();
 }
 
+const PROVINCE_COORDS = {
+  'ca-mau': { name: 'Ca Mau', latitude: 9.1768, longitude: 105.1524 },
+  'soc-trang': { name: 'Soc Trang', latitude: 9.6025, longitude: 105.9739 },
+  'ben-tre': { name: 'Ben Tre', latitude: 10.2434, longitude: 106.3756 },
+  'kien-giang': { name: 'Kien Giang', latitude: 10.0125, longitude: 105.0809 },
+  'can-tho': { name: 'Can Tho', latitude: 10.0452, longitude: 105.7469 },
+  'bac-lieu': { name: 'Bac Lieu', latitude: 9.2940, longitude: 105.7278 }
+};
+
+function ymd(date) {
+  return date.toISOString().slice(0, 10).replace(/-/g, '');
+}
+
+function recentPowerWindow() {
+  const end = new Date();
+  end.setUTCDate(end.getUTCDate() - 3);
+  const start = new Date(end);
+  start.setUTCDate(start.getUTCDate() - 6);
+  return { start: ymd(start), end: ymd(end) };
+}
+
+function powerNumber(value) {
+  const n = Number(value);
+  return Number.isFinite(n) && n > -900 ? n : null;
+}
+
+function normalizeBoundary(input) {
+  const points = Array.isArray(input) ? input.slice(0, 80) : [];
+  return points
+    .map(point => ({
+      lat: Number(point.lat),
+      lng: Number(point.lng)
+    }))
+    .filter(point => Number.isFinite(point.lat) && point.lat >= -90 && point.lat <= 90 && Number.isFinite(point.lng) && point.lng >= -180 && point.lng <= 180);
+}
+
+function boundaryCentroid(points) {
+  if (!points.length) return { lat: null, lng: null };
+  const total = points.reduce((sum, point) => ({ lat: sum.lat + point.lat, lng: sum.lng + point.lng }), { lat: 0, lng: 0 });
+  return { lat: total.lat / points.length, lng: total.lng / points.length };
+}
+
 router.get('/biomass/catalog', auth, async (_req, res) => {
   res.json({ data: biomassCatalog() });
 });
@@ -117,6 +159,137 @@ router.post('/iot/readings', requireRole('htx','admin','partner'), async (req,re
     db.run('INSERT INTO environmental_readings VALUES (?,?,?,?,?,?,?,?,?,?,?)',[id,req.user.id,station,province,metric,value,cfg.unit,clean(req.body.sampled_at,40)||now,'iot_sensor',cfg.alert(value)?1:0,now]);
     audit(db,req.user.id,'sensor_reading',id,'ingested',{station,province,metric,value,unit:cfg.unit});saveDb();res.status(201).json({id,metric,alert:cfg.alert(value)});
   } catch(err){next(err);}
+});
+
+router.get('/water/context', auth, async (req, res, next) => {
+  try {
+    const province = clean(req.query.province, 50) || req.user.province || 'ca-mau';
+    const coords = PROVINCE_COORDS[province] || PROVINCE_COORDS['ca-mau'];
+    const range = recentPowerWindow();
+    const url = new URL('https://power.larc.nasa.gov/api/temporal/daily/point');
+    url.searchParams.set('parameters', 'PRECTOTCORR,T2M,RH2M');
+    url.searchParams.set('community', 'AG');
+    url.searchParams.set('longitude', coords.longitude);
+    url.searchParams.set('latitude', coords.latitude);
+    url.searchParams.set('start', range.start);
+    url.searchParams.set('end', range.end);
+    url.searchParams.set('format', 'JSON');
+
+    const response = await fetch(url, { headers: { Accept: 'application/json' } });
+    if (!response.ok) return res.status(502).json({ error: 'NASA POWER data unavailable' });
+    const payload = await response.json();
+    const parameters = payload?.properties?.parameter || {};
+    const days = Object.keys(parameters.PRECTOTCORR || {}).sort().map(day => ({
+      date: `${day.slice(0, 4)}-${day.slice(4, 6)}-${day.slice(6, 8)}`,
+      precipitation_mm: powerNumber(parameters.PRECTOTCORR?.[day]),
+      temperature_c: powerNumber(parameters.T2M?.[day]),
+      relative_humidity_pct: powerNumber(parameters.RH2M?.[day])
+    }));
+    const validRain = days.map(x => x.precipitation_mm).filter(v => v !== null);
+    const validTemp = days.map(x => x.temperature_c).filter(v => v !== null);
+    res.json({
+      province,
+      location: coords,
+      source: {
+        name: 'NASA POWER Agroclimatology Daily API',
+        url: 'https://power.larc.nasa.gov/docs/services/api/temporal/daily/',
+        note: 'Real meteorological context. Salinity itself still comes from IoT readings or authorized water-quality imports.'
+      },
+      range,
+      days,
+      summary: {
+        total_rain_mm: Number(validRain.reduce((a, b) => a + b, 0).toFixed(1)),
+        avg_temperature_c: validTemp.length ? Number((validTemp.reduce((a, b) => a + b, 0) / validTemp.length).toFixed(1)) : null,
+        dry_days: validRain.filter(v => v < 1).length
+      },
+      fetched_at: new Date().toISOString()
+    });
+  } catch (err) { next(err); }
+});
+
+router.get('/field-plots', auth, async (req, res, next) => {
+  try {
+    const db = await getDb();
+    const own = req.user.role === 'farmer';
+    const data = rows(db, `
+      SELECT p.*, u.name AS farmer_name
+      FROM field_plots p
+      JOIN users u ON u.id = p.user_id
+      ${own ? 'WHERE p.user_id=?' : ''}
+      ORDER BY p.created_at DESC
+    `, own ? [req.user.id] : []);
+    res.json({ data: data.map(plot => ({ ...plot, boundary: JSON.parse(plot.boundary || '[]') })) });
+  } catch (err) { next(err); }
+});
+
+router.post('/field-plots', auth, async (req, res, next) => {
+  try {
+    const name = clean(req.body.name, 100);
+    const areaHa = Number(req.body.area_ha);
+    const boundary = normalizeBoundary(req.body.boundary);
+    const centroid = boundaryCentroid(boundary);
+    const lat = req.body.lat === undefined || req.body.lat === '' ? centroid.lat : Number(req.body.lat);
+    const lng = req.body.lng === undefined || req.body.lng === '' ? centroid.lng : Number(req.body.lng);
+    if (!name || !Number.isFinite(areaHa) || areaHa <= 0) return res.status(400).json({ error: 'Valid plot name and area_ha are required' });
+    if ((lat !== null && (!Number.isFinite(lat) || lat < -90 || lat > 90)) || (lng !== null && (!Number.isFinite(lng) || lng < -180 || lng > 180))) return res.status(400).json({ error: 'Invalid coordinates' });
+    const db = await getDb(), now = new Date().toISOString(), id = uuidv4();
+    db.run('INSERT INTO field_plots VALUES (?,?,?,?,?,?,?,?,?,?,?)', [
+      id, req.user.id, name, clean(req.body.province, 50) || req.user.province || 'ca-mau',
+      areaHa, clean(req.body.crop_type, 40) || 'rice', lat, lng,
+      JSON.stringify(boundary), now, now
+    ]);
+    audit(db, req.user.id, 'field_plot', id, 'created', { name, areaHa, lat, lng }); saveDb();
+    res.status(201).json({ id, status: 'created' });
+  } catch (err) { next(err); }
+});
+
+router.get('/iot/install-requests', auth, async (req, res, next) => {
+  try {
+    const db = await getDb();
+    const own = req.user.role === 'farmer';
+    const data = rows(db, `
+      SELECT r.*, p.name AS plot_name, p.area_ha, p.crop_type, p.province, p.lat, p.lng, p.boundary, u.name AS farmer_name, u.phone AS farmer_phone
+      FROM iot_install_requests r
+      JOIN field_plots p ON p.id = r.plot_id
+      JOIN users u ON u.id = r.user_id
+      ${own ? 'WHERE r.user_id=?' : ''}
+      ORDER BY CASE r.status WHEN 'pending' THEN 0 WHEN 'approved' THEN 1 WHEN 'installed' THEN 2 ELSE 3 END, r.requested_at DESC
+    `, own ? [req.user.id] : []);
+    res.json({ data: data.map(item => ({ ...item, requested_sensors: JSON.parse(item.requested_sensors || '[]'), boundary: JSON.parse(item.boundary || '[]') })) });
+  } catch (err) { next(err); }
+});
+
+router.post('/iot/install-requests', auth, async (req, res, next) => {
+  try {
+    const plotId = clean(req.body.plot_id, 80);
+    const db = await getDb();
+    const plot = one(db, 'SELECT id,user_id FROM field_plots WHERE id=?', [plotId]);
+    if (!plot) return res.status(404).json({ error: 'Field plot not found' });
+    if (plot.user_id !== req.user.id && !canOperate(req.user)) return res.status(403).json({ error: 'Forbidden' });
+    const existing = one(db, "SELECT id,status FROM iot_install_requests WHERE plot_id=? AND status IN ('pending','approved','installed')", [plotId]);
+    if (existing) return res.status(409).json({ error: 'This plot already has an active IoT request', id: existing.id, status: existing.status });
+    const sensors = Array.isArray(req.body.requested_sensors) && req.body.requested_sensors.length ? req.body.requested_sensors.slice(0, 6) : ['salinity', 'ph', 'moisture'];
+    const now = new Date().toISOString(), id = uuidv4();
+    db.run('INSERT INTO iot_install_requests VALUES (?,?,?,?,?,?,?,?,?,?)', [id, plotId, plot.user_id, 'pending', JSON.stringify(sensors), null, null, now, null, null]);
+    audit(db, req.user.id, 'iot_install_request', id, 'requested', { plotId, sensors }); saveDb();
+    res.status(201).json({ id, status: 'pending' });
+  } catch (err) { next(err); }
+});
+
+router.patch('/iot/install-requests/:id', requireRole('htx', 'admin'), async (req, res, next) => {
+  try {
+    const status = clean(req.body.status, 20);
+    if (!['pending', 'approved', 'installed', 'rejected'].includes(status)) return res.status(400).json({ error: 'Invalid request status' });
+    const db = await getDb();
+    const item = one(db, 'SELECT id FROM iot_install_requests WHERE id=?', [req.params.id]);
+    if (!item) return res.status(404).json({ error: 'IoT request not found' });
+    const now = new Date().toISOString();
+    db.run('UPDATE iot_install_requests SET status=?, admin_id=?, admin_notes=?, decided_at=CASE WHEN ? IN ("approved","rejected") THEN ? ELSE decided_at END, installed_at=CASE WHEN ?="installed" THEN ? ELSE installed_at END WHERE id=?', [
+      status, req.user.id, clean(req.body.admin_notes, 300) || null, status, now, status, now, req.params.id
+    ]);
+    audit(db, req.user.id, 'iot_install_request', req.params.id, 'status_changed', { status }); saveDb();
+    res.json({ id: req.params.id, status });
+  } catch (err) { next(err); }
 });
 
 const ENVIRONMENT_METRICS = {

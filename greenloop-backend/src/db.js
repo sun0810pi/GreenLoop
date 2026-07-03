@@ -190,6 +190,22 @@ function initSchema() {
       source TEXT NOT NULL DEFAULT 'manual', alert INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL,
       FOREIGN KEY (user_id) REFERENCES users(id)
     );
+    CREATE TABLE IF NOT EXISTS field_plots (
+      id TEXT PRIMARY KEY, user_id TEXT NOT NULL, name TEXT NOT NULL, province TEXT,
+      area_ha REAL NOT NULL DEFAULT 0, crop_type TEXT NOT NULL DEFAULT 'rice',
+      lat REAL, lng REAL, boundary TEXT NOT NULL DEFAULT '[]',
+      created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+    CREATE TABLE IF NOT EXISTS iot_install_requests (
+      id TEXT PRIMARY KEY, plot_id TEXT NOT NULL, user_id TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending',
+      requested_sensors TEXT NOT NULL DEFAULT '["salinity","ph","moisture"]',
+      admin_id TEXT, admin_notes TEXT, requested_at TEXT NOT NULL,
+      decided_at TEXT, installed_at TEXT,
+      FOREIGN KEY (plot_id) REFERENCES field_plots(id),
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
     CREATE TABLE IF NOT EXISTS soil_samples (
       id TEXT PRIMARY KEY, user_id TEXT NOT NULL, ph REAL, organic_matter_pct REAL, moisture_pct REAL,
       soil_carbon_pct REAL, lab_name TEXT, evidence_hash TEXT NOT NULL, sampled_at TEXT NOT NULL,
@@ -245,14 +261,6 @@ function initSchema() {
   `);
 
   migrateSchema();
-
-  // Seed demo data if empty
-  const userCount = db.exec("SELECT COUNT(*) as c FROM users")[0]?.values[0][0];
-  if (userCount === 0) seedDemoData();
-
-  seedPlatformData();
-  ensureForestProductDemo();
-  normalizeDemoDates();
 
   saveDb();
 }
