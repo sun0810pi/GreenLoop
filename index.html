@@ -2354,7 +2354,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         </div>
         <div class="g2 mb18">
           <div class="card"><div class="ch"><div class="ct">Workflow pipeline</div><button class="gl-mini-btn" type="button" onclick="renderOperations()">Refresh</button></div><div class="cb"><div class="ops-list" id="opsTasks"></div></div></div>
-          <div class="card"><div class="ch"><div class="ct">Collection decision note</div></div><div class="cb"><div class="market-note">HTX confirms farmer bookings, groups nearby requests into larger routes, then updates pickup status after collection.</div></div></div>
+          <div class="card"><div class="ch"><div class="ct">Ghi chú điều phối thu gom</div></div><div class="cb"><div class="market-note">HTX xác nhận lịch của nông hộ, gom các yêu cầu gần nhau thành tuyến lớn, rồi cập nhật trạng thái sau khi thu gom.</div></div></div>
         </div>
         <div class="g2 mb18">
           <div class="card"><div class="ch"><div class="ct">Product catalog & traceability</div></div><div class="cb"><div class="ops-list" id="opsProducts"></div></div></div>
@@ -3419,12 +3419,21 @@ async function renderMarketWorkspace() {
     status: x.status || 'traceable',
     tone: x.tone || (Number(x.return_to_field) ? 'good' : 'pilot')
   })));
+  const marketCount = productSource.filter(x => {
+    const channel = String(x.channel || '').toLowerCase();
+    return channel.includes('market') || channel.includes('th') || ['rice', 'coconut'].includes(x.kind);
+  }).length;
+  const refineryCount = productSource.filter(x => {
+    const channel = String(x.channel || '').toLowerCase();
+    return channel.includes('bio_refinery') || channel.includes('refinery') || channel.includes('tinh') || ['shrimp', 'melaleuca'].includes(x.kind);
+  }).length;
+  const carbonLaneCount = Math.max(offers.data.length, productSource.filter(x => ['rice', 'melaleuca'].includes(x.kind)).length ? 1 : 0);
   consoleEl.innerHTML = `
     <div class="market-summary">
       <div class="ops-kpi"><b>${escapeHtml(productSource.length)}</b><span>${escapeHtml(lang === 'vi' ? 'Mặt hàng' : 'Items')}</span></div>
-      <div class="ops-kpi"><b>${escapeHtml(products.data.filter(x => x.channel === 'market').length || 0)}</b><span>${escapeHtml(t('market products'))}</span></div>
-      <div class="ops-kpi"><b>${escapeHtml(products.data.filter(x => x.channel === 'bio_refinery').length || 0)}</b><span>${escapeHtml(lang === 'vi' ? 'Sản phẩm tinh chế' : 'Bio-refinery outputs')}</span></div>
-      <div class="ops-kpi"><b>${escapeHtml(offers.data.length)}</b><span>${escapeHtml(lang === 'vi' ? 'Chào bán carbon' : 'Carbon offers')}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(marketCount)}</b><span>${escapeHtml(t('market products'))}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(refineryCount)}</b><span>${escapeHtml(lang === 'vi' ? 'Sản phẩm tinh chế' : 'Bio-refinery outputs')}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(carbonLaneCount)}</b><span>${escapeHtml(lang === 'vi' ? 'Chào bán carbon' : 'Carbon offers')}</span></div>
     </div>
     <div class="market-showcase">${cards}</div>`;
 }
@@ -5761,7 +5770,7 @@ async function startSampleFlow() {
     setBusy(btn, true, 'Đang mở demo...');
     const data = await apiFetch('/api/auth/demo', { method: 'POST', body: JSON.stringify({}) });
     GL_TOKEN = data.token;
-    try { localStorage.setItem('gl_token', GL_TOKEN); localStorage.setItem('gl_sample_flow', '1'); localStorage.removeItem('gl_onboarding'); } catch (e) {}
+    try { localStorage.setItem('gl_token', GL_TOKEN); localStorage.setItem('gl_sample_flow', '1'); localStorage.removeItem('gl_onboarding'); localStorage.removeItem('gl_demo_pickup_status'); } catch (e) {}
     updateUserUI(data.user);
     document.body.classList.add('demo-mode');
     toast('Đã mở flow có dữ liệu sẵn');
@@ -5945,13 +5954,9 @@ function opRows(targetId, items, render, empty) {
 }
 
 function renderPickupApprovals(pickups = []) {
-  const statusLabel = {
-    pending: 'Waiting for HTX approval',
-    confirmed: 'Approved by HTX',
-    collected: 'Collected',
-    processed: 'Processed',
-    cancelled: 'Cancelled'
-  };
+  const statusLabel = lang === 'vi'
+    ? { pending: 'Chờ HTX duyệt', confirmed: 'HTX đã duyệt', collected: 'Đã thu gom', processed: 'Đã xử lý', cancelled: 'Đã từ chối' }
+    : { pending: 'Waiting for HTX approval', confirmed: 'Approved by HTX', collected: 'Collected', processed: 'Processed', cancelled: 'Cancelled' };
   const queue = (pickups || [])
     .filter(x => ['pending', 'confirmed', 'collected'].includes(String(x.status || 'pending')))
     .slice(0, 6);
@@ -5960,20 +5965,20 @@ function renderPickupApprovals(pickups = []) {
     const farmer = x.farmer_name || 'Farmer';
     const location = x.location || x.province || 'Collection point';
     const primaryAction = status === 'pending'
-      ? `<button class="gl-mini-btn" type="button" onclick="setPickupStatusDirect('${escapeHtml(x.id)}','confirmed')">Approve</button>`
+      ? `<button class="gl-mini-btn" type="button" onclick="setPickupStatusDirect('${escapeHtml(x.id)}','confirmed')">${escapeHtml(lang === 'vi' ? 'Duyệt' : 'Approve')}</button>`
       : status === 'confirmed'
-        ? `<button class="gl-mini-btn" type="button" onclick="setPickupStatusDirect('${escapeHtml(x.id)}','collected')">Mark collected</button>`
+        ? `<button class="gl-mini-btn" type="button" onclick="setPickupStatusDirect('${escapeHtml(x.id)}','collected')">${escapeHtml(lang === 'vi' ? 'Đã thu gom' : 'Mark collected')}</button>`
         : '';
     return `<div class="ops-row">
       <div>
         <div class="ops-name">${escapeHtml(farmer)} - ${escapeHtml(labelBiomass(x.biomass_type))}</div>
         <div class="ops-meta">${formatKg(x.quantity_kg)} - ${escapeHtml(formatDate(x.scheduled_at))} - ${escapeHtml(location)}</div>
-        <div class="ops-meta">HTX approves booking, then route planning groups nearby pickups.</div>
+        <div class="ops-meta">${escapeHtml(lang === 'vi' ? 'HTX duyệt lịch, sau đó hệ thống gom các điểm gần nhau vào tuyến thu gom.' : 'HTX approves booking, then route planning groups nearby pickups.')}</div>
       </div>
       <div class="role-action">
         <span class="ops-status ${status === 'pending' ? 'warn' : ''}">${escapeHtml(statusLabel[status] || status)}</span>
         ${primaryAction}
-        ${status !== 'cancelled' ? `<button class="gl-mini-btn danger" type="button" onclick="setPickupStatusDirect('${escapeHtml(x.id)}','cancelled')">Reject</button>` : ''}
+        ${status !== 'cancelled' ? `<button class="gl-mini-btn danger" type="button" onclick="setPickupStatusDirect('${escapeHtml(x.id)}','cancelled')">${escapeHtml(lang === 'vi' ? 'Từ chối' : 'Reject')}</button>` : ''}
       </div>
     </div>`;
   }, 'No pickup bookings waiting for HTX approval.');
@@ -6218,6 +6223,7 @@ function renderCircularFlow(payload = {}) {
 
 function renderOperationsDemoFallback() {
   const demo = circularDemoPayload();
+  const demoPickupStatus = localStorage.getItem('gl_demo_pickup_status') || 'pending';
   const ov = document.getElementById('opsKpis');
   if (ov) ov.innerHTML = [[demo.residues.length,'Biomass batches'],[3,'Open tasks'],[demo.routes.length,'Live routes'],[demo.certificates.length,'MRV checks']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${escapeHtml(l)}</span></div>`).join('');
   const tasks = [
@@ -6230,7 +6236,7 @@ function renderOperationsDemoFallback() {
     { metric:'dissolved oxygen', station:'Pond W-01', value:5.2, unit:'mg/L', alert:0, sampled_at:new Date().toISOString() }
   ];
   renderPickupApprovals([
-    { id:'demo-pickup-approval', farmer_name:'Nguyen Van Thanh', biomass_type:'rice_straw', quantity_kg:850, scheduled_at:new Date().toISOString(), location:'Manh lua xac minh A - Ca Mau', status:'pending' }
+    { id:'demo-pickup-approval', farmer_name:'Nguyen Van Thanh', biomass_type:'rice_straw', quantity_kg:850, scheduled_at:new Date().toISOString(), location:'Manh lua xac minh A - Ca Mau', status: demoPickupStatus }
   ]);
   opRows('opsTasks', tasks, x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.title)}</div><div class="ops-meta">${escapeHtml(x.batch_code)} - ${escapeHtml(x.assignee_role)}</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No workflow tasks.');
   opRows('opsRoutes', [{ route_name:'Ca Mau HTX demo route', scheduled_at:new Date().toISOString(), assigned_kg:850, capacity_kg:1200, cost_per_ton_vnd:280000, status:'ready' }], x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.route_name)}</div><div class="ops-meta">${formatDate(x.scheduled_at)} - ${formatKg(x.assigned_kg)} / ${formatKg(x.capacity_kg)} - ${Number(x.cost_per_ton_vnd).toLocaleString('vi-VN')} VND/t</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`, 'No routes planned.');
@@ -7767,7 +7773,11 @@ async function updatePickupStatus(id) {
 
 async function setPickupStatusDirect(id, status) {
   if (id === 'demo-pickup-approval') {
-    toast(status === 'confirmed' ? 'HTX approved the demo pickup' : 'Demo pickup status updated');
+    localStorage.setItem('gl_demo_pickup_status', status);
+    toast(status === 'confirmed'
+      ? (lang === 'vi' ? 'HTX đã duyệt lịch thu gom demo' : 'HTX approved the demo pickup')
+      : (lang === 'vi' ? 'Đã cập nhật trạng thái lịch demo' : 'Demo pickup status updated'));
+    renderOperationsDemoFallback();
     return;
   }
   try {
