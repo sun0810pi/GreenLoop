@@ -1990,7 +1990,7 @@ body[data-theme="light"] .l-nav-signup{background:var(--lb);color:var(--fd);bord
         <div class="card mb18">
           <div class="ch">
             <div class="ct">Market</div>
-            <span class="badge ba">By-products and outputs</span>
+            <span class="badge ba">Farmer inputs and bio-products</span>
           </div>
           <div class="cb" id="marketConsole"><div class="gl-empty">Loading market...</div></div>
         </div>
@@ -2974,14 +2974,13 @@ function localizedText(value) {
 }
 
 function marketThumbnail(kind) {
-  const art = {
-    rice: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#264f2c"/><stop offset="1" stop-color="#78c94d"/></linearGradient></defs><rect width="180" height="120" rx="18" fill="#101c14"/><circle cx="140" cy="28" r="32" fill="#204d2f" opacity=".55"/><path d="M28 88c14-20 27-28 43-28 10 0 21 3 31 9 13-17 27-24 42-24 10 0 20 2 28 7v26H28z" fill="url(#g)"/><path d="M56 18c10 15 14 31 12 48M82 14c9 16 13 33 10 52M108 16c8 15 11 29 9 44" stroke="#c7f28a" stroke-width="4" stroke-linecap="round"/><path d="M45 86c11-10 19-15 30-15 9 0 18 3 25 9" stroke="#dff6b1" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
-    shrimp: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><rect width="180" height="120" rx="18" fill="#101c14"/><circle cx="142" cy="30" r="30" fill="#17413f" opacity=".55"/><path d="M38 77c17-18 33-27 51-27 22 0 37 12 44 29-10-4-18-5-25-5-10 0-19 4-27 12-15 0-29-3-43-9z" fill="#ffb36b"/><path d="M85 51c22-8 43-8 57 2" stroke="#ffc88e" stroke-width="4" stroke-linecap="round"/><path d="M127 32c13 2 22 8 28 17" stroke="#ffd8aa" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M46 86c11 4 22 6 34 6" stroke="#ffcf9e" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
-    melaleuca: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><rect width="180" height="120" rx="18" fill="#101c14"/><circle cx="141" cy="28" r="30" fill="#1c4830" opacity=".55"/><path d="M35 92c13-25 27-41 42-48 16-7 33-7 52 0 14 5 24 13 30 24-15-2-29-1-43 3-15 4-28 12-39 23-14 0-28-1-42-2z" fill="#6fbc5a"/><path d="M68 71c10-22 22-36 36-43" stroke="#b4e89b" stroke-width="4" stroke-linecap="round"/><path d="M93 39c10 7 17 16 22 28" stroke="#8dd07a" stroke-width="4" stroke-linecap="round"/><path d="M108 64c9 2 17 6 23 12" stroke="#d9f2ba" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
-    coconut: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><rect width="180" height="120" rx="18" fill="#101c14"/><circle cx="140" cy="28" r="30" fill="#543f26" opacity=".5"/><path d="M35 74c12-17 25-26 39-26 10 0 20 3 29 9 12-10 24-15 36-15 12 0 23 4 32 11v29H35z" fill="#c89a64"/><path d="M50 39c18 5 34 16 48 33" stroke="#f0d7b1" stroke-width="5" stroke-linecap="round"/><path d="M79 31c12 8 24 20 34 36" stroke="#ad7c46" stroke-width="4" stroke-linecap="round"/><path d="M106 24c10 10 18 23 24 38" stroke="#e8c995" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`
+  const images = {
+    biochar: 'assets/market/biochar.png',
+    mulch: 'assets/market/mulch-film.png',
+    packaging: 'assets/market/food-packaging.png',
+    pesticide: 'assets/market/biological-pesticide.png'
   };
-  const key = ['rice', 'shrimp', 'melaleuca', 'coconut'].includes(kind) ? kind : 'rice';
-  return svgDataUri(art[key]);
+  return images[kind] || images.biochar;
 }
 
 function marketFeatureCards(items) {
@@ -3130,6 +3129,53 @@ const MARKET_SHOWCASE = [
     price: '1,800 VND/kg',
     channel: { en: 'market', vi: 'thị trường' },
     status: { en: 'classified', vi: 'phân loại' },
+    tone: 'ml'
+  }
+];
+
+const MARKET_PRODUCTS = [
+  {
+    kind: 'biochar',
+    title: { en: 'Soil biochar', vi: 'Biochar cải tạo đất' },
+    subtitle: { en: 'Returned to farmers for soil carbon and water retention', vi: 'Bán lại cho nông hộ để cải tạo đất và giữ nước' },
+    tag: { en: 'farm input', vi: 'đầu vào nông nghiệp' },
+    residue: { en: 'Made from traceable rice straw and woody biomass; applied back to fields after MRV logging.', vi: 'Sản xuất từ rơm rạ và sinh khối có truy xuất; trả lại ruộng sau khi ghi nhận MRV.' },
+    price: '1,800 VND/kg',
+    channel: { en: 'Farmer resale', vi: 'bán lại cho nông dân' },
+    status: { en: 'ready', vi: 'sẵn sàng' },
+    tone: 'good'
+  },
+  {
+    kind: 'mulch',
+    title: { en: 'Biological mulch film', vi: 'Màng phủ sinh học' },
+    subtitle: { en: 'Field cover for moisture retention and weed reduction', vi: 'Phủ luống giúp giữ ẩm và giảm cỏ dại' },
+    tag: { en: 'field input', vi: 'vật tư đồng ruộng' },
+    residue: { en: 'A bio-material output that farmers can buy back for vegetable and rice-field management.', vi: 'Sản phẩm vật liệu sinh học bán lại cho nông hộ để quản lý luống rau và ruộng.' },
+    price: '45,000 VND/roll',
+    channel: { en: 'Farmer resale', vi: 'bán lại cho nông dân' },
+    status: { en: 'pilot batch', vi: 'lô thí điểm' },
+    tone: 'proxy'
+  },
+  {
+    kind: 'packaging',
+    title: { en: 'Food packaging', vi: 'Bao bì thực phẩm sinh học' },
+    subtitle: { en: 'Bio-based trays, cups and bags for local processors', vi: 'Khay, ly và túi sinh học cho cơ sở chế biến' },
+    tag: { en: 'bio-product', vi: 'sản phẩm sinh học' },
+    residue: { en: 'Coconut and fibre streams become packaging outputs for farm shops, processors and local food brands.', vi: 'Dòng xơ dừa và sợi sinh học trở thành bao bì cho cửa hàng nông sản, cơ sở chế biến và thương hiệu địa phương.' },
+    price: '1,200 VND/unit',
+    channel: { en: 'Processor resale', vi: 'bán cho cơ sở chế biến' },
+    status: { en: 'sample ready', vi: 'có mẫu' },
+    tone: 'pilot'
+  },
+  {
+    kind: 'pesticide',
+    title: { en: 'Biological pesticides', vi: 'Thuốc bảo vệ thực vật sinh học' },
+    subtitle: { en: 'Bio-input for lower chemical use in the next crop', vi: 'Đầu vào sinh học giúp giảm hóa chất vụ sau' },
+    tag: { en: 'farm input', vi: 'đầu vào nông nghiệp' },
+    residue: { en: 'Biological crop-protection inputs are distributed through HTX channels for safer field management.', vi: 'Sản phẩm bảo vệ cây trồng sinh học được phân phối lại qua HTX để quản lý đồng ruộng an toàn hơn.' },
+    price: '120,000 VND/bottle',
+    channel: { en: 'Farmer resale', vi: 'bán lại cho nông dân' },
+    status: { en: 'partner product', vi: 'sản phẩm đối tác' },
     tone: 'ml'
   }
 ];
@@ -3313,7 +3359,7 @@ async function renderRoleWorkspace(role) {
       <div class="card"><div class="ch"><div class="ct">Live collection routes</div></div><div class="cb"><div class="ops-list">${routes.data.map(x => `<div class="ops-row"><div><div class="ops-name">${escapeHtml(x.route_name)}</div><div class="ops-meta">${escapeHtml(formatDate(x.scheduled_at))} · ${formatKg(x.assigned_kg)} / ${formatKg(x.capacity_kg)} · ${Number(x.cost_per_ton_vnd).toLocaleString('vi-VN')} VND/t</div></div><span class="ops-status">${escapeHtml(x.status)}</span></div>`).join('') || `<div class="gl-empty">No routes planned.</div>`}</div></div></div>`;
     } else if (role === 'buyer') {
       const [offers, products, interests] = await Promise.all([apiFetch('/api/platform/credits/offers'), apiFetch('/api/platform/products'), apiFetch('/api/platform/credits/interests')]);
-      const marketCards = marketFeatureCards(MARKET_SHOWCASE);
+      const marketCards = marketFeatureCards(MARKET_PRODUCTS);
       consoleEl.innerHTML = `
         <div class="ops-grid mb18">
           ${[[offers.data.length, 'Open credit offers'], [products.data.length, 'Traceable products'], [interests.data.filter(x=>x.status==='pending').length, 'Pending purchase requests'], ['VM0044', 'MRV framework']].map(([v,l]) => `<div class="ops-kpi"><b>${escapeHtml(v)}</b><span>${t(l)}</span></div>`).join('')}
@@ -3324,7 +3370,7 @@ async function renderRoleWorkspace(role) {
             <div class="market-panel-head">
               <div>
                 <div class="market-panel-title">${escapeHtml(t('What the market includes'))}</div>
-                <div class="market-panel-copy">${escapeHtml(lang === 'vi' ? 'Quầy market này gom các dòng sinh khối chính: rơm lúa, phụ phẩm thủy sản, phụ phẩm tràm và phụ phẩm dừa. Mỗi dòng có ảnh minh hoạ, kênh bán, giá tham chiếu và trạng thái truy xuất.' : 'This market shelf groups the main biomass streams: rice straw, aquaculture by-products, melaleuca residue and coconut by-products. Each stream shows an image, sales channel, reference price and traceability status.')}</div>
+                <div class="market-panel-copy">${escapeHtml(lang === 'vi' ? 'Quầy market này tập trung vào sản phẩm cuối cùng: biochar, màng phủ sinh học, bao bì thực phẩm sinh học và thuốc bảo vệ thực vật sinh học. Đây là các sản phẩm GreenLoop/đối tác bán lại cho nông hộ và cơ sở chế biến, không phải phụ phẩm thô.' : 'This market shelf focuses on final products: soil biochar, biological mulch film, food packaging and biological pesticides. These are GreenLoop/partner products sold back to farmers and local processors, not raw residue streams.')}</div>
               </div>
               <div class="market-legend">
                 <span class="ops-status">Traceable</span>
@@ -3396,11 +3442,7 @@ async function setWorkspaceTaskStatus(id, status) {
 async function renderMarketWorkspace() {
   const consoleEl = document.getElementById('marketConsole');
   if (!consoleEl) return;
-  const [products, offers] = await Promise.all([
-    apiFetch('/api/platform/products').catch(() => ({ data: [] })),
-    apiFetch('/api/platform/credits/offers').catch(() => ({ data: [] }))
-  ]);
-  const productSource = Array.isArray(products.data) && products.data.length ? products.data : MARKET_SHOWCASE.map(x => ({
+  const productSource = MARKET_PRODUCTS.map(x => ({
     name: localizedText(x.title),
     batch_code: localizedText(x.subtitle),
     quantity_kg: 0,
@@ -3427,20 +3469,20 @@ async function renderMarketWorkspace() {
     tone: x.tone || (Number(x.return_to_field) ? 'good' : 'pilot')
   })));
   const marketCount = productSource.filter(x => {
-    const channel = String(x.channel || '').toLowerCase();
-    return channel.includes('market') || channel.includes('th') || ['rice', 'coconut'].includes(x.kind);
+    const channel = localizedText(x.channel).toLowerCase();
+    return channel.includes('farmer') || channel.includes('nông dân') || ['biochar', 'mulch', 'pesticide'].includes(x.kind);
   }).length;
   const refineryCount = productSource.filter(x => {
-    const channel = String(x.channel || '').toLowerCase();
-    return channel.includes('bio_refinery') || channel.includes('refinery') || channel.includes('tinh') || ['shrimp', 'melaleuca'].includes(x.kind);
+    const channel = localizedText(x.channel).toLowerCase();
+    return channel.includes('processor') || channel.includes('chế biến') || ['packaging'].includes(x.kind);
   }).length;
-  const carbonLaneCount = Math.max(offers.data.length, productSource.filter(x => ['rice', 'melaleuca'].includes(x.kind)).length ? 1 : 0);
+  const inputCount = productSource.filter(x => ['biochar', 'mulch', 'pesticide'].includes(x.kind)).length;
   consoleEl.innerHTML = `
     <div class="market-summary">
-      <div class="ops-kpi"><b>${escapeHtml(productSource.length)}</b><span>${escapeHtml(lang === 'vi' ? 'Mặt hàng' : 'Items')}</span></div>
-      <div class="ops-kpi"><b>${escapeHtml(marketCount)}</b><span>${escapeHtml(t('market products'))}</span></div>
-      <div class="ops-kpi"><b>${escapeHtml(refineryCount)}</b><span>${escapeHtml(lang === 'vi' ? 'Sản phẩm tinh chế' : 'Bio-refinery outputs')}</span></div>
-      <div class="ops-kpi"><b>${escapeHtml(carbonLaneCount)}</b><span>${escapeHtml(lang === 'vi' ? 'Chào bán carbon' : 'Carbon offers')}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(productSource.length)}</b><span>${escapeHtml(lang === 'vi' ? 'Sản phẩm' : 'Products')}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(marketCount)}</b><span>${escapeHtml(lang === 'vi' ? 'Bán lại cho nông dân' : 'Farmer resale')}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(refineryCount)}</b><span>${escapeHtml(lang === 'vi' ? 'Bán cho cơ sở chế biến' : 'Processor resale')}</span></div>
+      <div class="ops-kpi"><b>${escapeHtml(inputCount)}</b><span>${escapeHtml(lang === 'vi' ? 'Đầu vào nông nghiệp' : 'Farm inputs')}</span></div>
     </div>
     <div class="market-showcase">${cards}</div>`;
 }
@@ -5846,7 +5888,7 @@ function nav(page) {
         : t('Hello Mr. Thanh - Winter-Spring aquaculture season');
   const titles = {
     dashboard: [t('Home'), dashSub],
-    market: [t('Market'), t('Browse traceable by-products and outputs')],
+    market: [t('Market'), t('Browse farmer inputs and bio-products')],
     ecosystem: [t('Ecosystem Engine'), t('Configure rice, aquaculture and melaleuca systems by ecological zone')],
     collection: [t('Book a pickup'), t('Schedule HTX truck to collect your straw')],
     salinity: [t('Soil & water check'), t('Track water salinity and soil indicators for installed fields')],
