@@ -3011,8 +3011,8 @@ function marketFeatureCards(items) {
 
 function decisionEngineBadge() {
   const label = lang === 'vi'
-    ? '⚙ Ngưỡng cố định (rule-based) · ML: roadmap'
-    : '⚙ Fixed thresholds (rule-based) · ML: roadmap';
+    ? '⚙ Rule-based chính · ML pilot chưa dùng để quyết định'
+    : '⚙ Rule-based primary · ML pilot not used for decisions';
   return `<span class="source-pill proxy">${escapeHtml(label)}</span>`;
 }
 
@@ -3927,7 +3927,7 @@ const STATIC_TEXT = {
   "Water Sensors (Phase 2)": "Cảm biến nước (giai đoạn 2)",
   "IoT Ready": "Sẵn sàng IoT",
   "Early Warning Active": "Cảnh báo sớm đang bật",
-  "ML anomaly model monitoring shrimp pond DO and temperature. Alert triggers at <4 mg/L DO.": "Mô hình phát hiện bất thường đang theo dõi DO và nhiệt độ ao tôm. Cảnh báo bật khi DO dưới 4 mg/L.",
+  "Rule-based monitoring tracks shrimp pond DO and temperature. Alert triggers at <4 mg/L DO.": "Giám sát theo ngưỡng rule-based theo dõi DO và nhiệt độ ao tôm. Cảnh báo bật khi DO dưới 4 mg/L.",
   "VERIFIED": "ĐÃ XÁC MINH",
   "Total CO₂e": "Tổng CO₂e",
   "Soil Score": "Điểm đất",
@@ -7410,7 +7410,7 @@ async function renderDecisionMoment() {
         <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
           <div>
             <div style="font-size:11px;color:var(--tm);font-weight:800;text-transform:uppercase">${escapeHtml(lang === 'vi' ? 'ML baseline' : 'ML baseline')}</div>
-            <div style="font-size:20px;font-weight:900;color:var(--tp);line-height:1.35;margin-top:6px">${escapeHtml(lang === 'vi' ? 'Dự đoán từ model đã train' : 'Prediction from trained baseline model')}</div>
+            <div style="font-size:20px;font-weight:900;color:var(--tp);line-height:1.35;margin-top:6px">${escapeHtml(lang === 'vi' ? 'Dự đoán ML đã qua quality gate' : 'Quality-gated ML pilot prediction')}</div>
           </div>
           ${sourcePill('ml')}
         </div>
@@ -7426,8 +7426,8 @@ async function renderDecisionMoment() {
       </div>` : `
       <div style="border:1px solid var(--borderl);background:var(--bg);border-radius:8px;padding:14px">
         <div style="font-size:11px;color:var(--tm);font-weight:800;text-transform:uppercase">${escapeHtml(lang === 'vi' ? 'ML baseline' : 'ML baseline')}</div>
-        <div style="font-size:18px;font-weight:900;color:var(--tp);line-height:1.35;margin-top:6px">${escapeHtml(lang === 'vi' ? 'Model đang chờ artifact' : 'Model artifact is not ready')}</div>
-        <div style="font-size:12px;color:var(--ts);margin-top:6px">${escapeHtml(lang === 'vi' ? 'Bấm Refresh sau khi train xong model.' : 'Press refresh after the model is trained.')}</div>
+        <div style="font-size:18px;font-weight:900;color:var(--tp);line-height:1.35;margin-top:6px">${escapeHtml(lang === 'vi' ? 'ML pilot đang tạm khóa' : 'ML pilot is quality-gated')}</div>
+        <div style="font-size:12px;color:var(--ts);margin-top:6px">${escapeHtml(lang === 'vi' ? 'Model đã train nhưng test R² chưa đạt; demo dùng rule-based engine để tránh overclaim.' : 'The model artifact exists, but holdout quality is not ready; the demo uses the rule-based engine instead.')}</div>
       </div>`;
     target.innerHTML = `
       <div style="display:grid;grid-template-columns:minmax(160px,.75fr) auto minmax(220px,1.25fr);gap:14px;align-items:start">

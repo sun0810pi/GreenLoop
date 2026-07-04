@@ -19,6 +19,23 @@ const SALINITY_DECISION_TIERS = [
 ];
 const SENSOR_ALERT_GPL = 5.0; // field sensor alert threshold; separate from the decision tiers above
 const ML_ROADMAP = 'Bước ML tiếp theo: dùng Open-Meteo + NASA POWER làm features, ghép với nhãn đo mặn thật từ trạm/MRC/báo cáo nghiên cứu để train và hiệu chỉnh mô hình';
+const ML_QUALITY_GATE = { min_test_r2: 0, max_test_mae_gpl: 3 };
+
+function assessMlModelQuality(model) {
+  const testR2 = Number(model?.test_metrics?.r2);
+  const testMae = Number(model?.test_metrics?.mae);
+  const ready = Number.isFinite(testR2) &&
+    Number.isFinite(testMae) &&
+    testR2 >= ML_QUALITY_GATE.min_test_r2 &&
+    testMae <= ML_QUALITY_GATE.max_test_mae_gpl;
+  return {
+    production_ready: ready,
+    quality_gate: ML_QUALITY_GATE,
+    quality_warning: ready
+      ? null
+      : 'ML baseline is not used for operational advice because holdout test quality is below the demo safety gate. Use rule_based_v1 until more real salinity labels are added.'
+  };
+}
 const SALINITY_PROXY_DISCLAIMER = 'Ước tính proxy từ dữ liệu thủy văn công khai, không thay thế đo mặn tại hiện trường';
 const PROXY_LOCATIONS = {
   'ca-mau': {
@@ -548,9 +565,13 @@ router.get('/ml/model', auth, async (_req, res) => {
   try {
     const model = loadSalinityModel();
     if (!model) return res.status(404).json({ error: 'ML model artifact not found. Train the model first.' });
+    const quality = assessMlModelQuality(model);
     res.json({
       model_type: model.model_type,
       trained_at: model.trained_at,
+      production_ready: quality.production_ready,
+      quality_gate: quality.quality_gate,
+      quality_warning: quality.quality_warning,
       feature_names: model.feature_names,
       alpha: model.alpha,
       train_metrics: model.train_metrics,
@@ -572,6 +593,22 @@ router.get('/ml-predict', auth, async (req, res) => {
     if (!province) return res.status(400).json({ error: 'province required' });
     const model = loadSalinityModel();
     if (!model) return res.status(404).json({ error: 'ML model artifact not found. Train the model first.' });
+    const quality = assessMlModelQuality(model);
+    if (!quality.production_ready) {
+      return res.status(409).json({
+        error: 'model_not_production_ready',
+        engine: model.model_type,
+        production_ready: false,
+        quality_gate: quality.quality_gate,
+        model_metrics: {
+          train: model.train_metrics,
+          test: model.test_metrics
+        },
+        recommendation_engine: 'rule_based_v1',
+        warning: quality.quality_warning,
+        disclaimer: 'ML endpoint is intentionally disabled for demo decisions until holdout performance improves with more field salinity labels.'
+      });
+    }
     const location = resolveMlLocation(db, province, req.query.station || null);
     const labelDataset = salinityLabelSummary(db, normalizeProvince(province));
     const globalLabelDataset = salinityLabelSummary(db, null);

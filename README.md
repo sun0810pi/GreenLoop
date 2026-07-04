@@ -21,6 +21,8 @@ GreenLoop is a biomass, IoT and carbon-footprint platform for Mekong Delta and C
 - Admin queue for IoT request management.
 - Water Check by installed field plot.
 - Real weather context from NASA POWER Agroclimatology Daily API.
+- Open-Meteo Flood API river-discharge proxy for salinity risk.
+- Rule-based season decision engine v1 for ST25, melaleuca and brackish aquaculture recommendations.
 - Simulated field telemetry for hackathon demo until physical sensors are connected.
 - Biomass pickup booking and collection tracking.
 - Carbon record, carbon passport and MRV evidence workflow.
@@ -32,11 +34,19 @@ GreenLoop is a biomass, IoT and carbon-footprint platform for Mekong Delta and C
   - Rainfall: `PRECTOTCORR`
   - Temperature: `T2M`
   - Relative humidity: `RH2M`
+- Open-Meteo Flood API:
+  - `river_discharge`, used as an open-data proxy for saline intrusion risk.
 - Satellite map tiles:
   - Esri World Imagery
   - OpenStreetMap fallback for faster/safer demo loading
 
-Note: NASA POWER provides real meteorological context, not direct canal salinity. In the hackathon demo, salinity, pH and soil moisture are simulated per installed field. In production, the same API flow should receive values from EC/salinity, pH and soil-moisture sensors.
+Note: NASA POWER and Open-Meteo provide real open-data context, not direct canal salinity measurement. In the hackathon demo, field salinity, pH and soil moisture are simulated per installed field until physical EC/salinity, pH and soil-moisture sensors are connected.
+
+## ML Status
+
+The current salinity ML artifact is kept as a research pilot, not as the operational recommendation engine. Its holdout test metrics are not yet good enough for production advice, so `/api/salinity/ml-predict` is quality-gated and returns `409 model_not_production_ready` when the model fails the threshold. The demo decision moment uses `rule_based_v1`, which is easier to explain and safer for judging.
+
+Next ML step: add more real salinity labels from field sensors, MRC/NAWAPI or station reports, then retrain and validate again before enabling ML predictions.
 
 ## Tech Stack
 
@@ -62,7 +72,7 @@ http://localhost:3000
 
 ## Demo Accounts
 
-The seed demo data has been disabled so new accounts start with zero operating records.
+The app supports two demo modes: sample-data flow for judging and clean-account flow for showing onboarding from zero.
 
 Current local admin account:
 
