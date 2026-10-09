@@ -1374,6 +1374,15 @@ html[data-theme="dark"] .modal-box{background:rgba(32,36,34,.55)}
   html[data-theme="dark"] #app .bn-item.on{background:rgba(255,255,255,.14)}
   #app .bn-item.more.on{background:none;box-shadow:none}
 }
+
+/* ================= v8: nền minh họa + trang hiện ngay ================= */
+body.in-app::before{background:var(--lg-wall-l,none) center/cover no-repeat,#E9F6EE}
+html[data-theme="dark"] body.in-app::before{background:var(--lg-wall-d,none) center/cover no-repeat,#03130C}
+body.in-app::after,html[data-theme="dark"] body.in-app::after{display:none}
+/* bỏ hiệu ứng hiện lần lượt: thẻ và nhãn có mặt ngay khi mở trang */
+#app .page.on .grid>*,#app .page.on .sensor-grid>*{animation:none}
+#app .page.on{animation:pgFast .16s ease-out}
+@keyframes pgFast{from{opacity:.4}to{opacity:1}}
 </style>
 </head>
 <body>
@@ -3429,7 +3438,7 @@ function nav(p) {
   hydrateIcons($('#p-' + p)); translateDom($('#app')); toggleSidebar(false);
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   document.body.classList.toggle('pg-map', p === 'map');
-  lgScan();
+  requestAnimationFrame(() => lgScan());
   if (location.hash !== '#app/' + p) { if (_navFromPop) history.replaceState(null, '', '#app/' + p); else history.pushState({ p }, '', '#app/' + p); }
 }
 let _navFromPop = false;
@@ -4399,13 +4408,55 @@ function lgScan() {
   LG.list = LG.list.filter(st => { if (st.el.isConnected) return true; LG.ro.unobserve(st.el); st.f.remove(); return false; });
   $$(LG_TARGETS).forEach(el => { if (!el._lgst) LG.ro.observe(el); lgApply(el); });
 }
+function lgWallSvg(dark) {
+  // Cánh đồng lúa tôm nhìn từ trên cao, vẽ bằng mảng màu lớn viền rõ để mép kính có thứ khúc xạ.
+  // Dải bên trái (sau sidebar) để trống cho êm, chỉ có kênh đi qua.
+  const P = dark ? {
+    b1: '#03130C', b2: '#05191C', b3: '#0B140B', glow: 'rgba(40,180,120,.28)', sun: 'rgba(220,190,80,.12)',
+    f: ['#0E3A23', '#12462A', '#185230', '#24502A', '#0C3220', '#2E5626', '#15402A'], bund: '#071A10',
+    bank: '#0A2A22', c1: '#0B5E68', c2: '#14909E', hl: 'rgba(160,240,240,.22)', pond: '#0A4248', pondEdge: '#126A70'
+  } : {
+    b1: '#E9F7EE', b2: '#DDF1F2', b3: '#F7F1DA', glow: 'rgba(120,220,170,.55)', sun: 'rgba(255,236,150,.7)',
+    f: ['#C8EAB3', '#BCE4A6', '#D3EDB2', '#DDEBAA', '#C0E6B3', '#CEEBBB', '#D8EEB0'], bund: '#E5F3E1',
+    bank: '#D3EFE6', c1: '#5CC3CF', c2: '#8EDCE2', hl: 'rgba(255,255,255,.55)', pond: '#A8E2E2', pondEdge: '#7CCBCF'
+  };
+  const r = rng(dark ? 77 : 41), pick = () => P.f[Math.floor(r() * P.f.length)];
+  let fields = '';
+  for (let row = -2; row < 7; row++) {
+    const y = row * 300; let x = -500;
+    while (x < 2600) {
+      const w = 52 + r() * 46, h = 262 + r() * 14;
+      fields += `<rect x="${x | 0}" y="${(y + r() * 8) | 0}" width="${w | 0}" height="${h | 0}" rx="9" fill="${pick()}"/>`;
+      x += w + 7;
+    }
+  }
+  const ponds = [[1330, 760, 150, 110], [1500, 680, 130, 120], [1120, 880, 170, 100], [1660, 590, 120, 110]]
+    .map(([x, y, w, h]) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="18" fill="${P.pond}" stroke="${P.pondEdge}" stroke-width="5"/>`).join('');
+  const canal = 'M420 1180 C 560 980, 760 820, 1020 740 S 1480 600, 1660 420 S 1920 140, 2080 60';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${P.b1}"/><stop offset=".55" stop-color="${P.b2}"/><stop offset="1" stop-color="${P.b3}"/></linearGradient>
+<radialGradient id="g" cx=".12" cy=".18" r=".5"><stop offset="0" stop-color="${P.glow}"/><stop offset="1" stop-color="${P.glow}" stop-opacity="0"/></radialGradient>
+<radialGradient id="s" cx=".9" cy=".08" r=".45"><stop offset="0" stop-color="${P.sun}"/><stop offset="1" stop-color="${P.sun}" stop-opacity="0"/></radialGradient>
+<linearGradient id="c" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="${P.c1}"/><stop offset="1" stop-color="${P.c2}"/></linearGradient>
+<linearGradient id="mf" x1="0" y1="0" x2="1" y2="0"><stop offset=".14" stop-color="#000"/><stop offset=".36" stop-color="#fff"/></linearGradient>
+<mask id="m"><rect width="1920" height="1080" fill="url(#mf)"/></mask>
+<filter id="soft" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="2.2"/></filter>
+</defs>
+<rect width="1920" height="1080" fill="url(#b)"/>
+<g mask="url(#m)"><rect width="1920" height="1080" fill="${P.bund}" opacity=".6"/><g transform="rotate(-24 960 540)" filter="url(#soft)">${fields}${ponds}</g></g>
+<rect width="1920" height="1080" fill="url(#g)"/>
+<path d="${canal}" fill="none" stroke="${P.bank}" stroke-width="170" stroke-linecap="round"/>
+<path d="${canal}" fill="none" stroke="url(#c)" stroke-width="104" stroke-linecap="round"/>
+<path d="${canal}" fill="none" stroke="${P.hl}" stroke-width="22" stroke-linecap="round" transform="translate(-10 -18)"/>
+<rect width="1920" height="1080" fill="url(#s)"/>
+</svg>`;
+}
 function lgWallpaper() {
-  if (document.body.style.getPropertyValue('--lg-lines')) return;
-  let s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">';
-  [[260, 220, 34, 9, 28, 3], [1300, 780, 30, 10, 26, 8], [1390, 170, 24, 7, 24, 11], [250, 900, 22, 7, 24, 5], [820, 520, 20, 7, 30, 13]]
-    .forEach(c => contourPaths(...c).forEach((d, i) => { s += `<path d="${d}" fill="none" stroke="#fff" stroke-opacity="${.5 + (i % 3) * .16}" stroke-width="1.8"/>`; }));
-  s += '</svg>';
-  document.body.style.setProperty('--lg-lines', `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(s)}")`);
+  if (document.body.style.getPropertyValue('--lg-wall-l')) return;
+  const url = svg => `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}")`;
+  document.body.style.setProperty('--lg-wall-l', url(lgWallSvg(false)));
+  document.body.style.setProperty('--lg-wall-d', url(lgWallSvg(true)));
 }
 document.addEventListener('DOMContentLoaded', init);
 
